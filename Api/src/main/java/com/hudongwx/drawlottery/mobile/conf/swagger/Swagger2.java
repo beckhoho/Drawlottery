@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.mobile;
+package com.hudongwx.drawlottery.mobile.conf.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,7 +52,7 @@ public class Swagger2 {
         return  new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(this.getClass().getPackage().getName()))
+                .apis(RequestHandlerSelectors.basePackage("com.hudongwx.drawlottery.mobile"))
                 .paths(PathSelectors.any())
                 .build();
     }
