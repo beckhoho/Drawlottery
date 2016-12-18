@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.web.auth;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.web.BaseController;
 import org.apache.catalina.security.SecurityUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -11,12 +12,14 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.spring.web.json.Json;
 
 /**
  *用户认证
  */
 @RestController
-public class AuthController {
+public class AuthorController extends BaseController {
+
     /**
      * 用户登录,post
      * @return
@@ -27,6 +30,7 @@ public class AuthController {
         JSONObject object = new JSONObject();
         //获取用户信息
         Subject subject = SecurityUtils.getSubject();
+
         if(!subject.isAuthenticated()){//是否已经验证过
             try{
                 token.setRememberMe(true);
@@ -53,8 +57,10 @@ public class AuthController {
      */
     @ResponseBody
     @RequestMapping("/auth/logout")
-    public void logout(){
-
+    public JSONObject logout(@RequestBody(required = true)UsernamePasswordToken token){
+        JSONObject object = new JSONObject();
+        object.put("o","1");
+        return object;
     }
 
     /**

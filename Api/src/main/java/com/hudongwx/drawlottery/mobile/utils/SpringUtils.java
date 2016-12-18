@@ -11,10 +11,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+
 /**
+ *
  * DATE:2016-12-2016/12/16 0016-09:34
  * Author: origin
  * DESC:
+ * 工具类,用于获取spring里面的bean实例对象
+ *
  */
 @Component
 public class SpringUtils  implements ApplicationContextAware{

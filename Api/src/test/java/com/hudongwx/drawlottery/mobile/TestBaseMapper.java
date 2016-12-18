@@ -30,7 +30,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ApiApplication.class})
 @Transactional //回滚数据
-public class ApiMapperApplicationTests {
+public class TestBaseMapper{
 
 	@Autowired
 	UserMapper mapper;

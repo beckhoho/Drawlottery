@@ -9,6 +9,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +33,14 @@ import org.testng.annotations.BeforeTest;
 import javax.annotation.Resource;
 import java.util.List;
 
-
+//,MockServletContext.class,
 //用于web测试
-@SpringBootTest(classes = { ApiApplication.class, ShiroConfig.class,MockServletContext.class,})
+@SpringBootTest(classes = { ApiApplication.class})
 @WebAppConfiguration
 @Transactional
-public abstract class ApiWebApplicationTests extends AbstractTestNGSpringContextTests {
+public abstract class TestBaseWeb extends AbstractTestNGSpringContextTests {
 
 	public MockMvc mvc;
-
 
 	@Autowired
 	WebApplicationContext context;
@@ -52,35 +52,36 @@ public abstract class ApiWebApplicationTests extends AbstractTestNGSpringContext
 	public void setUp() {
 //		DefaultWebSecurityManager mock = Mockito.mock(DefaultWebSecurityManager.class,Mockito.RETURNS_DEEP_STUBS);
 //		mock.setRealm(new UserDBRealm());
+
 		ThreadContext.bind(securityManager);
-//		mvc = MockMvcBuilders.webAppContextSetup(Mockito.mock(WebApplicationContext.class)).build();
+
+        //集成Web环境测试（此种方式并不会集成真正的web环境，而是通过相应的Mock API进行模拟测试，无须启动服务器
+//        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        //独立测试环境,模拟一个Mvc测试环境
 		mvc = MockMvcBuilders.standaloneSetup(getController()).build();
 	}
 
 
-	public void executeGet(String url) throws Exception {
+	public void get(String url,String content) throws Exception {
 		mvc.perform(
 				MockMvcRequestBuilders.get(url)
 						.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-						.content(getContent())
+						.content(content)
 		)
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andDo(MockMvcResultHandlers.print());
 	}
 
-	public void executepPost(String url) throws Exception {
+	public void post(String url,String content) throws Exception {
 		mvc.perform(
-				// .accept(MediaType.APPLICATION_JSON_UTF8)
 				MockMvcRequestBuilders.post(url)
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
-//				.accept(MediaType.APPLICATION_JSON_UTF8)
-				.content(getContent())
+				.accept(MediaType.APPLICATION_JSON_UTF8)
+				.content(content)
 				)
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andDo(MockMvcResultHandlers.print());
 	}
-
-	public abstract  String getContent();
 
 	public abstract Object getController();
 

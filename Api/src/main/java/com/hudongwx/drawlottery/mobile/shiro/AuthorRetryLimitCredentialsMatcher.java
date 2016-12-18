@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.shiro;
 
+import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
@@ -16,23 +17,20 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.util.ByteSource;
 
-import static com.hudongwx.drawlottery.mobile.shiro.AuthorPasswordService.DEFAULT_ALGORITHM_NAME;
-import static com.hudongwx.drawlottery.mobile.shiro.AuthorPasswordService.DEFAULT_HASH_ITERATIONS;
-
 /**
+ *
  * DATE:2016-12-2016/12/14 0014-22:04
  * Author: origin
- * DESC:用户认证,匹配器
- */
+ * DESC:用户认证,3次登陆失败就出现图片验证码
+ *
+ * */
 public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher {
 
-    private AuthorPasswordService passwordService;
-
     public AuthorRetryLimitCredentialsMatcher() {
-        this.passwordService = new AuthorPasswordService();
-        setHashIterations(AuthorPasswordService.DEFAULT_HASH_ITERATIONS);
-        setHashAlgorithmName(DEFAULT_ALGORITHM_NAME);
-        setStoredCredentialsHexEncoded(false);
+        super();
+        setHashIterations(PasswordUtils.DEFAULT_HASH_ITERATIONS);
+        setHashAlgorithmName(PasswordUtils.DEFAULT_ALGORITHM_NAME);
+        setStoredCredentialsHexEncoded(false);//使用base64
     }
 
 }

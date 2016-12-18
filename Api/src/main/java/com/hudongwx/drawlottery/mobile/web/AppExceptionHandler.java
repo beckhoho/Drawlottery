@@ -31,7 +31,7 @@ public class AppExceptionHandler {
     public JSONObject error404Handler(ServletException e){
         JSONObject object = new JSONObject();
         object.put("code",404);
-        object.put("msg","请求地址错误");
+        object.put("msg",e.getClass().getName()+"------"+e.getMessage());
         return  object;
     }
 

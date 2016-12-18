@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @ApiModel(value = "用户",description = "用户实体")
 @Table(name = "users")
 public class User {
+
     @ApiModelProperty(value = "用户id",required = true)
     String id;
     @ApiModelProperty(value = "用户名称",required = true)
@@ -35,6 +37,10 @@ public class User {
         this.state = state;
     }
 
+    /**
+     * 数据库保存的盐,加密用的盐通过 {@link}getCredentialsSalt()方法获取
+     * @return
+     */
     public String getSalt() {
         return salt;
     }
@@ -67,4 +73,15 @@ public class User {
     public void setPasswd(String passwd) {
         this.passwd = passwd;
     }
+
+    //获取公盐+私盐
+    public String getCredentialsSalt(){
+        return this.salt+"294786949@qq.com";
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
+
 }

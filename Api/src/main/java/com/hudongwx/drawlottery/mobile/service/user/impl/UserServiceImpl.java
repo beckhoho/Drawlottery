@@ -3,7 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.user.impl;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
-import com.hudongwx.drawlottery.mobile.shiro.AuthorPasswordService;
+import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +23,7 @@ public class UserServiceImpl implements IUserService{
         User user = new User();
         user.setName(username);
         user.setPasswd(password);
-        //模拟数据库加密
-        AuthorPasswordService service = new AuthorPasswordService();
-        service.encryptUserPassword(user);
+        PasswordUtils.encryptPassword(user);//加密用户密码
         return user;
     }
 

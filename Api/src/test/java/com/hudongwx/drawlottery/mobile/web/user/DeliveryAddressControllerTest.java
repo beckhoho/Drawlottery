@@ -1,10 +1,8 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.ApiWebApplicationTests;
+import com.hudongwx.drawlottery.mobile.TestBaseWeb;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -21,18 +19,11 @@ import static org.testng.Assert.*;
  * <p>
  * @email 294786949@qq.com
  */
-public class DeliveryAddressControllerTest extends ApiWebApplicationTests {
+public class DeliveryAddressControllerTest extends TestBaseWeb {
 
     @Test
     public void testAdd() throws Exception {
         //executepPost("/user/dedd/add");
-    }
-
-    @Override
-    public String getContent() {
-        JSONObject object = new JSONObject();
-
-        return null;
     }
 
     @Override

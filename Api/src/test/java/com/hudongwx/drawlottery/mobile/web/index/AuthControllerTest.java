@@ -3,10 +3,10 @@ package com.hudongwx.drawlottery.mobile.web.index;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hudongwx.drawlottery.mobile.ApiApplication;
-import com.hudongwx.drawlottery.mobile.ApiWebApplicationTests;
+import com.hudongwx.drawlottery.mobile.TestBaseWeb;
 import com.hudongwx.drawlottery.mobile.conf.shiro.ShiroConfig;
 import com.hudongwx.drawlottery.mobile.mappers.HelloMapper;
-import com.hudongwx.drawlottery.mobile.web.auth.AuthController;
+import com.hudongwx.drawlottery.mobile.web.auth.AuthorController;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,24 +27,19 @@ import static org.testng.Assert.*;
 @SpringBootTest(classes = {ApiApplication.class})
 @WebAppConfiguration
 @Transactional*/
-public class AuthControllerTest extends ApiWebApplicationTests {
+public class AuthControllerTest extends TestBaseWeb {
 
     @Test
     public void testLogin() throws Exception {
-        executepPost("/auth/login");
-    }
-
-    @Override
-    public String getContent() {
         JSONObject object = new JSONObject();
         object.put("username","王五");
         object.put("password","123456");
-        return object.toJSONString();
+        post("/auth/login",object.toString());
     }
 
     @Override
     public Object getController() {
-        return new AuthController();
+        return new AuthorController();
     }
 
 }

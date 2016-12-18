@@ -1,12 +1,15 @@
 package com.hudongwx.drawlottery.mobile.conf.shiro;
 
 import com.hudongwx.drawlottery.mobile.shiro.AuthorUserRealm;
+import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,18 +23,15 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    @Bean
+    @Bean(name = "AuthorUserRealm")
     public AuthorUserRealm getRealm(){
-        AuthorUserRealm realm = new AuthorUserRealm();
         //设置密码匹配器
-        //realm.setCredentialsMatcher();
-        return realm;
+        return new AuthorUserRealm();
     }
 
     //配置过滤器
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(){
-
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //管理安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager());
@@ -40,14 +40,14 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSuccessUrl("/auth/loginok");//登录成功地址
         shiroFilterFactoryBean.setUnauthorizedUrl("/auth/nologin");//没有登录地址
 
-
         //自定义过滤器
         Map<String,Filter> filters = new LinkedHashMap<String,Filter>();
         shiroFilterFactoryBean.setFilters(filters);
 
+
+
         //设置自带过滤器,配置url=过滤器关系
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-
         /*
             anon 	org.apache.shiro.web.filter.authc.AnonymousFilter 	匿名过滤器
             authc 	org.apache.shiro.web.filter.authc.FormAuthenticationFilter 	如果继续操作，需要做对应的表单验证否则不能通过
@@ -62,19 +62,19 @@ public class ShiroConfig {
             user 	org.apache.shiro.web.filter.authc.UserFilter 	如果访问一个已知用户，比如记住
         */
 
-        filterChainDefinitionMap.put("/**","anon");
+        filterChainDefinitionMap.put("/*","anon");
+        //filterChainDefinitionMap.put("/auth/login","authc");
 
-        /*filterChainDefinitionMap.put("/static*//**","anon"); //anon 不需要登录就可以访问
-        filterChainDefinitionMap.put("*//**//*captcha","anon");
-        filterChainDefinitionMap.put("*//**//*captcha","anon");
+        /*filterChainDefinitionMap.put("/static*","anon"); //anon 不需要登录就可以访问
+        filterChainDefinitionMap.put("captcha","anon");
+        filterChainDefinitionMap.put("captcha","anon");
         filterChainDefinitionMap.put("/auth/login", "authc");//登录验证
         filterChainDefinitionMap.put("/auth/logout", "logout");//
-        filterChainDefinitionMap.put("/user*//**", "authc");//
-        filterChainDefinitionMap.put("/pay*//**", "authc");//*/
+        filterChainDefinitionMap.put("/user*", "authc");//
+        filterChainDefinitionMap.put("/pay*", "authc");//*/
 
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-
 
         return shiroFilterFactoryBean;
     }
@@ -85,12 +85,9 @@ public class ShiroConfig {
     * */
     @Bean(name = "securityManager")
     public SecurityManager securityManager(){
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        DefaultSecurityManager securityManager = new DefaultSecurityManager();
         //管理认证器
         securityManager.setRealm(getRealm());
-
-        //记住密码管理器
-//        securityManager.setRememberMeManager();
         return securityManager;
     }
 
