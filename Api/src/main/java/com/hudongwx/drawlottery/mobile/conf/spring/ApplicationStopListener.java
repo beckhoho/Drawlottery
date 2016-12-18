@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.conf.spring;
 
 import net.sf.ehcache.constructs.web.ShutdownListener;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextStoppedEvent;
@@ -20,7 +21,7 @@ import org.springframework.context.event.ContextStoppedEvent;
  * <p>
  * @email 294786949@qq.com
  */
-public class ApplicationStartupListener implements ApplicationListener<ContextStoppedEvent> {
+public class ApplicationStopListener implements ApplicationListener<ContextStoppedEvent> {
 
      /* if (event instanceof ApplicationEnvironmentPreparedEvent) { // 初始化环境变量 }
         else if (event instanceof ApplicationPreparedEvent) { // 初始化完成 }
@@ -30,11 +31,10 @@ public class ApplicationStartupListener implements ApplicationListener<ContextSt
         else if (event instanceof ContextStoppedEvent) { // 应用停止 }
         else if (event instanceof ContextClosedEvent) { // 应用关闭 }
         else {}*/
-
     @Override
     public void onApplicationEvent(ContextStoppedEvent contextStoppedEvent) {
         //为了正常关闭缓存框架
         new ShutdownListener().contextDestroyed(null);
-
+        System.out.println("关闭缓存框架....");
     }
 }

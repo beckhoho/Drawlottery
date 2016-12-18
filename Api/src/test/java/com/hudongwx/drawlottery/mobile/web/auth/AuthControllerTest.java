@@ -46,7 +46,7 @@ public class AuthControllerTest extends TestBaseWeb {
 
         Subject subject = SecurityUtils.getSubject();
 
-        subject.getPrincipal()
+        subject.getPrincipal();
     }
 
     @Test

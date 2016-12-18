@@ -1,0 +1,2 @@
+org.springframework.context.ApplicationListener=\
+  com.hudongwx.drawlottery.mobile.conf.spring.ApplicationStopListener

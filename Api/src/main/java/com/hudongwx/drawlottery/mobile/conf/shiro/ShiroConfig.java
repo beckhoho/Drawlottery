@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
@@ -84,7 +85,17 @@ public class ShiroConfig {
     * 这个类组合了登陆，登出，权限，session的处理
     * */
     @Bean(name = "securityManager")
+    @Profile("dev")
     public SecurityManager securityManager(){
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        //管理认证器
+        securityManager.setRealm(getRealm());
+        return securityManager;
+    }
+
+    @Bean(name = "securityManager")
+    @Profile("test")
+    public SecurityManager securityManagerTest(){
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         //管理认证器
         securityManager.setRealm(getRealm());

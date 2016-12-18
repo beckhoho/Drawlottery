@@ -22,7 +22,6 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer {
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     DataSource dataSource;
 
