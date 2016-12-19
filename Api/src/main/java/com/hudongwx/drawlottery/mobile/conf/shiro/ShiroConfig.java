@@ -1,6 +1,11 @@
 package com.hudongwx.drawlottery.mobile.conf.shiro;
 
+import com.hudongwx.drawlottery.mobile.shiro.AuthorRetryLimitCredentialsMatcher;
 import com.hudongwx.drawlottery.mobile.shiro.AuthorUserRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.CacheManagerAware;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -10,9 +15,16 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
@@ -22,12 +34,20 @@ import java.util.Map;
  * shiro权限框架
  */
 @Configuration
+//@ConditionalOnBean({net.sf.ehcache.management.CacheManager.class})
+@EnableCaching
 public class ShiroConfig {
 
-    @Bean(name = "AuthorUserRealm")
+    @Bean
+    @Qualifier
     public AuthorUserRealm getRealm(){
         //设置密码匹配器
-        return new AuthorUserRealm();
+        return new AuthorUserRealm(getShiroCacheManager(),getCredentialsMatcher(),"Login_AuthorizationCacheName","Login_AuthenticationCacheName");
+    }
+
+    @Bean
+    public HashedCredentialsMatcher getCredentialsMatcher(){
+        return new AuthorRetryLimitCredentialsMatcher();
     }
 
     //配置过滤器
@@ -44,8 +64,6 @@ public class ShiroConfig {
         //自定义过滤器
         Map<String,Filter> filters = new LinkedHashMap<String,Filter>();
         shiroFilterFactoryBean.setFilters(filters);
-
-
 
         //设置自带过滤器,配置url=过滤器关系
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
@@ -74,9 +92,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user*", "authc");//
         filterChainDefinitionMap.put("/pay*", "authc");//*/
 
-
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-
         return shiroFilterFactoryBean;
     }
 
@@ -112,6 +128,19 @@ public class ShiroConfig {
     }
 
 
+    @Bean
+    public EhCacheManager getShiroCacheManager(){
+        EhCacheManager ehCacheManager = new EhCacheManager();
+        ehCacheManager.setCacheManager(getEhcacheManager());
+        return ehCacheManager;
+    }
+
+    @Bean
+    public net.sf.ehcache.CacheManager getEhcacheManager(){
+        net.sf.ehcache.CacheManager cacheManager;
+        return  EhCacheManagerUtils.buildCacheManager(new ClassPathResource("ehcache-dev-config.xml"));
+    }
+
     /**
      * 启动权限注解
      * Spring的一个bean，由Advisor决定对哪些类的方法进行AOP代理
@@ -134,5 +163,7 @@ public class ShiroConfig {
         aasa.setSecurityManager(securityManager());
         return aasa;
     }
+
+
 
 }

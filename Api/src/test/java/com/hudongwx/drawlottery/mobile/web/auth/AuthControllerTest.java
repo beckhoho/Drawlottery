@@ -6,14 +6,19 @@ import com.hudongwx.drawlottery.mobile.TestBaseWeb;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -36,17 +41,22 @@ import org.testng.annotations.Test;
 @Transactional
 public class AuthControllerTest extends TestBaseWeb {
 
+    @Autowired
+    net.sf.ehcache.CacheManager manager;
+
     @Test
     public void testLogin() throws Exception {
-
+        System.out.println(Arrays.toString(manager.getCacheNames()));
         JSONObject object = new JSONObject();
         object.put("username","lisi");
         object.put("password","123456");
         post("/auth/login",object.toJSONString());
 
         Subject subject = SecurityUtils.getSubject();
+        subject.logout();
 
-        subject.getPrincipal();
+        post("/auth/login",object.toJSONString());
+
     }
 
     @Test

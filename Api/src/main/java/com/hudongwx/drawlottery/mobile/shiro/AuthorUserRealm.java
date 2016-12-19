@@ -16,6 +16,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource.Util;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -23,15 +24,26 @@ import javax.annotation.PostConstruct;
 /**
  * 用户登录验证器
  */
-@Component
 public class AuthorUserRealm  extends AuthorizingRealm{
 
     @Autowired
     private IUserService userService;
 
-    /*public AuthorUserRealm(CacheManager cacheManager, CredentialsMatcher matcher) {
+    /**
+     *
+     * @param cacheManager 缓存对象
+     * @param matcher 匹配器
+     * @param authorZationName 权限信息
+     * @param authenTicationName 认证信息
+     */
+    public AuthorUserRealm(CacheManager cacheManager, CredentialsMatcher matcher,String authorZationName,String authenTicationName) {
         super(cacheManager, matcher);
-    }*/
+        setAuthenticationCachingEnabled(true);
+        setAuthorizationCachingEnabled(true);
+//        setCachingEnabled(true);
+        setAuthorizationCacheName(authorZationName);
+        setAuthenticationCacheName(authenTicationName);
+    }
 
     @Override
     protected void doClearCache(PrincipalCollection principals) {
@@ -61,7 +73,6 @@ public class AuthorUserRealm  extends AuthorizingRealm{
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-
         //获取用户信息
         UsernamePasswordToken passwordToken = (UsernamePasswordToken)token;
         String username = passwordToken.getUsername();
@@ -83,13 +94,5 @@ public class AuthorUserRealm  extends AuthorizingRealm{
 
         return info;
     }
-
-    //设置匹配器算法
-    @PostConstruct
-    protected void initMatcher(){
-        //设置匹配器
-        setCredentialsMatcher(new AuthorRetryLimitCredentialsMatcher());
-    }
-
 
 }
