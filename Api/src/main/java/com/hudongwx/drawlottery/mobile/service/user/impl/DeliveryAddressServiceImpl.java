@@ -20,7 +20,7 @@ import java.util.List;
  * <p>
  * 创建　origin　2016/12/16 0016　<br/>
  * <p>
- * *******
+ * 用户收货地址service接口实现类
  * <p>
  * @email 294786949@qq.com
  */
@@ -29,19 +29,16 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
     @Autowired
     DeliveryAddressMapper damapper;
 
-    public boolean insert(DeliveryAddress address) {
-        if(damapper.addDeliveryAddress(address)==1){
-            return true;
-        }
+    public boolean addDA(DeliveryAddress address) {
         return false;
     }
 
-    public boolean delete(String id) {
+    public boolean deleteDA(String id) {
         return false;
     }
 
     @Override
-    public boolean update(DeliveryAddress address) {
+    public boolean updateDA(DeliveryAddress address) {
         return false;
     }
 
@@ -51,11 +48,11 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
 
     @Override
     public List<DeliveryAddress> selectAllByUserId(String accountId) {
-        if(accountId.equals("1000")){
-            List<DeliveryAddress> daList =new ArrayList<>();
-            for (int i=0; i<10;i++) {
+        if (accountId.equals("1000")) {
+            List<DeliveryAddress> daList = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
                 DeliveryAddress address = new DeliveryAddress();
-                address.setId(1000+i);
+                address.setId(1000 + i);
                 daList.add(address);
             }
             return daList;

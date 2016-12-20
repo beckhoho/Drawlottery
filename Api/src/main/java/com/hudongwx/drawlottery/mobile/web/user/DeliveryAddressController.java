@@ -21,8 +21,7 @@ import java.util.List;
  *
  * @author origin
  * @version 1.0, 2016/12/16 0016 <br/>
- * @desc
- * 用户收货地址
+ * @desc 用户收货地址
  * <p>
  * <p>
  * 创建　origin　2016/12/16 0016　<br/>
@@ -32,7 +31,7 @@ import java.util.List;
  * @email 294786949@qq.com
  */
 @RestController
-@Api(value = "DeliveryAddressController",description = "用户收货地址管理")
+@Api(value = "DeliveryAddressController", description = "用户收货地址管理")
 public class DeliveryAddressController {
 
     @Autowired
@@ -42,15 +41,15 @@ public class DeliveryAddressController {
      * 添加收货地址
      */
     @RequestMapping(value = "/user/dlvrAddr/add")
-    public JSONObject add(@RequestBody DeliveryAddress address){
+    public JSONObject add(@RequestBody DeliveryAddress address) {
         JSONObject object = new JSONObject();
-        System.out.println("address.getId()---------->"+address.getId());
-        if(addressService.insert(address)){
-            object.put("msg","收货地址信息添加成功！");
-            object.put("code",200);
-        }else{
-            object.put("msg","收货地址信息添加失败！");
-            object.put("code",-1);
+        System.out.println("address.getId()---------->" + address.getId());
+        if (addressService.addDA(address)) {
+            object.put("msg", "收货地址信息添加成功！");
+            object.put("code", 200);
+        } else {
+            object.put("msg", "收货地址信息添加失败！");
+            object.put("code", -1);
         }
         return object;
     }
@@ -59,18 +58,18 @@ public class DeliveryAddressController {
      * 获取收货地址信息
      */
     @RequestMapping(value = "/user/dlvrAddr/search")
-    public JSONObject search(@RequestParam("acc") String acc){
+    public JSONObject search(@RequestParam("acc") String acc) {
         JSONObject object = new JSONObject();
-        System.out.println("userId---------->"+acc);
+        System.out.println("userId---------->" + acc);
         List<DeliveryAddress> daList = addressService.selectAllByUserId(acc);
-        if(daList!=null&&daList.size()!=0){
+        if (daList != null && daList.size() != 0) {
             object.put("addressList", JSON.toJSONString(daList));
-            object.put("msg","共有"+daList.size()+"条收货地址信息！");
-            object.put("code",200);
-        }else{
+            object.put("msg", "共有" + daList.size() + "条收货地址信息！");
+            object.put("code", 200);
+        } else {
             object.put("addressList", null);
-            object.put("msg","未找到相关信息！");
-            object.put("code",-1);
+            object.put("msg", "未找到相关信息！");
+            object.put("code", -1);
         }
         return object;
     }

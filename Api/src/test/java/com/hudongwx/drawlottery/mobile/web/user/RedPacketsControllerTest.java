@@ -19,18 +19,24 @@ import org.testng.annotations.Test;
  * <p>
  * @email 294786949@qq.com
  */
-public class DeliveryAddressControllerTest extends TestBaseWeb {
+public class RedPacketsControllerTest extends TestBaseWeb {
 
     @Test
     public void testAdd() throws Exception {
         JSONObject jo=new JSONObject();
         jo.put("id","1000");
-        post("http://localhost:8080/user/dlvrAddr/add",jo.toJSONString());
+        jo.put("userId","1000");
+        jo.put("validDate","14800000000");
+        jo.put("overdueDate","14800000000");
+        jo.put("name","红包红包");
+        jo.put("usePrice",150);
+        jo.put("worth",5);
+        post("http://localhost:8080/user/rPacket/add",jo.toJSONString());
 
     }
 
     @Override
     public Object getController() {
-        return new DeliveryAddressController();
+        return new RedPacketsController();
     }
 }

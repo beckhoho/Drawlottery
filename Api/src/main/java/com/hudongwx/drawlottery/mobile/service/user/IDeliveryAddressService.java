@@ -21,11 +21,11 @@ import java.util.List;
  */
 public interface IDeliveryAddressService {
 
-    public boolean insert(DeliveryAddress address);
+    public boolean addDA(DeliveryAddress address);
 
-    public boolean delete(String id);
+    public boolean deleteDA(String id);
 
-    public boolean update(DeliveryAddress address);
+    public boolean updateDA(DeliveryAddress address);
 
     public List<DeliveryAddress> selectAll();
 
