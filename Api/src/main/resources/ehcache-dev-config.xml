@@ -1,6 +1,6 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
-         maxBytesLocalHeap="100M">
+         >
     <!--
         系统临时目录
         user.dir  : 用户当前工作目录
@@ -10,7 +10,6 @@
         磁盘缓存使用的文件后缀名是*.data和*.index
     -->
     <diskStore path="user.home"/>
-
     <!--
         name：缓存名称
         maxElementsInMemory：内存中最大缓存对象数,当不需保存数据在内存中时为1
@@ -37,7 +36,11 @@
             diskPersistent="true"
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"
-    />
+    >
+        <!-- 初始化操作 -->
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=true"/>
+    </defaultCache>
+
 
     <cache
            name="login_cache"
@@ -49,12 +52,20 @@
            maxElementsOnDisk="10000000"
            diskPersistent="true"
            diskExpiryThreadIntervalSeconds="120"
-           memoryStoreEvictionPolicy="LRU">
+           memoryStoreEvictionPolicy="LRU"></cache>
 
-        <!-- 初始化操作 -->
-        <bootstrapCacheLoaderFactory class="net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=true"/>
-    </cache>
 
+    <!--权限信息-->
+    <cache
+            name="Login_AuthorizationCacheName"
+            maxElementsInMemory="1"
+    />
+    <!--登录认证信息-->
+    <cache
+            name="Login_AuthenticationCacheName"
+            maxElementsInMemory="1"
+            timeToIdleSeconds="60000"
+    />
 
     <!--
         添加缓存时得到监听
