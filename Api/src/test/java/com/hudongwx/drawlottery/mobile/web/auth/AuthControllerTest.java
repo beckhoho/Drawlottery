@@ -1,18 +1,11 @@
 package com.hudongwx.drawlottery.mobile.web.auth;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.ApiApplication;
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
-import org.springframework.mock.web.MockServletContext;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.testng.annotations.Test;
 
 /**
@@ -31,9 +24,6 @@ import org.testng.annotations.Test;
  * @email 294786949@qq.com
  */
 //用于web测试
-@SpringBootTest(classes = { ApiApplication.class})
-@WebAppConfiguration
-@Transactional
 public class AuthControllerTest extends TestBaseWeb {
 
     @Test

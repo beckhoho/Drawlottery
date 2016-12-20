@@ -25,8 +25,12 @@ public interface IDeliveryAddressService {
 
     public boolean delete(String id);
 
+    public boolean update(DeliveryAddress address);
+
     public List<DeliveryAddress> selectAll();
 
-    public DeliveryAddress selectById();
+    public List<DeliveryAddress> selectAllByUserId(String accountId);
+
+    public DeliveryAddress selectById(String id);
 
 }

@@ -6,6 +6,7 @@ import com.hudongwx.drawlottery.mobile.service.user.IDeliveryAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,9 +26,13 @@ import java.util.List;
  */
 @Service
 public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
-
+    @Autowired
+    DeliveryAddressMapper damapper;
 
     public boolean insert(DeliveryAddress address) {
+        if(damapper.addDeliveryAddress(address)==1){
+            return true;
+        }
         return false;
     }
 
@@ -35,7 +40,31 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
         return false;
     }
 
+    @Override
+    public boolean update(DeliveryAddress address) {
+        return false;
+    }
+
     public List<DeliveryAddress> selectAll() {
+        return null;
+    }
+
+    @Override
+    public List<DeliveryAddress> selectAllByUserId(String accountId) {
+        if(accountId.equals("1000")){
+            List<DeliveryAddress> daList =new ArrayList<>();
+            for (int i=0; i<10;i++) {
+                DeliveryAddress address = new DeliveryAddress();
+                address.setId(1000+i);
+                daList.add(address);
+            }
+            return daList;
+        }
+        return null;
+    }
+
+    @Override
+    public DeliveryAddress selectById(String id) {
         return null;
     }
 

@@ -23,7 +23,10 @@ public class DeliveryAddressControllerTest extends TestBaseWeb {
 
     @Test
     public void testAdd() throws Exception {
-        //executepPost("/user/dedd/add");
+        JSONObject jo=new JSONObject();
+        jo.put("id","1000");
+        post("/user/dlvr/add",jo.toJSONString());
+
     }
 
     @Override
