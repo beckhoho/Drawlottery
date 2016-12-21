@@ -10,14 +10,5 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Api</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
 
 </project>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <properties resource="generator/generator.properties"/>
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+
+        <plugin type="${mapper.plugin}">
+            <property name="mappers" value="com.hudongwx.drawlottery.mobile.commn.BaseMapper"/>
+            <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+
+
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.user}"
+                        password="${jdbc.password}">
+        </jdbcConnection>
+
+
+        <!-- 配置实体类 -->
+        <javaModelGenerator targetPackage="com.hudongwx.drawlottery.mobile.entitys"
+                            targetProject="src\main\java">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 配置mapper文件 -->
+        <sqlMapGenerator targetPackage="com.hudongwx.drawlottery.mobile.mappers"
+                         targetProject="src\main\java">
+        </sqlMapGenerator>
+
+
+        <javaClientGenerator targetPackage="com.hudongwx.drawlottery.mobile.mappers"
+                             targetProject="src\main\java" type="XMLMAPPER" />
+
+        <table tableName="%" modelType="hierarchical">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>
