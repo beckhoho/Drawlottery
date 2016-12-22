@@ -1,46 +1,70 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-/**
- * 开发公司：hudongwx.com<br/>
- * 版权：294786949@qq.com<br/>
- * <p>
- *
- * @author Kiter
- * @version 1.0, 2016/12/21 <br/>
- * @desc <p>
- * <p>
- * 创建　kiter　2016/12/21 17:31　<br/>
- * <p>
- * 商品类型实体类
- * <p>
- * @email 294786949@qq.com
- */
-public class CommodityType {
-    Integer id;
-    String name;
-    Integer state;
+import javax.persistence.*;
 
+@Table(name = "t_commodity_type")
+public class CommodityType {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    /**
+     * 类型名称
+     */
+    private String name;
+
+    /**
+     * 当前状态是否可用（1为可用，0为不可用）
+     */
+    private Byte state;
+
+    /**
+     * @return id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 获取类型名称
+     *
+     * @return name - 类型名称
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * 设置类型名称
+     *
+     * @param name 类型名称
+     */
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
-    public Integer getState() {
+    /**
+     * 获取当前状态是否可用（1为可用，0为不可用）
+     *
+     * @return state - 当前状态是否可用（1为可用，0为不可用）
+     */
+    public Byte getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    /**
+     * 设置当前状态是否可用（1为可用，0为不可用）
+     *
+     * @param state 当前状态是否可用（1为可用，0为不可用）
+     */
+    public void setState(Byte state) {
         this.state = state;
     }
 }
