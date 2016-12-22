@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,5 @@
 package com.hudongwx.drawlottery.mobile.web;
 
-import com.hudongwx.drawlottery.mobile.entitys.User;
-import net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;

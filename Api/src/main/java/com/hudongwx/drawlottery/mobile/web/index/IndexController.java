@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.web.index;
 
-import com.hudongwx.drawlottery.mobile.entitys.User;
 import io.swagger.annotations.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
