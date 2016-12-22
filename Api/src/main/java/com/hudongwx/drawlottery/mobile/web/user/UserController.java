@@ -41,19 +41,6 @@ public class UserController extends BaseController {
         return jo;
     }
 
-    @RequestMapping(value = "/user/info")
-    public JSONObject userInfo(@RequestParam("acc") Integer acc, @RequestParam("pwd") String pwd) {
-        JSONObject jo = new JSONObject();
-        Users users = usersService.getUserByAccount(acc, pwd);
-        if (users !=null) {
-            jo.put("userData", users.toString());
-            jo.put("msg", "用户信息！");
-            jo.put("code", 200);
-        } else {
-            jo.put("userData", null);
-            jo.put("msg", "无相关用户信息！");
-            jo.put("code", -1);
-        }
-        return jo;
+        return jsonObject;
     }
 }

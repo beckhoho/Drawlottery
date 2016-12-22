@@ -1,7 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.user;
 
-import com.hudongwx.drawlottery.mobile.entitys.DeliveryAddress;
-
 import java.util.List;
 
 /**

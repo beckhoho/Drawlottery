@@ -1,6 +1,6 @@
 package com.hudongwx.drawlottery.mobile.utils;
 
-import com.hudongwx.drawlottery.mobile.entitys.Users;
+import com.hudongwx.drawlottery.mobile.entitys.User;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -20,14 +20,14 @@ public final class PasswordUtils {
 
     /**
      * 加密用户密码
-     * @param users
+     * @param user
      */
-    public static void encryptPassword(Users users){
+    public static void encryptPassword(User user){
         ByteSource salt = random.nextBytes();
-        users.setSalt(salt.toBase64());
+        user.setSalt(salt.toBase64());
         SimpleHash simpleHash = new SimpleHash(DEFAULT_ALGORITHM_NAME,
-                users.getPassword(), users.getCredentialsSalt(),DEFAULT_HASH_ITERATIONS);
-        users.setPassword(simpleHash.toBase64());
+                user.getPasswd(),user.getCredentialsSalt(),DEFAULT_HASH_ITERATIONS);
+        user.setPasswd(simpleHash.toBase64());
     }
 
 }

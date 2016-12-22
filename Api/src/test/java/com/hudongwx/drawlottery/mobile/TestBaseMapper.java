@@ -1,8 +1,6 @@
 package com.hudongwx.drawlottery.mobile;
 
 import com.alibaba.fastjson.JSON;
-import com.hudongwx.drawlottery.mobile.entitys.Users;
-import com.hudongwx.drawlottery.mobile.mappers.UsersMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,21 +21,21 @@ import java.util.List;
 public class TestBaseMapper{
 
 	@Autowired
-	UsersMapper mapper;
+	UserMapper mapper;
 
 	@Test
 	public void selectUser(){
-		List<Users> userses = mapper.selectAll();
-		System.out.println(JSON.toJSONString(userses));
+		List<User> users = mapper.selectAll();
+		System.out.println(JSON.toJSONString(users));
 	}
 
 	@Test
 	public void insertUser(){
-		Users users = new Users();
-		users.setName("lisi20");
-		users.setId(30);
-		users.setPassword("123456");
-		int insert = mapper.insert(users);
+		User user = new User();
+		user.setName("lisi20");
+		user.setId("30");
+		user.setPasswd("123456");
+		int insert = mapper.insert(user);
 		Assert.assertEquals(1,insert);
 	}
 

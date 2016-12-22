@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.shiro;
 
-import com.hudongwx.drawlottery.mobile.entitys.Users;
-import com.hudongwx.drawlottery.mobile.service.user.IUsersService;
+import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -17,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AuthorUserRealm  extends AuthorizingRealm{
 
     @Autowired
-    private IUsersService userService;
+    private IUserService userService;
 
     /**
      *
@@ -69,18 +68,18 @@ public class AuthorUserRealm  extends AuthorizingRealm{
         String password = new String(passwordToken.getPassword());
 
         //查询用户
-        Users users = userService.login(username, password);
+        User user = userService.login(username, password);
 
-        if(users == null) throw new UnknownAccountException("用户名或密码错误");
+        if(user == null) throw new UnknownAccountException("用户名或密码错误");
 
         //非法账户会被锁定
-        if(users.isLocked()) throw new LockedAccountException("账户被锁定");
+        if(user.isLocked()) throw new LockedAccountException("账户被锁定");
 
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
-                users,
-                users.getPassword(),
-                Util.bytes(users.getCredentialsSalt()),
-                users.getName());
+                user,
+                user.getPasswd(),
+                Util.bytes(user.getCredentialsSalt()),
+                user.getName());
 
         return info;
     }

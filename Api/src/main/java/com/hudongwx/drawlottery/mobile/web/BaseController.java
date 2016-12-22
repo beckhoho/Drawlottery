@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.web;
 
-import com.hudongwx.drawlottery.mobile.entitys.Users;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -28,7 +27,7 @@ public abstract class BaseController {
      * 获取当前登录的用户id
      * @return
      */
-    public int getUserId(){
+    public String getUserId(){
        return getUser().getId();
     }
 
@@ -36,10 +35,10 @@ public abstract class BaseController {
      * 获取当前登录的用户信息
      * @return
      */
-    public Users getUser(){
+    public User getUser(){
         Object principal = getSubject().getPrincipal();
-        Users users = (Users)principal;
-        return users;
+        User user = (User)principal;
+        return user;
     }
 
     public Session getSession(){
