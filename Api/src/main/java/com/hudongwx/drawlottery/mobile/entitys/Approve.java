@@ -11,9 +11,8 @@ public class Approve {
     /**
      * 用户id
      */
-    @Column(name = "user_id")
-    @SequenceGenerator(name="",sequenceName="SELECT LAST_INSERT_ID()")
-    private Long userId;
+    @Column(name = "user_account_id")
+    private Long userAccountId;
 
     /**
      * 真实姓名
@@ -61,19 +60,19 @@ public class Approve {
     /**
      * 获取用户id
      *
-     * @return user_id - 用户id
+     * @return user_account_id - 用户id
      */
-    public Long getUserId() {
-        return userId;
+    public Long getUserAccountId() {
+        return userAccountId;
     }
 
     /**
      * 设置用户id
      *
-     * @param userId 用户id
+     * @param userAccountId 用户id
      */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserAccountId(Long userAccountId) {
+        this.userAccountId = userAccountId;
     }
 
     /**

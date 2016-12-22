@@ -10,13 +10,4 @@
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="time" jdbcType="INTEGER" property="ime" />
   </resultMap>
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.CommodityImg">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="url" jdbcType="INTEGER" property="url" />
-    <result column="state" jdbcType="INTEGER" property="state" />
-    <result column="time" jdbcType="INTEGER" property="ime" />
-  </resultMap>
 </mapper>

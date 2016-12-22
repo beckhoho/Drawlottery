@@ -10,13 +10,4 @@
     <result column="noction_title" jdbcType="VARCHAR" property="noctionTitle" />
     <result column="noction_particulars" jdbcType="VARCHAR" property="noctionParticulars" />
   </resultMap>
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.Noction">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="noction_date" jdbcType="TIMESTAMP" property="noctionDate" />
-    <result column="noction_title" jdbcType="VARCHAR" property="noctionTitle" />
-    <result column="noction_particulars" jdbcType="VARCHAR" property="noctionParticulars" />
-  </resultMap>
 </mapper>

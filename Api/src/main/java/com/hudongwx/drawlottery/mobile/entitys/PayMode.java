@@ -9,28 +9,22 @@ public class PayMode {
     private Long id;
 
     /**
-     * 支付方式1（1 是 || 0 否）
+     * 支付方式名
      */
-    @Column(name = "pay_mode_1")
-    private Byte payMode1;
+    @Column(name = "pay_name")
+    private String payName;
 
     /**
-     * 支付方式2（1 是 || 0 否）
+     * 支付状态（1为可用，0为不可用）
      */
-    @Column(name = "pay_mode_2")
-    private Byte payMode2;
+    @Column(name = "pay_state")
+    private Byte payState;
 
     /**
-     * 支付方式3（1 是 || 0 否）
+     * 用户account_ID
      */
-    @Column(name = "pay_mode_3")
-    private Byte payMode3;
-
-    /**
-     * 用户ID
-     */
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "user_account_id")
+    private Long userAccountId;
 
     /**
      * @return id
@@ -47,74 +41,56 @@ public class PayMode {
     }
 
     /**
-     * 获取支付方式1（1 是 || 0 否）
+     * 获取支付方式名
      *
-     * @return pay_mode_1 - 支付方式1（1 是 || 0 否）
+     * @return pay_name - 支付方式名
      */
-    public Byte getPayMode1() {
-        return payMode1;
+    public String getPayName() {
+        return payName;
     }
 
     /**
-     * 设置支付方式1（1 是 || 0 否）
+     * 设置支付方式名
      *
-     * @param payMode1 支付方式1（1 是 || 0 否）
+     * @param payName 支付方式名
      */
-    public void setPayMode1(Byte payMode1) {
-        this.payMode1 = payMode1;
+    public void setPayName(String payName) {
+        this.payName = payName == null ? null : payName.trim();
     }
 
     /**
-     * 获取支付方式2（1 是 || 0 否）
+     * 获取支付状态（1为可用，0为不可用）
      *
-     * @return pay_mode_2 - 支付方式2（1 是 || 0 否）
+     * @return pay_state - 支付状态（1为可用，0为不可用）
      */
-    public Byte getPayMode2() {
-        return payMode2;
+    public Byte getPayState() {
+        return payState;
     }
 
     /**
-     * 设置支付方式2（1 是 || 0 否）
+     * 设置支付状态（1为可用，0为不可用）
      *
-     * @param payMode2 支付方式2（1 是 || 0 否）
+     * @param payState 支付状态（1为可用，0为不可用）
      */
-    public void setPayMode2(Byte payMode2) {
-        this.payMode2 = payMode2;
+    public void setPayState(Byte payState) {
+        this.payState = payState;
     }
 
     /**
-     * 获取支付方式3（1 是 || 0 否）
+     * 获取用户account_ID
      *
-     * @return pay_mode_3 - 支付方式3（1 是 || 0 否）
+     * @return user_account_id - 用户account_ID
      */
-    public Byte getPayMode3() {
-        return payMode3;
+    public Long getUserAccountId() {
+        return userAccountId;
     }
 
     /**
-     * 设置支付方式3（1 是 || 0 否）
+     * 设置用户account_ID
      *
-     * @param payMode3 支付方式3（1 是 || 0 否）
+     * @param userAccountId 用户account_ID
      */
-    public void setPayMode3(Byte payMode3) {
-        this.payMode3 = payMode3;
-    }
-
-    /**
-     * 获取用户ID
-     *
-     * @return user_id - 用户ID
-     */
-    public Long getUserId() {
-        return userId;
-    }
-
-    /**
-     * 设置用户ID
-     *
-     * @param userId 用户ID
-     */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserAccountId(Long userAccountId) {
+        this.userAccountId = userAccountId;
     }
 }

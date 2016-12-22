@@ -19,22 +19,4 @@
     <result column="cover_img_id" jdbcType="INTEGER" property="coverImgId" />
     <result column="auto_round" jdbcType="TINYINT" property="autoRound" />
   </resultMap>
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.Commoditys">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="desc" jdbcType="VARCHAR" property="desc" />
-    <result column="commodity_type_id" jdbcType="INTEGER" property="commodityTypeId" />
-    <result column="type" jdbcType="INTEGER" property="ype" />
-    <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber" />
-    <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="luck_code_id" jdbcType="INTEGER" property="luckCodeId" />
-    <result column="state" jdbcType="TINYINT" property="state" />
-    <result column="round_time" jdbcType="TIMESTAMP" property="roundTime" />
-    <result column="cover_img_id" jdbcType="INTEGER" property="coverImgId" />
-    <result column="auto_round" jdbcType="TINYINT" property="autoRound" />
-  </resultMap>
 </mapper>

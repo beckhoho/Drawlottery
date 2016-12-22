@@ -24,8 +24,8 @@ public class CommodityHistory {
     /**
      * 商品得主id
      */
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "user_account_id")
+    private Long userAccountId;
 
     /**
      * 期数
@@ -92,19 +92,19 @@ public class CommodityHistory {
     /**
      * 获取商品得主id
      *
-     * @return user_id - 商品得主id
+     * @return user_account_id - 商品得主id
      */
-    public Long getUserId() {
-        return userId;
+    public Long getUserAccountId() {
+        return userAccountId;
     }
 
     /**
      * 设置商品得主id
      *
-     * @param userId 商品得主id
+     * @param userAccountId 商品得主id
      */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserAccountId(Long userAccountId) {
+        this.userAccountId = userAccountId;
     }
 
     /**

@@ -8,15 +8,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_luck_code_id" jdbcType="BIGINT" property="userLuckCodeId" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-  </resultMap>
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.UserCodesHistory">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="lock_code_id" jdbcType="INTEGER" property="lockCodeId" />
-    <result column="commodity_id" jdbcType="INTEGER" property="commodityId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
   </resultMap>
 </mapper>

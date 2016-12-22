@@ -6,19 +6,8 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="pay_mode_1" jdbcType="TINYINT" property="payMode1" />
-    <result column="pay_mode_2" jdbcType="TINYINT" property="payMode2" />
-    <result column="pay_mode_3" jdbcType="TINYINT" property="payMode3" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-  </resultMap>
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.PayMode">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="pay_mode_1" jdbcType="INTEGER" property="payMode1" />
-    <result column="pay_mode_2" jdbcType="INTEGER" property="payMode2" />
-    <result column="pay_mode_3" jdbcType="INTEGER" property="payMode3" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="pay_name" jdbcType="VARCHAR" property="payName" />
+    <result column="pay_state" jdbcType="TINYINT" property="payState" />
+    <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
   </resultMap>
 </mapper>
