@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.service.user.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.Share;
 import com.hudongwx.drawlottery.mobile.service.user.IShareService;
+import org.springframework.stereotype.Service;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -18,6 +19,7 @@ import com.hudongwx.drawlottery.mobile.service.user.IShareService;
  * <p>
  * @email 294786949@qq.com
  */
+@Service
 public class ShareServiceImpl implements IShareService{
 
     @Override

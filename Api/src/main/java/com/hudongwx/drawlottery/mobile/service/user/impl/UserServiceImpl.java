@@ -28,6 +28,11 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     UserMapper mapper;
 
+    @Override
+    public boolean register(User user) {
+        return false;
+    }
+
     public User login(String username, String password) {
         User user = new User();
         user.setRealName(username);
@@ -37,13 +42,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User regster(User user) {
-        return null;
+    public boolean isExist(Long accountId) {
+        return false;
     }
 
     @Override
-    public boolean isExist(String accountId) {
-        return false;
+    public User getUserByAccount(Long accountId, String password) {
+        return null;
     }
 
 

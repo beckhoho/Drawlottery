@@ -1,9 +1,10 @@
-package com.hudongwx.drawlottery.mobile.service.user.impl;
+package com.hudongwx.drawlottery.mobile.service.luckcodes.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
 import com.hudongwx.drawlottery.mobile.entitys.User;
-import com.hudongwx.drawlottery.mobile.service.user.ILuckCodesService;
+import com.hudongwx.drawlottery.mobile.service.luckcodes.ILuckCodesService;
+import org.springframework.stereotype.Service;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -20,6 +21,7 @@ import com.hudongwx.drawlottery.mobile.service.user.ILuckCodesService;
  * <p>
  * @email 346905702@qq.com
  */
+@Service
 public class LuckCodesServiceImpl implements ILuckCodesService{
     @Override
     public boolean addLuckCode(LuckCodes codes) {

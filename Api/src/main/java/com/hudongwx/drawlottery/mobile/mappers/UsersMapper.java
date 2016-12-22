@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface UsersMapper extends BaseMapper<Users> {
     @Select("select * from t_users where account_id = #{acc}")
-    Users selectByAccountId(@Param("acc") Integer acc);
+    Users selectByAccountId(@Param("acc") Long acc);
 
     @Select("select * from t_users where account_id = #{acc} and password = #{pwd}")
     Users selectByAccount(@Param("acc") Integer acc, @Param("pwd") String pwd);

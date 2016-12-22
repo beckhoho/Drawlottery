@@ -257,4 +257,7 @@ public class User {
         return this.salt + "294786949@qq.com";
     }
 
+    public boolean isLocked() {
+        return currentState == -1;
+    }
 }

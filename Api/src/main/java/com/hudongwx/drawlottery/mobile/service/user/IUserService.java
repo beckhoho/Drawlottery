@@ -1,19 +1,19 @@
 package com.hudongwx.drawlottery.mobile.service.user;
 
-import com.hudongwx.drawlottery.mobile.entitys.Users;
+import com.hudongwx.drawlottery.mobile.entitys.User;
 
 /**
  * 用户
  */
-public interface IUsersService {
+public interface IUserService {
 
     /**
      * 用户注册
      *
-     * @param users
+     * @param user
      * @return boolean
      */
-    boolean register(Users users);
+    boolean register(User user);
 
     /**
      * 用户登录
@@ -22,7 +22,7 @@ public interface IUsersService {
      * @param password
      * @return Users
      */
-    Users login(String accountId, String password);
+    User login(String accountId, String password);
 
     /**
      * 判断用户账号是否存在
@@ -36,6 +36,6 @@ public interface IUsersService {
      * @param accountId
      * @return Users
      */
-    Users getUsersByAccount(Long accountId, String password);
+    User getUserByAccount(Long accountId, String password);
 }
 

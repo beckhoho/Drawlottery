@@ -1,7 +1,8 @@
-package com.hudongwx.drawlottery.mobile.service.user.impl;
+package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityImg;
-import com.hudongwx.drawlottery.mobile.service.user.ICommodityImgService;
+import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityImgService;
+import org.springframework.stereotype.Service;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -18,6 +19,7 @@ import com.hudongwx.drawlottery.mobile.service.user.ICommodityImgService;
  * <p>
  * @email 346905702@qq.com
  */
+@Service
 public class CommodityImgServiceImlpl implements ICommodityImgService {
     @Override
     public boolean addImage(CommodityImg commodImg) {

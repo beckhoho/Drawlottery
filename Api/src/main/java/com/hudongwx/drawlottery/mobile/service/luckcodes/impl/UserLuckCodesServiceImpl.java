@@ -1,9 +1,10 @@
-package com.hudongwx.drawlottery.mobile.service.user.impl;
+package com.hudongwx.drawlottery.mobile.service.luckcodes.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes;
-import com.hudongwx.drawlottery.mobile.service.user.IUserLuckCodesService;
+import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserLuckCodesService;
+import org.springframework.stereotype.Service;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -20,6 +21,7 @@ import com.hudongwx.drawlottery.mobile.service.user.IUserLuckCodesService;
  * <p>
  * @email 346905702@qq.com
  */
+@Service
 public class UserLuckCodesServiceImpl implements IUserLuckCodesService{
 
     @Override

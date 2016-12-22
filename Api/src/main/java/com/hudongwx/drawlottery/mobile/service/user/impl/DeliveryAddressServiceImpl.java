@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
+import com.hudongwx.drawlottery.mobile.entitys.DeliveryAddress;
+import com.hudongwx.drawlottery.mobile.mappers.DeliveryAddressMapper;
 import com.hudongwx.drawlottery.mobile.service.user.IDeliveryAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +52,7 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
             List<DeliveryAddress> daList = new ArrayList<>();
             for (int i = 0; i < 10; i++) {
                 DeliveryAddress address = new DeliveryAddress();
-                address.setId(1000 + i);
+                address.setId(1000l + i);
                 daList.add(address);
             }
             return daList;

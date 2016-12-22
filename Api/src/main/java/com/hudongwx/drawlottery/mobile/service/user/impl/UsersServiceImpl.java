@@ -1,10 +1,8 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.entitys.Users;
 import com.hudongwx.drawlottery.mobile.mappers.UsersMapper;
 import com.hudongwx.drawlottery.mobile.service.user.IUsersService;
-import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +28,11 @@ public class UsersServiceImpl implements IUsersService {
     UsersMapper mapper;
 
     public Users login(String username, String password) {
-        Users users = new Users();
-        User user = new User();
-        users.setName(username);
-        users.setPassword(password);
-        PasswordUtils.encryptPassword(user);//加密用户密码
-        return users;
+        Users user = new Users();
+        user.setName(username);
+        user.setPassword(password);
+//        PasswordUtils.encryptPassword(user);//加密用户密码
+        return user;
     }
 
     @Override
@@ -46,7 +43,7 @@ public class UsersServiceImpl implements IUsersService {
     }
 
     @Override
-    public boolean isExist(Integer accountId) {
+    public boolean isExist(Long accountId) {
         Users users = mapper.selectByAccountId(accountId);
         if (users != null)
             return true;
@@ -54,8 +51,8 @@ public class UsersServiceImpl implements IUsersService {
     }
 
     @Override
-    public Users getUserByAccount(Integer accountId, String password) {
-        return mapper.selectByAccount(accountId, password);
+    public Users getUsersByAccount(Long accountId, String password) {
+        return null;
     }
 
 }
