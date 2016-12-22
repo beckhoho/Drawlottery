@@ -19,25 +19,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ApiApplication.class})
 @Transactional //回滚数据
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 public class TestBaseMapper{
-
-	@Autowired
-	UserMapper mapper;
-
-	@Test
-	public void selectUser(){
-		List<User> users = mapper.selectAll();
-		System.out.println(JSON.toJSONString(users));
-	}
-
-	@Test
-	public void insertUser(){
-		User user = new User();
-		user.setAccountId(10000l);
-		user.setPassword("123456");
-		int insert = mapper.insert(user);
-		Assert.assertEquals(1,insert);
-	}
 
 }
