@@ -1,6 +1,6 @@
 package com.hudongwx.drawlottery.mobile.web.index;
 
-import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.entitys.Users;
 import io.swagger.annotations.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @EnableAutoConfiguration
 public class IndexController {
-    @ApiOperation(value = "index",notes = "显示首页",httpMethod = "POST",response = User.class)
+    @ApiOperation(value = "index",notes = "显示首页",httpMethod = "POST",response = Users.class)
     @ApiImplicitParams(@ApiImplicitParam(name=""))
     @RequestMapping("/index")
     public String index(){
         return  "ok1";
     }
 
-    @ApiOperation(value = "index2",notes = "显示首页2",httpMethod = "POST",response = User.class)
+    @ApiOperation(value = "index2",notes = "显示首页2",httpMethod = "POST",response = Users.class)
     @ApiImplicitParams(
             {
                 @ApiImplicitParam(name="header1",value = "头信息",paramType = "header",dataType = "string"),
@@ -35,7 +35,7 @@ public class IndexController {
     @ApiOperation(value = "测试接口3", notes = "参数描述", code = 200, produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 500,message = "内部错误",responseContainer = "{code:-1,msg:''}"),
-            @ApiResponse(code = 200,message = "请求成功",response = User.class,responseContainer = "{code:200,msg:'ok'}")
+            @ApiResponse(code = 200,message = "请求成功",response = Users.class,responseContainer = "{code:200,msg:'ok'}")
     })
     @RequestMapping("/index3/{id}")
     public String index3(@ApiParam(name = "id", value = "编号", required = true) @PathVariable("id") String id){
@@ -43,15 +43,15 @@ public class IndexController {
     }
 
 
-    @ApiOperation(value = "测试接口4", notes = "参数描述",response = User.class, code = 200, produces = "application/json")
+    @ApiOperation(value = "测试接口4", notes = "参数描述",response = Users.class, code = 200, produces = "application/json")
     @RequestMapping("/index4/{id}")
     public String index4(@ApiParam(name = "id", value = "编号", required = true) @PathVariable("id") String id){
         return id;
     }
 
-    @ApiOperation(value = "测试接口5", notes = "实体参数",response = User.class, code = 200, produces = "application/json")
+    @ApiOperation(value = "测试接口5", notes = "实体参数",response = Users.class, code = 200, produces = "application/json")
     @RequestMapping("/index5")
-    public String index4(@RequestBody  User user){
+    public String index4(@RequestBody Users users){
         return "ok";
     }
 

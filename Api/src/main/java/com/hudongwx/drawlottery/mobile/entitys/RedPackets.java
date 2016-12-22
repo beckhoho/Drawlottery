@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Column;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -26,7 +25,6 @@ import javax.persistence.Table;
 @ApiModel(value = "红包", description = "红包实体类")
 @Table(name = "t_red_packets")
 public class RedPackets {
-    @Id
     Integer id;
     @ApiModelProperty(value = "用户Id", required = true)
     @Column(name = "user_id")

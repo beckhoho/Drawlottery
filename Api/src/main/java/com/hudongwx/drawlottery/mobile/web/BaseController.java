@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.web;
 
-import com.hudongwx.drawlottery.mobile.entitys.User;
-import net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory;
+import com.hudongwx.drawlottery.mobile.entitys.Users;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -29,7 +28,7 @@ public abstract class BaseController {
      * 获取当前登录的用户id
      * @return
      */
-    public String getUserId(){
+    public int getUserId(){
        return getUser().getId();
     }
 
@@ -37,10 +36,10 @@ public abstract class BaseController {
      * 获取当前登录的用户信息
      * @return
      */
-    public User getUser(){
+    public Users getUser(){
         Object principal = getSubject().getPrincipal();
-        User user = (User)principal;
-        return user;
+        Users users = (Users)principal;
+        return users;
     }
 
     public Session getSession(){

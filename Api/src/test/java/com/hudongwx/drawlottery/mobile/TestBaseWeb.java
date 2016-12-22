@@ -1,28 +1,14 @@
 package com.hudongwx.drawlottery.mobile;
 
-import com.alibaba.fastjson.JSON;
-import com.hudongwx.drawlottery.mobile.conf.shiro.ShiroConfig;
-import com.hudongwx.drawlottery.mobile.entitys.User;
-import com.hudongwx.drawlottery.mobile.mappers.HelloMapper;
-import com.hudongwx.drawlottery.mobile.web.index.HelloController;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.ThreadContext;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -31,9 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 //,MockServletContext.class,
 //用于web测试

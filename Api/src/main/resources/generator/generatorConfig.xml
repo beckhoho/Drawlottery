@@ -21,7 +21,7 @@
 
         <jdbcConnection driverClass="${jdbc.driverClass}"
                         connectionURL="${jdbc.url}"
-                        userId="${jdbc.user}"
+                        userId="${jdbc.users}"
                         password="${jdbc.password}">
         </jdbcConnection>
 
@@ -29,7 +29,7 @@
         <!-- 配置实体类 -->
         <javaModelGenerator targetPackage="com.hudongwx.drawlottery.mobile.entitys"
                             targetProject="src\main\java">
-            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.users.model， true:com.oop.eksp.users.model.[schemaName] -->
             <property name="enableSubPackages" value="false"/>
             <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
             <property name="trimStrings" value="true"/>

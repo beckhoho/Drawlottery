@@ -1,25 +1,15 @@
 package com.hudongwx.drawlottery.mobile.shiro;
 
-import com.hudongwx.drawlottery.mobile.entitys.User;
-import com.hudongwx.drawlottery.mobile.service.user.IUserService;
-import org.apache.shiro.SecurityUtils;
+import com.hudongwx.drawlottery.mobile.entitys.Users;
+import com.hudongwx.drawlottery.mobile.service.user.IUsersService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.mgt.RealmSecurityManager;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource.Util;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * 用户登录验证器
@@ -27,7 +17,7 @@ import javax.annotation.PostConstruct;
 public class AuthorUserRealm  extends AuthorizingRealm{
 
     @Autowired
-    private IUserService userService;
+    private IUsersService userService;
 
     /**
      *
@@ -79,18 +69,18 @@ public class AuthorUserRealm  extends AuthorizingRealm{
         String password = new String(passwordToken.getPassword());
 
         //查询用户
-        User user = userService.login(username, password);
+        Users users = userService.login(username, password);
 
-        if(user == null) throw new UnknownAccountException("用户名或密码错误");
+        if(users == null) throw new UnknownAccountException("用户名或密码错误");
 
         //非法账户会被锁定
-        if(user.isLocked()) throw new LockedAccountException("账户被锁定");
+        if(users.isLocked()) throw new LockedAccountException("账户被锁定");
 
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
-                user,
-                user.getPasswd(),
-                Util.bytes(user.getCredentialsSalt()),
-                user.getName());
+                users,
+                users.getPassword(),
+                Util.bytes(users.getCredentialsSalt()),
+                users.getName());
 
         return info;
     }
