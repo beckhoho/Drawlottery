@@ -5,6 +5,14 @@
     <!--
       WARNING - @mbg.generated
     -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="lock_code" jdbcType="INTEGER" property="lockCode" />
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+  </resultMap>
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.LuckCodes">
+    <!--
+      WARNING - @mbg.generated
+    -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="lock_code" jdbcType="INTEGER" property="lockCode" />
     <result column="commodity_id" jdbcType="INTEGER" property="commodityId" />

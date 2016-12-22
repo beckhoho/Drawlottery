@@ -2,7 +2,7 @@ package com.hudongwx.drawlottery.mobile.service.user.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.Approve;
 import com.hudongwx.drawlottery.mobile.entitys.User;
-import com.hudongwx.drawlottery.mobile.service.user.IApproveSerivce;
+import com.hudongwx.drawlottery.mobile.service.user.IApproveService;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -19,7 +19,7 @@ import com.hudongwx.drawlottery.mobile.service.user.IApproveSerivce;
  * <p>
  * @email 294786949@qq.com
  */
-public class ApproveServiceImpl implements IApproveSerivce{
+public class ApproveServiceImpl implements IApproveService {
 
     @Override
     public boolean addApproveMassage(Approve approve) {

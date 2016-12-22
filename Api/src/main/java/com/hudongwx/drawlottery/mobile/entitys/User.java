@@ -6,13 +6,13 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * 用户账号,ID号
      */
     @Column(name = "account_id")
-    private Integer accountId;
+    private Long accountId;
 
     /**
      * 用户密码
@@ -65,14 +65,14 @@ public class User {
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -81,7 +81,7 @@ public class User {
      *
      * @return account_id - 用户账号,ID号
      */
-    public Integer getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
@@ -90,7 +90,7 @@ public class User {
      *
      * @param accountId 用户账号,ID号
      */
-    public void setAccountId(Integer accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 

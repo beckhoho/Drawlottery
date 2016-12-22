@@ -6,9 +6,14 @@ import javax.persistence.*;
 @Table(name = "t_approve")
 public class Approve {
     @Id
+    private Long id;
+
+    /**
+     * 用户id
+     */
     @Column(name = "user_id")
     @SequenceGenerator(name="",sequenceName="SELECT LAST_INSERT_ID()")
-    private Integer userId;
+    private Long userId;
 
     /**
      * 真实姓名
@@ -40,16 +45,34 @@ public class Approve {
     private Date approveDate;
 
     /**
-     * @return user_id
+     * @return id
      */
-    public Integer getUserId() {
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * 获取用户id
+     *
+     * @return user_id - 用户id
+     */
+    public Long getUserId() {
         return userId;
     }
 
     /**
-     * @param userId
+     * 设置用户id
+     *
+     * @param userId 用户id
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

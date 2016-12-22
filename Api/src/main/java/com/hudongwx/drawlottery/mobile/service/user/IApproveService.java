@@ -18,7 +18,7 @@ import com.hudongwx.drawlottery.mobile.entitys.User;
  * <p>
  * @email 294786949@qq.com
  */
-public interface IApproveSerivce {
+public interface IApproveService {
 
     //添加用户认证信息
     boolean addApproveMassage(Approve approve);

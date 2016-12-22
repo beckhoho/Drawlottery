@@ -5,6 +5,16 @@
     <!--
       WARNING - @mbg.generated
     -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="issue_date" jdbcType="TIMESTAMP" property="issueDate" />
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+    <result column="particulars" jdbcType="VARCHAR" property="particulars" />
+  </resultMap>
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.Share">
+    <!--
+      WARNING - @mbg.generated
+    -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="issue_date" jdbcType="TIMESTAMP" property="issueDate" />

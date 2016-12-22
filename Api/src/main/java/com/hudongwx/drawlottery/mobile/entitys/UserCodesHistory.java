@@ -6,56 +6,56 @@ import javax.persistence.*;
 public class UserCodesHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * 幸运号id
      */
-    @Column(name = "lock_code_id")
-    private Integer lockCodeId;
+    @Column(name = "user_luck_code_id")
+    private Long userLuckCodeId;
 
     /**
      * 商品ID
      */
     @Column(name = "commodity_id")
-    private Integer commodityId;
+    private Long commodityId;
 
     /**
      * 用户id
      */
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     /**
      * 获取幸运号id
      *
-     * @return lock_code_id - 幸运号id
+     * @return user_luck_code_id - 幸运号id
      */
-    public Integer getLockCodeId() {
-        return lockCodeId;
+    public Long getUserLuckCodeId() {
+        return userLuckCodeId;
     }
 
     /**
      * 设置幸运号id
      *
-     * @param lockCodeId 幸运号id
+     * @param userLuckCodeId 幸运号id
      */
-    public void setLockCodeId(Integer lockCodeId) {
-        this.lockCodeId = lockCodeId;
+    public void setUserLuckCodeId(Long userLuckCodeId) {
+        this.userLuckCodeId = userLuckCodeId;
     }
 
     /**
@@ -63,7 +63,7 @@ public class UserCodesHistory {
      *
      * @return commodity_id - 商品ID
      */
-    public Integer getCommodityId() {
+    public Long getCommodityId() {
         return commodityId;
     }
 
@@ -72,7 +72,7 @@ public class UserCodesHistory {
      *
      * @param commodityId 商品ID
      */
-    public void setCommodityId(Integer commodityId) {
+    public void setCommodityId(Long commodityId) {
         this.commodityId = commodityId;
     }
 
@@ -81,7 +81,7 @@ public class UserCodesHistory {
      *
      * @return user_id - 用户id
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -90,7 +90,7 @@ public class UserCodesHistory {
      *
      * @param userId 用户id
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }
