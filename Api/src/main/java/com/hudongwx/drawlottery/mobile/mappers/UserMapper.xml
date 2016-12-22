@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.UserMapper">
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
+    <result column="current_state" jdbcType="INTEGER" property="currentState" />
+    <result column="header_id" jdbcType="INTEGER" property="headerId" />
+    <result column="gold_number" jdbcType="INTEGER" property="goldNumber" />
+  </resultMap>
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
+    <result column="current_state" jdbcType="INTEGER" property="currentState" />
+    <result column="header_id" jdbcType="INTEGER" property="headerId" />
+    <result column="gold_number" jdbcType="INTEGER" property="goldNumber" />
+  </resultMap>
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
+    <result column="current_state" jdbcType="INTEGER" property="currentState" />
+    <result column="header_id" jdbcType="INTEGER" property="headerId" />
+    <result column="gold_number" jdbcType="INTEGER" property="goldNumber" />
+  </resultMap>
+</mapper>

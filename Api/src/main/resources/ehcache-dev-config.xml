@@ -3,13 +3,13 @@
          >
     <!--
         系统临时目录
-        user.dir  : 用户当前工作目录
-        user.home : 用户主目录
+        users.dir  : 用户当前工作目录
+        users.home : 用户主目录
         java.io.tmpdir : 系统临时目录
 
         磁盘缓存使用的文件后缀名是*.data和*.index
     -->
-    <diskStore path="user.home"/>
+    <diskStore path="users.home"/>
     <!--
         name：缓存名称
         maxElementsInMemory：内存中最大缓存对象数,当不需保存数据在内存中时为1

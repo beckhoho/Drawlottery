@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * @email 294786949@qq.com
  */
 @Service
-public class IRedPacketsServiceImpl implements IRedPacketsService {
+public class RedPacketsServiceImpl implements IRedPacketsService {
     @Autowired
     RedPacketsMapper rpMapper;
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.CommodityHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.CommodityHistory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+    <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="round_time" jdbcType="TIMESTAMP" property="roundTime" />
+    <result column="buy_number" jdbcType="INTEGER" property="buyNumber" />
+  </resultMap>
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.CommodityHistory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="commodity_id" jdbcType="INTEGER" property="commodityId" />
+    <result column="luck_code_id" jdbcType="INTEGER" property="luckCodeId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="round_time" jdbcType="TIMESTAMP" property="roundTime" />
+    <result column="buy_number" jdbcType="INTEGER" property="buyNumber" />
+  </resultMap>
+</mapper>

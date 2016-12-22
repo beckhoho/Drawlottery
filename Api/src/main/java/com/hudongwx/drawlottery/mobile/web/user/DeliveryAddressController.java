@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.entitys.DeliveryAddress;
 import com.hudongwx.drawlottery.mobile.service.user.IDeliveryAddressService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class DeliveryAddressController {
     /**
      * 添加收货地址
      */
-    @RequestMapping(value = "/user/dlvrAddr/add")
+    @RequestMapping(value = "/user/Address/add")
     public JSONObject add(@RequestBody DeliveryAddress address) {
         JSONObject object = new JSONObject();
         System.out.println("address.getId()---------->" + address.getId());
@@ -56,7 +57,7 @@ public class DeliveryAddressController {
     /**
      * 获取收货地址信息
      */
-    @RequestMapping(value = "/user/dlvrAddr/search")
+    @RequestMapping(value = "/user/Address/search")
     public JSONObject search(@RequestParam("acc") String acc) {
         JSONObject object = new JSONObject();
         System.out.println("userId---------->" + acc);

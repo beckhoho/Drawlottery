@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.entitys.RedPackets;
 import com.hudongwx.drawlottery.mobile.service.user.IRedPacketsService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,33 @@ public class RedPacketsController {
 
     @RequestMapping(value = "/user/rPacket/add")
     public JSONObject add(@RequestBody RedPackets rps) {
-        JSONObject jo = new JSONObject();
-        System.out.println("红包名字：-------->" + rps.getName());
+        JSONObject json = new JSONObject();
+        System.out.println("红包信息：-------->" + rps.toString());
         if (rpService.addRP(rps)) {
-            jo.put("msg", "红包创建成功！");
-            jo.put("code", 200);
+            json.put("msg", "红包创建成功！");
+            json.put("code", 200);
         } else {
-            jo.put("msg", "红包创建失败！");
-            jo.put("code", -1);
+            json.put("msg", "红包创建失败！");
+            json.put("code", -1);
         }
-        return jo;
+        return json;
     }
+
+    @RequestMapping(value = "/user/rPacket/search")
+    public JSONObject search(@RequestBody RedPackets rps) {
+        JSONObject json = new JSONObject();
+        System.out.println("红包使用条件：-------->" + rps.getUsePrice());
+
+        if (rpService.addRP(rps)) {
+            json.put("data","");
+            json.put("msg", "无相关信息！");
+            json.put("code", 200);
+        } else {
+            json.put("data",null);
+            json.put("msg", "无相关信息！");
+            json.put("code", -1);
+        }
+        return json;
+    }
+
 }
