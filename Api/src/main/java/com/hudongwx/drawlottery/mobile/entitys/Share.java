@@ -7,14 +7,13 @@ import javax.persistence.*;
 public class Share {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * 用户id
      */
-    @Id
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * 晒单发布日期
@@ -26,7 +25,7 @@ public class Share {
      * 商品id
      */
     @Column(name = "commodity_id")
-    private Integer commodityId;
+    private Long commodityId;
 
     /**
      * 晒单详情（url）
@@ -36,14 +35,14 @@ public class Share {
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,7 +51,7 @@ public class Share {
      *
      * @return user_id - 用户id
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -61,7 +60,7 @@ public class Share {
      *
      * @param userId 用户id
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -88,7 +87,7 @@ public class Share {
      *
      * @return commodity_id - 商品id
      */
-    public Integer getCommodityId() {
+    public Long getCommodityId() {
         return commodityId;
     }
 
@@ -97,7 +96,7 @@ public class Share {
      *
      * @param commodityId 商品id
      */
-    public void setCommodityId(Integer commodityId) {
+    public void setCommodityId(Long commodityId) {
         this.commodityId = commodityId;
     }
 

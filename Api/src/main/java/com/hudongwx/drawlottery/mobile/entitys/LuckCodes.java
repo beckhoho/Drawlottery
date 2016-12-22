@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class LuckCodes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * 幸运号
@@ -18,19 +18,19 @@ public class LuckCodes {
      * 商品ID
      */
     @Column(name = "commodity_id")
-    private Integer commodityId;
+    private Long commodityId;
 
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,7 +57,7 @@ public class LuckCodes {
      *
      * @return commodity_id - 商品ID
      */
-    public Integer getCommodityId() {
+    public Long getCommodityId() {
         return commodityId;
     }
 
@@ -66,7 +66,7 @@ public class LuckCodes {
      *
      * @param commodityId 商品ID
      */
-    public void setCommodityId(Integer commodityId) {
+    public void setCommodityId(Long commodityId) {
         this.commodityId = commodityId;
     }
 }

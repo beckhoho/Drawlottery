@@ -7,25 +7,25 @@ import javax.persistence.*;
 public class CommodityHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * 商品id
      */
     @Column(name = "commodity_id")
-    private Integer commodityId;
+    private Long commodityId;
 
     /**
      * 幸运号id
      */
     @Column(name = "luck_code_id")
-    private Integer luckCodeId;
+    private Long luckCodeId;
 
     /**
      * 商品得主id
      */
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * 期数
@@ -42,14 +42,14 @@ public class CommodityHistory {
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,7 +58,7 @@ public class CommodityHistory {
      *
      * @return commodity_id - 商品id
      */
-    public Integer getCommodityId() {
+    public Long getCommodityId() {
         return commodityId;
     }
 
@@ -67,7 +67,7 @@ public class CommodityHistory {
      *
      * @param commodityId 商品id
      */
-    public void setCommodityId(Integer commodityId) {
+    public void setCommodityId(Long commodityId) {
         this.commodityId = commodityId;
     }
 
@@ -76,7 +76,7 @@ public class CommodityHistory {
      *
      * @return luck_code_id - 幸运号id
      */
-    public Integer getLuckCodeId() {
+    public Long getLuckCodeId() {
         return luckCodeId;
     }
 
@@ -85,7 +85,7 @@ public class CommodityHistory {
      *
      * @param luckCodeId 幸运号id
      */
-    public void setLuckCodeId(Integer luckCodeId) {
+    public void setLuckCodeId(Long luckCodeId) {
         this.luckCodeId = luckCodeId;
     }
 
@@ -94,7 +94,7 @@ public class CommodityHistory {
      *
      * @return user_id - 商品得主id
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -103,7 +103,7 @@ public class CommodityHistory {
      *
      * @param userId 商品得主id
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

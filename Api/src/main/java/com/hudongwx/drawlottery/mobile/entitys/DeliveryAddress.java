@@ -6,13 +6,13 @@ import javax.persistence.*;
 public class DeliveryAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * 用户账号
      */
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * 收货人姓名
@@ -38,14 +38,14 @@ public class DeliveryAddress {
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -54,7 +54,7 @@ public class DeliveryAddress {
      *
      * @return user_id - 用户账号
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -63,7 +63,7 @@ public class DeliveryAddress {
      *
      * @param userId 用户账号
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

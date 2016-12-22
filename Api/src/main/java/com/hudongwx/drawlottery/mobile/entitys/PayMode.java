@@ -6,43 +6,43 @@ import javax.persistence.*;
 public class PayMode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * 支付方式1（1 是 || 0 否）
      */
     @Column(name = "pay_mode_1")
-    private Integer payMode1;
+    private Byte payMode1;
 
     /**
      * 支付方式2（1 是 || 0 否）
      */
     @Column(name = "pay_mode_2")
-    private Integer payMode2;
+    private Byte payMode2;
 
     /**
      * 支付方式3（1 是 || 0 否）
      */
     @Column(name = "pay_mode_3")
-    private Integer payMode3;
+    private Byte payMode3;
 
     /**
      * 用户ID
      */
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,7 +51,7 @@ public class PayMode {
      *
      * @return pay_mode_1 - 支付方式1（1 是 || 0 否）
      */
-    public Integer getPayMode1() {
+    public Byte getPayMode1() {
         return payMode1;
     }
 
@@ -60,7 +60,7 @@ public class PayMode {
      *
      * @param payMode1 支付方式1（1 是 || 0 否）
      */
-    public void setPayMode1(Integer payMode1) {
+    public void setPayMode1(Byte payMode1) {
         this.payMode1 = payMode1;
     }
 
@@ -69,7 +69,7 @@ public class PayMode {
      *
      * @return pay_mode_2 - 支付方式2（1 是 || 0 否）
      */
-    public Integer getPayMode2() {
+    public Byte getPayMode2() {
         return payMode2;
     }
 
@@ -78,7 +78,7 @@ public class PayMode {
      *
      * @param payMode2 支付方式2（1 是 || 0 否）
      */
-    public void setPayMode2(Integer payMode2) {
+    public void setPayMode2(Byte payMode2) {
         this.payMode2 = payMode2;
     }
 
@@ -87,7 +87,7 @@ public class PayMode {
      *
      * @return pay_mode_3 - 支付方式3（1 是 || 0 否）
      */
-    public Integer getPayMode3() {
+    public Byte getPayMode3() {
         return payMode3;
     }
 
@@ -96,7 +96,7 @@ public class PayMode {
      *
      * @param payMode3 支付方式3（1 是 || 0 否）
      */
-    public void setPayMode3(Integer payMode3) {
+    public void setPayMode3(Byte payMode3) {
         this.payMode3 = payMode3;
     }
 
@@ -105,7 +105,7 @@ public class PayMode {
      *
      * @return user_id - 用户ID
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -114,7 +114,7 @@ public class PayMode {
      *
      * @param userId 用户ID
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }

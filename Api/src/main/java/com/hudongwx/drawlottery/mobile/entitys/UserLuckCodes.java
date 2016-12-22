@@ -6,37 +6,37 @@ import javax.persistence.*;
 public class UserLuckCodes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * 幸运号id
      */
     @Column(name = "lock_code_id")
-    private Integer lockCodeId;
+    private Long lockCodeId;
 
     /**
      * 商品ID
      */
     @Column(name = "commodity_id")
-    private Integer commodityId;
+    private Long commodityId;
 
     /**
      * 用户id
      */
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,7 +45,7 @@ public class UserLuckCodes {
      *
      * @return lock_code_id - 幸运号id
      */
-    public Integer getLockCodeId() {
+    public Long getLockCodeId() {
         return lockCodeId;
     }
 
@@ -54,7 +54,7 @@ public class UserLuckCodes {
      *
      * @param lockCodeId 幸运号id
      */
-    public void setLockCodeId(Integer lockCodeId) {
+    public void setLockCodeId(Long lockCodeId) {
         this.lockCodeId = lockCodeId;
     }
 
@@ -63,7 +63,7 @@ public class UserLuckCodes {
      *
      * @return commodity_id - 商品ID
      */
-    public Integer getCommodityId() {
+    public Long getCommodityId() {
         return commodityId;
     }
 
@@ -72,7 +72,7 @@ public class UserLuckCodes {
      *
      * @param commodityId 商品ID
      */
-    public void setCommodityId(Integer commodityId) {
+    public void setCommodityId(Long commodityId) {
         this.commodityId = commodityId;
     }
 
@@ -81,7 +81,7 @@ public class UserLuckCodes {
      *
      * @return user_id - 用户id
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -90,7 +90,7 @@ public class UserLuckCodes {
      *
      * @param userId 用户id
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }
