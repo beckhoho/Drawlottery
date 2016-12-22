@@ -4,7 +4,9 @@ package com.hudongwx.drawlottery.mobile.web.commodity;/**
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
+import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,8 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(value = "CommodityController", description = "商品管理")
-public class CommodityController {
+public class CommoditysController {
 
+    @Autowired
+    ICommodityService service;
 
     /**
      * 添加商品信息
@@ -36,7 +40,7 @@ public class CommodityController {
     @RequestMapping(value = "/commodity/add")
     public JSONObject add(@RequestBody Commoditys commodity) {
         JSONObject jsonObject = new JSONObject();
-        if (true) {
+        if (service.addCommodity(commodity)) {
             jsonObject.put("msg", "商品信息添加成功！");
             jsonObject.put("code", 200);
         } else {

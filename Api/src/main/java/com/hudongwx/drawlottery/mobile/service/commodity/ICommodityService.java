@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.mobile.service.user;
+package com.hudongwx.drawlottery.mobile.service.commodity;
 
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 

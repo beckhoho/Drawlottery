@@ -1,10 +1,11 @@
-package com.hudongwx.drawlottery.mobile.service.user.impl;
+package com.hudongwx.drawlottery.mobile.service.luckcodes.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.entitys.UserCodesHistory;
-import com.hudongwx.drawlottery.mobile.service.user.IUserCodesHistoryService;
+import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserCodesHistoryService;
+import org.springframework.stereotype.Service;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -21,6 +22,7 @@ import com.hudongwx.drawlottery.mobile.service.user.IUserCodesHistoryService;
  * <p>
  * @email 346905702@qq.com
  */
+@Service
 public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
     @Override
     public boolean addToHistory(UserCodesHistory userhis) {

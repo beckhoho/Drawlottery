@@ -1,7 +1,8 @@
-package com.hudongwx.drawlottery.mobile.service.user.impl;
+package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityType;
-import com.hudongwx.drawlottery.mobile.service.user.ICommodityTypeService;
+import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityTypeService;
+import org.springframework.stereotype.Service;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -18,6 +19,7 @@ import com.hudongwx.drawlottery.mobile.service.user.ICommodityTypeService;
  * <p>
  * @email 346905702@qq.com
  */
+@Service
 public class CommodityTypeServiceImpl implements ICommodityTypeService{
 
     @Override

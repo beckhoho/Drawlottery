@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.shiro;
 
+import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -77,9 +78,9 @@ public class AuthorUserRealm  extends AuthorizingRealm{
 
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
                 user,
-                user.getPasswd(),
+                user.getPassword(),
                 Util.bytes(user.getCredentialsSalt()),
-                user.getName());
+                user.getRealName());
 
         return info;
     }

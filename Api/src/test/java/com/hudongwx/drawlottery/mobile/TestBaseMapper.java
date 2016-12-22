@@ -1,6 +1,8 @@
 package com.hudongwx.drawlottery.mobile;
 
 import com.alibaba.fastjson.JSON;
+import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,9 +34,8 @@ public class TestBaseMapper{
 	@Test
 	public void insertUser(){
 		User user = new User();
-		user.setName("lisi20");
-		user.setId("30");
-		user.setPasswd("123456");
+		user.setAccountId(10000l);
+		user.setPassword("123456");
 		int insert = mapper.insert(user);
 		Assert.assertEquals(1,insert);
 	}
