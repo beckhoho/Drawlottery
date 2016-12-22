@@ -30,8 +30,8 @@ public class UserServiceImpl implements IUserService {
 
     public User login(String username, String password) {
         User user = new User();
-        user.setName(username);
-        user.setPasswd(password);
+        user.setRealName(username);
+        user.setPassword(password);
         PasswordUtils.encryptPassword(user);//加密用户密码
         return user;
     }
