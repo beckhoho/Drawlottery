@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
+import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.entitys.Users;
 import com.hudongwx.drawlottery.mobile.mappers.UsersMapper;
 import com.hudongwx.drawlottery.mobile.service.user.IUsersService;
@@ -30,9 +31,10 @@ public class UsersServiceImpl implements IUsersService {
 
     public Users login(String username, String password) {
         Users users = new Users();
+        User user = new User();
         users.setName(username);
         users.setPassword(password);
-        PasswordUtils.encryptPassword(users);//加密用户密码
+        PasswordUtils.encryptPassword(user);//加密用户密码
         return users;
     }
 

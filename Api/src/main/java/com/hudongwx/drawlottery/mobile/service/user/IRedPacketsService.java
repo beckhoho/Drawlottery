@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.user;
 
+import com.hudongwx.drawlottery.mobile.entitys.RedPackets;
+
 /**
  * 红包
  */

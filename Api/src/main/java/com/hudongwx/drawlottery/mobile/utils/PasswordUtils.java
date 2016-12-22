@@ -26,7 +26,7 @@ public final class PasswordUtils {
         ByteSource salt = random.nextBytes();
         user.setSalt(salt.toBase64());
         SimpleHash simpleHash = new SimpleHash(DEFAULT_ALGORITHM_NAME,
-                user.getPassword(),user.getCurrentState(),DEFAULT_HASH_ITERATIONS);
+                user.getPassword(),user.getCredentialsSalt(),DEFAULT_HASH_ITERATIONS);
         user.setPassword(simpleHash.toBase64());
     }
 
