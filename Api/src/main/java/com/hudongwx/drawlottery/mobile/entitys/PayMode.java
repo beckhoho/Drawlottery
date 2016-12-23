@@ -18,7 +18,7 @@ public class PayMode {
      * 支付状态（1为可用，0为不可用）
      */
     @Column(name = "pay_state")
-    private Byte payState;
+    private Integer payState;
 
     /**
      * 用户account_ID
@@ -63,7 +63,7 @@ public class PayMode {
      *
      * @return pay_state - 支付状态（1为可用，0为不可用）
      */
-    public Byte getPayState() {
+    public Integer getPayState() {
         return payState;
     }
 
@@ -72,7 +72,7 @@ public class PayMode {
      *
      * @param payState 支付状态（1为可用，0为不可用）
      */
-    public void setPayState(Byte payState) {
+    public void setPayState(Integer payState) {
         this.payState = payState;
     }
 

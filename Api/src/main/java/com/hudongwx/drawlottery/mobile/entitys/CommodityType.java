@@ -16,7 +16,7 @@ public class CommodityType {
     /**
      * 当前状态是否可用（1为可用，0为不可用）
      */
-    private Byte state;
+    private Integer state;
 
     /**
      * @return id
@@ -55,7 +55,7 @@ public class CommodityType {
      *
      * @return state - 当前状态是否可用（1为可用，0为不可用）
      */
-    public Byte getState() {
+    public Integer getState() {
         return state;
     }
 
@@ -64,7 +64,7 @@ public class CommodityType {
      *
      * @param state 当前状态是否可用（1为可用，0为不可用）
      */
-    public void setState(Byte state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 }

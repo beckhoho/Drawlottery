@@ -1,6 +1,11 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
+import com.hudongwx.drawlottery.mobile.entitys.CommodityType;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -23,11 +28,21 @@ public interface ICommodityService {
     boolean addCommodity(Commoditys commod);
 
     //删除商品
-    boolean delete(Commoditys commod);
+    boolean delete(Long id);
 
-    //查看商品
-    Commoditys select(String name,Long roundTime);
+    //查看商品详情
+    Commoditys selectByid(Long id);
+
+    //查看全部商品
+    List<Commoditys> selectTypeAll(String commodType);
 
     //修改商品信息
-    boolean update(Commoditys commod,Integer id);
+    boolean update(Commoditys commod,Long id);
+
+    //获取当前类型商品的总数（分页使用）
+    int selectCount(Integer commodTypeId);
+
+    //获取当前指定条数的数据
+    List<Commoditys> selectPaging(Integer commodTypeId,Integer startNum,Integer endNum);
+
 }

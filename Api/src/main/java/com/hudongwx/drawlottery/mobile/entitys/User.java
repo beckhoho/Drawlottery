@@ -250,9 +250,8 @@ public class User {
      */
     public void setGoldNumber(Integer goldNumber) {
         this.goldNumber = goldNumber;
-    }
 
-    //获取公盐+私盐
+    } //获取公盐+私盐
     public String getCredentialsSalt() {
         return this.salt + "294786949@qq.com";
     }

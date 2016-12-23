@@ -22,8 +22,11 @@ public interface ICommodityTypeService {
     boolean addType(CommodityType commtype);
 
     //隐藏类型
-    boolean hideType(String typeName);
+    boolean hideType(Integer id);
 
     //修改类型
     boolean updateType(CommodityType commtype);
+
+    //通过类型名查询商品类型
+    CommodityType selectType(String name);
 }

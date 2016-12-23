@@ -9,7 +9,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
     <result column="commodity_type_id" jdbcType="INTEGER" property="commodityTypeId" />
-    <result column="type" jdbcType="INTEGER" property="ype" />
+    <result column="genre" jdbcType="TINYINT" property="genre" />
     <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber" />
     <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />

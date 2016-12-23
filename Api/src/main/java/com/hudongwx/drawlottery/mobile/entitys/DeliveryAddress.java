@@ -33,7 +33,7 @@ public class DeliveryAddress {
     /**
      * 是否默认地址（0 否 || 1 是）
      */
-    private Byte state;
+    private Integer state;
 
     /**
      * @return id
@@ -126,7 +126,7 @@ public class DeliveryAddress {
      *
      * @return state - 是否默认地址（0 否 || 1 是）
      */
-    public Byte getState() {
+    public Integer getState() {
         return state;
     }
 
@@ -135,7 +135,7 @@ public class DeliveryAddress {
      *
      * @param state 是否默认地址（0 否 || 1 是）
      */
-    public void setState(Byte state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 }
