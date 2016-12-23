@@ -33,7 +33,7 @@ public class UserServiceImplTest extends TestBaseMapper {
     @org.testng.annotations.Test
     public void testRegister() throws Exception {
         User login = userService.login("1", "2");
-        Assert.assertNull(login,"登录成功了！！");
+        Assert.assertNotNull(login,"登录成功了！！");
     }
 
     @org.testng.annotations.Test

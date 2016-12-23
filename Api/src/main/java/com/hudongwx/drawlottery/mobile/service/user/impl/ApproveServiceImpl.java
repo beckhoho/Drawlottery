@@ -3,7 +3,6 @@ package com.hudongwx.drawlottery.mobile.service.user.impl;
 import com.hudongwx.drawlottery.mobile.entitys.Approve;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.IApproveService;
-import org.springframework.stereotype.Service;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
  * <p>
  * @email 294786949@qq.com
  */
-@Service
 public class ApproveServiceImpl implements IApproveService {
 
     @Override

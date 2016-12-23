@@ -125,6 +125,11 @@
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
 
+        <table tableName="t_oders" modelType="flat" domainObjectName="Oders">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
 
     </context>
 </generatorConfiguration>
