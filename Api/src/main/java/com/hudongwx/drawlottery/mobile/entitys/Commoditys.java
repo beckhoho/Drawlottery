@@ -28,8 +28,7 @@ public class Commoditys {
     /**
      * 商品分类（1为实体，0为虚拟）
      */
-    @Column(name = "type")
-    private Integer ype;
+    private Integer genre;
 
     /**
      * 当前购买次数
@@ -58,13 +57,13 @@ public class Commoditys {
     /**
      * 当前开奖状态（1为已开奖，0为未开奖，2为等待开奖）
      */
-    private Byte state;
+    private Integer state;
 
     /**
      * 商品期数
      */
     @Column(name = "round_time")
-    private Date roundTime;
+    private String roundTime;
 
     /**
      * 封面图片
@@ -76,7 +75,7 @@ public class Commoditys {
      * 是否自动生成下一期
      */
     @Column(name = "auto_round")
-    private Byte autoRound;
+    private Integer autoRound;
 
     /**
      * @return id
@@ -149,19 +148,19 @@ public class Commoditys {
     /**
      * 获取商品分类（1为实体，0为虚拟）
      *
-     * @return type - 商品分类（1为实体，0为虚拟）
+     * @return genre - 商品分类（1为实体，0为虚拟）
      */
-    public Integer getYpe() {
-        return ype;
+    public Integer getGenre() {
+        return genre;
     }
 
     /**
      * 设置商品分类（1为实体，0为虚拟）
      *
-     * @param ype 商品分类（1为实体，0为虚拟）
+     * @param genre 商品分类（1为实体，0为虚拟）
      */
-    public void setYpe(Integer ype) {
-        this.ype = ype;
+    public void setGenre(Integer genre) {
+        this.genre = genre;
     }
 
     /**
@@ -241,7 +240,7 @@ public class Commoditys {
      *
      * @return state - 当前开奖状态（1为已开奖，0为未开奖，2为等待开奖）
      */
-    public Byte getState() {
+    public Integer getState() {
         return state;
     }
 
@@ -250,7 +249,7 @@ public class Commoditys {
      *
      * @param state 当前开奖状态（1为已开奖，0为未开奖，2为等待开奖）
      */
-    public void setState(Byte state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
@@ -259,7 +258,7 @@ public class Commoditys {
      *
      * @return round_time - 商品期数
      */
-    public Date getRoundTime() {
+    public String getRoundTime() {
         return roundTime;
     }
 
@@ -268,8 +267,8 @@ public class Commoditys {
      *
      * @param roundTime 商品期数
      */
-    public void setRoundTime(Date roundTime) {
-        this.roundTime = roundTime;
+    public void setRoundTime(String roundTime) {
+        this.roundTime = roundTime == null ? null : roundTime.trim();
     }
 
     /**
@@ -295,7 +294,7 @@ public class Commoditys {
      *
      * @return auto_round - 是否自动生成下一期
      */
-    public Byte getAutoRound() {
+    public Integer getAutoRound() {
         return autoRound;
     }
 
@@ -304,7 +303,7 @@ public class Commoditys {
      *
      * @param autoRound 是否自动生成下一期
      */
-    public void setAutoRound(Byte autoRound) {
+    public void setAutoRound(Integer autoRound) {
         this.autoRound = autoRound;
     }
 }

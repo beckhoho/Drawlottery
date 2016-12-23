@@ -1,16 +1,12 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
-
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.DeliveryAddress;
 import com.hudongwx.drawlottery.mobile.service.user.IDeliveryAddressService;
+import com.hudongwx.drawlottery.mobile.web.util.WebCommonUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,11 +16,11 @@ import java.util.List;
  * <p>
  *
  * @author origin
- * @version 1.0, 2016/12/16 0016 <br/>
- * @desc 用户收货地址
+ * @version 1.0, 2016/12/16 <br/>
+ * @desc 用户收货地址管理
  * <p>
  * <p>
- * 创建　origin　2016/12/16 0016　<br/>
+ * 创建　origin　2016/12/16 <br/>
  * <p>
  * *******
  * <p>
@@ -39,39 +35,54 @@ public class DeliveryAddressController {
 
     /**
      * 添加收货地址
+     *
+     * @param address 收货地址信息
+     * @return JSONObject
      */
-    @RequestMapping(value = "/user/Address/add")
-    public JSONObject add(@RequestBody DeliveryAddress address) {
-        JSONObject object = new JSONObject();
-        System.out.println("address.getId()---------->" + address.getId());
-        if (addressService.addDA(address)) {
-            object.put("msg", "收货地址信息添加成功！");
-            object.put("code", 200);
-        } else {
-            object.put("msg", "收货地址信息添加失败！");
-            object.put("code", -1);
-        }
-        return object;
+    @ResponseBody
+    @RequestMapping(value = "/user/address/add", method = RequestMethod.POST)
+    public JSONObject addAddress(@RequestBody DeliveryAddress address) {
+        boolean status = addressService.addDA(address);// TODO: 2016/12/23 添加收货地址
+        return WebCommonUtils.buildStatusJsonObj(status, "添加成功！", "添加失败！");
+    }
+
+    /**
+     * 刪除收货地址
+     *
+     * @param addressid 收货地址id
+     * @return JSONObject
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/address/del", method = RequestMethod.POST)
+    public JSONObject deleteAddress(@RequestParam("addrid") Long addressid) {
+        boolean status = false;// TODO: 2016/12/23 刪除收货地址
+        return WebCommonUtils.buildStatusJsonObj(status, "刪除成功！", "刪除失败！");
+    }
+
+    /**
+     * 修改收货地址
+     *
+     * @param address 客户端传来的地址信息实体类
+     * @return JSONObject
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/address/up", method = RequestMethod.POST)
+    public JSONObject updateAddress(@RequestBody DeliveryAddress address) {
+        boolean status = addressService.addDA(address);// TODO: 2016/12/23 修改收货地址
+        return WebCommonUtils.buildStatusJsonObj(status, "修改成功！", "修改失败！");
     }
 
     /**
      * 获取收货地址信息
+     *
+     * @param accountid 用户账号
+     * @return JSONObject
      */
-    @RequestMapping(value = "/user/Address/search")
-    public JSONObject search(@RequestParam("acc") String acc) {
-        JSONObject object = new JSONObject();
-        System.out.println("userId---------->" + acc);
-        List<DeliveryAddress> daList = addressService.selectAllByUserId(acc);
-        if (daList != null && daList.size() != 0) {
-            object.put("addressList", JSON.toJSONString(daList));
-            object.put("msg", "共有" + daList.size() + "条收货地址信息！");
-            object.put("code", 200);
-        } else {
-            object.put("addressList", null);
-            object.put("msg", "未找到相关信息！");
-            object.put("code", -1);
-        }
-        return object;
+    @ResponseBody
+    @RequestMapping(value = "/user/address/info", method = RequestMethod.POST)
+    public JSONObject queryAddress(@RequestParam("acc") Long accountid) {
+        List<DeliveryAddress> daList = addressService.selectAllByUserId(accountid);// TODO: 2016/12/23 获取收货地址信息
+        return WebCommonUtils.buildDataJsonObj(daList);
     }
 
 }

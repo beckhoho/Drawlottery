@@ -1,6 +1,4 @@
-package com.hudongwx.drawlottery.mobile.web.commodity;/**
- * Created by wu on 2016/12/22.
- */
+package com.hudongwx.drawlottery.mobile.web.commodity;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,4 +21,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(value = "CommodityImgController", description = "商品图片管理")
 public class CommodityImgController {
+
 }

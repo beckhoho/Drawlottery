@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
+import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "t_commoditys_imags")
@@ -11,7 +12,7 @@ public class CommodityImg {
     /**
      * 图片url地址
      */
-    private Integer url;
+    private String url;
 
     /**
      * 是否有效
@@ -22,7 +23,7 @@ public class CommodityImg {
      * 添加时间
      */
     @Column(name = "time")
-    private Integer ime;
+    private Date ime;
 
     /**
      * @return id
@@ -43,7 +44,7 @@ public class CommodityImg {
      *
      * @return url - 图片url地址
      */
-    public Integer getUrl() {
+    public String getUrl() {
         return url;
     }
 
@@ -52,8 +53,8 @@ public class CommodityImg {
      *
      * @param url 图片url地址
      */
-    public void setUrl(Integer url) {
-        this.url = url;
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
     }
 
     /**
@@ -79,7 +80,7 @@ public class CommodityImg {
      *
      * @return time - 添加时间
      */
-    public Integer getIme() {
+    public Date getIme() {
         return ime;
     }
 
@@ -88,7 +89,7 @@ public class CommodityImg {
      *
      * @param ime 添加时间
      */
-    public void setIme(Integer ime) {
+    public void setIme(Date ime) {
         this.ime = ime;
     }
 }

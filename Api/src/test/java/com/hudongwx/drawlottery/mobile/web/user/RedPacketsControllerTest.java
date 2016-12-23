@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
-import com.hudongwx.drawlottery.mobile.entitys.RedPackets;
 import org.testng.annotations.Test;
 
 /**
@@ -20,18 +20,20 @@ import org.testng.annotations.Test;
  * @email 294786949@qq.com
  */
 public class RedPacketsControllerTest extends TestBaseWeb {
+    @Test
+    public void testQueryUsableRedPacket() throws Exception {
+        JSONObject jo=new JSONObject();
+        jo.put("acc",1000l);
+        post("http://localhost:8080/user/redpacket/usable",jo.toJSONString());
+    }
 
     @Test
-    public void testAdd() throws Exception {
-        RedPackets rp = new RedPackets();
-        /*rp.setId(10l);
-        rp.setUserId(10000l);
-        rp.setValidDate(new Date(14800000000l));
-        rp.setOverdueDate(new Date(14800000000l));
-        rp.setName("新手紅包");
-        rp.setUsePrice(new BigDecimal(150));
-        rp.setWorth(new BigDecimal(5));
-        post("http://localhost:8080/user/rPacket/add", rp.toString());*/
+    public void testQueryUnusableRedPacket() throws Exception {
+
+    }
+
+    @Test
+    public void testUpdateRedPacket() throws Exception {
 
     }
 

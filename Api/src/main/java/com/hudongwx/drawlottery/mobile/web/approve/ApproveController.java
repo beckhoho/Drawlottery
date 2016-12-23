@@ -1,6 +1,4 @@
-package com.hudongwx.drawlottery.mobile.web.approve;/**
- * Created by wu on 2016/12/22.
- */
+package com.hudongwx.drawlottery.mobile.web.approve;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RestController;
