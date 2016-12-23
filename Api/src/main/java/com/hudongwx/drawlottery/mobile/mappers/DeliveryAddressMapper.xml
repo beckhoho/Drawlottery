@@ -10,6 +10,6 @@
     <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
 </mapper>

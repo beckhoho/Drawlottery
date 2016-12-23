@@ -52,7 +52,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
         long timeStart=sdf.parse("2016-12-22 20:06:02").getTime();
         Date date = new Date(timeStart);
         Oders oders = odersSer.selectOder(1l, date);
-        org.testng.Assert.assertNull(oders,"登录成功了！！");
+
     }
 
 }
