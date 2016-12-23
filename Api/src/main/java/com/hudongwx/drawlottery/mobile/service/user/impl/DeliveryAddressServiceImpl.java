@@ -47,7 +47,7 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
     }
 
     @Override
-    public List<DeliveryAddress> selectAllByUserId(String accountId) {
+    public List<DeliveryAddress> selectAllByUserId(Long accountId) {
         if (accountId.equals("1000")) {
             List<DeliveryAddress> daList = new ArrayList<>();
             for (int i = 0; i < 10; i++) {
@@ -65,7 +65,4 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
         return null;
     }
 
-    public DeliveryAddress selectById() {
-        return null;
-    }
 }

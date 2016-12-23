@@ -29,7 +29,7 @@ public interface IDeliveryAddressService {
 
     public List<DeliveryAddress> selectAll();
 
-    public List<DeliveryAddress> selectAllByUserId(String accountId);
+    public List<DeliveryAddress> selectAllByUserId(Long accountId);
 
     public DeliveryAddress selectById(String id);
 
