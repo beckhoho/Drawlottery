@@ -41,7 +41,7 @@ public class UserLuckCodesServiceImpl implements IUserLuckCodesService{
     }
 
     @Override
-    public List<UserLuckCodes> select(Long accountId) {
+    public List<UserLuckCodes> selectByUserId(Long accountId) {
 
         return userLuckCodes.selectByUserId(accountId);
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.NoctionMapper">
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.Noction">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.NotificationMapper">
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.Notification">
     <!--
       WARNING - @mbg.generated
     -->

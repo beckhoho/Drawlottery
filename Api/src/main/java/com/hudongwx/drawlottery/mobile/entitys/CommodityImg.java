@@ -22,8 +22,8 @@ public class CommodityImg {
     /**
      * 添加时间
      */
-    @Column(name = "time")
-    private Date ime;
+    @Column(name = "add_time")
+    private Date addTime;
 
     /**
      * @return id
@@ -78,18 +78,18 @@ public class CommodityImg {
     /**
      * 获取添加时间
      *
-     * @return time - 添加时间
+     * @return add_time - 添加时间
      */
-    public Date getIme() {
-        return ime;
+    public Date getAddTime() {
+        return addTime;
     }
 
     /**
      * 设置添加时间
      *
-     * @param ime 添加时间
+     * @param addTime 添加时间
      */
-    public void setIme(Date ime) {
-        this.ime = ime;
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
     }
 }

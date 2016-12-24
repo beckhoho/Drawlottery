@@ -27,4 +27,5 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     Commoditys selectByid(@Param("id") Long id);
 
 
+
 }

@@ -8,6 +8,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="state" jdbcType="INTEGER" property="state" />
-    <result column="time" jdbcType="TIMESTAMP" property="ime" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
   </resultMap>
 </mapper>

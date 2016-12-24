@@ -27,7 +27,7 @@ public interface IUserLuckCodesService {
     boolean addNewLockCodes(UserLuckCodes userLCodes);
 
     //查看用户幸运码
-    List<UserLuckCodes> select(Long accountId);
+    List<UserLuckCodes> selectByUserId(Long accountId);
 
     //删除用户幸运码
     boolean delete(Long id);

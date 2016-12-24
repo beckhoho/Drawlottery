@@ -33,19 +33,21 @@ public class CommodityServiceImplTest extends TestBaseMapper {
     @Test
     public void testAddCommodity() throws Exception {
         Commoditys com = new Commoditys();
-        com.setName("iPhone7");
-        com.setDesc("最新款iPhone7,等你开抢！！");
-        com.setCommodityTypeId(1);
-        com.setGenre(2);
-        com.setBuyCurrentNumber(0);
-        com.setBuyTotalNumber(4533);
+        com.setName("ip7");
+        //com.setDesc("sssss7");//
+        com.setCommodityTypeId(1l);
+        com.setGenre("1");
+        com.setBuyCurrentNumber(1);
+        com.setBuyTotalNumber(4544);
         com.setStartTime(new Date());
-        com.setLuckCodeId(2);
         com.setState(1);
-        com.setRoundTime("201612240523");
-        com.setCoverImgId(1);
+        com.setLuckCodeId(1l);
+        com.setRoundTime("123213");
+        com.setCoverImgId(20l);
         com.setAutoRound(1);
-        commod.addCommodity(com);
+        //com.setCommodityDescUrl("www.com");//
+        boolean b = commod.addCommodity(com);
+        Assert.assertTrue(b);
     }
 
     @Test

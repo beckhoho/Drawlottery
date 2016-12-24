@@ -1,8 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.oder;
 
-import com.hudongwx.drawlottery.mobile.entitys.Oders;
+import com.hudongwx.drawlottery.mobile.entitys.Orders;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,16 +22,16 @@ import java.util.List;
 public interface IOdersService {
 
     //创建订单
-    boolean addOder(Oders oders);
+    boolean addOder(Orders oders);
 
     //查看订单详情
-    public List<Oders> selectByUserAccount(Long userAccount);
+    public List<Orders> selectByUserAccount(Long userAccount);
 
     //删除订单
     boolean deleteOder(Long id);
 
     //修改订单
-    boolean update(Oders oders);
+    boolean update(Orders  oders);
 
 
 }

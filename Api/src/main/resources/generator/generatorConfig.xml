@@ -120,12 +120,12 @@
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
 
-        <table tableName="t_noction" modelType="flat" domainObjectName="Noction">
+        <table tableName="t_notification" modelType="flat" domainObjectName="Notification">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
 
-        <table tableName="t_oders" modelType="flat" domainObjectName="Oders">
+        <table tableName="t_orders" modelType="flat" domainObjectName="Orders">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>

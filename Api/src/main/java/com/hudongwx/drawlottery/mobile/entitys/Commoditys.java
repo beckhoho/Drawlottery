@@ -15,20 +15,15 @@ public class Commoditys {
     private String name;
 
     /**
-     * 描述,详情
-     */
-    private String desc;
-
-    /**
      * 商品类型id
      */
     @Column(name = "commodity_type_id")
-    private Integer commodityTypeId;
+    private Long commodityTypeId;
 
     /**
-     * 商品分类（1为实体，0为虚拟）
+     * 商品类别（1：实体，0：虚拟）
      */
-    private Integer genre;
+    private String genre;
 
     /**
      * 当前购买次数
@@ -43,39 +38,50 @@ public class Commoditys {
     private Integer buyTotalNumber;
 
     /**
-     * 商品开抢时间
+     * 开抢时间
      */
     @Column(name = "start_time")
     private Date startTime;
 
     /**
-     * 幸运码id
+     * 中奖幸运码id
      */
     @Column(name = "luck_code_id")
-    private Integer luckCodeId;
+    private Long luckCodeId;
 
     /**
-     * 当前开奖状态（1为已开奖，0为未开奖，2为等待开奖）
+     * 当前中奖状态（1：已开奖，0：未开奖）
      */
     private Integer state;
 
     /**
-     * 商品期数
+     * 当前期数
      */
     @Column(name = "round_time")
     private String roundTime;
 
     /**
-     * 封面图片
+     * 封面图片id
      */
     @Column(name = "cover_img_id")
-    private Integer coverImgId;
+    private Long coverImgId;
 
     /**
-     * 是否自动生成下一期
+     * 是否自动生成下一期（1：是，0：否）
      */
     @Column(name = "auto_round")
     private Integer autoRound;
+
+    /**
+     * 商品详情URL
+     */
+    @Column(name = "commodity_desc_url")
+    private String commodityDescUrl;
+
+    /**
+     * 商品描述
+     */
+    private String desc;
 
     /**
      * @return id
@@ -110,29 +116,11 @@ public class Commoditys {
     }
 
     /**
-     * 获取描述,详情
-     *
-     * @return desc - 描述,详情
-     */
-    public String getDesc() {
-        return desc;
-    }
-
-    /**
-     * 设置描述,详情
-     *
-     * @param desc 描述,详情
-     */
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
-
-    /**
      * 获取商品类型id
      *
      * @return commodity_type_id - 商品类型id
      */
-    public Integer getCommodityTypeId() {
+    public Long getCommodityTypeId() {
         return commodityTypeId;
     }
 
@@ -141,26 +129,26 @@ public class Commoditys {
      *
      * @param commodityTypeId 商品类型id
      */
-    public void setCommodityTypeId(Integer commodityTypeId) {
+    public void setCommodityTypeId(Long commodityTypeId) {
         this.commodityTypeId = commodityTypeId;
     }
 
     /**
-     * 获取商品分类（1为实体，0为虚拟）
+     * 获取商品类别（1：实体，0：虚拟）
      *
-     * @return genre - 商品分类（1为实体，0为虚拟）
+     * @return genre - 商品类别（1：实体，0：虚拟）
      */
-    public Integer getGenre() {
+    public String getGenre() {
         return genre;
     }
 
     /**
-     * 设置商品分类（1为实体，0为虚拟）
+     * 设置商品类别（1：实体，0：虚拟）
      *
-     * @param genre 商品分类（1为实体，0为虚拟）
+     * @param genre 商品类别（1：实体，0：虚拟）
      */
-    public void setGenre(Integer genre) {
-        this.genre = genre;
+    public void setGenre(String genre) {
+        this.genre = genre == null ? null : genre.trim();
     }
 
     /**
@@ -200,110 +188,146 @@ public class Commoditys {
     }
 
     /**
-     * 获取商品开抢时间
+     * 获取开抢时间
      *
-     * @return start_time - 商品开抢时间
+     * @return start_time - 开抢时间
      */
     public Date getStartTime() {
         return startTime;
     }
 
     /**
-     * 设置商品开抢时间
+     * 设置开抢时间
      *
-     * @param startTime 商品开抢时间
+     * @param startTime 开抢时间
      */
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
     /**
-     * 获取幸运码id
+     * 获取中奖幸运码id
      *
-     * @return luck_code_id - 幸运码id
+     * @return luck_code_id - 中奖幸运码id
      */
-    public Integer getLuckCodeId() {
+    public Long getLuckCodeId() {
         return luckCodeId;
     }
 
     /**
-     * 设置幸运码id
+     * 设置中奖幸运码id
      *
-     * @param luckCodeId 幸运码id
+     * @param luckCodeId 中奖幸运码id
      */
-    public void setLuckCodeId(Integer luckCodeId) {
+    public void setLuckCodeId(Long luckCodeId) {
         this.luckCodeId = luckCodeId;
     }
 
     /**
-     * 获取当前开奖状态（1为已开奖，0为未开奖，2为等待开奖）
+     * 获取当前中奖状态（1：已开奖，0：未开奖）
      *
-     * @return state - 当前开奖状态（1为已开奖，0为未开奖，2为等待开奖）
+     * @return state - 当前中奖状态（1：已开奖，0：未开奖）
      */
     public Integer getState() {
         return state;
     }
 
     /**
-     * 设置当前开奖状态（1为已开奖，0为未开奖，2为等待开奖）
+     * 设置当前中奖状态（1：已开奖，0：未开奖）
      *
-     * @param state 当前开奖状态（1为已开奖，0为未开奖，2为等待开奖）
+     * @param state 当前中奖状态（1：已开奖，0：未开奖）
      */
     public void setState(Integer state) {
         this.state = state;
     }
 
     /**
-     * 获取商品期数
+     * 获取当前期数
      *
-     * @return round_time - 商品期数
+     * @return round_time - 当前期数
      */
     public String getRoundTime() {
         return roundTime;
     }
 
     /**
-     * 设置商品期数
+     * 设置当前期数
      *
-     * @param roundTime 商品期数
+     * @param roundTime 当前期数
      */
     public void setRoundTime(String roundTime) {
         this.roundTime = roundTime == null ? null : roundTime.trim();
     }
 
     /**
-     * 获取封面图片
+     * 获取封面图片id
      *
-     * @return cover_img_id - 封面图片
+     * @return cover_img_id - 封面图片id
      */
-    public Integer getCoverImgId() {
+    public Long getCoverImgId() {
         return coverImgId;
     }
 
     /**
-     * 设置封面图片
+     * 设置封面图片id
      *
-     * @param coverImgId 封面图片
+     * @param coverImgId 封面图片id
      */
-    public void setCoverImgId(Integer coverImgId) {
+    public void setCoverImgId(Long coverImgId) {
         this.coverImgId = coverImgId;
     }
 
     /**
-     * 获取是否自动生成下一期
+     * 获取是否自动生成下一期（1：是，0：否）
      *
-     * @return auto_round - 是否自动生成下一期
+     * @return auto_round - 是否自动生成下一期（1：是，0：否）
      */
     public Integer getAutoRound() {
         return autoRound;
     }
 
     /**
-     * 设置是否自动生成下一期
+     * 设置是否自动生成下一期（1：是，0：否）
      *
-     * @param autoRound 是否自动生成下一期
+     * @param autoRound 是否自动生成下一期（1：是，0：否）
      */
     public void setAutoRound(Integer autoRound) {
         this.autoRound = autoRound;
+    }
+
+    /**
+     * 获取商品详情URL
+     *
+     * @return commodity_desc_url - 商品详情URL
+     */
+    public String getCommodityDescUrl() {
+        return commodityDescUrl;
+    }
+
+    /**
+     * 设置商品详情URL
+     *
+     * @param commodityDescUrl 商品详情URL
+     */
+    public void setCommodityDescUrl(String commodityDescUrl) {
+        this.commodityDescUrl = commodityDescUrl == null ? null : commodityDescUrl.trim();
+    }
+
+    /**
+     * 获取商品描述
+     *
+     * @return desc - 商品描述
+     */
+    public String getDesc() {
+        return desc;
+    }
+
+    /**
+     * 设置商品描述
+     *
+     * @param desc 商品描述
+     */
+    public void setDesc(String desc) {
+        this.desc = desc == null ? null : desc.trim();
     }
 }

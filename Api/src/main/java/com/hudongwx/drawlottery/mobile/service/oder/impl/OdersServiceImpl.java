@@ -1,13 +1,11 @@
 package com.hudongwx.drawlottery.mobile.service.oder.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.Oders;
-import com.hudongwx.drawlottery.mobile.mappers.OdersMapper;
+import com.hudongwx.drawlottery.mobile.entitys.Orders;
+import com.hudongwx.drawlottery.mobile.mappers.OrdersMapper;
 import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,10 +27,10 @@ import java.util.List;
 public class OdersServiceImpl implements IOdersService {
 
     @Autowired
-    OdersMapper odersMapper;
+    OrdersMapper odersMapper;
 
     @Override
-    public boolean addOder(Oders oders) {
+    public boolean addOder(Orders oders) {
 
         int insert = odersMapper.insert(oders);
 
@@ -46,7 +44,7 @@ public class OdersServiceImpl implements IOdersService {
     }
 
     @Override
-    public List<Oders> selectByUserAccount(Long userAccount) {
+    public List<Orders> selectByUserAccount(Long userAccount) {
         return odersMapper.selectByUserAccount(userAccount);
     }
 
@@ -60,7 +58,7 @@ public class OdersServiceImpl implements IOdersService {
     }
 
     @Override
-    public boolean update(Oders oders) {
+    public boolean update(Orders oders) {
         int i = odersMapper.updateByPrimaryKeySelective(oders);
         if(i>0){
           return true;

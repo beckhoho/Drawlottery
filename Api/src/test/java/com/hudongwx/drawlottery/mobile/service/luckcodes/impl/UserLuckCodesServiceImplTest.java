@@ -45,7 +45,7 @@ public class UserLuckCodesServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelect() throws Exception {
-        List<UserLuckCodes> select = userLuckService.select(1l);
+        List<UserLuckCodes> select = userLuckService.selectByUserId(1l);
         Assert.assertNotNull(select);
 
         //测试完成  可用

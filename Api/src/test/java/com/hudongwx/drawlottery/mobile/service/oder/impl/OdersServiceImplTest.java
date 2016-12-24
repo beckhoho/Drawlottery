@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.oder.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
-import com.hudongwx.drawlottery.mobile.entitys.Oders;
+import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -9,8 +9,6 @@ import org.testng.annotations.Test;
 
 import java.util.Date;
 import java.util.List;
-
-import static org.testng.Assert.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -34,7 +32,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
     public void testAddOder() throws Exception {
         Date d = new Date();
         byte s = 1;
-        Oders o = new Oders();
+        Orders o = new Orders();
         o.setCommodityId(1l);
         o.setPayModeId(s);
         o.setPayState(s);
@@ -53,7 +51,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
 //        long timeStart=sdf.parse("2016-12-22 20:06:02").getTime();
 //        Date date = new Date(timeStart);
 
-        List<Oders> oderses = odersSer.selectByUserAccount(1l);
+        List<Orders> oderses = odersSer.selectByUserAccount(1l);
         System.out.println(oderses.size());
         Assert.assertNotNull(oderses);
 
@@ -71,7 +69,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testUpdate() throws Exception {
-        Oders oders = new Oders();
+        Orders oders = new Orders();
         oders.setId(1l);
         oders.setSubmitDate(new Date());
         oders.setUserAccountId(3l);

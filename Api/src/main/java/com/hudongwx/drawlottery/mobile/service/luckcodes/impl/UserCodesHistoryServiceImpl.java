@@ -44,7 +44,7 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
     @Override
     public List<UserCodesHistory> selectByUserAccount(Long accounId) {
 
-        return userCodesHistory.selectByUserId(accounId);
+        return userCodesHistory.selectByUserAccount(accounId);
     }
 
     @Override

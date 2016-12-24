@@ -3,8 +3,8 @@ package com.hudongwx.drawlottery.mobile.entitys;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "t_oders")
-public class Oders {
+@Table(name = "t_orders")
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

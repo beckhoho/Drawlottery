@@ -11,5 +11,4 @@ public interface UserLuckCodesMapper extends BaseMapper<UserLuckCodes> {
 
     @Select("select * from t_user_luck_codes where user_account_id = #{accountId}")
     List<UserLuckCodes> selectByUserId(@Param("accountId") Long accountId);
-
 }
