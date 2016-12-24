@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -79,6 +81,105 @@ public abstract class BaseController {
      */
     public void login(AuthenticationToken token)throws AuthenticationException {
         getSubject().login(token);
+    }
+
+    /**
+     * 成功返回
+     * @param data 返回的数据
+     * @return
+     */
+    public JSONObject success(Object data){
+        return success("操作成功",data);
+    }
+
+
+    /**
+     * 成功,没有返回的数据
+     * @return
+     */
+    public JSONObject success(){
+        return success("操作成功","");
+    }
+
+    /**
+     * 成功返回
+     * @param msg
+     * @return
+     */
+    public JSONObject success(String msg){
+        return success(msg,"");
+    }
+
+
+    /**
+     * 成功返回数据
+     * @param msg 返回信息
+     * @param data 返回数据
+     * @return
+     */
+    public JSONObject success(String msg,Object data){
+       return response(200,msg,data);
+    }
+
+    /**
+     * 万能数据响应
+     * @param isOk
+     * @param msg
+     * @return
+     */
+    private JSONObject response(boolean isOk, String msg){
+        return isOk?success(msg):fail(msg);
+    }
+
+    /**
+     * 万能数据响应
+     * @param isOk
+     * @return
+     */
+    private JSONObject response(boolean isOk){
+        return isOk?success():fail();
+    }
+
+    /**
+     * 响应数据
+     * @param code
+     * @param msg
+     * @param data
+     * @return
+     */
+    private JSONObject response(int code, String msg, Object data){
+        JSONObject object = new JSONObject();
+        object.put("code",code);
+        object.put("data",data);
+        object.put("msg",msg);
+        return object;
+    }
+
+    /**
+     * 操作失败
+     * @param code 失败编码
+     * @param msg 失败信息
+     * @return
+     */
+    public JSONObject fail(int code,String msg){
+        return response(code,msg,null);
+    }
+
+    /**
+     * 操作失败
+     * @param msg 失败信息
+     * @return
+     */
+    public JSONObject fail(String msg){
+        return response(-1,msg,null);
+    }
+
+    /**
+     * 操作失败
+     * @return
+     */
+    public JSONObject fail(){
+        return response(-1,"操作失败",null);
     }
 
     /**
