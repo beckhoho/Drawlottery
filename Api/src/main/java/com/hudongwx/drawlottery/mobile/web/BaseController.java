@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.web;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import org.apache.shiro.SecurityUtils;
@@ -127,7 +126,7 @@ public abstract class BaseController {
      * @param msg
      * @return
      */
-    private JSONObject response(boolean isOk, String msg){
+    public JSONObject response(boolean isOk, String msg){
         return isOk?success(msg):fail(msg);
     }
 
@@ -136,7 +135,7 @@ public abstract class BaseController {
      * @param isOk
      * @return
      */
-    private JSONObject response(boolean isOk){
+    public JSONObject response(boolean isOk){
         return isOk?success():fail();
     }
 

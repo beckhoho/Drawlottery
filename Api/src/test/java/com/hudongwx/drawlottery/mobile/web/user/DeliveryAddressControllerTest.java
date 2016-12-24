@@ -1,7 +1,8 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
+import com.hudongwx.drawlottery.mobile.entitys.DeliveryAddress;
 import org.testng.annotations.Test;
 
 /**
@@ -9,23 +10,37 @@ import org.testng.annotations.Test;
  * 版权：294786949@qq.com<br/>
  * <p>
  *
- * @author origin
- * @version 1.0, 2016/12/16 0016 <br/>
+ * @author wu
+ * @version 1.0, 2016/12/24 <br/>
  * @desc <p>
  * <p>
- * 创建　origin　2016/12/16 0016　<br/>
+ * 创建　wu　2016/12/24 <br/>
  * <p>
- * *******
+ * 用户收货地址
  * <p>
  * @email 294786949@qq.com
  */
 public class DeliveryAddressControllerTest extends TestBaseWeb {
+    @Test
+    public void testAddAddress() throws Exception {
+        DeliveryAddress da = new DeliveryAddress();
+        da.setAddress("qwert");
+        post("/user/address/add", JSON.toJSONString(da));
+    }
 
     @Test
-    public void testAdd() throws Exception {
-        JSONObject jo=new JSONObject();
-        jo.put("id","1000");
-        post("http://localhost:8080/user/dlvrAddr/add",jo.toJSONString());
+    public void testDeleteAddress() throws Exception {
+        String addrid = "addrid=1243";
+        post("/user/address/del", addrid);
+    }
+
+    @Test
+    public void testUpdateAddress() throws Exception {
+
+    }
+
+    @Test
+    public void testQueryAddress() throws Exception {
 
     }
 

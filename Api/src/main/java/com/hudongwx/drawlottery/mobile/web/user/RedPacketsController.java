@@ -3,11 +3,12 @@ package com.hudongwx.drawlottery.mobile.web.user;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.RedPackets;
 import com.hudongwx.drawlottery.mobile.service.user.IRedPacketsService;
-import com.hudongwx.drawlottery.mobile.web.util.WebCommonUtils;
+import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "RedPacketsController", description = "用户红包管理")
-public class RedPacketsController {
+public class RedPacketsController extends BaseController {
 
     @Autowired
     IRedPacketsService rpService;
@@ -42,8 +43,8 @@ public class RedPacketsController {
     @ResponseBody
     @RequestMapping(value = "/user/redpacket/usable", method = RequestMethod.POST)
     public JSONObject queryUsableRedPacket(@RequestParam("acc") Long accountid) {
-        List<RedPackets> rpList = null;//// TODO: 2016/12/23  获取用户可用的红包的集合
-        return WebCommonUtils.buildDataJsonObj(rpList);
+        List<RedPackets> rplist = new ArrayList<>();//// TODO: 2016/12/23  获取用户可用的红包的集合
+        return success(rplist);
     }
 
     /**
@@ -55,8 +56,8 @@ public class RedPacketsController {
     @ResponseBody
     @RequestMapping(value = "/user/redpacket/unusable", method = RequestMethod.POST)
     public JSONObject queryUnusableRedPacket(@RequestParam("acc") Long accountid) {
-        List<RedPackets> rpList = null;//// TODO: 2016/12/23  获取用户不可用的红包的集合
-        return WebCommonUtils.buildDataJsonObj(rpList);
+        List<RedPackets> rplist = new ArrayList<>();//// TODO: 2016/12/23  获取用户不可用的红包的集合
+        return success(rplist);
     }
 
     /**
@@ -68,8 +69,8 @@ public class RedPacketsController {
     @ResponseBody
     @RequestMapping(value = "/user/redpacket/up", method = RequestMethod.POST)
     public JSONObject updateRedPacket(@RequestParam("packet") RedPackets rp) {
-        boolean status = false;//// TODO: 2016/12/23  修改红包状态？？？
-        return WebCommonUtils.buildStatusJsonObj(status, "", "");
+        boolean status = true;//// TODO: 2016/12/23  修改红包状态？？？
+        return response(status);
     }
 
 }

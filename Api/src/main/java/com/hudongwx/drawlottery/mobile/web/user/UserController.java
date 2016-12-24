@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
-import com.hudongwx.drawlottery.mobile.web.util.WebCommonUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,9 +42,9 @@ public class UserController extends BaseController {
         boolean isExist = usersService.isExist(user.getAccountId());// TODO: 2016/12/23 注册前先判断账号是否已注册
         if (!isExist) {
             boolean status = usersService.register(user);// TODO: 2016/12/23 用户注册
-            return WebCommonUtils.buildStatusJsonObj(status, "注册成功！", "注册失败！");
+            return response(status);
         } else {
-            return WebCommonUtils.buildStatusJsonObj(false, null, "账号已存在！");
+            return fail("账号已存在");
         }
     }
 

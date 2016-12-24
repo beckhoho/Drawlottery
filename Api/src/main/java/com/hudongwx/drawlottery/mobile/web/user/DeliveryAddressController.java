@@ -3,7 +3,7 @@ package com.hudongwx.drawlottery.mobile.web.user;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.DeliveryAddress;
 import com.hudongwx.drawlottery.mobile.service.user.IDeliveryAddressService;
-import com.hudongwx.drawlottery.mobile.web.util.WebCommonUtils;
+import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @Api(value = "DeliveryAddressController", description = "用户收货地址管理")
-public class DeliveryAddressController {
+public class DeliveryAddressController extends BaseController {
 
     @Autowired
     IDeliveryAddressService addressService;
@@ -42,8 +42,8 @@ public class DeliveryAddressController {
     @ResponseBody
     @RequestMapping(value = "/user/address/add", method = RequestMethod.POST)
     public JSONObject addAddress(@RequestBody DeliveryAddress address) {
-        boolean status = addressService.addDA(address);// TODO: 2016/12/23 添加收货地址
-        return WebCommonUtils.buildStatusJsonObj(status, "添加成功！", "添加失败！");
+        boolean status =true /*addressService.addDA(address)*/;// TODO: 2016/12/23 添加收货地址
+        return response(status);
     }
 
     /**
@@ -55,8 +55,8 @@ public class DeliveryAddressController {
     @ResponseBody
     @RequestMapping(value = "/user/address/del", method = RequestMethod.POST)
     public JSONObject deleteAddress(@RequestParam("addrid") Long addressid) {
-        boolean status = false;// TODO: 2016/12/23 刪除收货地址
-        return WebCommonUtils.buildStatusJsonObj(status, "刪除成功！", "刪除失败！");
+        boolean status = true;// TODO: 2016/12/23 刪除收货地址
+        return response(status);
     }
 
     /**
@@ -69,7 +69,7 @@ public class DeliveryAddressController {
     @RequestMapping(value = "/user/address/up", method = RequestMethod.POST)
     public JSONObject updateAddress(@RequestBody DeliveryAddress address) {
         boolean status = addressService.addDA(address);// TODO: 2016/12/23 修改收货地址
-        return WebCommonUtils.buildStatusJsonObj(status, "修改成功！", "修改失败！");
+        return response(status);
     }
 
     /**
@@ -79,10 +79,10 @@ public class DeliveryAddressController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/user/address/info", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/address/show", method = RequestMethod.POST)
     public JSONObject queryAddress(@RequestParam("acc") Long accountid) {
-        List<DeliveryAddress> daList = addressService.selectAllByUserId(accountid);// TODO: 2016/12/23 获取收货地址信息
-        return WebCommonUtils.buildDataJsonObj(daList);
+        List<DeliveryAddress> dalist = addressService.selectAllByUserId(accountid);// TODO: 2016/12/23 获取收货地址信息
+        return success(dalist);
     }
 
 }

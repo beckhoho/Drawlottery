@@ -1,7 +1,13 @@
 package com.hudongwx.drawlottery.mobile.web.commodity;
 
+import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityImg;
+import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -20,6 +26,30 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(value = "CommodityImgController", description = "商品图片管理")
-public class CommodityImgController {
+public class CommodityImgController extends BaseController{
 
+    /**
+     * 商品图片
+     * @param urlarr 图片url数组
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/commodityimg/ushow", method = RequestMethod.POST)
+    public JSONObject queryCommodityImgInfoByUrl(@RequestParam("urlarr") String[] urlarr) {
+        List<CommodityImg> cilist = new ArrayList<>();// TODO: 2016/12/24 商品图片 参数(String[] imgarr)
+        return success(cilist);
+    }
+
+    /**
+     * 商品图片
+     *
+     * @param imgarr 图片id数组
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/commodityimg/ishow", method = RequestMethod.POST)
+    public JSONObject queryCommodityImgInfoById(@RequestParam("idarr") Long[] imgarr) {
+        List<CommodityImg> cilist = new ArrayList<>();// TODO: 2016/12/24 商品图片 参数(String[] imgarr)
+        return success(cilist);
+    }
 }
