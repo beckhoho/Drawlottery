@@ -39,7 +39,7 @@ public class CommodityImgServiceImlpl implements ICommodityImgService {
     }
 
     @Override
-    public boolean deleteImage(Integer id) {
+    public boolean deleteImage(Long id) {
         int i = commodityImg.deleteByPrimaryKey(id);
         if(i>0){
             return true;
@@ -48,7 +48,7 @@ public class CommodityImgServiceImlpl implements ICommodityImgService {
     }
 
     @Override
-    public CommodityImg selectImg(Integer id) {
+    public CommodityImg selectImg(Long id) {
         return commodityImg.selectByPrimaryKey(id);
     }
 }

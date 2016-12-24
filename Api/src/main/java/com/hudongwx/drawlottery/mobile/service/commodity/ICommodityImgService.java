@@ -23,8 +23,8 @@ public interface ICommodityImgService {
     boolean addImage(CommodityImg commodImg);
 
     //删除商品图片
-    boolean deleteImage(Integer id);
+    boolean deleteImage(Long id);
 
     //查看商品图片
-    CommodityImg selectImg(Integer id);
+    CommodityImg selectImg(Long id);
 }

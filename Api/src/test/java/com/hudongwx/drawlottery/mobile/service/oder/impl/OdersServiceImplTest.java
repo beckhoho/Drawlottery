@@ -4,12 +4,11 @@ import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Oders;
 import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -19,22 +18,20 @@ import static org.testng.Assert.*;
  * <p>
  *
  * @author Kiter
- * @version 1.0, 2016/12/22 <br/>
+ * @version 1.0, 2016/12/24 <br/>
  * @desc <p>
  * <p>
- * 创建　kiter　2016/12/22 19:54　<br/>
+ * 创建　kiter　2016/12/24 15:01　<br/>
  * <p>
- *            订单测试类
+ * 什么类？
  * <p>
  * @email 346905702@qq.com
  */
 public class OdersServiceImplTest extends TestBaseMapper {
-
     @Autowired
     IOdersService odersSer;
     @Test
     public void testAddOder() throws Exception {
-
         Date d = new Date();
         byte s = 1;
         Oders o = new Oders();
@@ -44,15 +41,44 @@ public class OdersServiceImplTest extends TestBaseMapper {
         o.setUserAccountId(1l);
         o.setSubmitDate(d);
         boolean b = odersSer.addOder(o);
-        Assert.isTrue(b,"成功添加订单！！！！");
+        Assert.assertTrue(b);
+
+        //测试完成    可用
+
     }
     @Test
     public void testSelectOder() throws Exception{
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long timeStart=sdf.parse("2016-12-22 20:06:02").getTime();
-        Date date = new Date(timeStart);
-        Oders oders = odersSer.selectOder(1l, date);
 
+//        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        long timeStart=sdf.parse("2016-12-22 20:06:02").getTime();
+//        Date date = new Date(timeStart);
+
+        List<Oders> oderses = odersSer.selectByUserAccount(1l);
+        System.out.println(oderses.size());
+        Assert.assertNotNull(oderses);
+
+        //测试完成   可用；
+
+    }
+
+    @Test
+    public void testDeleteOder() throws Exception {
+        boolean b = odersSer.deleteOder(2L);
+        Assert.assertTrue(b);
+
+        //测试成功  可用
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Oders oders = new Oders();
+        oders.setId(1l);
+        oders.setSubmitDate(new Date());
+        oders.setUserAccountId(3l);
+        boolean update = odersSer.update(oders);
+        Assert.assertTrue(update);
+
+        //测试成功  可用
     }
 
 }

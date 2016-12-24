@@ -5,6 +5,8 @@ import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.entitys.UserCodesHistory;
 
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -25,8 +27,13 @@ public interface IUserCodesHistoryService {
     //将幸运码添加到历史
     boolean addToHistory(UserCodesHistory userhis);
 
-    //查看历史幸运码
-    UserCodesHistory select(User user,Commoditys commod,LuckCodes luckCodes);
+    //通过用户名查看历史幸运码
+    List<UserCodesHistory> selectByUserAccount(Long accounId);
 
+    //通过商品查看历史幸运码
+    List<UserCodesHistory> selectByCommodId(Long commodId);
+
+    //查看所有历史幸运码
+    List<UserCodesHistory> selectAll();
 
 }

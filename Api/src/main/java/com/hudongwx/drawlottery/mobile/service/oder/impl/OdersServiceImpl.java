@@ -46,28 +46,25 @@ public class OdersServiceImpl implements IOdersService {
     }
 
     @Override
-    public Oders selectOder(Long userAccount, Date submitDate) {
-        Oders o = new Oders();
-        o.setSubmitDate(submitDate);
-        o.setUserAccountId(userAccount);
-        List<Oders> select = odersMapper.selectAll();
-        if(select!=null&&select.size()!=0){
-            for (Oders od: select){
-                if(od.getUserAccountId()==userAccount&&od.getSubmitDate()==submitDate){
-                    return od;
-                }
-            }
-        }
-        return null;
+    public List<Oders> selectByUserAccount(Long userAccount) {
+        return odersMapper.selectByUserAccount(userAccount);
     }
 
     @Override
     public boolean deleteOder(Long id) {
+        int i = odersMapper.deleteByPrimaryKey(id);
+        if(i>0){
+            return true;
+        }
         return false;
     }
 
     @Override
-    public boolean update(Oders oders, Long id) {
+    public boolean update(Oders oders) {
+        int i = odersMapper.updateByPrimaryKeySelective(oders);
+        if(i>0){
+          return true;
+        }
         return false;
     }
 }

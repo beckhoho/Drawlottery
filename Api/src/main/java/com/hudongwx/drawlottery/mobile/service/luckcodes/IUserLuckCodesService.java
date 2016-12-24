@@ -4,6 +4,8 @@ import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes;
 
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -25,7 +27,9 @@ public interface IUserLuckCodesService {
     boolean addNewLockCodes(UserLuckCodes userLCodes);
 
     //查看用户幸运码
-    UserLuckCodes select(User user,Commoditys commoditys);
+    List<UserLuckCodes> select(Long accountId);
 
+    //删除用户幸运码
+    boolean delete(Long id);
 
 }

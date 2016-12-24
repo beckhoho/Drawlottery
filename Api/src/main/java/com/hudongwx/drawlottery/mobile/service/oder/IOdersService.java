@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.oder;
 import com.hudongwx.drawlottery.mobile.entitys.Oders;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -25,13 +26,13 @@ public interface IOdersService {
     boolean addOder(Oders oders);
 
     //查看订单详情
-    Oders selectOder(Long userAccount,Date submitDate);
+    public List<Oders> selectByUserAccount(Long userAccount);
 
     //删除订单
     boolean deleteOder(Long id);
 
     //修改订单
-    boolean update(Oders oders,Long id);
+    boolean update(Oders oders);
 
 
 }

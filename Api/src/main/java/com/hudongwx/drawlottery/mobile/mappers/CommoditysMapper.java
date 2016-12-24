@@ -26,13 +26,5 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     @Select("select * from t_commoditys where id = #{id}")
     Commoditys selectByid(@Param("id") Long id);
 
-    @Insert("insert into t_commoditys(name,desc,commodity_type_id," +
-            "genre,buy_current_number,buy_total_number,start_time,luck_code_id,state,round_time," +
-            "cover_img_id,auto_round) values" +
-            "(#{commod.getName()},#{commod.getDesc()},#{commod.getCommodityTypeId()}," +
-            "#{commod.getGenre()},#{commod.getBuyCurrentNumber()},#{commod.getBuyTotalNumber()}," +
-            "#{commod.getStartTime()},#{commod.getLuckCodeId()},#{commod.getState()}," +
-            "#{commod.getRoundTime()},#{commod.getCoverImgId},#{commod.getAutoRound()})")
-    boolean add(@Param("commod") Commoditys commod);
 
 }

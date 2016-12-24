@@ -35,14 +35,15 @@ public class CommodityTypeServiceImplTest extends TestBaseMapper {
         ct.setState(1);
         boolean b = commodType.addType(ct);
         Assert.assertTrue(b,"保存成功！！！！");
+
+        //测试成功  可用
     }
 
     @Test
     public void testHideType() throws Exception {
-        boolean b = commodType.hideType(1);
-        if(b){
-            System.out.println("设置类型状态成功");
-        }
+        boolean b = commodType.hideType(0);
+        Assert.assertTrue(b);
+
 
         //测试完成  可用~
     }
