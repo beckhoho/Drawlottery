@@ -8,9 +8,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Date;
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -48,16 +45,16 @@ public class ShareServiceImplTest extends TestBaseMapper {
     public void testDeleteShare() throws Exception {
         Share s = new Share();
         s.setId(1l);
-        boolean b = mapper.deleteShare(s);
+        boolean b = mapper.deleteShare(s.getId());
         Assert.assertTrue(b);
     }
 
     @Test
     public void testSelectShare() throws Exception {
-        List<Share> shares = mapper.selectShare(1l);
-        for (Share s : shares){
-            System.out.println(s.getIssueDate()+"; "+s.getParticulars());
-        }
+//        List<Share> shares = mapper.selectShare(1l);
+//        for (Share s : shares){
+//            System.out.println(s.getIssueDate()+"; "+s.getParticulars());
+//        }
     }
 
 }
