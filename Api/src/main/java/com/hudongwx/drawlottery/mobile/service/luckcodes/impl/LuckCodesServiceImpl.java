@@ -28,8 +28,17 @@ import java.util.List;
 @Service
 public class LuckCodesServiceImpl implements ILuckCodesService{
 
+
+
+
     @Autowired
     LuckCodesMapper luckCodes;
+
+    /**
+     * 添加幸运码
+     * @param codes 幸运码对象
+     * @return  返回添加结果
+     */
     @Override
     public boolean addLuckCode(LuckCodes codes) {
         int insert = luckCodes.insert(codes);
@@ -39,11 +48,23 @@ public class LuckCodesServiceImpl implements ILuckCodesService{
         return false;
     }
 
+    /**
+     * 通过商品id查询幸运码集
+     * @param commodId  商品id
+     * @return  返回商品的幸运码集
+     */
     @Override
     public List<LuckCodes> select(Long commodId) {
-        return this.luckCodes.selectCommodCodes(commodId);
+        LuckCodes luck = new LuckCodes();
+        luck.setCommodityId(commodId);
+        return this.luckCodes.select(luck);
     }
 
+    /**
+     * 通过id删除幸运码
+     * @param id   幸运码id
+     * @return  返回删除结果
+     */
     @Override
     public boolean delete(Long id) {
         int i = luckCodes.deleteByPrimaryKey(id);

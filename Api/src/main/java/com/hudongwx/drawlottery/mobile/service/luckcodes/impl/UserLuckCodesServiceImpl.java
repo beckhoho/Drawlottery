@@ -31,6 +31,12 @@ public class UserLuckCodesServiceImpl implements IUserLuckCodesService{
 
     @Autowired
     UserLuckCodesMapper userLuckCodes;
+
+    /**
+     * 添加用户幸运码
+     * @param userLCodes    用户幸运码对象
+     * @return  添加结果
+     */
     @Override
     public boolean addNewLockCodes(UserLuckCodes userLCodes) {
         int insert = userLuckCodes.insert(userLCodes);
@@ -40,12 +46,23 @@ public class UserLuckCodesServiceImpl implements IUserLuckCodesService{
         return false;
     }
 
+    /**
+     * 查询当前用户的所有幸运码
+     * @param accountId 用户accountID
+     * @return  返回当前用户的所有幸运码
+     */
     @Override
     public List<UserLuckCodes> selectByUserId(Long accountId) {
-
-        return userLuckCodes.selectByUserId(accountId);
+        UserLuckCodes user = new UserLuckCodes();
+        user.setUserAccountId(accountId);
+        return userLuckCodes.select(user);
     }
 
+    /**
+     * 通过id删除幸运码
+     * @param id   幸运码ID
+     * @return  删除结果
+     */
     @Override
     public boolean delete(Long id) {
         int i = userLuckCodes.deleteByPrimaryKey(id);

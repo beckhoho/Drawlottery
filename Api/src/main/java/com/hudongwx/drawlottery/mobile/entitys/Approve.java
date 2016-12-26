@@ -24,7 +24,7 @@ public class Approve {
      * 身份证号
      */
     @Column(name = "real_number")
-    private Integer realNumber;
+    private String realNumber;
 
     /**
      * 常住地址
@@ -35,7 +35,7 @@ public class Approve {
      * 手机号
      */
     @Column(name = "phone_number")
-    private Integer phoneNumber;
+    private Long phoneNumber;
 
     /**
      * 认证日期
@@ -98,7 +98,7 @@ public class Approve {
      *
      * @return real_number - 身份证号
      */
-    public Integer getRealNumber() {
+    public String getRealNumber() {
         return realNumber;
     }
 
@@ -107,7 +107,7 @@ public class Approve {
      *
      * @param realNumber 身份证号
      */
-    public void setRealNumber(Integer realNumber) {
+    public void setRealNumber(String realNumber) {
         this.realNumber = realNumber;
     }
 
@@ -134,7 +134,7 @@ public class Approve {
      *
      * @return phone_number - 手机号
      */
-    public Integer getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -143,7 +143,7 @@ public class Approve {
      *
      * @param phoneNumber 手机号
      */
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

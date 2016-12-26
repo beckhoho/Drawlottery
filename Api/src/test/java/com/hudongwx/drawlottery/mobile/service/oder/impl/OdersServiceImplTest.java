@@ -2,7 +2,6 @@ package com.hudongwx.drawlottery.mobile.service.oder.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
-import com.hudongwx.drawlottery.mobile.mappers.OrdersMapper;
 import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;

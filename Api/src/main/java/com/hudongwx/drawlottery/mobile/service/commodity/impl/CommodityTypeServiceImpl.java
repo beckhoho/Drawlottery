@@ -26,6 +26,12 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
 
     @Autowired
     CommodityTypeMapper commodType;
+
+    /**
+     *添加商品对象
+     * @param commtype  商品类型对象
+     * @return
+     */
     @Override
     public boolean addType(CommodityType commtype) {
         int insert = commodType.insert(commtype);
@@ -35,6 +41,11 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
         return false;
     }
 
+    /**
+     *
+     * @param id   id
+     * @return
+     */
     @Override
     public boolean hideType(Integer id) {
         CommodityType c = new CommodityType();
@@ -47,6 +58,11 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
         return false;
     }
 
+    /**
+     *  通過主鍵修改對象，不修改空值
+     * @param commtype  商品類型對象
+     * @return
+     */
     @Override
     public boolean updateType(CommodityType commtype) {
         int i = commodType.updateByPrimaryKeySelective(commtype);
@@ -56,9 +72,15 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
         return false;
     }
 
+    /**
+     * 通過類型名去查詢當前商品類型
+     * @param name  商品類型名
+     * @return
+     */
     @Override
     public CommodityType selectType(String name) {
-        //返回商品类型
-        return commodType.selectType(name);
+        CommodityType ct = new CommodityType();
+        ct.setName(name);
+        return (CommodityType) commodType.select(ct);
     }
 }
