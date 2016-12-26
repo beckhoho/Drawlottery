@@ -42,8 +42,8 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/address/add", method = RequestMethod.POST)
     public JSONObject addAddress(@RequestBody DeliveryAddress address) {
-        boolean status =true /*addressService.addDA(address)*/;// TODO: 2016/12/23 添加收货地址
-        return response(status);
+        boolean status = addressService.addDa(address);
+        return response(status, "最多添加5条收货地址");
     }
 
     /**
@@ -55,7 +55,7 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/address/del", method = RequestMethod.POST)
     public JSONObject deleteAddress(@RequestParam("addrid") Long addressid) {
-        boolean status = true;// TODO: 2016/12/23 刪除收货地址
+        boolean status = addressService.deleteDa(addressid);
         return response(status);
     }
 
@@ -68,7 +68,7 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/address/up", method = RequestMethod.POST)
     public JSONObject updateAddress(@RequestBody DeliveryAddress address) {
-        boolean status = addressService.addDA(address);// TODO: 2016/12/23 修改收货地址
+        boolean status = addressService.updateDa(address);
         return response(status);
     }
 
@@ -81,8 +81,7 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/address/show", method = RequestMethod.POST)
     public JSONObject queryAddress(@RequestParam("acc") Long accountid) {
-        List<DeliveryAddress> dalist = addressService.selectAllByUserId(accountid);// TODO: 2016/12/23 获取收货地址信息
+        List<DeliveryAddress> dalist = addressService.selectByUserAccountId(accountid);
         return success(dalist);
     }
-
 }

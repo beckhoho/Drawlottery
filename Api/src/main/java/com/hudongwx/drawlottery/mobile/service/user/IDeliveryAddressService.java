@@ -21,16 +21,44 @@ import java.util.List;
  */
 public interface IDeliveryAddressService {
 
-    public boolean addDA(DeliveryAddress address);
+    /**
+     * 添加用户收货地址（每个用户允许最多添加10条收货地址信息）
+     *
+     * @param address 用户地址信息
+     * @return boolean
+     */
+    public boolean addDa(DeliveryAddress address);
 
-    public boolean deleteDA(String id);
+    /**
+     * 删除指定的收货地址信息
+     *
+     * @param id 收貨地址id
+     * @return boolean
+     */
+    public boolean deleteDa(Long id);
 
-    public boolean updateDA(DeliveryAddress address);
+    /**
+     * 更新收货地址信息
+     *
+     * @param address 用户地址信息
+     * @return boolean
+     */
+    public boolean updateDa(DeliveryAddress address);
 
-    public List<DeliveryAddress> selectAll();
+    /**
+     * 查看指定用户的收货地址列表
+     *
+     * @param accountId 用户账号
+     * @return List<DeliveryAddress>
+     */
+    public List<DeliveryAddress> selectByUserAccountId(Long accountId);
 
-    public List<DeliveryAddress> selectAllByUserId(Long accountId);
-
-    public DeliveryAddress selectById(String id);
+    /**
+     * 查询单条地址信息
+     *
+     * @param id 地址信息id
+     * @return
+     */
+    public DeliveryAddress selectById(Long id);
 
 }

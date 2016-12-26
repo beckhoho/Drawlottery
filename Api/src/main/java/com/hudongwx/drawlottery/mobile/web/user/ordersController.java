@@ -1,12 +1,13 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.Oders;
+import com.hudongwx.drawlottery.mobile.entitys.Orders;
+import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,11 +17,11 @@ import java.util.List;
  *
  * @author wu
  * @version 1.0, 2016/12/24 <br/>
- * @desc <p>
+ * @desc 用户订单管理<p>
  * <p>
  * 创建　wu　2016/12/24 <br/>
  * <p>
- * 用户订单管理
+ * *********
  * <p>
  * @email 294786949@qq.com
  */
@@ -28,6 +29,8 @@ import java.util.List;
 @Api(value = "OrdersController", description = "用户订单管理")
 public class OrdersController extends BaseController {
 
+    @Autowired
+    IOdersService ordersService;
     /**
      * 用户添加订单信息
      *
@@ -36,8 +39,8 @@ public class OrdersController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/user/orders/add", method = RequestMethod.POST)
-    public JSONObject addOrders(@RequestBody Oders order) {
-        boolean status = true;// TODO: 2016/12/24 添加订单
+    public JSONObject addOrders(@RequestBody Orders order) {
+        boolean status = ordersService.addOder(order);
         return response(status);
     }
 
@@ -50,7 +53,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/orders/del", method = RequestMethod.POST)
     public JSONObject deleteOrder(@RequestParam("orderid") Long orderid) {
-        boolean status = true;// TODO: 2016/12/24 删除订单
+        boolean status = ordersService.deleteOder(orderid);
         return response(status);
     }
 
@@ -63,7 +66,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/orders/info", method = RequestMethod.POST)
     public JSONObject queryOrder(@RequestParam("orderid") Long orderid) {
-        Oders order = new Oders();// TODO: 2016/12/24 查看订单
+        Orders order = new Orders();// TODO: 2016/12/24 查看单条订单？？？
         return success(order);
     }
 
@@ -76,7 +79,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/orders/show", method = RequestMethod.POST)
     public JSONObject queryAllUserOrders(@RequestParam("acc") Long accountid) {
-        List<Oders> olist = new ArrayList<>();// TODO: 2016/12/24 查看所有订单
+        List<Orders> olist = ordersService.selectByUserAccount(accountid);
         return success(olist);
     }
 }

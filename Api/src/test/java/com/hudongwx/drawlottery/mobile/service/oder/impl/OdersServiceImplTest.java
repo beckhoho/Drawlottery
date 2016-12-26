@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.service.oder.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
+import com.hudongwx.drawlottery.mobile.mappers.OrdersMapper;
 import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -44,16 +45,25 @@ public class OdersServiceImplTest extends TestBaseMapper {
         //测试完成    可用
 
     }
+
+    @Autowired
+    OrdersMapper mapper;
+
     @Test
     public void testSelectOder() throws Exception{
 
-//        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        long timeStart=sdf.parse("2016-12-22 20:06:02").getTime();
-//        Date date = new Date(timeStart);
+        Orders orders = new Orders();
+        orders.setUserAccountId(1000l);
+        List<Orders> select = mapper.selectByUserAccount(1000l);
+        for (Orders o : select){
+            System.out.println(o.getSubmitDate());
+        }
 
-        List<Orders> oderses = odersSer.selectByUserAccount(1l);
+//        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = new Date(timeStart);
+        /*List<Orders> oderses = odersSer.selectByUserAccountId(1l);
         System.out.println(oderses.size());
-        Assert.assertNotNull(oderses);
+        Assert.assertNotNull(oderses);*/
 
         //测试完成   可用；
 

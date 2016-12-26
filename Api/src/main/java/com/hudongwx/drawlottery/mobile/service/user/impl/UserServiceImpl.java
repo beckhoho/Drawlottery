@@ -7,6 +7,8 @@ import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -28,27 +30,49 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     UserMapper mapper;
 
-    @Override
-    public boolean register(User user) {
-        return false;
-    }
-
-    public User login(String username, String password) {
+    private User createUser(Long accountid, String password) {
         User user = new User();
-        user.setRealName(username);
+        user.setAccountId(accountid);
         user.setPassword(password);
         PasswordUtils.encryptPassword(user);//加密用户密码
         return user;
     }
 
     @Override
+    public boolean register(Long accountid, String password) {
+        User user = createUser(Long.valueOf(accountid), password);
+        return mapper.insert(user) > 0;
+    }
+
+    public User login(String accountid, String password) {
+        User user = createUser(Long.valueOf(accountid), password);
+        System.out.println("password-------------->" + user.getPassword());
+        List<User> userList = mapper.select(user);
+        if (!userList.isEmpty()) {
+            // TODO: 2016/12/26 设置login状态???
+            return userList.get(0);
+        }
+        return null;
+    }
+
+    @Override
     public boolean isExist(Long accountId) {
-        return false;
+        User user = new User();
+        user.setAccountId(accountId);
+        return !mapper.select(user).isEmpty();
     }
 
     @Override
     public User getUserByAccount(Long accountId, String password) {
-        return null;
+        User user = createUser(accountId, password);
+        if (mapper.select(user).isEmpty())
+            return null;
+        return mapper.select(user).get(0);
+    }
+
+    @Override
+    public int updateUserInfo(User user) {
+        return 0;
     }
 
 

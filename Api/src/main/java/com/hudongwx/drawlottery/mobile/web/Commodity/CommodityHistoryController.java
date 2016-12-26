@@ -31,27 +31,16 @@ public class CommodityHistoryController extends BaseController {
     /**
      * 查看商品历史
      *
-     * @param accountid 用户账号
+     * @param accountid  账号
+     * @param lastcommid 客户端先手的最后一个商品id
+     * @param tag        判断是上拉还是下拉刷新（状态标记：0 第一次计入页面，1下拉刷新，2上拉刷新）
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/commodityhistory/show", method = RequestMethod.POST)
-    public JSONObject queryCommodityHistoryInfo(@RequestParam("acc") Long accountid) {
+    public JSONObject queryCommodityHistoryInfo(@RequestParam("acc") Long accountid, @RequestParam("chid") Long lastcommid, @RequestParam("tag") int tag) {
         List<CommodityHistory> chlist = new ArrayList<>();// TODO: 2016/12/24 查询用户购买的商品 参数(Long accountid)
         return success(chlist);
     }
 
-    /**
-     * 用户删除商品历史信息
-     *
-     * @param accountid      账号
-     * @param commodityarray 历史商品ids数组
-     * @return JSONObject
-     */
-    @ResponseBody
-    @RequestMapping(value = "/commodityhistory/del", method = RequestMethod.POST)
-    public JSONObject deleteCommodityHistoryInfo(@RequestParam("acc") Long accountid, @RequestParam("array") Long[] commodityarray) {
-        boolean status = true;// TODO: 2016/12/24 用户刪除商品历史信息 参数(Long accountid,Long[] commodityarray)
-        return response(status);
-    }
 }

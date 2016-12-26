@@ -1,12 +1,13 @@
-package com.hudongwx.drawlottery.mobile.web.user;
+package com.hudongwx.drawlottery.mobile.web.luckcodes;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes;
+import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserLuckCodesService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,9 @@ import java.util.List;
 @Api(value = "UserLuckCodesController", description = "用户幸运码管理")
 public class UserLuckCodesController extends BaseController {
 
+    @Autowired
+    IUserLuckCodesService ulcService;
+
     /**
      * 用户选的一组幸运码
      *
@@ -37,7 +41,12 @@ public class UserLuckCodesController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/luckcode/add", method = RequestMethod.POST)
     public JSONObject addUserLuckCodes(@RequestBody List<UserLuckCodes> ulclist) {
-        boolean status = true;// TODO: 2016/12/24 添一组幸运码
+        boolean status = true;
+        for (UserLuckCodes userLuckCodes : ulclist) {
+            if(!ulcService.addNewLockCodes(userLuckCodes)){
+                status=false;
+            }
+        }
         return response(status);
     }
 
@@ -50,7 +59,7 @@ public class UserLuckCodesController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/luckcode/show", method = RequestMethod.POST)
     public JSONObject queryUserLuckCodes(@RequestParam("acc") Long accountid) {
-        List<UserLuckCodes> ulclist = new ArrayList<>();// TODO: 2016/12/24 添一组幸运码
+        List<UserLuckCodes> ulclist = ulcService.selectByUserId(accountid);
         return success(ulclist);
     }
 }

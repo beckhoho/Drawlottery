@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
@@ -33,20 +32,39 @@ public class UserController extends BaseController {
     /**
      * 用户注册
      *
-     * @param user 客户端传来的User信息
-     * @return JSONObject
+     * @param accountid 注册账号
+     * @param pwd       注册密码
+     * @return
      */
     @ResponseBody
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
-    public JSONObject register(@RequestBody User user) {
-        boolean isExist = usersService.isExist(user.getAccountId());// TODO: 2016/12/23 注册前先判断账号是否已注册
+    public JSONObject register(@RequestParam("acc") Long accountid, @RequestParam("pwd") String pwd) {
+        boolean isExist = usersService.isExist(accountid);
         if (!isExist) {
-            boolean status = usersService.register(user);// TODO: 2016/12/23 用户注册
-            return response(status);
+            boolean status = usersService.register(accountid, pwd);
+            if (status)
+                return success("注册成功！");
+            return fail("注册失败！");
         } else {
             return fail("账号已存在");
         }
     }
 
-
+    /**
+     * 用户登录
+     *
+     * @param accountid 账号
+     * @param pwd       密码
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
+    public JSONObject login(@RequestParam("acc") Long accountid, @RequestParam("pwd") String pwd) {
+        boolean status = usersService.login(accountid.toString(), pwd) != null;
+        if (status) {
+            return success("登录成功！");
+        } else {
+            return fail("登录失败！");
+        }
+    }
 }

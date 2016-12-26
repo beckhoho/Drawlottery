@@ -9,11 +9,11 @@ public interface IUserService {
 
     /**
      * 用户注册
-     *
-     * @param user
-     * @return boolean
+     * @param accountid
+     * @param password
+     * @return
      */
-    boolean register(User user);
+    boolean register(Long accountid,String password);
 
     /**
      * 用户登录
@@ -37,5 +37,7 @@ public interface IUserService {
      * @return Users
      */
     User getUserByAccount(Long accountId, String password);
+
+    int updateUserInfo(User user);
 }
 

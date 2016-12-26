@@ -24,6 +24,7 @@ public class DeliveryAddressControllerTest extends TestBaseWeb {
     @Test
     public void testAddAddress() throws Exception {
         DeliveryAddress da = new DeliveryAddress();
+        da.setUserId(1000l);
         da.setAddress("qwert");
         post("/user/address/add", JSON.toJSONString(da));
     }

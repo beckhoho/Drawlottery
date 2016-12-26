@@ -2,8 +2,10 @@ package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.Share;
+import com.hudongwx.drawlottery.mobile.service.user.IShareService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,7 +29,10 @@ import java.util.List;
  */
 @RestController
 @Api(value = "ShareController", description = "用户晒单分享管理")
-public class ShareController extends BaseController{
+public class ShareController extends BaseController {
+
+    @Autowired
+    IShareService shareService;
 
     /**
      * 用户添加晒单分享信息
@@ -45,13 +50,15 @@ public class ShareController extends BaseController{
     /**
      * 获取用户晒单分享列表信息
      *
-     * @param accountid 用户账号
+     * @param accountid 账号id
+     * @param lastshareid 客户端最后显示的晒单id
+     * @param tag 刷新的状态标记（0 首次进入界面，1 下拉刷新，2 上拉刷新）
      * @return JSONObject
      */
     @ResponseBody
     @RequestMapping(value = "/user/share/show", method = RequestMethod.POST)
-    public JSONObject queryShareInfo(@RequestParam("acc") Long accountid) {
-        List<Share> slist = new ArrayList<>();// TODO: 2016/12/24 获取share集合数据 參數(Long accountid)
+    public JSONObject queryShareInfo(@RequestParam("acc") Long accountid, @RequestParam("lastshareid") Long lastshareid, @RequestParam("tag") int tag) {
+        List<Share> slist = shareService.selectShare(accountid,lastshareid,tag);// TODO: 2016/12/24 获取share集合数据 參數(Long accountid)
         return success(slist);
     }
 

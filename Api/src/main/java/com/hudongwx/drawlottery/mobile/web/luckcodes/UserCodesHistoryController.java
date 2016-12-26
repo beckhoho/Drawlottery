@@ -1,12 +1,13 @@
-package com.hudongwx.drawlottery.mobile.web.user;
+package com.hudongwx.drawlottery.mobile.web.luckcodes;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.UserCodesHistory;
+import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserCodesHistoryService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +26,11 @@ import java.util.List;
  * @email 294786949@qq.com
  */
 @RestController
-@Api(value = "UserCodesHistoryController",description = "用户幸运码历史信息管理")
+@Api(value = "UserCodesHistoryController", description = "用户幸运码历史信息管理")
 public class UserCodesHistoryController extends BaseController {
+
+    @Autowired
+    IUserCodesHistoryService uchService;
 
     /**
      * 用户查看个人往期幸运码
@@ -37,7 +41,7 @@ public class UserCodesHistoryController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/codeshistory/show", method = RequestMethod.POST)
     public JSONObject queryUserLuckCodes(@RequestParam("acc") Long accountid) {
-        List<UserCodesHistory> uchlist = new ArrayList<>();// TODO: 2016/12/24 添一组幸运码
+        List<UserCodesHistory> uchlist = uchService.selectByUserAccount(accountid);
         return success(uchlist);
     }
 }

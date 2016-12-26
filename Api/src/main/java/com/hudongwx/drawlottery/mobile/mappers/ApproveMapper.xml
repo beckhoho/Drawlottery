@@ -13,4 +13,8 @@
     <result column="phone_number" jdbcType="INTEGER" property="phoneNumber" />
     <result column="approve_date" jdbcType="TIMESTAMP" property="approveDate" />
   </resultMap>
+
+
+
+
 </mapper>
