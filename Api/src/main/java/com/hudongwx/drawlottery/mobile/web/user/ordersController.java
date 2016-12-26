@@ -1,7 +1,8 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.Oders;
+import com.hudongwx.drawlottery.mobile.entitys.Orders;
+
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class OrdersController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/user/orders/add", method = RequestMethod.POST)
-    public JSONObject addOrders(@RequestBody Oders order) {
+    public JSONObject addOrders(@RequestBody Orders order) {
         boolean status = true;// TODO: 2016/12/24 添加订单
         return response(status);
     }
@@ -63,7 +64,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/orders/info", method = RequestMethod.POST)
     public JSONObject queryOrder(@RequestParam("orderid") Long orderid) {
-        Oders order = new Oders();// TODO: 2016/12/24 查看订单
+        Orders order = new Orders();// TODO: 2016/12/24 查看订单
         return success(order);
     }
 
@@ -76,7 +77,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/user/orders/show", method = RequestMethod.POST)
     public JSONObject queryAllUserOrders(@RequestParam("acc") Long accountid) {
-        List<Oders> olist = new ArrayList<>();// TODO: 2016/12/24 查看所有订单
+        List<Orders> olist = new ArrayList<>();// TODO: 2016/12/24 查看所有订单
         return success(olist);
     }
 }

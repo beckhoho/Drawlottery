@@ -8,9 +8,9 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
-    <result column="real_number" jdbcType="INTEGER" property="realNumber" />
+    <result column="real_number" jdbcType="VARCHAR" property="realNumber" />
     <result column="site" jdbcType="VARCHAR" property="site" />
-    <result column="phone_number" jdbcType="INTEGER" property="phoneNumber" />
+    <result column="phone_number" jdbcType="BIGINT" property="phoneNumber" />
     <result column="approve_date" jdbcType="TIMESTAMP" property="approveDate" />
   </resultMap>
 </mapper>

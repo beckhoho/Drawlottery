@@ -8,10 +8,4 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface UserCodesHistoryMapper extends BaseMapper<UserCodesHistory> {
-
-    @Select("select * from t_user_luck_codes_history where user_account_id = #{accounId}")
-    List<UserCodesHistory> selectByUserAccount(@Param("accounId") Long accounId);
-
-    @Select("select * from t_user_luck_codes_history where commodity_id = #{commodId}")
-    List<UserCodesHistory> selectByCommodId(@Param("commodId") Long commodId);
 }

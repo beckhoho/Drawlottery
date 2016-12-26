@@ -9,6 +9,4 @@ import java.util.List;
 
 public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
 
-    @Select("select * from t_luck_codes where commodity_id = #{commodId}")
-    List<LuckCodes> selectCommodCodes(@Param("commodId") Long commodId);
 }

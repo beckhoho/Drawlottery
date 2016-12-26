@@ -2,6 +2,8 @@ package com.hudongwx.drawlottery.mobile.service.commodity;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityImg;
 
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -27,4 +29,7 @@ public interface ICommodityImgService {
 
     //查看商品图片
     CommodityImg selectImg(Long id);
+
+    //查看所有商品图片
+    List<CommodityImg> selectAll();
 }

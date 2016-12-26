@@ -37,7 +37,7 @@ public interface ICommodityService {
     List<Commoditys> selectTypeAll(String commodType);
 
     //修改商品信息
-    boolean update(Commoditys commod,Long id);
+    boolean update(Commoditys commod);
 
     //获取当前类型商品的总数（分页使用）
     int selectCount(Integer commodTypeId);
@@ -45,4 +45,9 @@ public interface ICommodityService {
     //获取当前指定条数的数据
     List<Commoditys> selectPaging(Integer commodTypeId,Integer startNum,Integer endNum);
 
+    //查看所有的商品信息
+    List<Commoditys> selectAll();
+
+    //通过商品名称模糊搜索商品
+    List<Commoditys> selectByName(String name);
 }

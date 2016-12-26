@@ -27,6 +27,6 @@ public interface ICommodityTypeService {
     //修改类型
     boolean updateType(CommodityType commtype);
 
-    //通过类型名查询商品类型
+    //通过类型名查询商品类型信息
     CommodityType selectType(String name);
 }

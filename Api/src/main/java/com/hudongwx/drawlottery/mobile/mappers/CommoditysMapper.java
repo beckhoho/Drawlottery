@@ -3,29 +3,59 @@ package com.hudongwx.drawlottery.mobile.mappers;
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityType;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
-    //通过商品类型，查询该类型所有的商品
-    @Select("select * from t_commoditys where commodity_type_id=#{commodTypeId}")
-    List<Commoditys> selectTypeAll(@Param("commodTypeId") Integer commodTypeId);
+
 
     //查询指定的区域数据
     @Select("select * from t_commoditys where commodity_type_id = #{commodTypeId}  limit #{startNum},#{endNum}")
+    @Results({
+            @Result(id = true,property = "id",column = "id"),
+            @Result(column="name",property="name"),
+            @Result(column="commodity_desc",property="commodityDesc"),
+            @Result(column="commodity_type_id",property="commodityTypeId"),
+            @Result(column="genre" ,property="genre"),
+            @Result(column="buy_current_number",property="buyCurrentNumber"),
+            @Result(column="buy_total_number",property="buyTotalNumber"),
+            @Result(column="start_time",property="start_time"),
+            @Result(column="luck_code_id", property="luckCodeId"),
+            @Result(column="state", property="state"),
+            @Result(column="round_time",property="roundTime"),
+            @Result(column="cover_img_id", property="coverImgId"),
+            @Result(column="auto_round" , property="autoRound"),
+            @Result(column="commodity_desc_url",property="commodityDescUrl")
+    })
     List<Commoditys> selectPaging(@Param("commodTypeId") Integer commodTypeId, @Param("startNum") Integer startNum, @Param("endNum") Integer endNum);
 
-    //通过商品类型，查询该类型商品的总数；
-    @Select("select count(*) from t_commoditys where commodity_type_id = #{commodTypeId} ")
+
+    @Select("select count(id) from t_commoditys where commodity_type_id = #{commodTypeId} ")
     int selectTypeCount(@Param("commodTypeId") Integer commodTypeId);
 
-    @Select("select * from t_commoditys where id = #{id}")
-    Commoditys selectByid(@Param("id") Long id);
 
+    @Select("select id from t_commodity_type where name = #{commodType} ")
+    Long selectType(@Param("commodType") String commodType);
 
+    @Select("select * from t_commoditys where name like #{name}")
+    @Results({
+            @Result(id = true,property = "id",column = "id"),
+            @Result(column="name",property="name"),
+            @Result(column="commodity_desc",property="commodityDesc"),
+            @Result(column="commodity_type_id",property="commodityTypeId"),
+            @Result(column="genre" ,property="genre"),
+            @Result(column="buy_current_number",property="buyCurrentNumber"),
+            @Result(column="buy_total_number",property="buyTotalNumber"),
+            @Result(column="start_time",property="start_time"),
+            @Result(column="luck_code_id", property="luckCodeId"),
+            @Result(column="state", property="state"),
+            @Result(column="round_time",property="roundTime"),
+            @Result(column="cover_img_id", property="coverImgId"),
+            @Result(column="auto_round" , property="autoRound"),
+            @Result(column="commodity_desc_url",property="commodityDescUrl")
+    })
+    List<Commoditys> selectByName(@Param("name") String name);
 
 }

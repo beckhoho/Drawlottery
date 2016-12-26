@@ -25,7 +25,7 @@ public interface IOdersService {
     boolean addOder(Orders oders);
 
     //查看订单详情
-    public List<Orders> selectByUserAccount(Long userAccount);
+    List<Orders> selectByUserAccount(Long userAccount);
 
     //删除订单
     boolean deleteOder(Long id);

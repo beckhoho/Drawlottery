@@ -23,7 +23,7 @@ public class Commoditys {
     /**
      * 商品类别（1：实体，0：虚拟）
      */
-    private String genre;
+    private Integer genre;
 
     /**
      * 当前购买次数
@@ -41,7 +41,7 @@ public class Commoditys {
      * 开抢时间
      */
     @Column(name = "start_time")
-    private Date startTime;
+    private Date start_time;
 
     /**
      * 中奖幸运码id
@@ -81,7 +81,7 @@ public class Commoditys {
     /**
      * 商品描述
      */
-    private String desc;
+    private String commodityDesc;
 
     /**
      * @return id
@@ -138,7 +138,7 @@ public class Commoditys {
      *
      * @return genre - 商品类别（1：实体，0：虚拟）
      */
-    public String getGenre() {
+    public Integer getGenre() {
         return genre;
     }
 
@@ -147,8 +147,8 @@ public class Commoditys {
      *
      * @param genre 商品类别（1：实体，0：虚拟）
      */
-    public void setGenre(String genre) {
-        this.genre = genre == null ? null : genre.trim();
+    public void setGenre(Integer genre) {
+        this.genre = genre;
     }
 
     /**
@@ -193,7 +193,7 @@ public class Commoditys {
      * @return start_time - 开抢时间
      */
     public Date getStartTime() {
-        return startTime;
+        return start_time;
     }
 
     /**
@@ -202,7 +202,7 @@ public class Commoditys {
      * @param startTime 开抢时间
      */
     public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+        this.start_time = startTime;
     }
 
     /**
@@ -319,7 +319,7 @@ public class Commoditys {
      * @return desc - 商品描述
      */
     public String getDesc() {
-        return desc;
+        return commodityDesc;
     }
 
     /**
@@ -328,6 +328,6 @@ public class Commoditys {
      * @param desc 商品描述
      */
     public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
+        this.commodityDesc = desc == null ? null : desc.trim();
     }
 }

@@ -51,8 +51,10 @@ public class OdersServiceImplTest extends TestBaseMapper {
 //        long timeStart=sdf.parse("2016-12-22 20:06:02").getTime();
 //        Date date = new Date(timeStart);
 
-        List<Orders> oderses = odersSer.selectByUserAccount(1l);
-        System.out.println(oderses.size());
+        List<Orders> oderses = odersSer.selectByUserAccount(0l);
+        for (Orders o:oderses){
+            System.out.println(o.getId()+"  ;"+o.getUserAccountId()+"  ;"+o.getCommodityId()+"  ;"+o.getSubmitDate());
+        }
         Assert.assertNotNull(oderses);
 
         //测试完成   可用；

@@ -3,6 +3,8 @@ package com.hudongwx.drawlottery.mobile.service.user;
 import com.hudongwx.drawlottery.mobile.entitys.Approve;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -25,6 +27,8 @@ public interface IApproveService {
     boolean addApproveMassage(Approve approve);
 
     //查看用户认证信息
-    Approve select(User userAccount);
+    List<Approve> select(Long userAccount);
 
+    //修改用户认证信息
+    boolean update(Approve approve);
 }

@@ -30,8 +30,15 @@ import java.util.List;
 public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
 
 
+
     @Autowired
     UserCodesHistoryMapper userCodesHistory;
+
+    /**
+     * 添加用户历史幸运码
+     * @param userhis   用户历史幸运码对象
+     * @return  添加结果
+     */
     @Override
     public boolean addToHistory(UserCodesHistory userhis) {
         int insert = userCodesHistory.insert(userhis);
@@ -41,18 +48,34 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
         return false;
     }
 
+    /**
+     * 通过用户accountID查询当前用户的历史幸运码
+     * @param accounId  用户accountID
+     * @return  当前用户历史幸运码集
+     */
     @Override
     public List<UserCodesHistory> selectByUserAccount(Long accounId) {
-
-        return userCodesHistory.selectByUserAccount(accounId);
+        UserCodesHistory user = new UserCodesHistory();
+        user.setUserAccountId(accounId);
+        return userCodesHistory.select(user);
     }
 
+    /**
+     * 通过商品ID查询当前商品的历史幸运码
+     * @param commodId  商品ID
+     * @return  当前商品历史幸运码集
+     */
     @Override
     public List<UserCodesHistory> selectByCommodId(Long commodId) {
-
-        return userCodesHistory.selectByCommodId(commodId);
+        UserCodesHistory user = new UserCodesHistory();
+        user.setCommodityId(commodId);
+        return userCodesHistory.select(user);
     }
 
+    /**
+     * 查询所有的历史幸运码信息
+     * @return  所有的历史幸运码信息
+     */
     @Override
     public List<UserCodesHistory> selectAll() {
         return userCodesHistory.selectAll();
