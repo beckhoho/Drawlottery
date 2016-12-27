@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web.notification;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.Noction;
+import com.hudongwx.drawlottery.mobile.entitys.NotificationPrize;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ public class NotificationController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/notify/show", method = RequestMethod.POST)
     public JSONObject queryUserNotification(@RequestParam("acc") Long accountid) {
-        List<Noction> nlist = null;// TODO: 2016/12/24 获取通知信息
+        List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
         return success(nlist);
     }
 }

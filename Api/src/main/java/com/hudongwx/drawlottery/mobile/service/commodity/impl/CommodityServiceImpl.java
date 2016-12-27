@@ -3,9 +3,11 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -160,6 +162,20 @@ public class CommodityServiceImpl implements ICommodityService {
         }
     }
 
-
+    /**
+     * 查询当前正在开奖的商品
+     * @return  返回正在开奖的商品
+     */
+    @Override
+    public List<Commoditys> selectOnLottery() {
+        List<Commoditys> list = new ArrayList<>();
+        List<Commoditys> list1 = mapper.selectOnLottery();
+        int s = Settings.PAGE_LOAD_SIZE>=list1.size()?list1.size():Settings.PAGE_LOAD_SIZE;
+        for(int i=0;i<s;i++){
+            Commoditys com = list1.get(i);
+            list.add(com);
+        }
+        return list;
+    }
 
 }

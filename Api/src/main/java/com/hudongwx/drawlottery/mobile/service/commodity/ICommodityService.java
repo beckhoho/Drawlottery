@@ -52,5 +52,9 @@ public interface ICommodityService {
     //通过商品名称模糊搜索商品
     List<Commoditys> selectByName(String name);
 
+    //通过商品的价格，人气，最新进行查询
     List<Commoditys> selectByStyle(Integer temp);
+
+    //查询正在开奖的商品
+    List<Commoditys> selectOnLottery();
 }

@@ -58,7 +58,6 @@ public class ImagesServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectAdvert() throws Exception {
-
         List<Images> images = image.selectAdvert();
         Assert.assertNotNull(images);
         System.out.println(images.get(0).getUrl());

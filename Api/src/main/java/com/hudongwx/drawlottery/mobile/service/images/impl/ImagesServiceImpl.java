@@ -65,6 +65,7 @@ public class ImagesServiceImpl implements ImagesService {
     public List<Images> selectIcon() {
         Images i = new Images();
         i.setImgGenre(1);
+        i.setState(1);
         return mapper.select(i);
     }
 
@@ -76,6 +77,7 @@ public class ImagesServiceImpl implements ImagesService {
     public List<Images> selectAdvert() {
         Images i = new Images();
         i.setImgGenre(2);
+        i.setState(1);
         return mapper.select(i);
     }
 

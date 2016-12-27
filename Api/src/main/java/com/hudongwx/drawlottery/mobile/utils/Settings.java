@@ -28,6 +28,11 @@ public class Settings {
     public static final int PAGE_LOAD_SIZE = 10;
 
     /**
+     * 首页显示通知的最大条数
+     */
+    public static final int NOTIFY_SHOW_MAX = 5;
+
+    /**
      * 初始太数据标记
      */
     public static final int INITIALIZE_ENTER_STATUS = 0;

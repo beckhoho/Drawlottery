@@ -121,4 +121,21 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_last_number",property = "byLastNumber")
     })
     List<Commoditys> selectByTemp4();
+
+    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number=0 AND state=0;")
+    @Results({
+            @Result(id = true,property = "id",column = "id"),
+            @Result(column="commodity_desc",property="commodityDesc"),
+            @Result(column="commodity_type_id",property="commodityTypeId"),
+            @Result(column="buy_current_number",property="buyCurrentNumber"),
+            @Result(column="buy_total_number",property="buyTotalNumber"),
+            @Result(column="start_time",property="start_time"),
+            @Result(column="luck_code_id", property="luckCodeId"),
+            @Result(column="round_time",property="roundTime"),
+            @Result(column="cover_img_id", property="coverImgId"),
+            @Result(column="auto_round" , property="autoRound"),
+            @Result(column="commodity_desc_url",property="commodityDescUrl"),
+            @Result(column = "buy_last_number",property = "byLastNumber")
+    })
+    List<Commoditys> selectOnLottery();
 }
