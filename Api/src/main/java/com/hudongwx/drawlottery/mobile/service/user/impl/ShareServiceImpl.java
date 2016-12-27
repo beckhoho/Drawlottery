@@ -32,30 +32,31 @@ public class ShareServiceImpl implements IShareService {
 
     /**
      * 添加用户晒单
+     *
      * @param share 晒单对象
-     * @return  返回添加用户晒单
+     * @return 返回添加用户晒单
      */
     @Override
     public boolean addShare(Share share) {
-        int insert = mapper.insert(share);
-        if(insert>0){
-            return true;
-        }
-        return false;
+        return mapper.insert(share) > 0;
     }
 
     /**
      * 删除用户晒单
+     *
      * @param shareid 用户晒单id
-     * @return  返回删除结果
+     * @return 返回删除结果
      */
     @Override
     public boolean deleteShare(Long shareid) {
-        return false;
+        Share share = new Share();
+        share.setId(shareid);
+        return mapper.delete(share) > 0;
     }
 
     /**
      * 查看当前用户的所有晒单
+     *
      * @param accountid
      * @param lastshareid
      * @param tag
@@ -67,7 +68,7 @@ public class ShareServiceImpl implements IShareService {
         if (tag == Settings.INITIALIZE_ENTER_STATUS) {
             share.setUserAccountId(accountid);
             return mapper.select(share);
-        }else if(tag==Settings.DROP_DOWN_REFRESH){//下拉刷新
+        } else if (tag == Settings.DROP_DOWN_REFRESH) {//下拉刷新
 
             return null;
         }

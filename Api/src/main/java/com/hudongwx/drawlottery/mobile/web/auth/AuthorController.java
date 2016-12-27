@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web.auth;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -8,6 +9,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -16,11 +18,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AuthorController extends BaseController {
 
+    @Autowired
+    IUserService usersService;
     /**
      * 用户登录,post
      * @return
      */
-    @RequestMapping(value = "/auth/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/auth/login",method = RequestMethod.POST)
     @ResponseBody
     public JSONObject login(@RequestBody(required = true)UsernamePasswordToken token){
         JSONObject object = new JSONObject();
@@ -52,21 +56,24 @@ public class AuthorController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/auth/logout")
-    public JSONObject logout(@RequestBody(required = true)UsernamePasswordToken token){
-        JSONObject object = new JSONObject();
-        object.put("o","1");
-        return object;
+    @RequestMapping("/api/v1/auth/logout")
+    public void logout(){
+        logout();
     }
+
 
     /**
      * 用户注册
+     * @param phone 注册账号
+     * @param pwd   注册密码
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/auth/register",method = RequestMethod.POST)
-    public void register(){
-
+    @RequestMapping(value = "/api/v1/auth/register",method = RequestMethod.POST)
+    public JSONObject register(@RequestParam("phone") String phone, @RequestParam("paswd") String pwd) {
+        boolean register = usersService.register(phone, pwd);
+        return response(register,"注册成功!","注册失败!");
     }
+
 
 }

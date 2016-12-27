@@ -19,7 +19,7 @@
           user_account_id=#{accountid}
         </when>
         <when test="tag==1">
-          id=#{id} or user_id = #{userId}
+          user_account_id=#{accountid} limit(#{lastshareid})
         </when>
         <when test="tag==2">
           id=#{id} or user_id = #{userId}

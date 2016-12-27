@@ -30,6 +30,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     UserMapper mapper;
 
+
     private User createUser(Long accountid, String password) {
         User user = new User();
         user.setAccountId(accountid);
@@ -38,18 +39,22 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
+
     @Override
-    public boolean register(Long accountid, String password) {
-        User user = createUser(Long.valueOf(accountid), password);
-        return mapper.insert(user) > 0;
+    public boolean register(String phone, String password) {
+        User user = new User();
+        user.setAccountId(Long.valueOf(phone));
+        user.setPassword(password);
+        PasswordUtils.encryptPassword(user);//加密用户密码
+        int i = mapper.insert(user);
+        return i>0;
     }
 
     public User login(String accountid, String password) {
         User user = createUser(Long.valueOf(accountid), password);
-        System.out.println("password-------------->" + user.getPassword());
+//        System.out.println("password-------------->" + user.getPassword());
         List<User> userList = mapper.select(user);
         if (!userList.isEmpty()) {
-            // TODO: 2016/12/26 设置login状态???
             return userList.get(0);
         }
         return null;

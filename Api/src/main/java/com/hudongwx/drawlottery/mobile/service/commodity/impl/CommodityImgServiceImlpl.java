@@ -3,11 +3,9 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityImg;
 import com.hudongwx.drawlottery.mobile.mappers.CommodityImgMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityImgService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,7 +19,7 @@ import java.util.List;
  * <p>
  * 创建　kiter　2016/12/22 15:58　<br/>
  * <p>
- *          商品图片service实现类
+ * 商品图片service实现类
  * <p>
  * @email 346905702@qq.com
  */
@@ -33,13 +31,14 @@ public class CommodityImgServiceImlpl implements ICommodityImgService {
 
     /**
      * 添加商品图片
+     *
      * @param commodImg 商品图片对象
-     * @return  返回添加结果
+     * @return 返回添加结果
      */
     @Override
     public boolean addImage(CommodityImg commodImg) {
         int insert = commodityImg.insert(commodImg);
-        if(insert>0){
+        if (insert > 0) {
             return true;
         }
         return false;
@@ -47,22 +46,20 @@ public class CommodityImgServiceImlpl implements ICommodityImgService {
 
     /**
      * 通过ID删除商品图片
-     * @param id    商品图片ID
-     * @return  返回删除结果
+     *
+     * @param id 商品图片ID
+     * @return 返回删除结果
      */
     @Override
     public boolean deleteImage(Long id) {
-        int i = commodityImg.deleteByPrimaryKey(id);
-        if(i>0){
-            return true;
-        }
-        return false;
+        return commodityImg.deleteByPrimaryKey(id) > 0;
     }
 
     /**
      * 通过商品图片ID查看
-     * @param id    商品图片ID
-     * @return  返回一个商品图片对象
+     *
+     * @param id 商品图片ID
+     * @return 返回一个商品图片对象
      */
     @Override
     public CommodityImg selectImg(Long id) {
@@ -71,7 +68,8 @@ public class CommodityImgServiceImlpl implements ICommodityImgService {
 
     /**
      * 查看所有的商品图片
-     * @return  返回所有的商品图片信息
+     *
+     * @return 返回所有的商品图片信息
      */
     @Override
     public List<CommodityImg> selectAll() {

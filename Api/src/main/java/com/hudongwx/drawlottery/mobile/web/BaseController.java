@@ -72,7 +72,6 @@ public abstract class BaseController {
     public boolean isAuthenticated(){
         return getSubject().isAuthenticated();
     }
-
     /**
      * 用户登录
      * @param token
@@ -123,11 +122,21 @@ public abstract class BaseController {
     /**
      * 万能数据响应
      * @param isOk
-     * @param msg
+     * @param sucsMsg
      * @return
      */
-    public JSONObject response(boolean isOk, String msg){
-        return isOk?success(msg):fail(msg);
+    public JSONObject response(boolean isOk,String sucsMsg, String failmsg){
+        return isOk?success(sucsMsg):fail(failmsg);
+    }
+
+    /**
+     * 万能数据响应
+     * @param isOk
+     * @param failmsg
+     * @return
+     */
+    public JSONObject response(boolean isOk,String failmsg){
+        return isOk?success(null):fail(failmsg);
     }
 
     /**

@@ -41,7 +41,7 @@ public class Settings {
      */
     public static final int DROP_DOWN_REFRESH = 1;
     /**
-     * 上拉刷新标记
+     * 上拉加载标记
      */
     public static final int PULL_TO_REFRESH = 2;
 
@@ -56,21 +56,21 @@ public class Settings {
     public static final int IMG_GENRE_ADVERTISEMENT = 2;
 
     /**
-     * 数据库获取的图片类型(POPULARITY 人气)
+     * 按人气获取数据库商品(POPULARITY 人气)
      */
     public static final int COMMODITY_ORDER_POPULARITY = 1;
 
     /**
-     * 数据库获取的图片类型(FASTEST 最快)
+     * 按最快获取数据库商品(FASTEST 最快)
      */
     public static final int COMMODITY_ORDER_FASTEST = 2;
 
     /**
-     * 数据库获取的图片类型(NEWEST 最新)
+     * 按最新获取数据库商品(NEWEST 最新)
      */
     public static final int COMMODITY_ORDER_NEWEST = 3;
     /**
-     * 数据库获取的图片类型(HIGH_PRICE 高价)
+     * 按高价获取数据库商品(HIGH_PRICE 高价)
      */
     public static final int COMMODITY_ORDER_HIGH_PRICE = 4;
 

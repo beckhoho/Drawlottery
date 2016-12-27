@@ -1,9 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
-import com.hudongwx.drawlottery.mobile.entitys.CommodityType;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -19,7 +16,7 @@ import java.util.List;
  * <p>
  * 创建　kiter　2016/12/22 11:41　<br/>
  * <p>
- *      商品service接口
+ * 商品service接口
  * <p>
  * @email 346905702@qq.com
  */
@@ -52,8 +49,9 @@ public interface ICommodityService {
     //通过商品名称模糊搜索商品
     List<Commoditys> selectByName(String name);
 
+
     //通过商品的价格，人气，最新进行查询
-    List<Commoditys> selectByStyle(Integer temp);
+    List<Commoditys> selectByStyle(Integer ref,Integer type, Long lastcommodityid);
 
     //查询正在开奖的商品
     List<Commoditys> selectOnLottery();

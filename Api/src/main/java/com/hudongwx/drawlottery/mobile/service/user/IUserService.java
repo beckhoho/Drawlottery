@@ -9,11 +9,11 @@ public interface IUserService {
 
     /**
      * 用户注册
-     * @param accountid
+     * @param phone
      * @param password
      * @return
      */
-    boolean register(Long accountid,String password);
+    boolean register(String phone,String password);
 
     /**
      * 用户登录

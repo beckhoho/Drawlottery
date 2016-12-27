@@ -57,6 +57,19 @@ public class CommoditysController extends BaseController {
     }
 
     /**
+     * 查看单件商品详情()
+     *
+     * @param tag 商品id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/commodity/index",method = RequestMethod.POST)
+    public JSONObject queryAppIndexCommoditysInfo(@RequestParam("tag") Integer tag) {
+        Commoditys com = new Commoditys();// TODO: 2016/12/24 根据商品id查询单件商品详情 参数(Long commodityid)
+        return success(com);
+    }
+
+    /**
      * 查看单件商品详情
      *
      * @param commodityid 商品id
