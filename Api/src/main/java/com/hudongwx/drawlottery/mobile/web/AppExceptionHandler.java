@@ -15,12 +15,10 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 
 /**
- *
  * 全局异常处理:无法法针对404、403等多种状态进行处理
- *
  */
 @ControllerAdvice
-public class AppExceptionHandler {
+public class AppExceptionHandler extends BaseController {
 
     /**
      * 全局404处理
