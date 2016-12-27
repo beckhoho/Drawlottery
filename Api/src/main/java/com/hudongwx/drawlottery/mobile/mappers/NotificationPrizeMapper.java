@@ -20,4 +20,6 @@ public interface NotificationPrizeMapper extends BaseMapper<NotificationPrize> {
             @Result(column="on_prize_date",property="onPrizeDate")
     })
     List<NotificationPrize> selectByNew();
+
+
 }

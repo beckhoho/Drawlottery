@@ -6,7 +6,7 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
         <result column="depict" jdbcType="VARCHAR" property="depict" />
         <result column="skip_url" jdbcType="VARCHAR" property="skipUrl" />
         <result column="img_genre" jdbcType="INTEGER" property="imgGenre" />

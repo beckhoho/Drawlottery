@@ -1,7 +1,11 @@
 package com.hudongwx.drawlottery.mobile.service.notification.impl;
 
+import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.NotificationPrize;
+import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.mappers.NotificationPrizeMapper;
+import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
 import com.hudongwx.drawlottery.mobile.service.notification.INotificationPrizeService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,10 @@ public class NotificationPrizeServiceImpl implements INotificationPrizeService {
 
     @Autowired
     NotificationPrizeMapper mapper;
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    CommoditysMapper commodMapper;
 
     /**
      * 添加中奖通知对象
@@ -80,13 +88,19 @@ public class NotificationPrizeServiceImpl implements INotificationPrizeService {
      * @return  返回中奖通知集合；
      */
     @Override
-    public List<NotificationPrize> selectByNew() {
+    public List<String> selectByNew() {
         List<NotificationPrize> no = mapper.selectByNew();
-        List<NotificationPrize> noti = new ArrayList<>();
+        List<String> noti = new ArrayList<>();
         int s = Settings.NOTIFY_SHOW_MAX>=no.size()?no.size():Settings.NOTIFY_SHOW_MAX;
         for(int i=0;i<s;i++){
+            User user = new User();
+            Commoditys com = new Commoditys();
             NotificationPrize notifi = no.get(i);
-            noti.add(notifi);
+            user.setAccountId(notifi.getAccountId());
+            com.setId(notifi.getCommodityId());
+            List<User> select = userMapper.select(user);
+            List<Commoditys> select1 = commodMapper.select(com);
+            noti.add("恭喜："+select.get(0).getNickname()+"获得"+select1.get(0).getName());
         }
         return noti;
     }

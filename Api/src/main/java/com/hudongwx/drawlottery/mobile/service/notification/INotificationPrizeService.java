@@ -35,6 +35,6 @@ public interface INotificationPrizeService {
     boolean delete(Long id);
 
     //查看最新的中奖通知
-    List<NotificationPrize> selectByNew();
+    List<String> selectByNew();
 
 }

@@ -28,7 +28,8 @@ public class Images {
     /**
      * 图片url
      */
-    private String url;
+    @Column(name = "img_url")
+    private String imgUrl;
 
     /**
      * 描述
@@ -71,11 +72,11 @@ public class Images {
     }
 
     public String getUrl() {
-        return url;
+        return imgUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getDepict() {
