@@ -64,7 +64,7 @@ public class ShareServiceImpl implements IShareService {
     @Override
     public List<Share> selectShare(Long accountid, Long lastshareid, Integer tag) {
         Share share = new Share();
-        if (tag == Settings.FIRST_ENTER_STATUS) {
+        if (tag == Settings.INITIALIZE_ENTER_STATUS) {
             share.setUserAccountId(accountid);
             return mapper.select(share);
         }else if(tag==Settings.DROP_DOWN_REFRESH){//下拉刷新

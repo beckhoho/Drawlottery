@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
+import io.swagger.models.auth.In;
+
 import java.util.Date;
 import javax.persistence.*;
 
@@ -81,7 +83,32 @@ public class Commoditys {
     /**
      * 商品描述
      */
+    @Column(name = "commodity_desc")
     private String commodityDesc;
+
+    /**
+     * 获取上一次购买人次数量
+     *
+     * @return 上一次购买人次
+     */
+    public Integer getByLastNumber() {
+        return byLastNumber;
+    }
+
+    /**
+     * 修改上一次购买人次数量
+     *
+     * @param byLastNumber  上一次购买人次
+     */
+    public void setByLastNumber(Integer byLastNumber) {
+        this.byLastNumber = byLastNumber;
+    }
+
+    /**
+     * 上一次购买人次
+     */
+    @Column(name = "buy_last_number")
+    private Integer byLastNumber;
 
     /**
      * @return id

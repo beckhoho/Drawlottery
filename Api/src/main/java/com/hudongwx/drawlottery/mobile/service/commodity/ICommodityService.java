@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.commodity;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityType;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -50,4 +51,6 @@ public interface ICommodityService {
 
     //通过商品名称模糊搜索商品
     List<Commoditys> selectByName(String name);
+
+    List<Commoditys> selectByStyle(Integer temp);
 }

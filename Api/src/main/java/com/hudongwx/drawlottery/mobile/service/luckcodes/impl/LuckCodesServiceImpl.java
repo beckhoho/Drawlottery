@@ -1,8 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.luckcodes.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
-import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.service.luckcodes.ILuckCodesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +30,7 @@ public class LuckCodesServiceImpl implements ILuckCodesService{
 
 
     @Autowired
-    LuckCodesMapper luckCodes;
+    LuckCodesMapper mapper;
 
     /**
      * 添加幸运码
@@ -41,7 +39,7 @@ public class LuckCodesServiceImpl implements ILuckCodesService{
      */
     @Override
     public boolean addLuckCode(LuckCodes codes) {
-        int insert = luckCodes.insert(codes);
+        int insert = mapper.insert(codes);
         if(insert>0){
             return true;
         }
@@ -57,7 +55,7 @@ public class LuckCodesServiceImpl implements ILuckCodesService{
     public List<LuckCodes> select(Long commodId) {
         LuckCodes luck = new LuckCodes();
         luck.setCommodityId(commodId);
-        return this.luckCodes.select(luck);
+        return this.mapper.select(luck);
     }
 
     /**
@@ -67,7 +65,7 @@ public class LuckCodesServiceImpl implements ILuckCodesService{
      */
     @Override
     public boolean delete(Long id) {
-        int i = luckCodes.deleteByPrimaryKey(id);
+        int i = mapper.deleteByPrimaryKey(id);
         if(i>0){
             return true;
         }

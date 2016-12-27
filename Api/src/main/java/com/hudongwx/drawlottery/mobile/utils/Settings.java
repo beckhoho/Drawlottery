@@ -16,6 +16,7 @@ package com.hudongwx.drawlottery.mobile.utils;
  * @email 294786949@qq.com
  */
 public class Settings {
+
     /**
      * 用户最大添加的地址数量
      */
@@ -27,9 +28,9 @@ public class Settings {
     public static final int PAGE_LOAD_SIZE = 10;
 
     /**
-     * 首次进入页面标记
+     * 初始太数据标记
      */
-    public static final int FIRST_ENTER_STATUS = 0;
+    public static final int INITIALIZE_ENTER_STATUS = 0;
     /**
      * 下拉刷新标记
      */
@@ -38,5 +39,35 @@ public class Settings {
      * 上拉刷新标记
      */
     public static final int PULL_TO_REFRESH = 2;
+
+    /**
+     * 数据库获取的图片类型(ICONS 小图标)
+     */
+    public static final int IMG_GENRE_ICONS = 1;
+
+    /**
+     * 数据库获取的图片类型(ADVERTISEMENT 广告)
+     */
+    public static final int IMG_GENRE_ADVERTISEMENT = 2;
+
+    /**
+     * 数据库获取的图片类型(POPULARITY 人气)
+     */
+    public static final int COMMODITY_ORDER_POPULARITY = 1;
+
+    /**
+     * 数据库获取的图片类型(FASTEST 最快)
+     */
+    public static final int COMMODITY_ORDER_FASTEST = 2;
+
+    /**
+     * 数据库获取的图片类型(NEWEST 最新)
+     */
+    public static final int COMMODITY_ORDER_NEWEST = 3;
+    /**
+     * 数据库获取的图片类型(HIGH_PRICE 高价)
+     */
+    public static final int COMMODITY_ORDER_HIGH_PRICE = 4;
+
 
 }

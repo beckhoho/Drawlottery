@@ -1,14 +1,11 @@
 package com.hudongwx.drawlottery.mobile.service.luckcodes.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes;
 import com.hudongwx.drawlottery.mobile.mappers.UserLuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserLuckCodesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.chrono.IsoEra;
 import java.util.List;
 
 /**
@@ -30,7 +27,7 @@ import java.util.List;
 public class UserLuckCodesServiceImpl implements IUserLuckCodesService{
 
     @Autowired
-    UserLuckCodesMapper userLuckCodes;
+    UserLuckCodesMapper mapper;
 
     /**
      * 添加用户幸运码
@@ -39,7 +36,7 @@ public class UserLuckCodesServiceImpl implements IUserLuckCodesService{
      */
     @Override
     public boolean addNewLockCodes(UserLuckCodes userLCodes) {
-        int insert = userLuckCodes.insert(userLCodes);
+        int insert = mapper.insert(userLCodes);
         if(insert>0){
             return true;
         }
@@ -55,7 +52,7 @@ public class UserLuckCodesServiceImpl implements IUserLuckCodesService{
     public List<UserLuckCodes> selectByUserId(Long accountId) {
         UserLuckCodes user = new UserLuckCodes();
         user.setUserAccountId(accountId);
-        return userLuckCodes.select(user);
+        return mapper.select(user);
     }
 
     /**
@@ -65,7 +62,7 @@ public class UserLuckCodesServiceImpl implements IUserLuckCodesService{
      */
     @Override
     public boolean delete(Long id) {
-        int i = userLuckCodes.deleteByPrimaryKey(id);
+        int i = mapper.deleteByPrimaryKey(id);
         if(i>0){
             return true;
         }

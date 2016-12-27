@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.ImagesMapper">
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.Images">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="depict" jdbcType="VARCHAR" property="depict" />
+        <result column="skip_url" jdbcType="VARCHAR" property="skipUrl" />
+        <result column="img_genre" jdbcType="INTEGER" property="imgGenre" />
+        <result column="state" jdbcType="INTEGER" property="state"/>
+
+    </resultMap>
+</mapper>

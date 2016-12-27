@@ -1,8 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.CommodityType;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.mappers.CommodityTypeMapper;
 import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ import java.util.List;
 public class CommodityServiceImpl implements ICommodityService {
 
     @Autowired
-    CommoditysMapper commodMapper;
+    CommoditysMapper mapper;
 
 
     /**
@@ -39,7 +37,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean addCommodity(Commoditys commod) {
-        int insert = commodMapper.insert(commod);
+        int insert = mapper.insert(commod);
         if(insert>0){
             return true;
         }
@@ -54,7 +52,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean delete(Long id) {
-        int i = commodMapper.deleteByPrimaryKey(id);
+        int i = mapper.deleteByPrimaryKey(id);
         if(i>0){
             return true;
         }
@@ -68,7 +66,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public Commoditys selectByid(Long id) {
-        return commodMapper.selectByPrimaryKey(id);
+        return mapper.selectByPrimaryKey(id);
 
     }
 
@@ -79,10 +77,10 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Commoditys> selectTypeAll(String commodType) {
-        Long i = commodMapper.selectType(commodType);
+        Long i = mapper.selectType(commodType);
         Commoditys com = new Commoditys();
         com.setCommodityTypeId(i);
-        return commodMapper.select(com);
+        return mapper.select(com);
     }
 
     /**
@@ -92,7 +90,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean update(Commoditys commod) {
-        int i = commodMapper.updateByPrimaryKeySelective(commod);
+        int i = mapper.updateByPrimaryKeySelective(commod);
         if(i>0){
             return true;
         }
@@ -106,7 +104,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public int selectCount(Integer commodTypeId) {
-        return commodMapper.selectTypeCount(commodTypeId);
+        return mapper.selectTypeCount(commodTypeId);
     }
 
     /**
@@ -118,7 +116,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Commoditys> selectPaging(Integer commodTypeId, Integer startNum, Integer endNum) {
-        return commodMapper.selectPaging(commodTypeId,startNum,endNum);
+        return mapper.selectPaging(commodTypeId,startNum,endNum);
     }
 
     /**
@@ -128,7 +126,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Commoditys> selectAll() {
-        return commodMapper.selectAll();
+        return mapper.selectAll();
     }
 
     /**
@@ -138,7 +136,30 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Commoditys> selectByName(String name) {
-        return commodMapper.selectByName("%"+name+"%");
+        return mapper.selectByName("%"+name+"%");
     }
+
+    /**
+     * 根据传入类型，返回对应的商品信息集
+     * @param temp  商品热度，最新，高价分类
+     * @return
+     */
+    @Override
+    public List<Commoditys> selectByStyle(Integer temp) {
+        if(temp==1){
+            return mapper.selectByTemp1();
+        }
+        else if(temp==2){
+            return mapper.selectByTemp2();
+        }
+        else if(temp==3){
+            return mapper.selectByTemp3();
+        }
+        else {
+            return mapper.selectByTemp4();
+        }
+    }
+
+
 
 }

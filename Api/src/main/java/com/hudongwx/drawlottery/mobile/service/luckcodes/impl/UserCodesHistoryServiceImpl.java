@@ -1,8 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.luckcodes.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
-import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.entitys.UserCodesHistory;
 import com.hudongwx.drawlottery.mobile.mappers.UserCodesHistoryMapper;
 import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserCodesHistoryService;
@@ -32,7 +29,7 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
 
 
     @Autowired
-    UserCodesHistoryMapper userCodesHistory;
+    UserCodesHistoryMapper mapper;
 
     /**
      * 添加用户历史幸运码
@@ -41,7 +38,7 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
      */
     @Override
     public boolean addToHistory(UserCodesHistory userhis) {
-        int insert = userCodesHistory.insert(userhis);
+        int insert = mapper.insert(userhis);
         if(insert>0){
             return  true;
         }
@@ -57,7 +54,7 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
     public List<UserCodesHistory> selectByUserAccount(Long accounId) {
         UserCodesHistory user = new UserCodesHistory();
         user.setUserAccountId(accounId);
-        return userCodesHistory.select(user);
+        return mapper.select(user);
     }
 
     /**
@@ -69,7 +66,7 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
     public List<UserCodesHistory> selectByCommodId(Long commodId) {
         UserCodesHistory user = new UserCodesHistory();
         user.setCommodityId(commodId);
-        return userCodesHistory.select(user);
+        return mapper.select(user);
     }
 
     /**
@@ -78,6 +75,6 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
      */
     @Override
     public List<UserCodesHistory> selectAll() {
-        return userCodesHistory.selectAll();
+        return mapper.selectAll();
     }
 }
