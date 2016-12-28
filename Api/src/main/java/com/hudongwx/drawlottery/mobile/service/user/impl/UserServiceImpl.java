@@ -31,9 +31,9 @@ public class UserServiceImpl implements IUserService {
     UserMapper mapper;
 
 
-    private User createUser(Long accountid, String password) {
+    private User createUser(String phone, String password) {
         User user = new User();
-        user.setAccountId(accountid);
+        user.setPhoneNumber(phone);
         user.setPassword(password);
         PasswordUtils.encryptPassword(user);//加密用户密码
         return user;
@@ -47,16 +47,19 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(password);
         PasswordUtils.encryptPassword(user);//加密用户密码
         int i = mapper.insert(user);
-        return i>0;
+        return i > 0;
     }
 
-    public User login(String accountid, String password) {
-        User user = createUser(Long.valueOf(accountid), password);
-//        System.out.println("password-------------->" + user.getPassword());
+    public User login(String phone, String password) {
+        User user = createUser(phone, password);
         List<User> userList = mapper.select(user);
-        if (!userList.isEmpty()) {
+        if (!userList.isEmpty())
             return userList.get(0);
-        }
+        return null;
+    }
+
+    @Override
+    public User login(Long accountId, String password) {
         return null;
     }
 
@@ -68,8 +71,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User getUserByAccount(Long accountId, String password) {
-        User user = createUser(accountId, password);
+    public boolean isRegistered(String phone) {
+        return false;
+    }
+
+    @Override
+    public User getUserByPhone(String phone, String password) {
+        User user = createUser(phone, password);
         if (mapper.select(user).isEmpty())
             return null;
         return mapper.select(user).get(0);

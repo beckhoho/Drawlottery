@@ -1,9 +1,9 @@
 package com.hudongwx.drawlottery.mobile.service.images;
 
 import com.hudongwx.drawlottery.mobile.entitys.Images;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -30,10 +30,10 @@ public interface ImagesService {
     boolean deleteImage(Long id);
 
     //查看图标
-    List<Images> selectIcon();
+    List<Map<String, Object>> selectIcon();
 
     //查看广告图
-    List<Images> selectAdvert();
+    List<Map<String, Object>>  selectAdvert();
 
     //修改图片信息
     boolean update(Images img);

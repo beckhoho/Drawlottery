@@ -1,9 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import io.swagger.models.auth.In;
-
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_commoditys")
 public class Commoditys {
@@ -291,7 +289,7 @@ public class Commoditys {
      *
      * @return cover_img_id - 封面图片id
      */
-    public String getCoverImgId() {
+    public String getCoverImgUrl() {
         return coverImgUrl;
     }
 
@@ -300,7 +298,7 @@ public class Commoditys {
      *
      * @param coverImgId 封面图片id
      */
-    public void setCoverImgId(String coverImgId) {
+    public void setCoverImgUrl(String coverImgId) {
         this.coverImgUrl= coverImgId;
     }
 

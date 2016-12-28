@@ -41,8 +41,21 @@ public interface ICommodityService {
     //获取当前类型商品的总数（分页使用）
     int selectCount(Integer commodTypeId);
 
-    //获取当前指定条数的数据
-    List<Commoditys> selectPaging(Integer commodTypeId,Integer startNum,Integer endNum);
+    /**
+     * 搜索商品信息
+     * 根据商品类别category、商品名称name 搜索
+     * 搜索的四种情况：
+     * 1、name和category都有值，两者并列搜索
+     * 2、category无值，按name搜索
+     * 3、name无值，按category搜索
+     * 4、name和category都无值，搜索所有
+     *
+     * @param category        商品类别
+     * @param commName        商品名称
+     * @param lastCommId 当前最后一个显示的商品id
+     * @return JSONObject
+     */
+    List<Map<String,Object>> selectPaging(Integer category, String commName, Long lastCommId);
 
     //查看所有的商品信息
     List<Commoditys> selectAll();
@@ -52,11 +65,11 @@ public interface ICommodityService {
 
 
     //通过商品的价格，人气，最新进行查询
-    List<Commoditys> selectByStyle(Integer ref,Integer type, Long lastcommodityid);
+    List<Map<String, Object>> selectByStyle(Integer ref, Integer type, Long lastcommodityid);
 
     //查询正在开奖的商品
-    List<Commoditys> selectOnLottery();
+    List<Map<String, Object>> selectOnLottery();
 
     //商品详情
-    Map<String,Object> selectCommodity(Long commodId);
+    Map<String, Object> selectCommodity(Long commodId);
 }

@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_commodity_history")
 public class CommodityHistory {
@@ -37,7 +37,7 @@ public class CommodityHistory {
      * 期数
      */
     @Column(name = "round_time")
-    private Date roundTime;
+    private Long roundTime;
 
     /**
      * 购买数量
@@ -102,7 +102,7 @@ public class CommodityHistory {
     /**
      * 获取幸运号id
      *
-     * @return luck_code_id - 幸运号id
+     * @return luck_code - 幸运号id
      */
     public Long getLuckCode() {
         return luckCode;
@@ -140,7 +140,7 @@ public class CommodityHistory {
      *
      * @return round_time - 期数
      */
-    public Date getRoundTime() {
+    public Long getRoundTime() {
         return roundTime;
     }
 
@@ -149,7 +149,7 @@ public class CommodityHistory {
      *
      * @param roundTime 期数
      */
-    public void setRoundTime(Date roundTime) {
+    public void setRoundTime(Long roundTime) {
         this.roundTime = roundTime;
     }
 

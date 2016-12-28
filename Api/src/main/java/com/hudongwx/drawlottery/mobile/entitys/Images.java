@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 
 /**
@@ -71,11 +70,11 @@ public class Images {
         this.id = id;
     }
 
-    public String getUrl() {
+    public String getImgUrl() {
         return imgUrl;
     }
 
-    public void setUrl(String imgUrl) {
+    public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -44,30 +45,18 @@ public class CommoditysController extends BaseController {
      * 3、name无值，按category搜索
      * 4、name和category都无值，搜索所有
      *
-     * @param category        商品类别
-     * @param name            商品名称
-     * @param lastcommodityid 当前最后一个显示的商品id
+     * @param categoryId 商品类别
+     * @param commName   商品名称
+     * @param lastCommId 当前最后一个显示的商品id
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/commodity/search",method = RequestMethod.POST)
-    public JSONObject queryCommoditys(@RequestParam("category") String category, @RequestParam("name") String name, @RequestParam("commid") Long lastcommodityid) {
+    @RequestMapping(value = "/api/v1/commodity/search", method = RequestMethod.POST)
+    public JSONObject queryCommoditys(@RequestParam("categoryId") int categoryId, @RequestParam("commName") String commName, @RequestParam("commId") long lastCommId) {
         List<Commoditys> clist = new ArrayList<>();// TODO: 2016/12/24  根据商品id查询单件商品详情 参数(String category,String name , Long commodityid)
         return success(clist);
     }
 
-    /**
-     * 查看单件商品详情()
-     *
-     * @param tag 商品id
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "/commodity/index",method = RequestMethod.POST)
-    public JSONObject queryAppIndexCommoditysInfo(@RequestParam("tag") Integer tag) {
-        Commoditys com = new Commoditys();// TODO: 2016/12/24 根据商品id查询单件商品详情 参数(Long commodityid)
-        return success(com);
-    }
 
     /**
      * 查看单件商品详情
@@ -76,10 +65,10 @@ public class CommoditysController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/commodity/info",method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/commodity/info")
     public JSONObject queryCommoditysInfo(@RequestParam("commid") Long commodityid) {
-        Commoditys com = new Commoditys();// TODO: 2016/12/24 根据商品id查询单件商品详情 参数(Long commodityid)
-        return success(com);
+        Map<String, Object> map = cService.selectCommodity(commodityid);
+        return success(map);
     }
 
 }

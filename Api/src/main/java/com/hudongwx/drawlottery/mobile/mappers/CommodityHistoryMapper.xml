@@ -8,9 +8,9 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-    <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId" />
+    <result column="luck_code" jdbcType="BIGINT" property="luckCode" />
     <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
-    <result column="round_time" jdbcType="TIMESTAMP" property="roundTime" />
+    <result column="round_time" jdbcType="BIGINT" property="roundTime" />
     <result column="buy_number" jdbcType="INTEGER" property="buyNumber" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
 

@@ -9,20 +9,30 @@ public interface IUserService {
 
     /**
      * 用户注册
+     *
      * @param phone
      * @param password
      * @return
      */
-    boolean register(String phone,String password);
+    boolean register(String phone, String password);
 
     /**
-     * 用户登录
+     * 用户手机号登录
+     *
+     * @param phone
+     * @param password
+     * @return Users
+     */
+    User login(String phone, String password);
+
+    /**
+     * 用户账号登录
      *
      * @param accountId
      * @param password
      * @return Users
      */
-    User login(String accountId, String password);
+    User login(Long accountId, String password);
 
     /**
      * 判断用户账号是否存在
@@ -32,11 +42,19 @@ public interface IUserService {
     boolean isExist(Long accountId);
 
     /**
-     *获取账号信息
-     * @param accountId
-     * @return Users
+     * 判断用户手机号是否已注册
+     *
+     * @return boolean
      */
-    User getUserByAccount(Long accountId, String password);
+    boolean isRegistered(String phone);
+
+    /**
+     * 获取账号信息
+     * @param phone
+     * @param password
+     * @return
+     */
+    User getUserByPhone(String phone, String password);
 
     int updateUserInfo(User user);
 }

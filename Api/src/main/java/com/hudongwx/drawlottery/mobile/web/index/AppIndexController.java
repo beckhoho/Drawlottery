@@ -1,9 +1,6 @@
 package com.hudongwx.drawlottery.mobile.web.index;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.entitys.Images;
-import com.hudongwx.drawlottery.mobile.entitys.NotificationPrize;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import com.hudongwx.drawlottery.mobile.service.images.ImagesService;
 import com.hudongwx.drawlottery.mobile.service.notification.INotificationPrizeService;
@@ -13,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -48,9 +46,8 @@ public class AppIndexController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/index/banner")
     public JSONObject banner() {
-        List<Images> iList = iService.selectAdvert();
-        // TODO: 2016/12/27 获取广告图片url（genre==0）
-        return success(iList);
+        List<Map<String, Object>> infoList = iService.selectAdvert();
+        return success(infoList);
     }
 
     /**
@@ -61,8 +58,8 @@ public class AppIndexController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/index/quick")
     public JSONObject quick() {
-        List<Images> iconsList = iService.selectIcon();
-        return success(iconsList);
+        List<Map<String, Object>> infoList = iService.selectIcon();
+        return success(infoList);
     }
 
     /**
@@ -71,9 +68,9 @@ public class AppIndexController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/index/notice", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/v1/index/notice")
     public JSONObject notice() {
-        List<String> nList = npService.selectByNew();// TODO: 2016/12/27 获取通知（genre==2）
+        List<String> nList = npService.selectByNew();
         return success(nList);
     }
 
@@ -85,8 +82,8 @@ public class AppIndexController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/index/announce")
     public JSONObject announceCommodityInfo() {
-        List<Commoditys> cList = cService.selectOnLottery();
-        return success(cList);
+        List<Map<String, Object>> infoList = cService.selectOnLottery();
+        return success(infoList);
     }
 
     /**
@@ -100,8 +97,8 @@ public class AppIndexController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/index/commodity")
     public JSONObject orderCommodityInfo(@RequestParam("ref") int ref, @RequestParam("type") int type, @RequestParam("commid") long lastcommodityid) {
-        List<Commoditys> cList = cService.selectByStyle(ref, type, lastcommodityid);
-        return success(cList);
+        List<Map<String, Object>> infoList = cService.selectByStyle(ref, type, lastcommodityid);
+        return success(infoList);
     }
 
 }

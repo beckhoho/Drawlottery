@@ -6,7 +6,10 @@ import com.hudongwx.drawlottery.mobile.service.images.ImagesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -62,11 +65,25 @@ public class ImagesServiceImpl implements ImagesService {
      * @return  返回所有图标信息
      */
     @Override
-    public List<Images> selectIcon() {
+    public List<Map<String, Object>> selectIcon() {
         Images i = new Images();
         i.setImgGenre(1);
         i.setState(1);
-        return mapper.select(i);
+        List<Images> imagesList = mapper.select(i);
+        return dealImgInfo(imagesList);
+    }
+
+    private List<Map<String, Object>> dealImgInfo(List<Images> imagesList) {
+        List<Map<String, Object>> infoList = new ArrayList<>();
+        for (Images images : imagesList) {
+            Map<String, Object>map=new HashMap<>();
+            map.put("id",images.getId());
+            map.put("imgUrl",images.getImgUrl());
+            map.put("desc",images.getDepict());
+            map.put("skipUrl",images.getSkipUrl());
+            infoList.add(map);
+        }
+        return infoList;
     }
 
     /**
@@ -74,11 +91,12 @@ public class ImagesServiceImpl implements ImagesService {
      * @return  返回所有的广告图信息
      */
     @Override
-    public List<Images> selectAdvert() {
+    public List<Map<String, Object>> selectAdvert() {
         Images i = new Images();
         i.setImgGenre(2);
         i.setState(1);
-        return mapper.select(i);
+        List<Images> imagesList = mapper.select(i);
+        return dealImgInfo(imagesList);
     }
 
     /**

@@ -3,14 +3,9 @@ package com.hudongwx.drawlottery.mobile.service.images.impl;
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Images;
 import com.hudongwx.drawlottery.mobile.service.images.ImagesService;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -34,7 +29,7 @@ public class ImagesServiceImplTest extends TestBaseMapper {
     public void testAddImage() throws Exception {
         Images i = new Images();
         i.setImgGenre(1);
-        i.setUrl("http://img.25pp.com/uploadfile/app/icon/20160606/1465217533244712.jpg");
+        i.setImgUrl("http://img.25pp.com/uploadfile/app/icon/20160606/1465217533244712.jpg");
         i.setDepict("高中奖率");
         //i.setSkipUrl("http://www.yiqiandai.com/fileStore/2/2015/10/19/2804.jpg");
         i.setState(1);
@@ -51,16 +46,16 @@ public class ImagesServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectIcon() throws Exception {
-        List<Images> images = image.selectIcon();
-        Assert.assertNotNull(images);
-        System.out.println(images.get(0).getUrl());
+//        List<Images> images = image.selectIcon();
+//        Assert.assertNotNull(images);
+//        System.out.println(images.get(0).getImgUrl());
     }
 
     @Test
     public void testSelectAdvert() throws Exception {
-        List<Images> images = image.selectAdvert();
-        Assert.assertNotNull(images);
-        System.out.println(images.get(0).getUrl());
+//        List<Images> images = image.selectAdvert();
+//        Assert.assertNotNull(images);
+//        System.out.println(images.get(0).getImgUrl());
     }
 
     @Test
