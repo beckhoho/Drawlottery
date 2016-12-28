@@ -41,6 +41,8 @@ public class CommodityServiceImpl implements ICommodityService {
     UserLuckCodesMapper userluckMapper;
     @Autowired
     LuckCodesMapper luckCodeMapper;
+    @Autowired
+    CommodityTypeMapper typeMapper;
 
     /**
      * 添加商品
@@ -298,6 +300,11 @@ public class CommodityServiceImpl implements ICommodityService {
         historyMap.put("roundTime", comh.getRoundTime());//添加期数
         historyMap.put("endTime", comh.getEndTime());//添加揭晓时间
         historyMap.put("luckCodes", comh.getLuckCode());//添加幸运号
+        historyMap.put("userName",users.get(0).getNickname());//添加用户昵称
+        historyMap.put("userAccount",comh.getUserAccountId());//添加用户accountID
+        historyMap.put("beforeRoundTime",comh.getRoundTime());//添加期数
+        historyMap.put("endTime",comh.getEndTime());//添加揭晓时间
+        historyMap.put("luckCodes",comh.getLuckCode());//添加幸运号
         return historyMap;
     }
 
@@ -325,6 +332,9 @@ public class CommodityServiceImpl implements ICommodityService {
         String headerUrl = select1.get(0).getHeaderUrl();
         map.put("userName", name);
         map.put("headerUrl", headerUrl);
+        map.put("userName",name);//用户名
+        map.put("headerUrl",headerUrl);//头像地址
+
         return map;
     }
 
@@ -341,6 +351,10 @@ public class CommodityServiceImpl implements ICommodityService {
         int size = select.size();
         map.put("partakeNumber", size);
         map.put("buyDate", buyDate);
+        map.put("partakeNumber",size);//参与人次
+        map.put("buyDate",buyDate);//添加时间
         return map;
     }
+
+
 }

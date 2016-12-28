@@ -49,8 +49,8 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
     @Override
     public boolean hideType(Integer id) {
         CommodityType c = new CommodityType();
-        c.setId(1);
-        c.setState(0);
+        c.setId(id);
+        c.setState(1);
         int i = commodType.updateByPrimaryKeySelective(c);
         if(i>0){
             return true;
