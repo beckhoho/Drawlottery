@@ -18,8 +18,8 @@ public class CommodityHistory {
     /**
      * 幸运号id
      */
-    @Column(name = "luck_code_id")
-    private Long luckCodeId;
+    @Column(name = "luck_code")
+    private Long luckCode;
 
     /**
      * 商品得主id
@@ -38,6 +38,20 @@ public class CommodityHistory {
      */
     @Column(name = "buy_number")
     private Integer buyNumber;
+
+    /**
+     * 揭晓时间
+     */
+    @Column(name = "end_time")
+    private Date endTime;
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
 
     /**
      * @return id
@@ -76,8 +90,8 @@ public class CommodityHistory {
      *
      * @return luck_code_id - 幸运号id
      */
-    public Long getLuckCodeId() {
-        return luckCodeId;
+    public Long getLuckCode() {
+        return luckCode;
     }
 
     /**
@@ -85,8 +99,8 @@ public class CommodityHistory {
      *
      * @param luckCodeId 幸运号id
      */
-    public void setLuckCodeId(Long luckCodeId) {
-        this.luckCodeId = luckCodeId;
+    public void setLuckCode(Long luckCodeId) {
+        this.luckCode = luckCodeId;
     }
 
     /**

@@ -1,14 +1,13 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
+import com.hudongwx.drawlottery.mobile.entitys.*;
+import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.hudongwx.drawlottery.mobile.utils.Settings.PAGE_LOAD_SIZE;
 
@@ -32,7 +31,16 @@ public class CommodityServiceImpl implements ICommodityService {
 
     @Autowired
     CommoditysMapper mapper;
-
+    @Autowired
+    CommodityImgMapper imgMapper;
+    @Autowired
+    CommodityHistoryMapper historyMapper;
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    UserLuckCodesMapper userluckMapper;
+    @Autowired
+    LuckCodesMapper luckCodeMapper;
 
     /**
      * 添加商品
@@ -199,6 +207,92 @@ public class CommodityServiceImpl implements ICommodityService {
             list.add(com);
         }
         return list;
+    }
+
+    /**
+     * 查看商品详情
+     * @return  返回一个map集合
+     */
+    @Override
+    public Map<String, Object> selectCommodity(Long commodId) {
+        Commoditys com = mapper.selectByPrimaryKey(commodId);
+        CommodityHistory comh = historyMapper.selectBycommodId(commodId,com.getRoundTime());
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("imgURL",listUrl(commodId));//添加图片url数组
+        map.put("onState",com.getState());//添加是否已开奖状态
+        map.put("commodityName",com.getName());//添加商品名
+        map.put("buyTotal",com.getBuyTotalNumber());//添加总购买次数
+        map.put("buyCurrent",com.getBuyCurrentNumber());//添加当前购买次数
+        map.put("beforeLottery",mapBefore(comh));//往期开奖揭晓
+        map.put("descUrl",com.getCommodityDescUrl());//添加商品详情URL
+        map.put("partake",listPartake(commodId));//添加参与记录
+
+        return map;
+    }
+
+    public List<String> listUrl(Long commodId){
+        List<String> listImg = new ArrayList<>();
+        CommodityImg img = new CommodityImg();
+        img.setCommodityId(commodId);
+        List<CommodityImg> select = imgMapper.select(img);
+        for(CommodityImg imgs:select){
+            listImg.add(imgs.getUrl());
+        }
+        return listImg;
+    }
+
+    public Map<String,Object> mapBefore(CommodityHistory comh){
+        Map<String,Object> historyMap = new HashMap<>();
+        User user = new User();
+        user.setAccountId(comh.getUserAccountId());
+        List<User> users = userMapper.select(user);
+        historyMap.put("userName",users.get(0).getNickname());//添加用户昵称
+        historyMap.put("userAccount",comh.getUserAccountId());//添加用户accountID
+        historyMap.put("roundTime",comh.getRoundTime());//添加期数
+        historyMap.put("endTime",comh.getEndTime());//添加揭晓时间
+        historyMap.put("luckCodes",comh.getLuckCode());//添加幸运号
+        return historyMap;
+    }
+
+    public List<Map<String,Object>> listPartake(Long commodId){
+        List<Map<String,Object>> listMap = new ArrayList<>();
+        List<UserLuckCodes> codes = userluckMapper.selectCountByCommodity(commodId);
+        for (UserLuckCodes userLuckCodes:codes){
+            Long userAccountId = userLuckCodes.getUserAccountId();
+            Map<String,Object> map = map1(userAccountId);
+            Map<String,Object> map1 = map2(commodId,userAccountId);
+            Map<String,Object> listMapMin = new HashMap<>();
+            listMapMin.putAll(map);
+            listMapMin.putAll(map1);
+            listMap.add(listMapMin);
+        }
+        return listMap;
+    }
+
+    public Map<String,Object> map1(Long userAccountId){
+        Map<String,Object> map = new HashMap<>();
+        User user = new User();
+        user.setAccountId(userAccountId);
+        List<User> select1 = userMapper.select(user);
+        String name = select1.get(0).getNickname();
+        String headerUrl = select1.get(0).getHeaderUrl();
+        map.put("userName",name);
+        map.put("headerUrl",headerUrl);
+        return map;
+    }
+
+    public Map<String,Object> map2(Long commodId,Long userAccountId){
+        UserLuckCodes userLuck = new UserLuckCodes();
+        userLuck.setCommodityId(commodId);
+        userLuck.setUserAccountId(userAccountId);
+        List<UserLuckCodes> select = userluckMapper.select(userLuck);
+        Date buyDate = select.get(0).getBuyDate();
+        int size = select.size();
+        Map<String,Object> map = new HashMap<>();
+        map.put("partakeNumber",size);
+        map.put("buyDate",buyDate);
+        return map;
     }
 
 }

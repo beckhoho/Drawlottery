@@ -26,6 +26,20 @@ public class CommodityImg {
     private Date addTime;
 
     /**
+     * 商品ID
+     */
+    @Column(name = "commodity_id")
+    private Long commodityId;
+
+    public Long getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(Long commodityId) {
+        this.commodityId = commodityId;
+    }
+
+    /**
      * @return id
      */
     public Long getId() {

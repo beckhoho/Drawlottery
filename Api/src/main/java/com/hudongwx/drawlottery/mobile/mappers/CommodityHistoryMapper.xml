@@ -11,5 +11,7 @@
     <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
     <result column="round_time" jdbcType="TIMESTAMP" property="roundTime" />
     <result column="buy_number" jdbcType="INTEGER" property="buyNumber" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+
   </resultMap>
 </mapper>

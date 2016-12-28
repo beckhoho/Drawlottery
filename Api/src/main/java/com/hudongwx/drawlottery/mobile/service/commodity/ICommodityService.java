@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.commodity;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -55,4 +56,7 @@ public interface ICommodityService {
 
     //查询正在开奖的商品
     List<Commoditys> selectOnLottery();
+
+    //商品详情
+    Map<String,Object> selectCommodity(Long commodId);
 }

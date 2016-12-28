@@ -73,7 +73,7 @@ public class AppIndexController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/index/notice", method = RequestMethod.GET)
     public JSONObject notice() {
-        List<NotificationPrize> nList = npService.selectByNew();// TODO: 2016/12/27 获取通知（genre==2）
+        List<String> nList = npService.selectByNew();// TODO: 2016/12/27 获取通知（genre==2）
         return success(nList);
     }
 

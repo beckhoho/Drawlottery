@@ -53,8 +53,8 @@ public class User {
     /**
      * 头像id
      */
-    @Column(name = "header_id")
-    private Integer headerId;
+    @Column(name = "header_url")
+    private String headerUrl;
 
     /**
      * 账户余额
@@ -221,8 +221,8 @@ public class User {
      *
      * @return header_id - 头像id
      */
-    public Integer getHeaderId() {
-        return headerId;
+    public String getHeaderUrl() {
+        return headerUrl;
     }
 
     /**
@@ -230,8 +230,8 @@ public class User {
      *
      * @param headerId 头像id
      */
-    public void setHeaderId(Integer headerId) {
-        this.headerId = headerId;
+    public void setHeaderUrl(String headerId) {
+        this.headerUrl = headerId;
     }
 
     /**

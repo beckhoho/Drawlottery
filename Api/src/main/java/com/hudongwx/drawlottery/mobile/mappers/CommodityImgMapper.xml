@@ -9,5 +9,7 @@
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
+
   </resultMap>
 </mapper>

@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_user_luck_codes")
 public class UserLuckCodes {
@@ -25,6 +26,20 @@ public class UserLuckCodes {
      */
     @Column(name = "user_account_id")
     private Long userAccountId;
+
+    /**
+     * 购买时间
+     */
+    @Column(name = "buy_date")
+    private Date buyDate;
+
+    public Date getBuyDate() {
+        return buyDate;
+    }
+
+    public void setBuyDate(Date buyDate) {
+        this.buyDate = buyDate;
+    }
 
     /**
      * @return id

@@ -14,7 +14,7 @@
     <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
     <result column="current_state" jdbcType="INTEGER" property="currentState" />
-    <result column="header_id" jdbcType="INTEGER" property="headerId" />
+    <result column="header_url" jdbcType="INTEGER" property="headerUrl" />
     <result column="gold_number" jdbcType="INTEGER" property="goldNumber" />
   </resultMap>
 </mapper>
