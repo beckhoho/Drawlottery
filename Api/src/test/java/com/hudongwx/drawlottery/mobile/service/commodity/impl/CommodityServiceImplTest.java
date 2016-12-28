@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static org.testng.Assert.*;
 
@@ -44,7 +45,7 @@ public class CommodityServiceImplTest extends TestBaseMapper {
         com.setState(1);
         com.setLuckCodeId(1l);
         com.setRoundTime("42223322");
-        com.setCoverImgId(20l);
+        com.setCoverImgId("ssss");
         com.setAutoRound(1);
         com.setCommodityDescUrl("www.com");//
         boolean b = commod.addCommodity(com);
@@ -107,5 +108,11 @@ public class CommodityServiceImplTest extends TestBaseMapper {
         List<Commoditys> commodityses = commod.selectOnLottery();
         Assert.assertNotNull(commodityses);
         System.out.println(commodityses.get(0).getName());
+    }
+
+    @Test
+    public void testselectCommodity() throws Exception{
+        Map<String, Object> stringObjectMap = commod.selectCommodity(1l);
+        Assert.assertNotNull(stringObjectMap);
     }
 }

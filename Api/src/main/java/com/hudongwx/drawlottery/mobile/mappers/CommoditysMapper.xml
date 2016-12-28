@@ -16,7 +16,7 @@
     <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="round_time" jdbcType="VARCHAR" property="roundTime" />
-    <result column="cover_img_id" jdbcType="BIGINT" property="coverImgId" />
+    <result column="cover_img_url" jdbcType="BIGINT" property="coverImgUrl" />
     <result column="auto_round" jdbcType="INTEGER" property="autoRound" />
     <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl" />
     <result column="buy_last_number" jdbcType="INTEGER" property="byLastNumber"/>

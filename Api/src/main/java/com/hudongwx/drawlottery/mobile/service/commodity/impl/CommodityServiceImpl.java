@@ -216,17 +216,28 @@ public class CommodityServiceImpl implements ICommodityService {
     @Override
     public Map<String, Object> selectCommodity(Long commodId) {
         Commoditys com = mapper.selectByPrimaryKey(commodId);
-        CommodityHistory comh = historyMapper.selectBycommodId(commodId,com.getRoundTime());
+
         Map<String,Object> map = new HashMap<>();
+
+        if(com.getState()==0){//如果未开奖
+            CommodityHistory comh = historyMapper.selectBycommodId(com.getName(),com.getRoundTime());
+            map.put("beforeLottery",mapBefore(comh));//往期开奖揭晓
+        }
+        if(com.getState()==1){//如果已开奖
+            CommodityHistory comm = historyMapper.selectBycommod(commodId);
+            map.put("beforeLottery",mapBefore(comm));
+        }
+
 
         map.put("imgURL",listUrl(commodId));//添加图片url数组
         map.put("onState",com.getState());//添加是否已开奖状态
         map.put("commodityName",com.getName());//添加商品名
         map.put("buyTotal",com.getBuyTotalNumber());//添加总购买次数
         map.put("buyCurrent",com.getBuyCurrentNumber());//添加当前购买次数
-        map.put("beforeLottery",mapBefore(comh));//往期开奖揭晓
         map.put("descUrl",com.getCommodityDescUrl());//添加商品详情URL
         map.put("partake",listPartake(commodId));//添加参与记录
+        map.put("user",0);//是否参与本商品
+        map.put("countDown",18000l);//倒计时
 
         return map;
     }
@@ -244,6 +255,9 @@ public class CommodityServiceImpl implements ICommodityService {
 
     public Map<String,Object> mapBefore(CommodityHistory comh){
         Map<String,Object> historyMap = new HashMap<>();
+        if(comh==null){
+            return historyMap;
+        }
         User user = new User();
         user.setAccountId(comh.getUserAccountId());
         List<User> users = userMapper.select(user);
@@ -284,15 +298,19 @@ public class CommodityServiceImpl implements ICommodityService {
 
     public Map<String,Object> map2(Long commodId,Long userAccountId){
         UserLuckCodes userLuck = new UserLuckCodes();
+        Map<String,Object> map = new HashMap<>();
         userLuck.setCommodityId(commodId);
         userLuck.setUserAccountId(userAccountId);
         List<UserLuckCodes> select = userluckMapper.select(userLuck);
+        if(select.size()==0){
+            return map;
+        }
         Date buyDate = select.get(0).getBuyDate();
         int size = select.size();
-        Map<String,Object> map = new HashMap<>();
         map.put("partakeNumber",size);
         map.put("buyDate",buyDate);
         return map;
     }
+
 
 }

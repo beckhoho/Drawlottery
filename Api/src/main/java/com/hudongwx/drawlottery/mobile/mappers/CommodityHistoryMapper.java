@@ -10,14 +10,29 @@ import org.apache.ibatis.annotations.Select;
 
 public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
 
-    @Select("select (id,commodity_id,luck_code_id,user_account_id,round_time) from t_commodity_history where commodity_id = #{cmmodId} and round_time < #{roundTime}")
+    @Select("select * from t_commodity_history where commodity_name = #{commodName} and round_time < #{roundTime}")
     @Results({
             @Result(id = true,property = "id",column = "id"),
+            @Result(column = "commodity_name",property = "commodityName"),
             @Result(column="commodity_id",property="commodityId"),
             @Result(column="luck_code",property="luckCode"),
             @Result(column="user_account_id",property="userAccountId"),
             @Result(column="round_time",property="roundTime"),
             @Result(column = "end_time",property = "endTime")
     })
-    CommodityHistory selectBycommodId(@Param("cmmodId") Long cmmodId,@Param("roundTime") String roundTime);
+    CommodityHistory selectBycommodId(@Param("commodName") String commodName,@Param("roundTime") String roundTime);
+
+
+    @Select("select * from t_commodity_history where commodity_id = #{cmmodId}")
+    @Results({
+            @Result(id = true,property = "id",column = "id"),
+            @Result(column = "commodity_name",property = "commodityName"),
+            @Result(column="commodity_id",property="commodityId"),
+            @Result(column="luck_code",property="luckCode"),
+            @Result(column="user_account_id",property="userAccountId"),
+            @Result(column="round_time",property="roundTime"),
+            @Result(column = "end_time",property = "endTime")
+    })
+    CommodityHistory selectBycommod(@Param("cmmodId") Long commodId);
+
 }

@@ -22,6 +22,12 @@ public class CommodityHistory {
     private Long luckCode;
 
     /**
+     * 商品名
+     */
+    @Column(name = "commodity_name")
+    private String commodityName;
+
+    /**
      * 商品得主id
      */
     @Column(name = "user_account_id")
@@ -51,6 +57,14 @@ public class CommodityHistory {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public String getCommodityName() {
+        return commodityName;
+    }
+
+    public void setCommodityName(String commodityName) {
+        this.commodityName = commodityName;
     }
 
     /**

@@ -12,8 +12,8 @@ public class UserLuckCodes {
     /**
      * 幸运号id
      */
-    @Column(name = "lock_code_id")
-    private Long lockCodeId;
+    @Column(name = "luck_code_id")
+    private Long luckCodeId;
 
     /**
      * 商品ID
@@ -61,7 +61,7 @@ public class UserLuckCodes {
      * @return lock_code_id - 幸运号id
      */
     public Long getLockCodeId() {
-        return lockCodeId;
+        return luckCodeId;
     }
 
     /**
@@ -70,7 +70,7 @@ public class UserLuckCodes {
      * @param lockCodeId 幸运号id
      */
     public void setLockCodeId(Long lockCodeId) {
-        this.lockCodeId = lockCodeId;
+        this.luckCodeId = lockCodeId;
     }
 
     /**

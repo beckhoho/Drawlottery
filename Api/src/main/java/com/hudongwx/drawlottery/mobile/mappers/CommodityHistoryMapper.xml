@@ -6,6 +6,7 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
     <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId" />
     <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />

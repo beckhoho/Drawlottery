@@ -65,8 +65,8 @@ public class Commoditys {
     /**
      * 封面图片id
      */
-    @Column(name = "cover_img_id")
-    private Long coverImgId;
+    @Column(name = "cover_img_url")
+    private String coverImgUrl;
 
     /**
      * 是否自动生成下一期（1：是，0：否）
@@ -291,8 +291,8 @@ public class Commoditys {
      *
      * @return cover_img_id - 封面图片id
      */
-    public Long getCoverImgId() {
-        return coverImgId;
+    public String getCoverImgId() {
+        return coverImgUrl;
     }
 
     /**
@@ -300,8 +300,8 @@ public class Commoditys {
      *
      * @param coverImgId 封面图片id
      */
-    public void setCoverImgId(Long coverImgId) {
-        this.coverImgId = coverImgId;
+    public void setCoverImgId(String coverImgId) {
+        this.coverImgUrl= coverImgId;
     }
 
     /**
