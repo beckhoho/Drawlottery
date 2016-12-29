@@ -10,9 +10,9 @@
     <result column="commodity_desc" jdbcType="VARCHAR" property="commodityDesc" />
     <result column="commodity_type_id" jdbcType="BIGINT" property="commodityTypeId" />
     <result column="genre" jdbcType="INTEGER" property="genre" />
-    <result column="buy_current_number" jdbcType="INTEGER" property="buy_current_number" />
+    <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber" />
     <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="start_time" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
     <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="round_time" jdbcType="VARCHAR" property="roundTime" />
@@ -20,6 +20,6 @@
     <result column="auto_round" jdbcType="INTEGER" property="autoRound" />
     <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl" />
     <result column="buy_last_number" jdbcType="INTEGER" property="byLastNumber"/>
-
+    <result column="sell_out_time" jdbcType="TIMESTAMP" property="sellOutTime"/>
   </resultMap>
 </mapper>

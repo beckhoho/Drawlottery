@@ -134,9 +134,9 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return JSONObject
      */
     @Override
-    public List<Map<String,Object>> selectPaging(Integer categoryId, String commName, Long lastCommId) {
+    public List<Map<String, Object>> selectPaging(Integer categoryId, String commName, Long lastCommId) {
 //        mapper.selectPaging(commodTypeId, startNum, endNum);
-
+        List<Map<String, Object>> infoList = new ArrayList<>();
         if (null != categoryId && null != commName) {
 
         } else if (null == categoryId && null == commName) {
@@ -146,8 +146,7 @@ public class CommodityServiceImpl implements ICommodityService {
         } else if (null == categoryId && null != commName) {
 
         }
-
-        return null;
+        return infoList;
     }
 
     /**
@@ -239,6 +238,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("imgUrl", comm.getCoverImgUrl());
             map.put("residualTime", residualTime);
             map.put("detailUrl", comm.getCommodityDescUrl());
+            map.put("state", comm.getState());
             infoList.add(map);
         }
         return infoList;
@@ -300,11 +300,11 @@ public class CommodityServiceImpl implements ICommodityService {
         historyMap.put("roundTime", comh.getRoundTime());//添加期数
         historyMap.put("endTime", comh.getEndTime());//添加揭晓时间
         historyMap.put("luckCodes", comh.getLuckCode());//添加幸运号
-        historyMap.put("userName",users.get(0).getNickname());//添加用户昵称
-        historyMap.put("userAccount",comh.getUserAccountId());//添加用户accountID
-        historyMap.put("beforeRoundTime",comh.getRoundTime());//添加期数
-        historyMap.put("endTime",comh.getEndTime());//添加揭晓时间
-        historyMap.put("luckCodes",comh.getLuckCode());//添加幸运号
+        historyMap.put("userName", users.get(0).getNickname());//添加用户昵称
+        historyMap.put("userAccount", comh.getUserAccountId());//添加用户accountID
+        historyMap.put("beforeRoundTime", comh.getRoundTime());//添加期数
+        historyMap.put("endTime", comh.getEndTime());//添加揭晓时间
+        historyMap.put("luckCodes", comh.getLuckCode());//添加幸运号
         return historyMap;
     }
 
@@ -332,8 +332,8 @@ public class CommodityServiceImpl implements ICommodityService {
         String headerUrl = select1.get(0).getHeaderUrl();
         map.put("userName", name);
         map.put("headerUrl", headerUrl);
-        map.put("userName",name);//用户名
-        map.put("headerUrl",headerUrl);//头像地址
+        map.put("userName", name);//用户名
+        map.put("headerUrl", headerUrl);//头像地址
 
         return map;
     }
@@ -351,8 +351,8 @@ public class CommodityServiceImpl implements ICommodityService {
         int size = select.size();
         map.put("partakeNumber", size);
         map.put("buyDate", buyDate);
-        map.put("partakeNumber",size);//参与人次
-        map.put("buyDate",buyDate);//添加时间
+        map.put("partakeNumber", size);//参与人次
+        map.put("buyDate", buyDate);//添加时间
         return map;
     }
 

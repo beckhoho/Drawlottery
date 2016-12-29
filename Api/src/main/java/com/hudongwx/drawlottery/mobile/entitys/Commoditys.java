@@ -40,8 +40,8 @@ public class Commoditys {
     /**
      * 开抢时间
      */
-    @Column(name = "start_time")
-    private Date start_time;
+    @Column(name = "startTime")
+    private Date startTime;
 
     /**
      * 中奖幸运码id
@@ -96,7 +96,7 @@ public class Commoditys {
     /**
      * 修改上一次购买人次数量
      *
-     * @param byLastNumber  上一次购买人次
+     * @param byLastNumber 上一次购买人次
      */
     public void setByLastNumber(Integer byLastNumber) {
         this.byLastNumber = byLastNumber;
@@ -107,6 +107,12 @@ public class Commoditys {
      */
     @Column(name = "buy_last_number")
     private Integer byLastNumber;
+
+    /**
+     * 售罄时间
+     */
+    @Column(name = "sell_out_time")
+    private Date sellOutTime;
 
     /**
      * @return id
@@ -215,10 +221,10 @@ public class Commoditys {
     /**
      * 获取开抢时间
      *
-     * @return start_time - 开抢时间
+     * @return startTime - 开抢时间
      */
     public Date getStartTime() {
-        return start_time;
+        return startTime;
     }
 
     /**
@@ -227,7 +233,7 @@ public class Commoditys {
      * @param startTime 开抢时间
      */
     public void setStartTime(Date startTime) {
-        this.start_time = startTime;
+        this.startTime = startTime;
     }
 
     /**
@@ -299,7 +305,7 @@ public class Commoditys {
      * @param coverImgId 封面图片id
      */
     public void setCoverImgUrl(String coverImgId) {
-        this.coverImgUrl= coverImgId;
+        this.coverImgUrl = coverImgId;
     }
 
     /**
@@ -354,5 +360,21 @@ public class Commoditys {
      */
     public void setDesc(String desc) {
         this.commodityDesc = desc == null ? null : desc.trim();
+    }
+
+    public String getCommodityDesc() {
+        return commodityDesc;
+    }
+
+    public void setCommodityDesc(String commodityDesc) {
+        this.commodityDesc = commodityDesc;
+    }
+
+    public Date getSellOutTime() {
+        return sellOutTime;
+    }
+
+    public void setSellOutTime(Date sellOutTime) {
+        this.sellOutTime = sellOutTime;
     }
 }

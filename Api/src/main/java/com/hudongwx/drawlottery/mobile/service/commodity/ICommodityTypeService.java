@@ -2,6 +2,8 @@ package com.hudongwx.drawlottery.mobile.service.commodity;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityType;
 
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -29,4 +31,18 @@ public interface ICommodityTypeService {
 
     //通过类型名查询商品类型信息
     CommodityType selectType(String name);
+
+    /**
+     * 获取可用商品类型
+     *
+     * @return
+     */
+    List<CommodityType> selectAvailable();
+
+    /**
+     * 获取所有商品类型
+     *
+     * @return
+     */
+    List<CommodityType> selectAll();
 }

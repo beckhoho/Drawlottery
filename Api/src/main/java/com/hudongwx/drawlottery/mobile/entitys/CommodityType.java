@@ -9,6 +9,12 @@ public class CommodityType {
     private Integer id;
 
     /**
+     * 类型图标
+     */
+    @Column(name = "img_url")
+    private String imgUrl;
+
+    /**
      * 类型名称
      */
     private String name;
@@ -30,6 +36,24 @@ public class CommodityType {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * 商品图标url
+     *
+     * @return imgUrl
+     */
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    /**
+     * 设置商品图标url
+     *
+     * @param imgUrl 商品图标url
+     */
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     /**

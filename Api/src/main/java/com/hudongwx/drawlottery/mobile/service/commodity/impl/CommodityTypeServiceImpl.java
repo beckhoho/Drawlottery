@@ -3,8 +3,11 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityType;
 import com.hudongwx.drawlottery.mobile.mappers.CommodityTypeMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityTypeService;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -17,33 +20,33 @@ import org.springframework.stereotype.Service;
  * <p>
  * 创建　kiter　2016/12/22 11:56　<br/>
  * <p>
- *          商品种类service实现类
+ * 商品种类service实现类
  * <p>
  * @email 346905702@qq.com
  */
 @Service
-public class CommodityTypeServiceImpl implements ICommodityTypeService{
+public class CommodityTypeServiceImpl implements ICommodityTypeService {
 
     @Autowired
-    CommodityTypeMapper commodType;
+    CommodityTypeMapper ctMapper;
 
     /**
-     *添加商品对象
-     * @param commtype  商品类型对象
+     * 添加商品对象
+     *
+     * @param commtype 商品类型对象
      * @return
      */
     @Override
     public boolean addType(CommodityType commtype) {
-        int insert = commodType.insert(commtype);
-        if(insert>0){
+        int insert = ctMapper.insert(commtype);
+        if (insert > 0) {
             return true;
         }
         return false;
     }
 
     /**
-     *
-     * @param id   id
+     * @param id id
      * @return
      */
     @Override
@@ -51,22 +54,23 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
         CommodityType c = new CommodityType();
         c.setId(id);
         c.setState(1);
-        int i = commodType.updateByPrimaryKeySelective(c);
-        if(i>0){
+        int i = ctMapper.updateByPrimaryKeySelective(c);
+        if (i > 0) {
             return true;
         }
         return false;
     }
 
     /**
-     *  通過主鍵修改對象，不修改空值
-     * @param commtype  商品類型對象
+     * 通過主鍵修改對象，不修改空值
+     *
+     * @param commtype 商品類型對象
      * @return
      */
     @Override
     public boolean updateType(CommodityType commtype) {
-        int i = commodType.updateByPrimaryKeySelective(commtype);
-        if(i>0){
+        int i = ctMapper.updateByPrimaryKeySelective(commtype);
+        if (i > 0) {
             return true;
         }
         return false;
@@ -74,13 +78,26 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
 
     /**
      * 通過類型名去查詢當前商品類型
-     * @param name  商品類型名
+     *
+     * @param name 商品類型名
      * @return
      */
     @Override
     public CommodityType selectType(String name) {
         CommodityType ct = new CommodityType();
         ct.setName(name);
-        return (CommodityType) commodType.select(ct);
+        return (CommodityType) ctMapper.select(ct);
+    }
+
+    @Override
+    public List<CommodityType> selectAvailable() {
+        CommodityType ct=new CommodityType();
+        ct.setState(Settings.STATE_AVAILABLE);
+        return ctMapper.select(ct);
+    }
+
+    @Override
+    public List<CommodityType> selectAll() {
+        return ctMapper.selectAll();
     }
 }

@@ -18,6 +18,16 @@ package com.hudongwx.drawlottery.mobile.utils;
 public class Settings {
 
     /**
+     * 状态可用
+     */
+    public static final int STATE_AVAILABLE=1;
+
+    /**
+     * 状态不可用
+     */
+    public static final int STATE_DISABLE=0;
+
+    /**
      * 用户最大添加的地址数量
      */
     public static final int ADDRESS_ADD_MAX = 5;
@@ -74,5 +84,19 @@ public class Settings {
      */
     public static final int COMMODITY_ORDER_HIGH_PRICE = 4;
 
+    /**
+     * 商品未开奖
+     */
+    public static final int COMMODITY_STATE_NO_LOTTERY = 0;
+
+    /**
+     * 商品已开奖
+     */
+    public static final int COMMODITY_STATE_HAS_LOTTERY = 1;
+
+    /**
+     * 商品售罄开奖中
+     */
+    public static final int COMMODITY_STATE_ON_LOTTERY = 2;
 
 }
