@@ -97,8 +97,8 @@ public class CommodityServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectByName() throws Exception{
-        List<Commoditys> i = commod.selectByName("i");
-        System.out.println(i.get(0).getName()+"  ;  "+i.get(0).getBuyCurrentNumber());
+//        List<Commoditys> i = commod.selectByName("i");
+//        System.out.println(i.get(0).getName()+"  ;  "+i.get(0).getBuyCurrentNumber());
     }
 
     @Test
