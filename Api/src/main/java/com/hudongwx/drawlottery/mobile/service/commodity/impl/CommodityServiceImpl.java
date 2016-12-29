@@ -132,17 +132,6 @@ public class CommodityServiceImpl implements ICommodityService {
     }
 
     /**
-     * 通过关键字搜索商品
-     *
-     * @param name 模糊搜索商品名
-     * @return
-     */
-    @Override
-    public List<Commoditys> selectByName(String name) {
-        return mapper.selectByName("%" + name + "%");
-    }
-
-    /**
      * 根据传入类型，返回对应的商品信息集
      *
      * @param ref

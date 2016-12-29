@@ -39,25 +39,6 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     @Select("select id from t_commodity_type where name = #{commodType} ")
     Long selectType(@Param("commodType") String commodType);
 
-    @Select("select * from t_commoditys where name like #{name}")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "start_time"),
-            @Result(column = "cover_img_url", property = "luckCodeUrl"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_id", property = "coverImgId"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime")
-
-    })
-    List<Commoditys> selectByName(@Param("name") String name);
-
     @Select("SELECT * FROM t_commoditys ORDER BY buy_current_number/buy_total_number DESC")
     @Results({
             @Result(id = true, property = "id", column = "id"),
