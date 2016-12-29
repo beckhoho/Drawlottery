@@ -6,6 +6,9 @@ import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -25,7 +28,7 @@ import org.springframework.stereotype.Service;
 public class CommodityTypeServiceImpl implements ICommodityTypeService{
 
     @Autowired
-    CommodityTypeMapper commodType;
+    CommodityTypeMapper mapper;
 
     /**
      *添加商品对象
@@ -34,7 +37,7 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
      */
     @Override
     public boolean addType(CommodityType commtype) {
-        int insert = commodType.insert(commtype);
+        int insert = mapper.insert(commtype);
         if(insert>0){
             return true;
         }
@@ -51,7 +54,7 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
         CommodityType c = new CommodityType();
         c.setId(id);
         c.setState(1);
-        int i = commodType.updateByPrimaryKeySelective(c);
+        int i = mapper.updateByPrimaryKeySelective(c);
         if(i>0){
             return true;
         }
@@ -65,7 +68,7 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
      */
     @Override
     public boolean updateType(CommodityType commtype) {
-        int i = commodType.updateByPrimaryKeySelective(commtype);
+        int i = mapper.updateByPrimaryKeySelective(commtype);
         if(i>0){
             return true;
         }
@@ -74,13 +77,11 @@ public class CommodityTypeServiceImpl implements ICommodityTypeService{
 
     /**
      * 通過類型名去查詢當前商品類型
-     * @param name  商品類型名
      * @return
      */
     @Override
-    public CommodityType selectType(String name) {
-        CommodityType ct = new CommodityType();
-        ct.setName(name);
-        return (CommodityType) commodType.select(ct);
+    public Map<String,Object> selectType() {
+
+        return null;
     }
 }

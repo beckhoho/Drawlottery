@@ -60,9 +60,6 @@ public interface ICommodityService {
     //查看所有的商品信息
     List<Commoditys> selectAll();
 
-    //通过商品名称模糊搜索商品
-    List<Commoditys> selectByName(String name);
-
 
     //通过商品的价格，人气，最新进行查询
     List<Map<String, Object>> selectByStyle(Integer ref, Integer type, Long lastcommodityid);

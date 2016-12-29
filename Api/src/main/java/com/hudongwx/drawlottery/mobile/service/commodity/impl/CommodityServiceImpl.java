@@ -119,36 +119,7 @@ public class CommodityServiceImpl implements ICommodityService {
         return mapper.selectTypeCount(commodTypeId);
     }
 
-    /**
-     * 搜索商品信息
-     * 根据商品类别category、商品名称name 搜索
-     * 搜索的四种情况：
-     * 1、name和category都有值，两者并列搜索
-     * 2、category无值，按name搜索
-     * 3、name无值，按category搜索
-     * 4、name和category都无值，搜索所有
-     *
-     * @param categoryId 商品类别
-     * @param commName   商品名称
-     * @param lastCommId 当前最后一个显示的商品id
-     * @return JSONObject
-     */
-    @Override
-    public List<Map<String,Object>> selectPaging(Integer categoryId, String commName, Long lastCommId) {
-//        mapper.selectPaging(commodTypeId, startNum, endNum);
 
-        if (null != categoryId && null != commName) {
-
-        } else if (null == categoryId && null == commName) {
-
-        } else if (null != categoryId && null == commName) {
-
-        } else if (null == categoryId && null != commName) {
-
-        }
-
-        return null;
-    }
 
     /**
      * 查询所有商品的信息
@@ -160,16 +131,7 @@ public class CommodityServiceImpl implements ICommodityService {
         return mapper.selectAll();
     }
 
-    /**
-     * 通过关键字搜索商品
-     *
-     * @param name 模糊搜索商品名
-     * @return
-     */
-    @Override
-    public List<Commoditys> selectByName(String name) {
-        return mapper.selectByName("%" + name + "%");
-    }
+
 
     /**
      * 根据传入类型，返回对应的商品信息集
@@ -356,5 +318,78 @@ public class CommodityServiceImpl implements ICommodityService {
         return map;
     }
 
+
+    /**
+     * 搜索商品信息
+     * 根据商品类别category、商品名称name 搜索
+     * 搜索的四种情况：
+     * 1、name和category都有值，两者并列搜索
+     * 2、category无值，按name搜索
+     * 3、name无值，按category搜索
+     * 4、name和category都无值，搜索所有
+     *
+     * @param categoryId 商品类别
+     * @param commName   商品名称
+     * @param lastCommId 当前最后一个显示的商品id
+     * @return JSONObject
+     */
+    @Override
+    public List<Map<String,Object>> selectPaging(Integer categoryId, String commName, Long lastCommId) {
+//        mapper.selectPaging(commodTypeId, startNum, endNum);
+
+        Map<String,Object> map = new HashMap<>();
+
+        if (null != categoryId && null != commName) {
+            //按照商品分类和商品名查询
+            type1(categoryId,commName);
+        }
+        else if (1 == categoryId && null == commName) {
+            //默认显示类型id为1的商品
+            byType(categoryId);
+        }
+        else if (null != categoryId && null == commName) {
+            byType(categoryId);
+        }
+        else if (null == categoryId && null != commName) {
+            return type4(commName);
+        }
+
+        return new ArrayList<>();
+    }
+
+    //已分类的商品名搜索
+    public List<Map<String,Object>> type1(Integer categoryId,String commName){
+        List<Commoditys> list = mapper.selectByTypeAndName(commName,categoryId);
+        return forPut(list);
+    }
+
+    //已分类商品搜索
+    public List<Map<String,Object>> byType(Integer categoryId){
+        List<Commoditys> list = mapper.selectByType(categoryId);
+        return forPut(list);
+    }
+
+    //未分类的商品名搜索
+    public List<Map<String,Object>> type4(String commName){
+        List<Commoditys> list = mapper.selectByName("%" + commName + "%");
+        return forPut(list);
+    }
+
+
+    public List<Map<String,Object>> forPut(List<Commoditys> list){
+        List<Map<String,Object>> listMap = new ArrayList<>();
+        for (Commoditys com:list){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",com.getId());//添加商品ID
+            map.put("typeId",com.getCommodityTypeId());//添加商品类型ID
+            map.put("commodityName",com.getName());//添加商品名
+            map.put("totalNumber",com.getBuyTotalNumber());//添加商品总购买人次
+            map.put("currentNumber",com.getBuyCurrentNumber());//添加商品当前购买人次
+            map.put("headerImg",com.getCoverImgUrl());//商品封面图URL
+            map.put("state",com.getState());//添加商品状态
+            listMap.add(map);
+        }
+        return listMap;
+    }
 
 }
