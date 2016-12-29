@@ -16,7 +16,7 @@ import java.util.Map;
  * <p>
  * 创建　kiter　2016/12/27 14:23　<br/>
  * <p>
- *             图片service接口
+ * 图片service接口
  * <p>
  * @email 346905702@qq.com
  */
@@ -33,10 +33,15 @@ public interface ImagesService {
     List<Map<String, Object>> selectIcon();
 
     //查看广告图
-    List<Map<String, Object>>  selectAdvert();
+    List<Map<String, Object>> selectAdvert();
 
     //修改图片信息
     boolean update(Images img);
 
-
+    /**
+     * 活动
+     *
+     * @return
+     */
+    List<Map<String, Object>> selectEvent();
 }

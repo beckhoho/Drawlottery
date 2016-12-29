@@ -113,4 +113,17 @@ public class ImagesServiceImpl implements ImagesService {
         return false;
     }
 
+    /**
+     * 查询广告图
+     * @return  返回所有的广告图信息
+     */
+    @Override
+    public List<Map<String, Object>> selectEvent() {
+        Images i = new Images();
+        i.setImgGenre(3);
+        i.setState(1);
+        List<Images> imagesList = mapper.select(i);
+        return dealImgInfo(imagesList);
+    }
+
 }

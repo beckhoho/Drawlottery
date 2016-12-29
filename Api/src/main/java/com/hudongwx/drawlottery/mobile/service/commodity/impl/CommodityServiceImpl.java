@@ -171,7 +171,6 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Map<String, Object>> selectOnLottery() {
-        List<Commoditys> list = new ArrayList<>();
         List<Commoditys> list1 = mapper.selectOnLottery();
         List<Map<String, Object>> infoList = new ArrayList<>();
         int s = Settings.PAGE_LOAD_SIZE >= list1.size() ? list1.size() : Settings.PAGE_LOAD_SIZE;
