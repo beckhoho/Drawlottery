@@ -30,7 +30,7 @@ public abstract class BaseController {
      * @return
      */
     public Long getUserId(){
-       return getUser().getId();
+       return getUser().getAccountId();
     }
 
     /**

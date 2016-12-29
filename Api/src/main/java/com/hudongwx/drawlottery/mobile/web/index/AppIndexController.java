@@ -89,15 +89,14 @@ public class AppIndexController extends BaseController {
     /**
      * 客户端首页商品板块信息（默认人气搜索）
      *
-     * @param ref             刷新方式(0、初始刷新，1、下拉刷新，2、上拉加载)
-     * @param type            排序类型(1、按人气，2、按最快，3、最新，4、高价)
-     * @param lastcommodityid 末尾商品id
+     * @param type 排序类型(1、按人气，2、按最快，3、最新，4、高价)
+     * @param page 页
      * @return JSONObject
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/index/commodity")
-    public JSONObject orderCommodityInfo(@RequestParam("ref") int ref, @RequestParam("type") int type, @RequestParam("commid") long lastcommodityid) {
-        List<Map<String, Object>> infoList = cService.selectByStyle(ref, type, lastcommodityid);
+    public JSONObject orderCommodityInfo(@RequestParam("type") int type, @RequestParam("page") int page) {
+        List<Map<String, Object>> infoList = cService.selectByStyle(type, page);
         return success(infoList);
     }
 

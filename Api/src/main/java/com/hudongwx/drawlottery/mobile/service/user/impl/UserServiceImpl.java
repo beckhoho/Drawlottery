@@ -30,7 +30,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     UserMapper mapper;
 
-
     private User createUser(String phone, String password) {
         User user = new User();
         user.setPhoneNumber(phone);
@@ -39,15 +38,9 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
-
     @Override
     public boolean register(String phone, String password) {
-        User user = new User();
-        user.setAccountId(Long.valueOf(phone));
-        user.setPassword(password);
-        PasswordUtils.encryptPassword(user);//加密用户密码
-        int i = mapper.insert(user);
-        return i > 0;
+        return mapper.insert(createUser(phone, password)) > 0;
     }
 
     public User login(String phone, String password) {
@@ -56,18 +49,6 @@ public class UserServiceImpl implements IUserService {
         if (!userList.isEmpty())
             return userList.get(0);
         return null;
-    }
-
-    @Override
-    public User login(Long accountId, String password) {
-        return null;
-    }
-
-    @Override
-    public boolean isExist(Long accountId) {
-        User user = new User();
-        user.setAccountId(accountId);
-        return !mapper.select(user).isEmpty();
     }
 
     @Override

@@ -12,7 +12,7 @@
     <result column="genre" jdbcType="INTEGER" property="genre" />
     <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber" />
     <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber" />
-    <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="round_time" jdbcType="VARCHAR" property="roundTime" />

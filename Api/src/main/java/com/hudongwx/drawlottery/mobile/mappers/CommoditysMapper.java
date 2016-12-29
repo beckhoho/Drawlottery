@@ -19,7 +19,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "start_time"),
+            @Result(column = "start_time", property = "startTime"),
             @Result(column = "luck_code_id", property = "luckCodeId"),
             @Result(column = "round_time", property = "roundTime"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
@@ -46,7 +46,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "start_time"),
+            @Result(column = "start_time", property = "startTime"),
             @Result(column = "luck_code_id", property = "luckCodeId"),
             @Result(column = "round_time", property = "roundTime"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
@@ -64,7 +64,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "start_time"),
+            @Result(column = "start_time", property = "startTime"),
             @Result(column = "luck_code_id", property = "luckCodeId"),
             @Result(column = "round_time", property = "roundTime"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
@@ -82,7 +82,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "start_time"),
+            @Result(column = "start_time", property = "startTime"),
             @Result(column = "luck_code_id", property = "luckCodeId"),
             @Result(column = "round_time", property = "roundTime"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
@@ -100,7 +100,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "start_time"),
+            @Result(column = "start_time", property = "startTime"),
             @Result(column = "luck_code_id", property = "luckCodeId"),
             @Result(column = "round_time", property = "roundTime"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
@@ -118,7 +118,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "start_time"),
+            @Result(column = "start_time", property = "startTime"),
             @Result(column = "luck_code_id", property = "luckCodeId"),
             @Result(column = "round_time", property = "roundTime"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
@@ -130,15 +130,13 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     List<Commoditys> selectOnLottery();
 
 
-
-
     @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state,name from t_commoditys where commodity_type_id  =  #{typeId}")
     @Results({
-            @Result(id = true,property = "id",column = "id"),
-            @Result(column="commodity_type_id",property="commodityTypeId"),
-            @Result(column="buy_current_number",property="buyCurrentNumber"),
-            @Result(column="buy_total_number",property="buyTotalNumber"),
-            @Result(column="cover_img_url", property="luckCodeUrl"),
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "commodity_type_id", property = "commodityTypeId"),
+            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
+            @Result(column = "buy_total_number", property = "buyTotalNumber"),
+            @Result(column = "cover_img_url", property = "coverImgUrl"),
 
     })
     List<Commoditys> selectByType(@Param("typeId") Integer typeId);
@@ -146,24 +144,34 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
     @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state,name from t_commoditys where name like #{name}")
     @Results({
-            @Result(id = true,property = "id",column = "id"),
-            @Result(column="commodity_type_id",property="commodityTypeId"),
-            @Result(column="buy_current_number",property="buyCurrentNumber"),
-            @Result(column="buy_total_number",property="buyTotalNumber"),
-            @Result(column="cover_img_url", property="luckCodeUrl"),
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "commodity_type_id", property = "commodityTypeId"),
+            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
+            @Result(column = "buy_total_number", property = "buyTotalNumber"),
+            @Result(column = "cover_img_url", property = "coverImgUrl"),
 
     })
     List<Commoditys> selectByName(@Param("name") String name);
 
     @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state,name from t_commoditys where commodity_type_id = #{typeId} and name like #{name}")
     @Results({
-            @Result(id = true,property = "id",column = "id"),
-            @Result(column="commodity_type_id",property="commodityTypeId"),
-            @Result(column="buy_current_number",property="buyCurrentNumber"),
-            @Result(column="buy_total_number",property="buyTotalNumber"),
-            @Result(column="cover_img_url", property="luckCodeUrl"),
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "commodity_type_id", property = "commodityTypeId"),
+            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
+            @Result(column = "buy_total_number", property = "buyTotalNumber"),
+            @Result(column = "cover_img_url", property = "coverImgUrl"),
 
     })
-    List<Commoditys> selectByTypeAndName(@Param("name") String name,@Param("typeId") Integer typeId);
+    List<Commoditys> selectByTypeAndName(@Param("name") String name, @Param("typeId") Integer typeId);
+
+    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state from t_commoditys where buy_current_number/buy_total_number>1/2 and buy_current_number!=buy_total_number")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
+            @Result(column = "buy_total_number", property = "buyTotalNumber"),
+            @Result(column = "cover_img_url", property = "coverImgUrl"),
+
+    })
+    List<Commoditys> selectByGuess();
 
 }

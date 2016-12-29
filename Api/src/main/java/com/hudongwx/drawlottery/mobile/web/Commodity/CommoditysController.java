@@ -6,7 +6,10 @@ import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityTypeService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +38,17 @@ public class CommoditysController extends BaseController {
     ICommodityTypeService ctService;
 
     /**
+     * 测试
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/commodity/test")
+    public JSONObject queryTest(@RequestParam("c") Integer para, @RequestParam("name") String name, @RequestParam("page") Integer page) {
+        System.out.println("c-->" + para + "name-->" + name + "page-->" + page);
+//        List<Map<String, Object>> infoList = cService.selectPaging(para, null, page);
+        return success();
+    }
+
+    /**
      * 搜索商品信息
      * 根据商品类别category、商品名称name 搜索
      * 搜索的四种情况：
@@ -45,13 +59,33 @@ public class CommoditysController extends BaseController {
      *
      * @param categoryId 商品类别
      * @param commName   商品名称
-     * @param lastCommId 当前最后一个显示的商品id
+     * @param page       页数
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/commodity/search", method = RequestMethod.POST)
-    public JSONObject queryCommoditys(@RequestParam("categoryId") int categoryId, @RequestParam("commName") String commName, @RequestParam("commId") long lastCommId) {
-        List<Map<String, Object>> infoList = cService.selectPaging(categoryId, commName, lastCommId);
+    @RequestMapping(value = "/api/v1/commodity/search")
+    public JSONObject queryCommoditys(@RequestParam("categoryId") Integer categoryId, @RequestParam("commName") String commName, @RequestParam("page") Integer page) {
+        List<Map<String, Object>> infoList = cService.selectPaging(categoryId, commName, page);
+        return success(infoList);
+    }
+
+    /**
+     * 搜索商品信息
+     * 根据商品类别category、商品名称name 搜索
+     * 搜索的四种情况：
+     * 1、name和category都有值，两者并列搜索
+     * 2、category无值，按name搜索
+     * 3、name无值，按category搜索
+     * 4、name和category都无值，搜索所有
+     *
+     * @param categoryId 商品类别
+     * @param page       页数
+     * @return JSONObject
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/commodity/search/category")
+    public JSONObject queryCommoditys(@RequestParam("categoryId") Integer categoryId, @RequestParam("page") Integer page) {
+        List<Map<String, Object>> infoList = cService.selectPaging(categoryId, null, page);
         return success(infoList);
     }
 
@@ -82,5 +116,3 @@ public class CommoditysController extends BaseController {
     }
 
 }
-
-

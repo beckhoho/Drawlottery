@@ -13,39 +13,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- *用户认证
+ * 用户认证
  */
 @RestController
 public class AuthorController extends BaseController {
 
     @Autowired
     IUserService usersService;
+
     /**
      * 用户登录,post
+     *
      * @return
      */
-    @RequestMapping(value = "/api/v1/auth/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/auth/login", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject login(@RequestBody(required = true)UsernamePasswordToken token){
+    public JSONObject login(@RequestBody(required = true) UsernamePasswordToken token) {
         JSONObject object = new JSONObject();
         //获取用户信息
         Subject subject = SecurityUtils.getSubject();
 
-        if(!subject.isAuthenticated()){//是否已经验证过
-            try{
+        if (!subject.isAuthenticated()) {//是否已经验证过
+            try {
                 token.setRememberMe(true);
                 subject.login(token);
-                object.put("code",200);
-                object.put("msg","登录成功");
-            }catch(UnknownAccountException e){//账号不存在
-                object.put("code",-1);
-                object.put("msg","账号错误");
-            }catch (LockedAccountException e){//账号锁定了
-                object.put("code",-1);
-                object.put("msg","账号被禁用");
-            }catch (AuthenticationException e){
-                object.put("code",-1);
-                object.put("msg","用户名或密码错误");
+                object.put("code", 200);
+                object.put("msg", "登录成功");
+            } catch (UnknownAccountException e) {//账号不存在
+                object.put("code", -1);
+                object.put("msg", "账号错误");
+            } catch (LockedAccountException e) {//账号锁定了
+                object.put("code", -1);
+                object.put("msg", "账号被禁用");
+            } catch (AuthenticationException e) {
+                object.put("code", -1);
+                object.put("msg", "用户名或密码错误");
             }
         }
         return object;
@@ -53,26 +55,28 @@ public class AuthorController extends BaseController {
 
     /**
      * 用户登出
+     *
      * @return
      */
     @ResponseBody
     @RequestMapping("/api/v1/auth/logout")
-    public void logout(){
+    public void logout() {
         logout();
     }
 
 
     /**
      * 用户注册
-     * @param phone 注册账号
-     * @param pwd   注册密码
+     *
+     * @param phone    注册账号
+     * @param password 注册密码
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/auth/register",method = RequestMethod.POST)
-    public JSONObject register(@RequestParam("phone") String phone, @RequestParam("paswd") String pwd) {
-        boolean register = usersService.register(phone, pwd);
-        return response(register,"注册成功!","注册失败!");
+    @RequestMapping(value = "/api/v1/auth/register", method = RequestMethod.POST)
+    public JSONObject register(@RequestParam("phone") String phone, @RequestParam("password") String password) {
+        boolean register = usersService.register(phone, password);
+        return response(register, "注册成功!", "注册失败!");
     }
 
 

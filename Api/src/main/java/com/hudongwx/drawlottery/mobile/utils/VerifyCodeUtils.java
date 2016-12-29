@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.mobile.web.util;
+package com.hudongwx.drawlottery.mobile.utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

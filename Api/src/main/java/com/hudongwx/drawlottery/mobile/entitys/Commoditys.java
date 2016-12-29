@@ -40,7 +40,7 @@ public class Commoditys {
     /**
      * 开抢时间
      */
-    @Column(name = "startTime")
+    @Column(name = "start_time")
     private Date startTime;
 
     /**

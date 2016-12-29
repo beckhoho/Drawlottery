@@ -3,13 +3,12 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
+import com.hudongwx.drawlottery.mobile.utils.AppServiceUtils;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
-import static com.hudongwx.drawlottery.mobile.utils.Settings.PAGE_LOAD_SIZE;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -120,7 +119,6 @@ public class CommodityServiceImpl implements ICommodityService {
     }
 
 
-
     /**
      * 查询所有商品的信息
      *
@@ -134,38 +132,24 @@ public class CommodityServiceImpl implements ICommodityService {
     /**
      * 根据传入类型，返回对应的商品信息集
      *
-     * @param ref
      * @param type
-     * @param lastcommodityid
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectByStyle(Integer ref, Integer type, Long lastcommodityid) {
+    public List<Map<String, Object>> selectByStyle(Integer type, Integer page) {
         List<Commoditys> cList;
         List<Map<String, Object>> infoList = new ArrayList<>();
         if (type.intValue() == Settings.COMMODITY_ORDER_POPULARITY) {
-            cList = mapper.selectByTemp1();
+            cList = AppServiceUtils.getPageList(mapper.selectByTemp1(), page);
         } else if (type == Settings.COMMODITY_ORDER_FASTEST) {
-            cList = mapper.selectByTemp2();
+            cList = AppServiceUtils.getPageList(mapper.selectByTemp2(), page);
         } else if (type == Settings.COMMODITY_ORDER_NEWEST) {
-            cList = mapper.selectByTemp3();
+            cList = AppServiceUtils.getPageList(mapper.selectByTemp3(), page);
         } else {
-            cList = mapper.selectByTemp4();
+            cList = AppServiceUtils.getPageList(mapper.selectByTemp4(), page);
         }
-        if (null == lastcommodityid || null == ref || ref == Settings.DROP_DOWN_REFRESH) {
-            int s = Settings.PAGE_LOAD_SIZE >= cList.size() ? cList.size() : Settings.PAGE_LOAD_SIZE;
-            for (int i = 0; i < s; i++) {
-                infoList.add(dealCommSelectByStyle(cList.get(i)));
-            }
-        } else if (ref == Settings.PULL_TO_REFRESH) {
-            for (int i = 0; i < cList.size(); i++) {
-                if (cList.get(i).getId().longValue() == lastcommodityid.longValue()) {
-                    int size = (i + PAGE_LOAD_SIZE) > cList.size() ? cList.size() : i + PAGE_LOAD_SIZE;
-                    for (int j = i + 1; j < size; j++) {
-                        infoList.add(dealCommSelectByStyle(cList.get(j)));
-                    }
-                }
-            }
+        for (Commoditys commoditys : cList) {
+            infoList.add(dealCommSelectByStyle(commoditys));
         }
         return infoList;
     }
@@ -234,8 +218,28 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("countDown", 18000l);//倒计时
         map.put("descUrl", com.getCommodityDescUrl());//添加商品详情URL
         map.put("partake", listPartake(commodId));//添加参与记录
+        map.put("guessLike", listMap3());//添加猜你喜欢商品
         return map;
     }
+
+    public List<Map<String, Object>> listMap3() {
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        List<Commoditys> coms = mapper.selectByGuess();
+        int i = Settings.PAGE_LOAD_SIZE <= coms.size() ? Settings.PAGE_LOAD_SIZE : coms.size();
+        for (int s = 0; s < i; s++) {
+            Commoditys com = coms.get(s);
+            map.put("name", com.getName());//获取商品名
+            map.put("id", com.getId());//获取商品ID
+            map.put("state", com.getState());//获取状态
+            map.put("buyCurrentNumber", com.getBuyCurrentNumber());//获取当前购买人次
+            map.put("buyTotalNumber", com.getBuyTotalNumber());//获取总购买人次
+            map.put("coverImgUrl", com.getCoverImgUrl());//获取商品封面图片URL
+            list.add(map);
+        }
+        return list;
+    }
+
 
     public List<String> listUrl(Long commodId) {
         List<String> listImg = new ArrayList<>();
@@ -317,7 +321,6 @@ public class CommodityServiceImpl implements ICommodityService {
         return map;
     }
 
-
     /**
      * 搜索商品信息
      * 根据商品类别category、商品名称name 搜索
@@ -329,63 +332,55 @@ public class CommodityServiceImpl implements ICommodityService {
      *
      * @param categoryId 商品类别
      * @param commName   商品名称
-     * @param lastCommId 当前最后一个显示的商品id
+     * @param page       当前最后一个显示的商品id
      * @return JSONObject
      */
     @Override
-    public List<Map<String,Object>> selectPaging(Integer categoryId, String commName, Long lastCommId) {
-//        mapper.selectPaging(commodTypeId, startNum, endNum);
-
-        Map<String,Object> map = new HashMap<>();
-
+    public List<Map<String, Object>> selectPaging(Integer categoryId, String commName, Integer page) {
         if (null != categoryId && null != commName) {
             //按照商品分类和商品名查询
-            type1(categoryId,commName);
-        }
-        else if (1 == categoryId && null == commName) {
+            return type1(categoryId, commName, page);
+        } else if (null == categoryId && null == commName) {
             //默认显示类型id为1的商品
-            byType(categoryId);
+            return byType(1, page);
+        } else if (null != categoryId && null == commName) {
+            return byType(categoryId, page);
+        } else if (null == categoryId && null != commName) {
+            return type4(commName, page);
         }
-        else if (null != categoryId && null == commName) {
-            byType(categoryId);
-        }
-        else if (null == categoryId && null != commName) {
-            return type4(commName);
-        }
-
         return new ArrayList<>();
     }
 
     //已分类的商品名搜索
-    public List<Map<String,Object>> type1(Integer categoryId,String commName){
-        List<Commoditys> list = mapper.selectByTypeAndName(commName,categoryId);
+    public List<Map<String, Object>> type1(Integer categoryId, String commName, Integer page) {
+        List<Commoditys> list = AppServiceUtils.getPageList(mapper.selectByTypeAndName("%" + commName + "%", categoryId), page);
         return forPut(list);
     }
 
     //已分类商品搜索
-    public List<Map<String,Object>> byType(Integer categoryId){
-        List<Commoditys> list = mapper.selectByType(categoryId);
+    public List<Map<String, Object>> byType(Integer categoryId, Integer page) {
+        List<Commoditys> list = AppServiceUtils.getPageList(mapper.selectByType(categoryId), page);
         return forPut(list);
     }
 
     //未分类的商品名搜索
-    public List<Map<String,Object>> type4(String commName){
-        List<Commoditys> list = mapper.selectByName("%" + commName + "%");
+    public List<Map<String, Object>> type4(String commName, Integer page) {
+        List<Commoditys> list = AppServiceUtils.getPageList(mapper.selectByName("%" + commName + "%"), page);
         return forPut(list);
     }
 
 
-    public List<Map<String,Object>> forPut(List<Commoditys> list){
-        List<Map<String,Object>> listMap = new ArrayList<>();
-        for (Commoditys com:list){
-            Map<String,Object> map = new HashMap<>();
-            map.put("id",com.getId());//添加商品ID
-            map.put("typeId",com.getCommodityTypeId());//添加商品类型ID
-            map.put("commodityName",com.getName());//添加商品名
-            map.put("totalNumber",com.getBuyTotalNumber());//添加商品总购买人次
-            map.put("currentNumber",com.getBuyCurrentNumber());//添加商品当前购买人次
-            map.put("headerImg",com.getCoverImgUrl());//商品封面图URL
-            map.put("state",com.getState());//添加商品状态
+    public List<Map<String, Object>> forPut(List<Commoditys> list) {
+        List<Map<String, Object>> listMap = new ArrayList<>();
+        for (Commoditys com : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", com.getId());//添加商品ID
+            map.put("typeId", com.getCommodityTypeId());//添加商品类型ID
+            map.put("commodityName", com.getName());//添加商品名
+            map.put("totalNumber", com.getBuyTotalNumber());//添加商品总购买人次
+            map.put("currentNumber", com.getBuyCurrentNumber());//添加商品当前购买人次
+            map.put("headerImg", com.getCoverImgUrl());//商品封面图URL
+            map.put("state", com.getState());//添加商品状态
             listMap.add(map);
         }
         return listMap;

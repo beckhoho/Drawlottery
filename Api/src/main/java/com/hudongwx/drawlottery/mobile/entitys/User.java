@@ -4,14 +4,12 @@ import javax.persistence.*;
 
 @Table(name = "t_users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     /**
      * 用户账号,ID号
      */
+    @Id
     @Column(name = "account_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountId;
 
     /**
@@ -65,34 +63,34 @@ public class User {
     /**
      * @return id
      */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * 获取用户账号,ID号
-     *
-     * @return account_id - 用户账号,ID号
-     */
     public Long getAccountId() {
         return accountId;
     }
 
     /**
-     * 设置用户账号,ID号
-     *
-     * @param accountId 用户账号,ID号
+     * @param accountId
      */
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
+
+//    /**
+//     * 获取用户账号,ID号
+//     *
+//     * @return account_id - 用户账号,ID号
+//     */
+//    public Long getAccountId() {
+//        return accountId;
+//    }
+//
+//    /**
+//     * 设置用户账号,ID号
+//     *
+//     * @param accountId 用户账号,ID号
+//     */
+//    public void setAccountId(Long accountId) {
+//        this.accountId = accountId;
+//    }
 
     /**
      * 获取用户密码
@@ -252,6 +250,7 @@ public class User {
         this.goldNumber = goldNumber;
 
     } //获取公盐+私盐
+
     public String getCredentialsSalt() {
         return this.salt + "294786949@qq.com";
     }

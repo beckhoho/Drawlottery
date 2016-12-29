@@ -26,22 +26,6 @@ public interface IUserService {
     User login(String phone, String password);
 
     /**
-     * 用户账号登录
-     *
-     * @param accountId
-     * @param password
-     * @return Users
-     */
-    User login(Long accountId, String password);
-
-    /**
-     * 判断用户账号是否存在
-     *
-     * @return boolean
-     */
-    boolean isExist(Long accountId);
-
-    /**
      * 判断用户手机号是否已注册
      *
      * @return boolean
@@ -50,6 +34,7 @@ public interface IUserService {
 
     /**
      * 获取账号信息
+     *
      * @param phone
      * @param password
      * @return
