@@ -1,7 +1,12 @@
 package com.hudongwx.drawlottery.mobile.web.auth;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.ApiApplication;
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;
 
 /**
@@ -19,18 +24,27 @@ import org.testng.annotations.Test;
  * <p>
  * @email 294786949@qq.com
  */
+@SpringBootTest(classes = {ApiApplication.class})
+@WebAppConfiguration
+@Transactional
+@ActiveProfiles("test")
 public class AuthorControllerTest extends TestBaseWeb {
+
     @Test
     public void testLogin() throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("username", "18381690821");
+        jsonObject.put("password", "123456");
+        post("/api/v1/auth/login", jsonObject.toJSONString());
 
     }
 
     @Test
     public void testRegister() throws Exception {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("username", "18381690821");
-        jsonObject.put("password", "123456");
-        post("/api/v1/auth/register", jsonObject.toJSONString());
+        jsonObject.put("phone", "1234567");
+        jsonObject.put("password", "1234567");
+        post("/api/v1/auth/register?phone=1234567&password=1234567", jsonObject.toJSONString());
     }
 
     @Override

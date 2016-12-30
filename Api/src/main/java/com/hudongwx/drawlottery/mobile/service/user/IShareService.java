@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.user;
 import com.hudongwx.drawlottery.mobile.entitys.Share;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -47,4 +48,7 @@ public interface IShareService {
 
     //用户分享晒单
     boolean friendsShare(Long account);
+
+    //查看用户晒单
+    List<Map<String,Object>> selectUserAll(Long account);
 }
