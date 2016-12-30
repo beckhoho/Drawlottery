@@ -30,8 +30,8 @@ public class CommodityHistory {
     /**
      * 商品得主id
      */
-    @Column(name = "user_account_id")
-    private Long userAccountId;
+    @Column(name = "user_account")
+    private Long userAccount;
 
     /**
      * 期数
@@ -46,10 +46,52 @@ public class CommodityHistory {
     private Integer buyNumber;
 
     /**
+     * 商品封面图
+     */
+    @Column(name = "cover_img_url")
+    private String coverImgUrl;
+
+    /**
      * 揭晓时间
      */
     @Column(name = "end_time")
     private Date endTime;
+
+    /**
+     * 本期中奖用户
+     */
+    @Column(name = "luck_user_account_id")
+    private Long luckUserAccountId;
+
+    /**
+     * 本期总需人数
+     */
+    @Column(name = "buy_total_number")
+    private Integer buyTotalNumber;
+
+    public Integer getBuyTotalNumber() {
+        return buyTotalNumber;
+    }
+
+    public void setBuyTotalNumber(Integer buyTotalNumber) {
+        this.buyTotalNumber = buyTotalNumber;
+    }
+
+    public String getCoverImgUrl() {
+        return coverImgUrl;
+    }
+
+    public void setCoverImgUrl(String coverImgUrl) {
+        this.coverImgUrl = coverImgUrl;
+    }
+
+    public Long getLuckUserAccountId() {
+        return luckUserAccountId;
+    }
+
+    public void setLuckUserAccountId(Long luckUserAccountId) {
+        this.luckUserAccountId = luckUserAccountId;
+    }
 
     public Date getEndTime() {
         return endTime;
@@ -122,8 +164,8 @@ public class CommodityHistory {
      *
      * @return user_account_id - 商品得主id
      */
-    public Long getUserAccountId() {
-        return userAccountId;
+    public Long getUserAccount() {
+        return userAccount;
     }
 
     /**
@@ -131,8 +173,8 @@ public class CommodityHistory {
      *
      * @param userAccountId 商品得主id
      */
-    public void setUserAccountId(Long userAccountId) {
-        this.userAccountId = userAccountId;
+    public void setUserAccount(Long userAccountId) {
+        this.userAccount = userAccountId;
     }
 
     /**

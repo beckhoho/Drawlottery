@@ -32,6 +32,17 @@ public class Share {
      */
     private String particulars;
 
+    @Column(name = "share_img_url_id")
+    private Long shareImgUrlId;
+
+    public Long getShareImgUrlId() {
+        return shareImgUrlId;
+    }
+
+    public void setShareImgUrlId(Long shareImgUrlId) {
+        this.shareImgUrlId = shareImgUrlId;
+    }
+
     /**
      * @return id
      */

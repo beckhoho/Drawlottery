@@ -38,7 +38,6 @@ public class UserServiceImplTest extends TestBaseMapper {
 
     @org.testng.annotations.Test
     public void testLogin() throws Exception {
-
     }
 
     @org.testng.annotations.Test

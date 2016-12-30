@@ -1,13 +1,20 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.Share;
+import com.hudongwx.drawlottery.mobile.entitys.ShareImg;
+import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.mappers.ShareImgMapper;
 import com.hudongwx.drawlottery.mobile.mappers.ShareMapper;
+import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
 import com.hudongwx.drawlottery.mobile.service.user.IShareService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -29,7 +36,10 @@ public class ShareServiceImpl implements IShareService {
 
     @Autowired
     ShareMapper mapper;
-
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    ShareImgMapper shareImgMapper;
     /**
      * 添加用户晒单
      *
@@ -79,6 +89,41 @@ public class ShareServiceImpl implements IShareService {
     @Override
     public boolean friendsShare(Long account) {
         return false;
+    }
+
+
+    /**
+     * 用户晒单列表
+     * @param account
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> selectUserAll(Long account) {
+        List<Map<String, Object>> listMap = new ArrayList<>();
+        User user1 = userMapper.selectByPrimaryKey(account);
+        Share s = new Share();
+        s.setUserAccountId(account);
+        List<Share> shares = mapper.select(s);
+        for(Share share : shares){
+            ShareImg shareImg = new ShareImg();
+            shareImg.setShareId(share.getId());
+            List<ShareImg> imgList = shareImgMapper.select(shareImg);
+            Map<String,Object> map = new HashMap<>();
+            List<String> list = new ArrayList<>();
+            map.put("userHeaderUrl",user1.getHeaderUrl());//添加用户头像
+            map.put("userAccountId",account);//添加用户id
+            map.put("userName",user1.getNickname());//添加用户昵称
+            map.put("shareTime",share.getIssueDate());//添加分享时间
+            map.put("context",share.getParticulars());//添加用户分享内容
+            map.put("commodityId",share.getCommodityId());//添加商品id
+            for(ShareImg sh : imgList){
+                list.add(sh.getShareImgUrl());
+            }
+            map.put("shareImgUrl",list);//添加用户晒单照片
+            listMap.add(map);
+        }
+
+        return listMap;
     }
 
 }

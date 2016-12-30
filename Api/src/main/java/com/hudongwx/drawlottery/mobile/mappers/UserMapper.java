@@ -1,11 +1,15 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+import java.util.Map;
 
 public interface UserMapper extends BaseMapper<User> {
     @Select("select * from t_users where phone_number = #{phone}")
@@ -19,4 +23,6 @@ public interface UserMapper extends BaseMapper<User> {
             @Result(column = "gold_number", property = "goldNumber"),
     })
     User selectByPhoneNumber(@Param("phone") String phone);
+
+
 }

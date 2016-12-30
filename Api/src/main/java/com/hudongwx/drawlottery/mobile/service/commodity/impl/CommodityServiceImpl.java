@@ -260,15 +260,15 @@ public class CommodityServiceImpl implements ICommodityService {
             return historyMap;
         }
         User user = new User();
-        user.setAccountId(comh.getUserAccountId());
+        user.setAccountId(comh.getLuckUserAccountId());
         List<User> users = userMapper.select(user);
         historyMap.put("userName", users.get(0).getNickname());//添加用户昵称
-        historyMap.put("userAccount", comh.getUserAccountId());//添加用户accountID
+        historyMap.put("userAccount", comh.getLuckUserAccountId());//添加用户accountID
         historyMap.put("roundTime", comh.getRoundTime());//添加期数
         historyMap.put("endTime", comh.getEndTime());//添加揭晓时间
         historyMap.put("luckCodes", comh.getLuckCode());//添加幸运号
         historyMap.put("userName", users.get(0).getNickname());//添加用户昵称
-        historyMap.put("userAccount", comh.getUserAccountId());//添加用户accountID
+        historyMap.put("userAccount", comh.getLuckUserAccountId());//添加用户accountID
         historyMap.put("beforeRoundTime", comh.getRoundTime());//添加期数
         historyMap.put("endTime", comh.getEndTime());//添加揭晓时间
         historyMap.put("luckCodes", comh.getLuckCode());//添加幸运号

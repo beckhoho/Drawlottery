@@ -2,6 +2,9 @@ package com.hudongwx.drawlottery.mobile.service.user;
 
 import com.hudongwx.drawlottery.mobile.entitys.User;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 用户
  */
@@ -42,5 +45,12 @@ public interface IUserService {
     User getUserByPhone(String phone, String password);
 
     int updateUserInfo(User user);
+
+
+    //中奖历史
+    List<Map<String,Object>> selectHistoryLottery(Long accountId);
+
+    //购买历史
+    List<Map<String,Object>> selectHistoryPay(Long accountId,Integer item);
 }
 
