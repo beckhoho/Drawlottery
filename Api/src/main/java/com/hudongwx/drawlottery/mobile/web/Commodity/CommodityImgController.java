@@ -34,7 +34,7 @@ public class CommodityImgController extends BaseController{
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/commodityimg/ushow", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/pub/commodityimg/ushow", method = RequestMethod.POST)
     public JSONObject queryCommodityImgInfoByUrl(@RequestParam("urlarr") String[] urlarr) {
         List<CommodityImg> cilist = new ArrayList<>();// TODO: 2016/12/24 商品图片 参数(String[] imgarr)
         return success(cilist);
@@ -47,7 +47,7 @@ public class CommodityImgController extends BaseController{
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/commodityimg/ishow", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/pub/commodityimg/ishow", method = RequestMethod.POST)
     public JSONObject queryCommodityImgInfoById(@RequestParam("idarr") Long[] imgarr) {
         List<CommodityImg> cilist = new ArrayList<>();// TODO: 2016/12/24 商品图片 参数(String[] imgarr)
         return success(cilist);

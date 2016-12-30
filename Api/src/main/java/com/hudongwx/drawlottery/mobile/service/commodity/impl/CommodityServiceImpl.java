@@ -170,19 +170,22 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return 返回正在开奖的商品
      */
     @Override
-    public List<Map<String, Object>> selectOnLottery() {
-        List<Commoditys> list1 = mapper.selectOnLottery();
+    public List<Map<String, Object>> selectOnLottery(Integer page) {
+        List<Commoditys> list = AppServiceUtils.getPageList(mapper.selectOnLottery(),page);
         List<Map<String, Object>> infoList = new ArrayList<>();
-        int s = Settings.PAGE_LOAD_SIZE >= list1.size() ? list1.size() : Settings.PAGE_LOAD_SIZE;
+        int s = Settings.PAGE_LOAD_SIZE >= list.size() ? list.size() : Settings.PAGE_LOAD_SIZE;
         for (int i = 0; i < s; i++) {
-            Commoditys comm = list1.get(i);
-            long residualTime = 1000 * 60 * 3;
+            Commoditys comm = list.get(i);
+            long residualTime = 1000 * 10 * 1;
             Map<String, Object> map = new HashMap<>();
             map.put("id", comm.getId());
             map.put("imgUrl", comm.getCoverImgUrl());
             map.put("residualTime", residualTime);
             map.put("detailUrl", comm.getCommodityDescUrl());
+            map.put("desc", comm.getCommodityDesc());
             map.put("state", comm.getState());
+            map.put("totalNumber",comm.getBuyTotalNumber());
+            map.put("userPayNum",0);
             infoList.add(map);
         }
         return infoList;

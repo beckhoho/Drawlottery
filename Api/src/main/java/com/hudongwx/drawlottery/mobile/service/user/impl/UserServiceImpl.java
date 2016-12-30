@@ -4,10 +4,9 @@ import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -34,6 +33,7 @@ public class UserServiceImpl implements IUserService {
         User user = new User();
         user.setPhoneNumber(phone);
         user.setPassword(password);
+        user.setCurrentState(Settings.USER_STATE_NORMAL);
         PasswordUtils.encryptPassword(user);//加密用户密码
         return user;
     }
@@ -44,11 +44,17 @@ public class UserServiceImpl implements IUserService {
     }
 
     public User login(String phone, String password) {
-        User user = createUser(phone, password);
-        List<User> userList = mapper.select(user);
-        if (!userList.isEmpty())
-            return userList.get(0);
-        return null;
+        User user=new User();
+        user.setPhoneNumber(phone);
+        user.setPassword(password);
+        User user1 = mapper.selectByPhoneNumber(phone);
+        if(null!=user1){
+            user.setCurrentState(user.getCurrentState());
+            user.setSalt(user.getSalt());
+        }else{
+            return null;
+        }
+        return user;
     }
 
     @Override
@@ -58,10 +64,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User getUserByPhone(String phone, String password) {
-        User user = createUser(phone, password);
-        if (mapper.select(user).isEmpty())
-            return null;
-        return mapper.select(user).get(0);
+        return null;
     }
 
     @Override

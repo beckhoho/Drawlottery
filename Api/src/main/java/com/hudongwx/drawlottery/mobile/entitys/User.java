@@ -1,9 +1,10 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "t_users")
-public class User {
+public class User implements Serializable{
     /**
      * 用户账号,ID号
      */

@@ -26,7 +26,7 @@ public class AuthorController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/api/v1/auth/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/pub/auth/login", method = RequestMethod.POST)
     @ResponseBody
     public JSONObject login(@RequestBody(required = true) UsernamePasswordToken token) {
         JSONObject object = new JSONObject();
@@ -59,7 +59,7 @@ public class AuthorController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/api/v1/auth/logout")
+    @RequestMapping("/api/v1/pub/auth/logout")
     public void logout() {
         logout();
     }
@@ -73,7 +73,7 @@ public class AuthorController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/auth/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/pub/auth/register", method = RequestMethod.POST)
     public JSONObject register(@RequestParam("phone") String phone, @RequestParam("password") String password) {
         boolean register = usersService.register(phone, password);
         return response(register, "注册成功!", "注册失败!");

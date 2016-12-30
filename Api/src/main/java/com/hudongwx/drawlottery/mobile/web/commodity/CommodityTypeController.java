@@ -35,7 +35,7 @@ public class CommodityTypeController extends BaseController {
     ICommodityTypeService ctService;
 
     @ResponseBody
-    @RequestMapping(value = "/api/v1/commtype/show")
+    @RequestMapping(value = "/api/v1/pub/commtype/show")
     public JSONObject queryAvailableCommType() {
         List<CommodityType> ctList = ctService.selectAvailable();
         return success(ctList);

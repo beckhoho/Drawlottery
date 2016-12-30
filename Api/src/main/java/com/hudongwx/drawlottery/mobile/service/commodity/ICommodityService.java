@@ -65,7 +65,7 @@ public interface ICommodityService {
     List<Map<String, Object>> selectByStyle( Integer type, Integer page);
 
     //查询正在开奖的商品
-    List<Map<String, Object>> selectOnLottery();
+    List<Map<String, Object>> selectOnLottery(Integer page);
 
     //商品详情
     Map<String, Object> selectCommodity(Long commodId);

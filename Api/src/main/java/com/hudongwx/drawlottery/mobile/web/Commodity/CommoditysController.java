@@ -41,7 +41,7 @@ public class CommoditysController extends BaseController {
      * 测试
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/commodity/test")
+    @RequestMapping(value = "/api/v1/pub/commodity/test")
     public JSONObject queryTest(@RequestParam("c") Integer para, @RequestParam("name") String name, @RequestParam("page") Integer page) {
         System.out.println("c-->" + para + "name-->" + name + "page-->" + page);
 //        List<Map<String, Object>> infoList = cService.selectPaging(para, null, page);
@@ -63,7 +63,7 @@ public class CommoditysController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/commodity/search")
+    @RequestMapping(value = "/api/v1/pub/commodity/search")
     public JSONObject queryCommoditys(@RequestParam("categoryId") Integer categoryId, @RequestParam("commName") String commName, @RequestParam("page") Integer page) {
         List<Map<String, Object>> infoList = cService.selectPaging(categoryId, commName, page);
         return success(infoList);
@@ -83,7 +83,7 @@ public class CommoditysController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/commodity/search/category")
+    @RequestMapping(value = "/api/v1/pub/commodity/search/category")
     public JSONObject queryCommoditys(@RequestParam("categoryId") Integer categoryId, @RequestParam("page") Integer page) {
         List<Map<String, Object>> infoList = cService.selectPaging(categoryId, null, page);
         return success(infoList);
@@ -96,7 +96,7 @@ public class CommoditysController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/commodity/info")
+    @RequestMapping(value = "/api/v1/pub/commodity/info")
     public JSONObject queryCommoditysInfo(@RequestParam("commid") Long commodityid) {
         Map<String, Object> map = cService.selectCommodity(commodityid);
         return success(map);
@@ -109,7 +109,7 @@ public class CommoditysController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/commodity/onlottery")
+    @RequestMapping(value = "/api/v1/pub/commodity/onlottery")
     public JSONObject queryOnLotteryInfo(@RequestParam("commid") Long commodityid) {
         Map<String, Object> map = cService.selectCommodity(commodityid);
         return success(map);

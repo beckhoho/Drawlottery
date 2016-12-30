@@ -18,6 +18,26 @@ package com.hudongwx.drawlottery.mobile.utils;
 public class Settings {
 
     /**
+     * 用户正常状态
+     */
+    public static final int USER_STATE_NORMAL =1;
+
+    /**
+     * 用户登录中
+     */
+    public static final int USER_STATA_LOGIN_ON=2;
+
+    /**
+     * 用户登出
+     */
+    public static final int USER_STATA_LOGIN_OUT=0;
+
+    /**
+     *
+     */
+    public static final int USER_STATA_LOCKED=-1;
+
+    /**
      * 状态可用
      */
     public static final int STATE_AVAILABLE=1;

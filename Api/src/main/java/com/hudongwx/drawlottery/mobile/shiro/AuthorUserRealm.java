@@ -80,7 +80,7 @@ public class AuthorUserRealm  extends AuthorizingRealm{
                 user,
                 user.getPassword(),
                 Util.bytes(user.getCredentialsSalt()),
-                user.getRealName());
+                user.getPhoneNumber());
 
         return info;
     }
