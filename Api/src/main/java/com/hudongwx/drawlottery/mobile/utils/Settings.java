@@ -20,32 +20,27 @@ public class Settings {
     /**
      * 用户正常状态
      */
-    public static final int USER_STATE_NORMAL =1;
+    public static final String USER_HEAD_PORTRAIT_URL_DEFAULT = "http://192.168.6.199:8080/imgs/icons/defaultheadportrait.png";
 
     /**
-     * 用户登录中
+     * 用户正常状态
      */
-    public static final int USER_STATA_LOGIN_ON=2;
+    public static final int USER_STATE_NORMAL = 1;
 
     /**
-     * 用户登出
+     * 用户锁定
      */
-    public static final int USER_STATA_LOGIN_OUT=0;
-
-    /**
-     *
-     */
-    public static final int USER_STATA_LOCKED=-1;
+    public static final int USER_STATA_LOCKED = -1;
 
     /**
      * 状态可用
      */
-    public static final int STATE_AVAILABLE=1;
+    public static final int STATE_AVAILABLE = 1;
 
     /**
      * 状态不可用
      */
-    public static final int STATE_DISABLE=0;
+    public static final int STATE_DISABLE = 0;
 
     /**
      * 用户最大添加的地址数量
@@ -118,5 +113,20 @@ public class Settings {
      * 商品售罄开奖中
      */
     public static final int COMMODITY_STATE_ON_LOTTERY = 2;
+
+    /**
+     * 图形验证码图片宽度
+     */
+    public static final int VERIFY_CODE_IMG_WIDTH = 200;
+
+    /**
+     * 图形验证码图片高度
+     */
+    public static final int VERIFY_CODE_IMG_HEIGHT = 80;
+
+    /**
+     * 验证码长度
+     */
+    public static final int VERIFY_CODE_LENGTH = 4;
 
 }

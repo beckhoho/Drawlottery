@@ -41,7 +41,7 @@ public class RedPacketsController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/redpacket/usable", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/redpacket/usable", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryUsableRedPacket(@RequestParam("acc") Long accountid) {
         List<RedPackets> rplist = new ArrayList<>();//// TODO: 2016/12/23  获取用户可用的红包的集合
         return success(rplist);
@@ -54,7 +54,7 @@ public class RedPacketsController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/redpacket/unusable", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/redpacket/unusable", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryUnusableRedPacket(@RequestParam("acc") Long accountid) {
         List<RedPackets> rplist = new ArrayList<>();//// TODO: 2016/12/23  获取用户不可用的红包的集合
         return success(rplist);
@@ -67,7 +67,7 @@ public class RedPacketsController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/redpacket/up", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/redpacket/up", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject updateRedPacket(@RequestParam("packet") RedPackets rp) {
         boolean status = true;//// TODO: 2016/12/23  修改红包状态？？？
         return response(status);

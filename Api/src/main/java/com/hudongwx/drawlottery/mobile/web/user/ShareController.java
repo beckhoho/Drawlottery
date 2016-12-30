@@ -40,7 +40,7 @@ public class ShareController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/share/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/share/add", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject addShareInfo(@RequestBody Share share) {
 
         boolean status = shareService.addShare(share);
@@ -56,7 +56,7 @@ public class ShareController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/share/show", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryShareInfo(@RequestParam("acc") Long accountid, @RequestParam("ref") int ref, @RequestParam("lastshareid") Long lastshareid) {
         List<Share> slist = shareService.selectShare(accountid, lastshareid, ref);// TODO: 2016/12/24 获取share集合数据 參數(Long accountid)
         return success(slist);

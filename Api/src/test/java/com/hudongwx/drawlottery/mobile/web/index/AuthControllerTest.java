@@ -20,7 +20,7 @@ public class AuthControllerTest extends TestBaseWeb {
         JSONObject object = new JSONObject();
         object.put("username","王五");
         object.put("password","123456");
-        post("/auth/login",object.toString());
+        post("/auth/queryUserByPhoneNum",object.toString());
     }
 
     @Override

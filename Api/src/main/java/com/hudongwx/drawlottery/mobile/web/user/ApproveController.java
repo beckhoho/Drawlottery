@@ -32,7 +32,7 @@ public class ApproveController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/user/approve/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/approve/add",method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject addApproveInfo(@RequestParam("app") Approve approve) {
         boolean status = true;// TODO: 2016/12/24 提交认证信息
         return response(status);
@@ -45,7 +45,7 @@ public class ApproveController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/user/approve/info", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/approve/info", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryApproveInfo(@RequestParam("acc") Long accountid) {
         Approve approve = new Approve();// TODO: 2016/12/24 提交认证信息
         return success(approve);
@@ -58,7 +58,7 @@ public class ApproveController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/user/approve/up", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/approve/up", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject updateApproveInfo(@RequestParam("app") Approve approve) {
         boolean status = true;// TODO: 2016/12/24 提交修改后的认证信息
         return response(status);

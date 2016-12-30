@@ -75,24 +75,6 @@ public class User implements Serializable{
         this.accountId = accountId;
     }
 
-//    /**
-//     * 获取用户账号,ID号
-//     *
-//     * @return account_id - 用户账号,ID号
-//     */
-//    public Long getAccountId() {
-//        return accountId;
-//    }
-//
-//    /**
-//     * 设置用户账号,ID号
-//     *
-//     * @param accountId 用户账号,ID号
-//     */
-//    public void setAccountId(Long accountId) {
-//        this.accountId = accountId;
-//    }
-
     /**
      * 获取用户密码
      *

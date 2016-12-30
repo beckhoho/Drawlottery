@@ -34,8 +34,20 @@ public class NotificationController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/notify/show", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/notify/show", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryUserNotification(@RequestParam("acc") Long accountid) {
+        List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
+        return success(nlist);
+    }
+
+    /**
+     * 通知列表信息
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/pub/notify/show", method = {RequestMethod.POST,RequestMethod.GET})
+    public JSONObject queryNotification() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
         return success(nlist);
     }

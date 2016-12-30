@@ -40,7 +40,7 @@ public class DeliveryAddressController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/address/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/address/add", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject addAddress(@RequestBody DeliveryAddress address) {
         boolean status = addressService.addDa(address);
         return response(status, "最多添加5条收货地址");
@@ -53,7 +53,7 @@ public class DeliveryAddressController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/address/del", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/address/del", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject deleteAddress(@RequestParam("addrid") Long addressid) {
         boolean status = addressService.deleteDa(addressid);
         return response(status);
@@ -66,7 +66,7 @@ public class DeliveryAddressController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/address/up", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/address/up", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject updateAddress(@RequestBody DeliveryAddress address) {
         boolean status = addressService.updateDa(address);
         return response(status);
@@ -79,7 +79,7 @@ public class DeliveryAddressController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/address/show", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/address/show", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryAddress(@RequestParam("acc") Long accountid) {
         List<DeliveryAddress> dalist = addressService.selectByUserAccountId(accountid);
         return success(dalist);

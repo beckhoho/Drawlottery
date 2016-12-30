@@ -2,6 +2,8 @@ package com.hudongwx.drawlottery.mobile.service.user;
 
 import com.hudongwx.drawlottery.mobile.entitys.User;
 
+import java.util.Map;
+
 /**
  * 用户
  */
@@ -14,33 +16,16 @@ public interface IUserService {
      * @param password
      * @return
      */
-    boolean register(String phone, String password);
+    boolean register(String phone, String password,String code);
 
     /**
-     * 用户手机号登录
+     * 手机号查询用户
      *
      * @param phone
-     * @param password
      * @return Users
      */
-    User login(String phone, String password);
+    User queryUserByPhoneNum(String phone);
 
-    /**
-     * 判断用户手机号是否已注册
-     *
-     * @return boolean
-     */
-    boolean isRegistered(String phone);
-
-    /**
-     * 获取账号信息
-     *
-     * @param phone
-     * @param password
-     * @return
-     */
-    User getUserByPhone(String phone, String password);
-
-    int updateUserInfo(User user);
+    Map<String,Object> getUserInfo(User user);
 }
 

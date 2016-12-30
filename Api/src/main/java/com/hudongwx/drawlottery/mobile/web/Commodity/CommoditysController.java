@@ -6,10 +6,7 @@ import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityTypeService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +38,7 @@ public class CommoditysController extends BaseController {
      * 测试
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/commodity/test")
+    @RequestMapping(value = "/api/v1/pub/commodity/test", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryTest(@RequestParam("c") Integer para, @RequestParam("name") String name, @RequestParam("page") Integer page) {
         System.out.println("c-->" + para + "name-->" + name + "page-->" + page);
 //        List<Map<String, Object>> infoList = cService.selectPaging(para, null, page);
@@ -63,7 +60,7 @@ public class CommoditysController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/commodity/search")
+    @RequestMapping(value = "/api/v1/pub/commodity/search", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommoditys(@RequestParam("categoryId") Integer categoryId, @RequestParam("commName") String commName, @RequestParam("page") Integer page) {
         List<Map<String, Object>> infoList = cService.selectPaging(categoryId, commName, page);
         return success(infoList);
@@ -83,7 +80,7 @@ public class CommoditysController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/commodity/search/category")
+    @RequestMapping(value = "/api/v1/pub/commodity/search/category", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommoditys(@RequestParam("categoryId") Integer categoryId, @RequestParam("page") Integer page) {
         List<Map<String, Object>> infoList = cService.selectPaging(categoryId, null, page);
         return success(infoList);
@@ -96,7 +93,7 @@ public class CommoditysController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/commodity/info")
+    @RequestMapping(value = "/api/v1/pub/commodity/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommoditysInfo(@RequestParam("commid") Long commodityid) {
         Map<String, Object> map = cService.selectCommodity(commodityid);
         return success(map);
@@ -109,7 +106,7 @@ public class CommoditysController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/commodity/onlottery")
+    @RequestMapping(value = "/api/v1/pub/commodity/onlottery", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOnLotteryInfo(@RequestParam("commid") Long commodityid) {
         Map<String, Object> map = cService.selectCommodity(commodityid);
         return success(map);

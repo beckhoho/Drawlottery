@@ -44,7 +44,7 @@ public class AppIndexController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/index/banner")
+    @RequestMapping(value = "/api/v1/index/banner", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject banner() {
         List<Map<String, Object>> infoList = iService.selectAdvert();
         return success(infoList);
@@ -56,7 +56,7 @@ public class AppIndexController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/index/quick")
+    @RequestMapping(value = "/api/v1/index/quick", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject quick() {
         List<Map<String, Object>> infoList = iService.selectIcon();
         return success(infoList);
@@ -68,7 +68,7 @@ public class AppIndexController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/index/notice")
+    @RequestMapping(value = "/api/v1/index/notice", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject notice() {
         List<String> nList = npService.selectByNew();
         return success(nList);
@@ -80,7 +80,7 @@ public class AppIndexController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/index/announce")
+    @RequestMapping(value = "/api/v1/index/announce", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject announceCommodityInfo() {
         List<Map<String, Object>> infoList = cService.selectOnLottery(1);
         return success(infoList);
@@ -94,7 +94,7 @@ public class AppIndexController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/index/commodity")
+    @RequestMapping(value = "/api/v1/index/commodity", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject orderCommodityInfo(@RequestParam("type") int type, @RequestParam("page") int page) {
         List<Map<String, Object>> infoList = cService.selectByStyle(type, page);
         return success(infoList);

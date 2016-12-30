@@ -37,7 +37,7 @@ public class CommodityHistoryController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "api/v1/user/commodityhistory/show", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/user/commodityhistory/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommodityHistoryInfo(@RequestParam("acc") Long accountid, @RequestParam("chid") Long lastcommid, @RequestParam("tag") int tag) {
         List<CommodityHistory> chlist = new ArrayList<>();// TODO: 2016/12/24 查询用户购买的商品 参数(Long accountid)
         return success(chlist);

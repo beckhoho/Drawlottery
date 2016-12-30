@@ -7,6 +7,7 @@ import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +36,7 @@ public class CommodityTypeController extends BaseController {
     ICommodityTypeService ctService;
 
     @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/commtype/show")
+    @RequestMapping(value = "/api/v1/pub/commtype/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAvailableCommType() {
         List<CommodityType> ctList = ctService.selectAvailable();
         return success(ctList);

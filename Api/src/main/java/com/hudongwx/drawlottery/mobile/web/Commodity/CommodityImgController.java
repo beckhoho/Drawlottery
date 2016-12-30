@@ -26,15 +26,16 @@ import java.util.List;
  */
 @RestController
 @Api(value = "CommodityImgController", description = "商品图片管理")
-public class CommodityImgController extends BaseController{
+public class CommodityImgController extends BaseController {
 
     /**
      * 商品图片
+     *
      * @param urlarr 图片url数组
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "api/v1/pub/commodityimg/ushow", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/pub/commodityimg/ushow", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommodityImgInfoByUrl(@RequestParam("urlarr") String[] urlarr) {
         List<CommodityImg> cilist = new ArrayList<>();// TODO: 2016/12/24 商品图片 参数(String[] imgarr)
         return success(cilist);
@@ -47,7 +48,7 @@ public class CommodityImgController extends BaseController{
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "api/v1/pub/commodityimg/ishow", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/pub/commodityimg/ishow", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommodityImgInfoById(@RequestParam("idarr") Long[] imgarr) {
         List<CommodityImg> cilist = new ArrayList<>();// TODO: 2016/12/24 商品图片 参数(String[] imgarr)
         return success(cilist);

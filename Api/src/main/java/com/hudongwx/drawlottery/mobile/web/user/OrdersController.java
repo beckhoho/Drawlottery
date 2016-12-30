@@ -38,7 +38,7 @@ public class OrdersController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/orders/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/orders/add", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject addOrders(@RequestBody Orders order) {
         boolean status = ordersService.addOder(order);
         return response(status);
@@ -51,7 +51,7 @@ public class OrdersController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/orders/del", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/orders/del", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject deleteOrder(@RequestParam("orderid") Long orderid) {
         boolean status = ordersService.deleteOder(orderid);
         return response(status);
@@ -64,7 +64,7 @@ public class OrdersController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/orders/info", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/orders/info", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryOrder(@RequestParam("orderid") Long orderid) {
         Orders order = new Orders();// TODO: 2016/12/24 查看单条订单？？？
         return success(order);
@@ -77,7 +77,7 @@ public class OrdersController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/orders/show", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/orders/show", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryAllUserOrders(@RequestParam("acc") Long accountid) {
         List<Orders> olist = ordersService.selectByUserAccount(accountid);
         return success(olist);

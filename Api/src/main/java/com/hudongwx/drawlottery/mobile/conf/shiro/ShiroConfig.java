@@ -57,7 +57,7 @@ public class ShiroConfig {
         //管理安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager());
 
-        shiroFilterFactoryBean.setLoginUrl("/auth/login");//登录地址
+        shiroFilterFactoryBean.setLoginUrl("/auth/queryUserByPhoneNum");//登录地址
         shiroFilterFactoryBean.setSuccessUrl("/auth/loginok");//登录成功地址
         shiroFilterFactoryBean.setUnauthorizedUrl("/auth/nologin");//没有登录地址
 
@@ -82,12 +82,12 @@ public class ShiroConfig {
         */
 
         filterChainDefinitionMap.put("/*","anon");
-        //filterChainDefinitionMap.put("/auth/login","authc");
+        //filterChainDefinitionMap.put("/auth/queryUserByPhoneNum","authc");
 
         /*filterChainDefinitionMap.put("/static*","anon"); //anon 不需要登录就可以访问
         filterChainDefinitionMap.put("captcha","anon");
         filterChainDefinitionMap.put("captcha","anon");
-        filterChainDefinitionMap.put("/auth/login", "authc");//登录验证
+        filterChainDefinitionMap.put("/auth/queryUserByPhoneNum", "authc");//登录验证
         filterChainDefinitionMap.put("/auth/logout", "logout");//
         filterChainDefinitionMap.put("/user*", "authc");//
         filterChainDefinitionMap.put("/pay*", "authc");//*/

@@ -14,19 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 用户登录验证器
  */
-public class AuthorUserRealm  extends AuthorizingRealm{
+public class AuthorUserRealm extends AuthorizingRealm {
 
     @Autowired
     private IUserService userService;
 
     /**
-     *
-     * @param cacheManager 缓存对象
-     * @param matcher 匹配器
-     * @param authorZationName 权限信息
+     * @param cacheManager       缓存对象
+     * @param matcher            匹配器
+     * @param authorZationName   权限信息
      * @param authenTicationName 认证信息
      */
-    public AuthorUserRealm(CacheManager cacheManager, CredentialsMatcher matcher,String authorZationName,String authenTicationName) {
+    public AuthorUserRealm(CacheManager cacheManager, CredentialsMatcher matcher, String authorZationName, String authenTicationName) {
         super(cacheManager, matcher);
         setAuthenticationCachingEnabled(true);
         setAuthorizationCachingEnabled(true);
@@ -47,6 +46,7 @@ public class AuthorUserRealm  extends AuthorizingRealm{
 
     /**
      * 权限实现
+     *
      * @param principals
      * @return
      */
@@ -57,6 +57,7 @@ public class AuthorUserRealm  extends AuthorizingRealm{
 
     /**
      * 用户信息实现
+     *
      * @param token
      * @return
      * @throws AuthenticationException
@@ -64,18 +65,14 @@ public class AuthorUserRealm  extends AuthorizingRealm{
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         //获取用户信息
-        UsernamePasswordToken passwordToken = (UsernamePasswordToken)token;
+        UsernamePasswordToken passwordToken = (UsernamePasswordToken) token;
         String username = passwordToken.getUsername();
         String password = new String(passwordToken.getPassword());
-
         //查询用户
-        User user = userService.login(username, password);
-
-        if(user == null) throw new UnknownAccountException("用户名或密码错误");
-
+        User user = userService.queryUserByPhoneNum(username);
+        if (user == null) throw new UnknownAccountException("用户名或密码错误");
         //非法账户会被锁定
-        if(user.isLocked()) throw new LockedAccountException("账户被锁定");
-
+        if (user.isLocked()) throw new LockedAccountException("账户被锁定");
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
                 user,
                 user.getPassword(),

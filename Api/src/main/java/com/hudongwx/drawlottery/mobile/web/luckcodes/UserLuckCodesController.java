@@ -39,7 +39,7 @@ public class UserLuckCodesController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/user/luckcode/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/luckcode/add", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject addUserLuckCodes(@RequestBody List<UserLuckCodes> ulclist) {
         boolean status = true;
         for (UserLuckCodes userLuckCodes : ulclist) {
@@ -57,7 +57,7 @@ public class UserLuckCodesController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/user/luckcode/show", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/luckcode/show", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryUserLuckCodes(@RequestParam("acc") Long accountid) {
         List<UserLuckCodes> ulclist = ulcService.selectByUserId(accountid);
         return success(ulclist);

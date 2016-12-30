@@ -39,7 +39,7 @@ public class UserCodesHistoryController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/user/codeshistory/show", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/codeshistory/show", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryUserLuckCodes(@RequestParam("acc") Long accountid) {
         List<UserCodesHistory> uchlist = uchService.selectByUserAccount(accountid);
         return success(uchlist);
