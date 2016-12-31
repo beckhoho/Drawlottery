@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.ShareImgMapper">
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.ShoppingCart">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
+        <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+        <result column="add_date" jdbcType="TIMESTAMP" property="addDate" />
+        <result column="number" jdbcType="INTEGER" property="number"/>
+
+    </resultMap>
+
+
+
+
+</mapper>

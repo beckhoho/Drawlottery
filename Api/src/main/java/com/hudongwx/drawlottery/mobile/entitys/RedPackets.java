@@ -17,6 +17,12 @@ public class RedPackets {
     private Long userAccountId;
 
     /**
+     * 红包状态
+     */
+    @Column(name = "use_state")
+    private Integer useState;
+
+    /**
      * 生效日期
      */
     @Column(name = "valid_date")
@@ -38,6 +44,14 @@ public class RedPackets {
      */
     @Column(name = "use_price")
     private BigDecimal usePrice;
+
+    public Integer getUseState() {
+        return useState;
+    }
+
+    public void setUseState(Integer useState) {
+        this.useState = useState;
+    }
 
     /**
      * 红包大小

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -81,7 +82,7 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/show", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryAddress(@RequestParam("acc") Long accountid) {
-        List<DeliveryAddress> dalist = addressService.selectByUserAccountId(accountid);
-        return success(dalist);
+        List<Map<String, Object>> mapList = addressService.selectByUserAccountId(accountid);
+        return success(mapList);
     }
 }

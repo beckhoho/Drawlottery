@@ -6,7 +6,7 @@ import com.hudongwx.drawlottery.mobile.service.user.IRedPacketsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -59,11 +59,45 @@ public class RedPacketsServiceImpl implements IRedPacketsService {
      * @param accountId 用户accountID
      * @return  当前用户的所有红包信息
      */
+
+
+    /**
+     * 查询用户红包
+     * @param accountId 用户id
+     * @return
+     */
     @Override
-    public List<RedPackets> select(Long accountId) {
-        RedPackets rp = new RedPackets();
-        rp.setUserAccountId(accountId);
-        return mapper.select(rp);
+    public List<Map<String, Object>> selectUserAll(Long accountId) {
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        List<RedPackets> list = mapper.selectUserAll(accountId);
+        for (RedPackets r : list){
+            Map<String,Object> map = new HashMap<>();
+            map.put("redId",r.getId());//获取红包ID
+            map.put("name",r.getName());//获取红包名
+            map.put("userAccountId",r.getUserAccountId());//获取用户ID
+            map.put("validDate",r.getValidDate());//获取生效时间
+            map.put("overdueDate",r.getOverdueDate());//获取失效时间
+            map.put("usePrice",r.getUsePrice());//获取使用泛围
+            map.put("worth",r.getWorth());//获取红包大小
+            map.put("useState",r.getUseState());//获取红包状态（1.已使用，0.未使用）
+            if(useDate(r)){
+                map.put("state",0);//是否可使用？0：可使用
+            }
+            else{
+                map.put("state",1);//是否可使用？1：不可使用
+            }
+            mapList.add(map);
+        }
+        return mapList;
+    }
+    public boolean useDate(RedPackets r){
+        Date date = new Date();
+        if(r.getOverdueDate().getTime()>date.getTime()||r.getValidDate().getTime()<date.getTime()){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
 }

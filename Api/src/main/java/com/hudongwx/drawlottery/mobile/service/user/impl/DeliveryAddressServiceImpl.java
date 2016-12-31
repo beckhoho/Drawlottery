@@ -7,7 +7,10 @@ import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -72,10 +75,22 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
      * @return List<DeliveryAddress>
      */
     @Override
-    public List<DeliveryAddress> selectByUserAccountId(Long accountId) {
+    public List<Map<String,Object>> selectByUserAccountId(Long accountId) {
+        List<Map<String,Object>> mapList = new ArrayList<>();
         DeliveryAddress da = new DeliveryAddress();
         da.setUserId(accountId);
-        return damapper.select(da);
+        List<DeliveryAddress> list = damapper.select(da);
+        for (DeliveryAddress de : list){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",de.getId());//获取收货地址ID
+            map.put("receiverName",de.getReceiverName());//收货人姓名
+            map.put("address",de.getAddress());//收货地址
+            map.put("phone",de.getPhone());//手机号码
+            map.put("userAccountId",de.getUserId());//用户id
+            map.put("state",de.getState());//是否是默认地址（1：是，0：不是）
+            mapList.add(map);
+        }
+        return mapList;
     }
 
     /**

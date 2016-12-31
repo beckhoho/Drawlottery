@@ -12,5 +12,6 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="use_price" jdbcType="DECIMAL" property="usePrice" />
     <result column="worth" jdbcType="DECIMAL" property="worth" />
+    <result column="use_state" jdbcType="INTEGER" property="useState"/>
   </resultMap>
 </mapper>

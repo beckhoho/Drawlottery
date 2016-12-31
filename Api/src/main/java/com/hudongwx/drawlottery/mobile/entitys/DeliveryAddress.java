@@ -11,7 +11,7 @@ public class DeliveryAddress {
     /**
      * 用户账号
      */
-    @Column(name = "user_id")
+    @Column(name = "user_account_id")
     private Long userId;
 
     /**
