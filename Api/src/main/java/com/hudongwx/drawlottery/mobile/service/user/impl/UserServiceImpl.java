@@ -5,7 +5,6 @@ import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
-import com.hudongwx.drawlottery.mobile.utils.VerifyCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,17 +44,23 @@ public class UserServiceImpl implements IUserService {
 
 
     @Override
-    public boolean register(String phone, String password, String code) {
+    public boolean register(String phone, String password, String verifyCode, String code) {
         if (null != mapper.selectByPhoneNumber(phone))
             return false;
-        if (!VerifyCodeUtils.isCorrectCode(code))
-            return false;
+//        if (!verifyCode.equals(code))
+//            return false;
+//        if (!VerifyCodeUtils.isCorrectCode(code))
+//            return false;
         User user = new User();
         user.setPhoneNumber(phone);
         user.setPassword(password);
         user.setRealName("未认证");
         int length = phone.length();
-        user.setNickname(phone.substring(0, 3) + "*****" + phone.substring(length - 3, length));
+        if (length == 11) {
+            user.setNickname(phone.substring(0, 3) + "*****" + phone.substring(length - 3, length));
+        } else {
+            user.setNickname("未设置");
+        }
         user.setUserIntegral(0);
         user.setHeaderUrl(Settings.USER_HEAD_PORTRAIT_URL_DEFAULT);
         user.setGoldNumber(0);
@@ -109,16 +114,14 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectHistoryPay(Long accountId,Integer item) {
+    public List<Map<String, Object>> selectHistoryPay(Long accountId, Integer item) {
 
         List<Map<String, Object>> mapList = selectToHistory(accountId);
-        if(item==1){
+        if (item == 1) {
             return selectToNew(accountId);
-        }
-        else if(item==2){
+        } else if (item == 2) {
             return selectToHistory(accountId);
-        }
-        else{
+        } else {
             mapList.addAll(selectToHistory(accountId));
             mapList.addAll(selectToNew(accountId));
             return mapList;
@@ -142,15 +145,14 @@ public class UserServiceImpl implements IUserService {
             map.put("name", history.getCommodityName());//添加商品名
             map.put("roundTime", history.getRoundTime());//添加期数
             map.put("state", 1);//添加状态
-            map.put("coverImgUrl",history.getCoverImgUrl());//添加商品封面图URL
-            map.put("buyTotalNumber",history.getBuyTotalNumber());//添加当期总需人次
-            map.put("nickname",user1.getNickname());//中奖者昵称
-            map.put("userAccountId",accountId);//添加用户ID
-            if(accountId==history.getLuckUserAccountId()) {
-                map.put("userState",1);//是否中奖者是本用户（是）
-            }
-            else{
-                map.put("userState",0);//是否中奖者是本用户（不是）
+            map.put("coverImgUrl", history.getCoverImgUrl());//添加商品封面图URL
+            map.put("buyTotalNumber", history.getBuyTotalNumber());//添加当期总需人次
+            map.put("nickname", user1.getNickname());//中奖者昵称
+            map.put("userAccountId", accountId);//添加用户ID
+            if (accountId == history.getLuckUserAccountId()) {
+                map.put("userState", 1);//是否中奖者是本用户（是）
+            } else {
+                map.put("userState", 0);//是否中奖者是本用户（不是）
             }
             list.add(map);
         }
@@ -163,17 +165,17 @@ public class UserServiceImpl implements IUserService {
         UserLuckCodes user = new UserLuckCodes();
         user.setUserAccountId(accountId);
         List<UserLuckCodes> s1 = luckCodesMapper.select(user);
-        for(UserLuckCodes u : s1){
-            Map<String,Object> map = new HashMap<>();
+        for (UserLuckCodes u : s1) {
+            Map<String, Object> map = new HashMap<>();
             Commoditys com = comMapper.selectByPrimaryKey(u.getCommodityId());
-            map.put("commodityId",com.getId());//添加商品ID
-            map.put("buyCurrentNumber",com.getBuyCurrentNumber());//添加当前购买人次
-            map.put("buyTotalNumber",com.getBuyTotalNumber());//添加总购买人次
-            map.put("state",com.getState());//添加状态
-            map.put("roundTime",com.getRoundTime());//添加期数
-            map.put("coverImgUrl",com.getCoverImgUrl());//添加封面图URL
-            map.put("name",com.getName());//添加商品名
-            map.put("userAccountId",accountId);//添加用户ID
+            map.put("commodityId", com.getId());//添加商品ID
+            map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次
+            map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
+            map.put("state", com.getState());//添加状态
+            map.put("roundTime", com.getRoundTime());//添加期数
+            map.put("coverImgUrl", com.getCoverImgUrl());//添加封面图URL
+            map.put("name", com.getName());//添加商品名
+            map.put("userAccountId", accountId);//添加用户ID
             list.add(map);
         }
         return list;

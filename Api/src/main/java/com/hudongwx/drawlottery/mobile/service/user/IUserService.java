@@ -17,7 +17,7 @@ public interface IUserService {
      * @param password
      * @return
      */
-    boolean register(String phone, String password,String code);
+    boolean register(String phone, String password,String verifyCode,String code);
 
     /**
      * 手机号查询用户

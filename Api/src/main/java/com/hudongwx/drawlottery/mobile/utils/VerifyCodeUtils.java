@@ -118,16 +118,16 @@ public class VerifyCodeUtils {
      * @param verifySize
      * @throws IOException
      */
-    public static void saveCodeAndOutputImage(int w, int h, OutputStream os, int verifySize) throws IOException {
+    public static void saveCodeAndOutputImage(int w, int h, OutputStream os, int verifySize, String sessionIdStr) throws IOException {
         String verifyCode = generateVerifyCode(verifySize);
-        File file = saveFileInfo(verifyCode);//保存验证码到本地
+        File file = saveFileInfo(verifyCode, sessionIdStr);//保存验证码到本地
         outputImage(w, h, os, verifyCode);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
                 file.delete();
             }
-        }, 1000*60);// 设定指定的时间验证码失效,此处为1分钟。
+        }, 1000 * 60 * 2);// 设定指定的时间验证码失效,此处为1分钟。
     }
 
     /**
@@ -277,9 +277,9 @@ public class VerifyCodeUtils {
      * @param code 验证码
      * @return boolean
      */
-    public static boolean isCorrectCode(String code) {
+    public static boolean isCorrectCode(String sessionIdStr, String code) {
         File dir = new File(FILE_PATH);
-        File file = new File(dir, code + ".txt");
+        File file = new File(dir, sessionIdStr + code + ".txt");
         if (file.exists()) {
             file.delete();
             return true;
@@ -293,12 +293,12 @@ public class VerifyCodeUtils {
      * @param code
      * @throws IOException
      */
-    private static File saveFileInfo(String code) throws IOException {
+    private static File saveFileInfo(String code, String sessionIdStr) throws IOException {
         File dir = new File(FILE_PATH);
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        File file = new File(dir, code + ".txt");
+        File file = new File(dir, sessionIdStr + code + ".txt");
         file.createNewFile();
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(code.getBytes());
@@ -306,11 +306,11 @@ public class VerifyCodeUtils {
         return file;
     }
 
-//    public static void main(String[] args) throws IOException {
-//        File dir = new File("C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\verificationcode");
-//        int w = 200, h = 80;
-//        String verifyCode = generateVerifyCode(4);
-//        File file = new File(dir, verifyCode + ".jpg");
-//        outputImage(w, h, file, verifyCode);
-//    }
+    public static void main(String[] args) throws IOException {
+        File dir = new File("C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\verificationcode");
+        int w = 200, h = 80;
+        String verifyCode = generateVerifyCode(5);
+        File file = new File(dir, verifyCode + ".jpg");
+        outputImage(w, h, file, verifyCode);
+    }
 }

@@ -129,4 +129,9 @@ public class Settings {
      */
     public static final int VERIFY_CODE_LENGTH = 4;
 
+    /**
+     * 设置session时长
+     */
+    public static final long SESSION_TIME_OUT = 1000 * 60 * 1;
+
 }

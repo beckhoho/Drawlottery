@@ -37,12 +37,12 @@ public class RedPacketsController extends BaseController {
     /**
      * 获取用户可用的红包
      *
-     * @param accountid 用户账号
      * @return JSONObject
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/redpacket/usable", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject queryUsableRedPacket(@RequestParam("acc") Long accountid) {
+    public JSONObject queryUsableRedPacket() {
+        getUser();
         List<RedPackets> rplist = new ArrayList<>();//// TODO: 2016/12/23  获取用户可用的红包的集合
         return success(rplist);
     }
@@ -50,12 +50,11 @@ public class RedPacketsController extends BaseController {
     /**
      * 获取用户不可用的红包
      *
-     * @param accountid 用户账号
      * @return JSONObject
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/redpacket/unusable", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject queryUnusableRedPacket(@RequestParam("acc") Long accountid) {
+    public JSONObject queryUnusableRedPacket() {
         List<RedPackets> rplist = new ArrayList<>();//// TODO: 2016/12/23  获取用户不可用的红包的集合
         return success(rplist);
     }
