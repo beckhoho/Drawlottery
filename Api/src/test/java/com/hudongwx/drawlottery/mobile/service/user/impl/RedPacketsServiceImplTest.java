@@ -56,10 +56,6 @@ public class RedPacketsServiceImplTest extends TestBaseMapper {
     @Test
     public void testSelect() throws Exception {
 
-        List<RedPackets> s = ird.select(3l);
-        for (RedPackets r : s){
-            System.out.println(r.getName());
-        }
     }
 
 }

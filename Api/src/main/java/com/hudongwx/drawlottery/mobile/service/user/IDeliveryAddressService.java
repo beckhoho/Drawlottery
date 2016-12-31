@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.user;
 import com.hudongwx.drawlottery.mobile.entitys.DeliveryAddress;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -51,7 +52,7 @@ public interface IDeliveryAddressService {
      * @param accountId 用户账号
      * @return List<DeliveryAddress>
      */
-    public List<DeliveryAddress> selectByUserAccountId(Long accountId);
+    public List<Map<String,Object>> selectByUserAccountId(Long accountId);
 
     /**
      * 查询单条地址信息
