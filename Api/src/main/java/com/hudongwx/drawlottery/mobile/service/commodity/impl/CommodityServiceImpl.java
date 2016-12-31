@@ -3,7 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
-import com.hudongwx.drawlottery.mobile.utils.AppServiceUtils;
+import com.hudongwx.drawlottery.mobile.utils.ServiceUtils;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -140,13 +140,13 @@ public class CommodityServiceImpl implements ICommodityService {
         List<Commoditys> cList;
         List<Map<String, Object>> infoList = new ArrayList<>();
         if (type.intValue() == Settings.COMMODITY_ORDER_POPULARITY) {
-            cList = AppServiceUtils.getPageList(mapper.selectByTemp1(), page);
+            cList = ServiceUtils.getPageList(mapper.selectByTemp1(), page);
         } else if (type == Settings.COMMODITY_ORDER_FASTEST) {
-            cList = AppServiceUtils.getPageList(mapper.selectByTemp2(), page);
+            cList = ServiceUtils.getPageList(mapper.selectByTemp2(), page);
         } else if (type == Settings.COMMODITY_ORDER_NEWEST) {
-            cList = AppServiceUtils.getPageList(mapper.selectByTemp3(), page);
+            cList = ServiceUtils.getPageList(mapper.selectByTemp3(), page);
         } else {
-            cList = AppServiceUtils.getPageList(mapper.selectByTemp4(), page);
+            cList = ServiceUtils.getPageList(mapper.selectByTemp4(), page);
         }
         for (Commoditys commoditys : cList) {
             infoList.add(dealCommSelectByStyle(commoditys));
@@ -171,7 +171,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Map<String, Object>> selectOnLottery(Integer page) {
-        List<Commoditys> list = AppServiceUtils.getPageList(mapper.selectOnLottery(),page);
+        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectOnLottery(),page);
         List<Map<String, Object>> infoList = new ArrayList<>();
         int s = Settings.PAGE_LOAD_SIZE >= list.size() ? list.size() : Settings.PAGE_LOAD_SIZE;
         for (int i = 0; i < s; i++) {
@@ -355,19 +355,19 @@ public class CommodityServiceImpl implements ICommodityService {
 
     //已分类的商品名搜索
     public List<Map<String, Object>> type1(Integer categoryId, String commName, Integer page) {
-        List<Commoditys> list = AppServiceUtils.getPageList(mapper.selectByTypeAndName("%" + commName + "%", categoryId), page);
+        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByTypeAndName("%" + commName + "%", categoryId), page);
         return forPut(list);
     }
 
     //已分类商品搜索
     public List<Map<String, Object>> byType(Integer categoryId, Integer page) {
-        List<Commoditys> list = AppServiceUtils.getPageList(mapper.selectByType(categoryId), page);
+        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByType(categoryId), page);
         return forPut(list);
     }
 
     //未分类的商品名搜索
     public List<Map<String, Object>> type4(String commName, Integer page) {
-        List<Commoditys> list = AppServiceUtils.getPageList(mapper.selectByName("%" + commName + "%"), page);
+        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByName("%" + commName + "%"), page);
         return forPut(list);
     }
 

@@ -18,7 +18,15 @@ import java.util.List;
  * <p>
  * @email 294786949@qq.com
  */
-public class AppServiceUtils {
+public class ServiceUtils {
+    /**
+     * 将集合处理成分页数据
+     *
+     * @param list 直接从数据库的获取到的list集合
+     * @param page 查询的当前page
+     * @param <T>  泛型
+     * @return
+     */
     public static <T extends Object> List<T> getPageList(List<T> list, Integer page) {
         List<T> newList = new ArrayList<>();
         if (null == page || page <= 0)

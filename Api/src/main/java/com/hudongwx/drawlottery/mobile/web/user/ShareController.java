@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -40,7 +41,7 @@ public class ShareController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/share/add", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/share/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addShareInfo(@RequestBody Share share) {
 
         boolean status = shareService.addShare(share);
@@ -48,17 +49,14 @@ public class ShareController extends BaseController {
     }
 
     /**
-     * 获取用户晒单分享列表信息
+     * 获取用户晒单列表信息
      *
-     * @param accountid   账号id
-     * @param ref         刷新的状态标记（0 初始，1 下拉刷新，2 上拉刷新）
-     * @param lastshareid 客户端最后显示的晒单id
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject queryShareInfo(@RequestParam("acc") Long accountid, @RequestParam("ref") int ref, @RequestParam("lastshareid") Long lastshareid) {
-        List<Share> slist = shareService.selectShare(accountid, lastshareid, ref);// TODO: 2016/12/24 获取share集合数据 參數(Long accountid)
-        return success(slist);
+    @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryShareInfo(@RequestParam("page") int page) {
+        List<Map<String, Object>> shareAll = shareService.selectUserAll(2L);
+        return success(shareAll);
     }
 }
