@@ -43,4 +43,19 @@ public class UserController extends BaseController {
         Map<String, Object> userInfo = userService.getUserInfo(user);
         return success(userInfo);
     }
+
+    /**
+     * 获取用户中奖记录
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/win", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryUserWinningHistory() {
+        User user = getUser();//获取当前用户信息
+        Map<String, Object> userInfo = null;// TODO: 2016/12/31 用戶中獎圖記錄 
+        return success(userInfo);
+    }
+
+
 }
