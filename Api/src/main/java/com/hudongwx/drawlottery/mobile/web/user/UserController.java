@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.service.user.ISignInService;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
@@ -33,6 +34,8 @@ public class UserController extends BaseController {
 
     @Autowired
     IUserService userService;
+    @Autowired
+    ISignInService signInService;
 
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/info", method = {RequestMethod.POST, RequestMethod.GET})
@@ -71,4 +74,27 @@ public class UserController extends BaseController {
         return success(historyLottery);
     }
 
+    /**
+     * 用户签到
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/sign", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject addUserSign() {
+        User user = getUser();//获取当前用户信息
+        return success(signInService.selectUserSign(user.getAccountId()));
+    }
+
+    /**
+     * 用户签到信息
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/sign/show", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryUserSign() {
+        User user = getUser();//获取当前用户信息
+        return success(signInService.selectUserSign(user.getAccountId()));
+    }
 }

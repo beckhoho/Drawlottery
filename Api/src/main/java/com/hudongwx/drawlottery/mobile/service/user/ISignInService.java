@@ -1,7 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.user;
 
-import com.hudongwx.drawlottery.mobile.entitys.SignIn;
-
 import java.util.List;
 import java.util.Map;
 
@@ -16,15 +14,25 @@ import java.util.Map;
  * <p>
  * 创建　kiter　2017/1/3 11:16　<br/>
  * <p>
- *          签到service
+ * 签到service
  * <p>
  * @email 346905702@qq.com
  */
 public interface ISignInService {
 
-    //添加签到
-    boolean addSignIn(SignIn in);
+    /**
+     * 用户签到
+     *
+     * @param accountId
+     * @return
+     */
+    boolean addUserSignIn(Long accountId);
 
-    //查看签到
-    List<Map<String,Object>> selectUserSignIn(Long accountId);
+    /**
+     * 查询签到
+     *
+     * @param accountId
+     * @return
+     */
+    List<Map<String, Object>> selectUserSign(Long accountId);
 }

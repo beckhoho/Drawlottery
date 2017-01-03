@@ -9,7 +9,5 @@
         <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
         <result column="sign_in_day" jdbcType="INTEGER" property="signInDay" />
         <result column="new_sign_date" jdbcType="TIMESTAMP" property="newSignInDate" />
-        <result column="state" jdbcType="INTEGER" property="state"/>
-
     </resultMap>
 </mapper>

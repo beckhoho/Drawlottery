@@ -134,4 +134,6 @@ public class Settings {
      */
     public static final long SESSION_TIME_OUT = 1000 * 60 * 1;
 
+    public static final long ONE_DAY_LONG_VALUE = 1000 * 60 * 60 * 24;
+
 }

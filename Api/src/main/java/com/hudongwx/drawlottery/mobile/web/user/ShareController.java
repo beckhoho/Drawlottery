@@ -43,7 +43,6 @@ public class ShareController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addShareInfo(@RequestBody Share share) {
-
         boolean status = shareService.addShare(share);
         return response(status);
     }
@@ -56,6 +55,18 @@ public class ShareController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryShareInfo(@RequestParam("page") int page) {
+        List<Map<String, Object>> shareAll = shareService.selectUserAll(2L);
+        return success(shareAll);
+    }
+
+    /**
+     * 获取用户晒单列表信息
+     *
+     * @return JSONObject
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/share/upload.do", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject addShareImg(@RequestParam("page") int page) {
         List<Map<String, Object>> shareAll = shareService.selectUserAll(2L);
         return success(shareAll);
     }

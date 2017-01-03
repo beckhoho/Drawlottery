@@ -16,7 +16,7 @@ import java.util.Date;
  * <p>
  * 创建　kiter　2017/1/3 11:06　<br/>
  * <p>
- *             签到实体类
+ * 签到实体类
  * <p>
  * @email 346905702@qq.com
  */
@@ -38,8 +38,6 @@ public class SignIn {
 
     @Column(name = "new_sign_date")
     private Date newSignInDate;
-
-    private Integer state;
 
     public Long getId() {
         return id;
@@ -71,13 +69,5 @@ public class SignIn {
 
     public void setNewSignInDate(Date newSignInDate) {
         this.newSignInDate = newSignInDate;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
     }
 }
