@@ -10,7 +10,6 @@
     <result column="issue_date" jdbcType="TIMESTAMP" property="issueDate" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
     <result column="particulars" jdbcType="VARCHAR" property="particulars" />
-    <result column="share_img_url_id" jdbcType="BIGINT" property="shareImgUrlId"/>
   </resultMap>
   <select id="selectPageShareInfo" resultType="com.hudongwx.drawlottery.mobile.entitys.Share">
     SELECT * FROM t_share

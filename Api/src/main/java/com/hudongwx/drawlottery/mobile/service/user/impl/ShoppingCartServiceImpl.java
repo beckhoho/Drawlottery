@@ -37,21 +37,41 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     @Autowired
     CommoditysMapper commodMapper;
 
+    /**
+     * 添加商品到购物车
+     * @param shopping  购物车对象
+     * @return  返回添加结果
+     */
     @Override
     public boolean addCommodityToCart(ShoppingCart shopping) {
         return mapper.insert(shopping)>0;
     }
 
+    /**
+     * 将商品从购物车移除
+     * @param shopping  购物车对象
+     * @return  返回删除结果
+     */
     @Override
     public boolean deleteCommodity(ShoppingCart shopping) {
         return mapper.delete(shopping)>0;
     }
 
+    /**
+     * 修改购物车物品
+     * @param shoppingCart  购物车对象
+     * @return  返回修改结果
+     */
     @Override
     public boolean updateCommodity(ShoppingCart shoppingCart) {
         return mapper.updateByPrimaryKeySelective(shoppingCart)>0;
     }
 
+    /**
+     * 查看用户个人购物车商品
+     * @param accountId 用户  ID
+     * @return  返回购物车商品集合
+     */
     @Override
     public List<Map<String, Object>> selectByAccount(Long accountId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
