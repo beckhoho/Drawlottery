@@ -10,6 +10,7 @@
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
     <result column="luck_codes_id" jdbcType="BIGINT" property="luckCodesId" />
     <result column="on_prize_date" jdbcType="TIMESTAMP" property="onPrizeDate" />
+    <result column="luck_account_id" jdbcType="BIGINT" property="luckAccountId"/>
 
   </resultMap>
 </mapper>

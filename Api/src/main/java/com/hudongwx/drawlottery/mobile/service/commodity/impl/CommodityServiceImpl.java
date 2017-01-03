@@ -224,6 +224,8 @@ public class CommodityServiceImpl implements ICommodityService {
         return map;
     }
 
+
+
     public List<Map<String, Object>> listMap3() {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
@@ -386,6 +388,18 @@ public class CommodityServiceImpl implements ICommodityService {
             listMap.add(map);
         }
         return listMap;
+    }
+
+
+    /**
+     * 查找高中奖率商品
+     * @param number
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> selectHeight(Integer number) {
+        List<Commoditys> list = mapper.selectHeight(number);
+        return forPut(list);
     }
 
 }

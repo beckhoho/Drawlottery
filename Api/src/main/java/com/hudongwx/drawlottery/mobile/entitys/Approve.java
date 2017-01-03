@@ -5,7 +5,9 @@ import javax.persistence.*;
 
 @Table(name = "t_approve")
 public class Approve {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**

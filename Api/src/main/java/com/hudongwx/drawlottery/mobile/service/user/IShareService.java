@@ -51,4 +51,7 @@ public interface IShareService {
 
     //查看用户晒单
     List<Map<String,Object>> selectUserAll(Long account);
+
+    //首页全部晒单
+    List<Map<String,Object>> selectAll();
 }

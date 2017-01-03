@@ -126,4 +126,37 @@ public class ShareServiceImpl implements IShareService {
         return listMap;
     }
 
+    /**
+     * 首页晒单
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> selectAll() {
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        List<Share> list = mapper.selectAll();
+        for (Share s : list){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",s.getId());//获取晒单ID
+            map.put("accountId",s.getUserAccountId());//获取用户ID
+            map.put("particulars",s.getParticulars());//获取晒单分享内容
+            map.put("commodityId",s.getCommodityId());//添加商品ID
+            map.put("date",s.getIssueDate());//添加晒单时间
+            map.put("imgUrl",imgUrl(s));//添加晒单图片List
+            mapList.add(map);
+        }
+
+        return mapList;
+    }
+
+    public List<String> imgUrl(Share s){
+        List<String> list = new ArrayList<>();
+        ShareImg i = new ShareImg();
+        i.setShareId(s.getId());
+        List<ShareImg> imgs = shareImgMapper.select(i);
+        for (ShareImg img : imgs){
+            list.add(img.getShareImgUrl());
+        }
+        return list;
+    }
+
 }

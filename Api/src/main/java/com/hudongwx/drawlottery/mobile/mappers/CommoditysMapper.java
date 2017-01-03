@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
@@ -174,4 +175,13 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     })
     List<Commoditys> selectByGuess();
 
+    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state from t_commoditys where buy_total_number<#{number}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
+            @Result(column = "buy_total_number", property = "buyTotalNumber"),
+            @Result(column = "cover_img_url", property = "coverImgUrl"),
+
+    })
+    List<Commoditys> selectHeight(@Param("number") Integer number);
 }
