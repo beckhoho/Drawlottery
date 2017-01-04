@@ -1,15 +1,14 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.RedPackets;
 import com.hudongwx.drawlottery.mobile.service.user.IRedPacketsService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -35,41 +34,26 @@ public class RedPacketsController extends BaseController {
     IRedPacketsService rpService;
 
     /**
-     * 获取用户可用的红包
-     *
-     * @return JSONObject
-     */
-    @ResponseBody
-    @RequestMapping(value = "/api/v1/user/redpacket/usable", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject queryUsableRedPacket() {
-        getUser();
-        List<RedPackets> rplist = new ArrayList<>();//// TODO: 2016/12/23  获取用户可用的红包的集合
-        return success(rplist);
-    }
-
-    /**
      * 获取用户不可用的红包
      *
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/redpacket/unusable", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject queryUnusableRedPacket() {
-        List<RedPackets> rplist = new ArrayList<>();//// TODO: 2016/12/23  获取用户不可用的红包的集合
-        return success(rplist);
+    @RequestMapping(value = "/api/v1/user/redpacket/show", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryUserRedPacket() {
+        List<Map<String, Object>> infoList = rpService.selectAllByUserAccountId(10000L);
+        return success(infoList);
     }
 
     /**
-     * 用户使用红包
+     * 用户红包
      *
-     * @param rp 客户端发来的红包信息修改状态
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/redpacket/up", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject updateRedPacket(@RequestParam("packet") RedPackets rp) {
-        boolean status = true;//// TODO: 2016/12/23  修改红包状态？？？
-        return response(status);
+    @RequestMapping(value = "/api/v1/user/redpacket/use", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject updateUserRedPacket(@RequestParam("rpId") Long rpId) {
+        return response(rpService.useRedPacket(10000L, rpId));
     }
 
 }

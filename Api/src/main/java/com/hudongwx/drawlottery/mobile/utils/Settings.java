@@ -169,7 +169,7 @@ public class Settings {
     /**
      * 用户正常状态
      */
-    public static final String USER_PORTRAIT_URL_DEFAULT = SERVER_URL_PATH+IMG_PATH_ICONS+"defaultheadportrait.png";
+    public static final String USER_PORTRAIT_URL_DEFAULT = SERVER_URL_PATH + IMG_PATH_ICONS + "defaultheadportrait.png";
 
     /**
      * 图标图片路径
@@ -177,4 +177,27 @@ public class Settings {
     public static final String IMG_PATH_SHARE = "imgs/shareimg/";
 
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*imgPath*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
+
+    /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*redPacket*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
+    /**
+     * 未使用红包
+     */
+    public static final int RED_PACKET_USE_STATE_UNUSED = 0;
+
+    /**
+     * 已使用红包
+     */
+    public static final int RED_PACKET_USE_STATE_USED = 1;
+
+    /**
+     * 红包未过期
+     */
+    public static final int RED_PACKET_overdue_not = 1;
+
+    /**
+     * 红包已过期
+     */
+    public static final int RED_PACKET_overdue = 0;
+
+    /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*redPacket*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 }
