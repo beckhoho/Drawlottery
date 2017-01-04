@@ -210,7 +210,7 @@ public class CommodityServiceImpl implements ICommodityService {
             CommodityHistory comm = historyMapper.selectBycommod(commodId);
             map.put("beforeLottery", mapBefore(comm));
         }
-        map.put("commodId", commodId);//商品ID
+        map.put("commId", commodId);//商品ID
         map.put("imgUrl", listUrl(commodId));//添加图片url数组
         map.put("onState", com.getState());//添加是否已开奖状态
         map.put("commodityName", com.getName());//添加商品名

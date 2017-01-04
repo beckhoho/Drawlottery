@@ -4,14 +4,10 @@ import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.RedPackets;
 import com.hudongwx.drawlottery.mobile.service.user.IRedPacketsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -42,15 +38,12 @@ public class RedPacketsServiceImplTest extends TestBaseMapper {
         rp.setOverdueDate(new Date());
         rp.setUsePrice(big);
         rp.setWorth(big);
-        ird.addRP(rp);
     }
 
     @Test
     public void testDelete() throws Exception {
         RedPackets r = new RedPackets();
         r.setId(2l);
-        boolean d = ird.delete(r);
-        Assert.assertTrue(d);
     }
 
     @Test

@@ -1,7 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.user;
 
-import com.hudongwx.drawlottery.mobile.entitys.RedPackets;
-
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +8,13 @@ import java.util.Map;
  */
 public interface IRedPacketsService {
 
-    boolean addRP(RedPackets rp);
+    /**
+     * 用户红包
+     *
+     * @param accountId
+     * @return
+     */
+    List<Map<String, Object>> selectAllByUserAccountId(Long accountId);
 
-    boolean delete(RedPackets redp);
-
-    List<Map<String,Object>> selectUserAll(Long accountId);
+    boolean useRedPacket(Long AccountId, Long rpId);
 }
