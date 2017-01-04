@@ -4,11 +4,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.ISignInService;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
+import com.hudongwx.drawlottery.mobile.utils.TestHttp;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +44,10 @@ public class UserController extends BaseController {
     @Autowired
     ISignInService signInService;
 
+    /**
+     *
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserInfo() {
@@ -67,7 +78,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/usercomm", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/usercomm/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserCommRecord(@RequestParam("item") int item, @RequestParam("page") int page) {
         User user = getUser();//获取当前用户信息
         List<Map<String, Object>> historyLottery = userService.selectHistoryPay(2L, item);
@@ -80,7 +91,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/sign", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/sign/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addUserSign() {
         User user = getUser();//获取当前用户信息
         return success(signInService.selectUserSign(user.getAccountId()));
@@ -96,5 +107,32 @@ public class UserController extends BaseController {
     public JSONObject queryUserSign() {
         User user = getUser();//获取当前用户信息
         return success(signInService.selectUserSign(user.getAccountId()));
+    }
+
+    /**
+     * 用户上传头像
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/upload/headimg.do", method = RequestMethod.POST)
+    public JSONObject uploadUserImg(HttpServletRequest request) throws IOException {
+        BufferedInputStream bis = new BufferedInputStream(request.getInputStream());
+        byte[] bytes = TestHttp.readInputStream(bis);
+        String path="C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\userportrait";
+        File file=new File(path,new Date().getTime()+".jpg");
+        if(!file.exists())
+            file.getParentFile().createNewFile();
+        FileOutputStream fos=new FileOutputStream(file);
+        fos.write(bytes);
+        fos.close();
+        return success();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/update/nickname", method = RequestMethod.POST)
+    public JSONObject updateUserNickName(@RequestParam("name")String userNickName) throws IOException {
+
+        return response(true);
     }
 }

@@ -1,7 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.user;
 
-import com.hudongwx.drawlottery.mobile.entitys.ShoppingCart;
-
 import java.util.List;
 import java.util.Map;
 
@@ -16,21 +14,21 @@ import java.util.Map;
  * <p>
  * 创建　kiter　2016/12/31 15:55　<br/>
  * <p>
- *          购物车service
+ * 购物车service
  * <p>
  * @email 346905702@qq.com
  */
 public interface IShoppingCartService {
 
     //添加商品到购物车
-    boolean addCommodityToCart(ShoppingCart shopping);
+    boolean addCommodityToCart(Long accountId, Long commId, Integer count);
 
     //删除购物车里的商品
-    boolean deleteCommodity(ShoppingCart shopping);
+    boolean deleteCommodity(Long accountId, Long commId);
 
     //修改购物车里的商品信息
-    boolean updateCommodity(ShoppingCart shoppingCart);
+    boolean updateCommodity(Long accountId, Long commId, Integer count);
 
     //查看用户购物车
-    List<Map<String,Object>> selectByAccount(Long accountId);
+    List<Map<String, Object>> selectByAccount(Long accountId);
 }

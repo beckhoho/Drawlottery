@@ -33,7 +33,16 @@ public class NotificationPrize {
     @Column(name = "on_prize_date")
     private Date onPrizeDate;
 
+    @Column(name = "luck_account_id")
+    private Long luckAccountId;
 
+    public Long getLuckAccountId() {
+        return luckAccountId;
+    }
+
+    public void setLuckAccountId(Long luckAccountId) {
+        this.luckAccountId = luckAccountId;
+    }
 
     public Long getId() {
         return id;

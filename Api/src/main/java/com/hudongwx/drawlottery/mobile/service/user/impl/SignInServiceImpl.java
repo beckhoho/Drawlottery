@@ -21,7 +21,7 @@ import java.util.*;
  * <p>
  * 创建　kiter　2017/1/3 11:21　<br/>
  * <p>
- * 什么类？
+ *          签到实现类
  * <p>
  * @email 346905702@qq.com
  */

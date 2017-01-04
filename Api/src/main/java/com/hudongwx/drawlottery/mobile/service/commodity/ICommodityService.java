@@ -69,4 +69,7 @@ public interface ICommodityService {
 
     //商品详情
     Map<String, Object> selectCommodity(Long commodId);
+
+    //查询高中奖率商品
+    List<Map<String, Object>> selectHeight(Integer number);
 }

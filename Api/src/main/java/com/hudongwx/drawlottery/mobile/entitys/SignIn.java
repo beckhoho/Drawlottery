@@ -1,8 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -25,6 +23,7 @@ import java.util.Date;
 public class SignIn {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
