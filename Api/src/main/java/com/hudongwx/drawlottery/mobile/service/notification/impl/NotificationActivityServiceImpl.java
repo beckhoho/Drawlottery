@@ -70,7 +70,7 @@ public class NotificationActivityServiceImpl implements INotificationActivitySer
      * @return
      */
     public List<Map<String,Object>> selectAll(){
-        List<NotificationActivity> list = mapper.selectAll();
+        List<NotificationActivity> list = mapper.selectTitle();
         return selectTool(list);
     }
 

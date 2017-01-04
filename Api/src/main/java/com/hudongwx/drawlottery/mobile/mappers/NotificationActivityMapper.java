@@ -2,6 +2,11 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.NotificationActivity;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -14,10 +19,21 @@ import com.hudongwx.drawlottery.mobile.entitys.NotificationActivity;
  * <p>
  * 创建　kiter　2017/1/3 14:28　<br/>
  * <p>
- *          活动通知mapper
+ * 活动通知mapper
  * <p>
  * @email 346905702@qq.com
  */
-public interface NotificationActivityMapper extends BaseMapper<NotificationActivity>{
+public interface NotificationActivityMapper extends BaseMapper<NotificationActivity> {
+
+    @Select("select  distinct * from t_notification_activity GROUP BY notice_title")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "user_account_id", property = "userAccountId"),
+            @Result(column = "notice_title", property = "noticeTitle"),
+            @Result(column = "notice_url", property = "noticeUrl"),
+            @Result(column = "notice_cover_img_url", property = "noticeCoverImgUrl"),
+            @Result(column = "send_date", property = "sendDate")
+    })
+    List<NotificationActivity> selectTitle();
 
 }
