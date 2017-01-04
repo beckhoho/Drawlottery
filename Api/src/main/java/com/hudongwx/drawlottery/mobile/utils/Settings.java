@@ -20,11 +20,6 @@ public class Settings {
     /**
      * 用户正常状态
      */
-    public static final String USER_HEAD_PORTRAIT_URL_DEFAULT = "http://192.168.6.199:8080/imgs/icons/defaultheadportrait.png";
-
-    /**
-     * 用户正常状态
-     */
     public static final int USER_STATE_NORMAL = 1;
 
     /**
@@ -70,6 +65,7 @@ public class Settings {
      */
     public static final int PULL_TO_REFRESH = 2;
 
+    /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*commodity(商品)*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
     /**
      * 数据库获取的图片类型(ICONS 小图标)
      */
@@ -114,6 +110,9 @@ public class Settings {
      */
     public static final int COMMODITY_STATE_ON_LOTTERY = 2;
 
+    /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*commodity(商品)*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
+
+    /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*verifyCode*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
     /**
      * 图形验证码图片宽度
      */
@@ -129,13 +128,53 @@ public class Settings {
      */
     public static final int VERIFY_CODE_LENGTH = 4;
 
+    /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*verifyCode*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
+
     /**
      * 设置session时长
      */
     public static final long SESSION_TIME_OUT = 1000 * 60 * 1;
 
+    /**
+     * 一天的毫秒数
+     */
     public static final long ONE_DAY_LONG_VALUE = 1000 * 60 * 60 * 24;
 
+    /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*imgPath*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
+    /**
+     * 服务外链地址
+     */
+    public static final String SERVER_URL_PATH = "http://192.168.6.199:8080/";
 
+    /**
+     * 商品图片路径
+     */
+    public static final String IMG_PATH_COMMODITY = "imgs/commodityimg/";
 
+    /**
+     * 商品类型图片路径
+     */
+    public static final String IMG_PATH_COMMODITY_TYPE = "imgs/commoditytype/";
+
+    /**
+     * 图标图片路径
+     */
+    public static final String IMG_PATH_ICONS = "imgs/icons/";
+
+    /**
+     * 用户头像图片路径
+     */
+    public static final String IMG_PATH_USER_PORTRAIT = "imgs/userportrait/";
+
+    /**
+     * 用户正常状态
+     */
+    public static final String USER_PORTRAIT_URL_DEFAULT = SERVER_URL_PATH+IMG_PATH_ICONS+"defaultheadportrait.png";
+
+    /**
+     * 图标图片路径
+     */
+    public static final String IMG_PATH_SHARE = "imgs/shareimg/";
+
+    /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*imgPath*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 }

@@ -11,8 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static org.testng.Assert.*;
-
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -40,7 +38,7 @@ public class ShoppingCartServiceImplTest extends TestBaseMapper {
         s.setCommodityId(10l);
         s.setNumber(10);
         s.setAddDate(new Date());
-        boolean b = service.addCommodityToCart(s);
+        boolean b = service.addCommodityToCart(1L,1L,1);
         Assert.assertTrue(b);
     }
 

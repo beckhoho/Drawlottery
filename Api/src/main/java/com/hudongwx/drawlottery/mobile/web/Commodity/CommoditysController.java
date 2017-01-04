@@ -35,17 +35,6 @@ public class CommoditysController extends BaseController {
     ICommodityTypeService ctService;
 
     /**
-     * 测试
-     */
-    @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/commodity/test", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryTest(@RequestParam("c") Integer para, @RequestParam("name") String name, @RequestParam("page") Integer page) {
-        System.out.println("c-->" + para + "name-->" + name + "page-->" + page);
-//        List<Map<String, Object>> infoList = cService.selectPaging(para, null, page);
-        return success();
-    }
-
-    /**
      * 搜索商品信息
      * 根据商品类别category、商品名称name 搜索
      * 搜索的四种情况：
