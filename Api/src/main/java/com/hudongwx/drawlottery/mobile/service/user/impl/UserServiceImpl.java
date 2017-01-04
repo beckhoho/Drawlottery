@@ -62,7 +62,7 @@ public class UserServiceImpl implements IUserService {
             user.setNickname("未设置");
         }
         user.setUserIntegral(0);
-        user.setHeaderUrl(Settings.USER_HEAD_PORTRAIT_URL_DEFAULT);
+        user.setHeaderUrl(Settings.USER_PORTRAIT_URL_DEFAULT);
         user.setGoldNumber(0);
         user.setCurrentState(Settings.USER_STATE_NORMAL);
         PasswordUtils.encryptPassword(user);//加密用户密码

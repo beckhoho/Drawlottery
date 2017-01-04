@@ -171,7 +171,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Map<String, Object>> selectOnLottery(Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectOnLottery(),page);
+        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectOnLottery(), page);
         List<Map<String, Object>> infoList = new ArrayList<>();
         int s = Settings.PAGE_LOAD_SIZE >= list.size() ? list.size() : Settings.PAGE_LOAD_SIZE;
         for (int i = 0; i < s; i++) {
@@ -184,8 +184,9 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("detailUrl", comm.getCommodityDescUrl());
             map.put("desc", comm.getCommodityDesc());
             map.put("state", comm.getState());
-            map.put("totalNumber",comm.getBuyTotalNumber());
-            map.put("userPayNum",0);
+            map.put("totalNumber", comm.getBuyTotalNumber());
+            map.put("userPayNum", 0);
+            map.put("roundTime", comm.getRoundTime());
             infoList.add(map);
         }
         return infoList;
@@ -223,7 +224,6 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("guessLike", listMap3());//添加猜你喜欢商品
         return map;
     }
-
 
 
     public List<Map<String, Object>> listMap3() {
@@ -393,6 +393,7 @@ public class CommodityServiceImpl implements ICommodityService {
 
     /**
      * 查找高中奖率商品
+     *
      * @param number
      * @return
      */
