@@ -2,7 +2,10 @@ package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.Share;
+import com.hudongwx.drawlottery.mobile.entitys.ShareImg;
+import com.hudongwx.drawlottery.mobile.service.user.IShareImgService;
 import com.hudongwx.drawlottery.mobile.service.user.IShareService;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +43,8 @@ public class ShareController extends BaseController {
     @Autowired
     IShareService shareService;
 
+    @Autowired
+    IShareImgService shareImgService;
     /**
      * 用户添加晒单分享信息
      *
@@ -51,11 +56,19 @@ public class ShareController extends BaseController {
     public JSONObject addShareInfo(@RequestBody Share share, @RequestParam("imgFileList")List<MultipartFile> imgFileList) {
         share.setIssueDate(new Date());
         boolean status = shareService.addShare(share);
+        Date date = new Date();
         for (MultipartFile m : imgFileList){
             try {
+                String fileName = "shareImg"+date.getTime()+".png";
                 byte[] bytes = m.getBytes();
                 BufferedOutputStream out =
-                        new BufferedOutputStream(new FileOutputStream(new File("D:\\文件夹")));
+                        new BufferedOutputStream(new FileOutputStream(new File(Settings.IMG_PATH_SHARE,fileName)));
+                out.write(bytes);
+                out.close();
+                ShareImg shareImg = new ShareImg();
+                shareImg.setShareId(share.getId());
+                shareImg.setShareImgUrl(fileName);
+                shareImgService.addShareImg(shareImg);
             } catch (IOException e) {
                 e.printStackTrace();
             }
