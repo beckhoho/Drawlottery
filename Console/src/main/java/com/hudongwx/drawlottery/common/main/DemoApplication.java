@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.mobile;
+package com.hudongwx.drawlottery.common.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

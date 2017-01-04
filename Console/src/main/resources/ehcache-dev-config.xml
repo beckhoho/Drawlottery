@@ -1,0 +1,84 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         >
+    <!--
+        系统临时目录
+        users.dir  : 用户当前工作目录
+        users.home : 用户主目录
+        java.io.tmpdir : 系统临时目录
+
+        磁盘缓存使用的文件后缀名是*.data和*.index
+    -->
+    <diskStore path="users.home"/>
+    <!--
+        name：缓存名称
+        maxElementsInMemory：内存中最大缓存对象数,当不需保存数据在内存中时为1
+        maxElementsOnDisk：硬盘中最大缓存对象数，若是0表示无穷大
+        eternal：true表示对象永不过期，此时会忽略timeToIdleSeconds和timeToLiveSeconds属性，默认为false
+        overflowToDisk：设定当内存缓存溢出的时候是否将过期的element缓存到磁盘上,注意：如果缓存的对象要写入到硬盘中的话，则该对象必须实现了Serializable接口才行。
+
+        diskSpoolBufferSizeMB：磁盘缓存区大小，默认为30MB。每个Cache都应该有自己的一个缓存区。
+        diskPersistent：是否缓存虚拟机重启期数据，是否持久化磁盘缓存,当这个属性的值为true时,系统在初始化时会在磁盘中查找文件名 为cache名称,后缀名为index的文件，这个文件中存放了已经持久化在磁盘中的cache的index,找到后会把cache加载到内存，要想把 cache真正持久化到磁盘,写程序时注意执行net.sf.ehcache.Cache.put(Element element)后要调用flush()方法。
+        diskExpiryThreadIntervalSeconds：磁盘失效线程运行时间间隔，默认为120秒
+        timeToIdleSeconds： 设定允许对象处于空闲状态的最长时间，以秒为单位。当对象自从最近一次被访问后，如果处于空闲状态的时间超过了timeToIdleSeconds属性 值，这个对象就会过期，EHCache将把它从缓存中清空。只有当eternal属性为false，该属性才有效。如果该属性值为0，则表示对象可以无限 期地处于空闲状态
+        timeToLiveSeconds：设定对象允许存在于缓存中的最长时间，以秒为单位。当对象自从被存放到缓存中后，如果处于缓存中的时间超过了 timeToLiveSeconds属性值，这个对象就会过期，EHCache将把它从缓存中清除。只有当eternal属性为false，该属性才有 效。如果该属性值为0，则表示对象可以无限期地存在于缓存中。timeToLiveSeconds必须大于timeToIdleSeconds属性，才有 意义
+        memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。可选策略有：LRU（最近最少使用，默认策略）、FIFO（先进先出）、LFU（最少访问次数）
+        clearOnFlush:当flush()在缓存中被调用时，MemoryStore是否被清除。默认是true
+    -->
+    <!--默认缓存配置-->
+    <defaultCache
+            maxElementsInMemory="1"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+    >
+        <!-- 初始化操作 -->
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=true"/>
+    </defaultCache>
+
+
+    <cache
+           name="login_cache"
+           maxElementsInMemory="1"
+           eternal="false"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="120"
+           overflowToDisk="true"
+           maxElementsOnDisk="10000000"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU"></cache>
+
+
+    <!--权限信息-->
+    <cache
+            name="Login_AuthorizationCacheName"
+            maxElementsInMemory="1"
+    />
+    <!--登录认证信息-->
+    <cache
+            name="Login_AuthenticationCacheName"
+            maxElementsInMemory="1"
+            timeToIdleSeconds="60000"
+    />
+
+    <!--
+        添加缓存时得到监听
+        *class ：CacheManagerEventListenerFactory的一个实现类
+        <cacheManagerEventListenerFactory class=""/>
+     -->
+    <!--
+        在进行分布式缓存的应用时需要指定
+         *class ：CacheManagerPeerProviderFactory的一个实现类。
+        *properties ：CacheManagerPeerProviderFactory的属性值，以逗号(,)分割多个属性
+
+        <cacheManagerPeerListenerFactory class="" />
+    -->
+
+
+</ehcache>
