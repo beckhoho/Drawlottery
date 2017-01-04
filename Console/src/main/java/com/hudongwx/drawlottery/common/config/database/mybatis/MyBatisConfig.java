@@ -1,11 +1,10 @@
-package com.hudongwx.drawlottery.common.config.mybatis;
+package com.hudongwx.drawlottery.common.config.database.mybatis;
 
 import com.github.pagehelper.PageHelper;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -23,8 +22,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer {
 
-    @Autowired
-    DataSource dataSource;
+    @Resource
+    private DataSource dataSource;
 
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactoryBean() {
@@ -32,10 +31,11 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         bean.setDataSource(dataSource);
         //bean.setTypeAliasesPackage("tk.mybatis.springboot.model");
         bean.setTypeAliasesPackage("com.hudongwx.drawlottery.pojo");
-
         //分页插件
         PageHelper pageHelper = new PageHelper();
         Properties properties = new Properties();
+        //方言设置
+        properties.setProperty("dialect", "mysql");
         properties.setProperty("reasonable", "true");
         properties.setProperty("supportMethodsArguments", "true");
         properties.setProperty("returnPageInfo", "check");

@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.common.config.mybatis;
+package com.hudongwx.drawlottery.common.config.database.mybatis;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
@@ -15,19 +15,25 @@ import java.util.Properties;
 @AutoConfigureAfter(MyBatisConfig.class)
 public class MyBatisMapperScannerConfig {
 
-    //注入bean
+    /**
+     * 配置 mapper 扫描.
+     *
+     * @return mapper扫描配置信息类
+     */
     @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer() {
+    public static MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setBasePackage("com.hudongwx.drawlottery.mapping");
-
+        mapperScannerConfigurer.setBasePackage("com.hudongwx.drawlottery.dao");
+        //mapperScannerConfigurer.setBasePackage("tk.mybatis.springboot.mapper");
         Properties properties = new Properties();
-        properties.setProperty("mappers", "com.hudongwx.drawlottery.mobile.commn.BaseMapper");
+        // 这里要特别注意，不要把MyMapper放到 basePackage 中，也就是不能同其他Mapper一样被扫描到。
+        properties.setProperty("mappers", "com.hudongwx.drawlottery.common.base.BaseMapper");
         properties.setProperty("notEmpty", "false");
         properties.setProperty("IDENTITY", "MYSQL");
         mapperScannerConfigurer.setProperties(properties);
         return mapperScannerConfigurer;
     }
+
 
 }

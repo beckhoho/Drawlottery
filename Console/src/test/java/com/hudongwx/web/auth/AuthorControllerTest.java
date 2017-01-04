@@ -2,7 +2,7 @@ package com.hudongwx.web.auth;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.TestBaseWeb;
-import com.hudongwx.drawlottery.common.main.DemoApplication;
+import com.hudongwx.drawlottery.DemoApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;

@@ -1,8 +1,11 @@
 package com.hudongwx.service.user.impl;
 
 import com.hudongwx.TestBaseMapper;
-import com.hudongwx.drawlottery.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hudongwx.drawlottery.pojo.User;
+import com.hudongwx.drawlottery.service.user.IUserService;
+import org.junit.Test;
+
+import javax.annotation.Resource;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -21,6 +24,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class UserServiceImplTest extends TestBaseMapper {
 
-    @Autowired
-    IUserService service;
+    @Resource
+    private IUserService userService;
+
+    @Test
+    public void testQueryUserByPhoneNum(){
+
+        logger.error("start");
+        final User user = userService.queryUserByPhoneNum("12321");
+        logger.error(user+"");
+    }
 }

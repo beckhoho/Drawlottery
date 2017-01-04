@@ -1,8 +1,11 @@
-package com.hudongwx.drawlottery.service.impl;
+package com.hudongwx.drawlottery.service.user.impl;
 
+import com.hudongwx.drawlottery.dao.UserMapper;
 import com.hudongwx.drawlottery.pojo.User;
-import com.hudongwx.drawlottery.service.IUserService;
+import com.hudongwx.drawlottery.service.user.IUserService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * Drawlottery.
@@ -14,6 +17,9 @@ import org.springframework.stereotype.Service;
  */
 @Service("userService")
 public class UserServiceImpl implements IUserService {
+    @Resource
+    private UserMapper userMapper;
+
     /**
      * 通过手机号查询用户.
      *
@@ -21,7 +27,7 @@ public class UserServiceImpl implements IUserService {
      * @return 用户实体
      */
     @Override
-    public User queryUserByPhoneNum(String phoneNum) {
-        return null;
+    public User queryUserByPhoneNum(final String phoneNum) {
+        return userMapper.selectUserByPhoneNumber(phoneNum);
     }
 }

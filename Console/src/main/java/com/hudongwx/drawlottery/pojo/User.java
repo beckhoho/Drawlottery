@@ -250,4 +250,20 @@ public class User {
     public boolean isLocked() {
         return currentState == -1;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "accountId=" + accountId +
+                ", password='" + password + '\'' +
+                ", realName='" + realName + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", salt='" + salt + '\'' +
+                ", userIntegral=" + userIntegral +
+                ", currentState=" + currentState +
+                ", headerUrl='" + headerUrl + '\'' +
+                ", goldNumber=" + goldNumber +
+                '}';
+    }
 }

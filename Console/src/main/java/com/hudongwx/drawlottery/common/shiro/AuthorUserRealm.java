@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.common.shiro;
 
 import com.hudongwx.drawlottery.pojo.User;
-import com.hudongwx.drawlottery.service.IUserService;
+import com.hudongwx.drawlottery.service.user.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  */
 public class AuthorUserRealm extends AuthorizingRealm {
 
-    @Resource
+    @Autowired
     private IUserService userService;
 
     /**

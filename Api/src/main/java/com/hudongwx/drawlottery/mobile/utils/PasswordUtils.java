@@ -20,7 +20,7 @@ public final class PasswordUtils {
 
     /**
      * 加密用户密码
-     * @param user
+     * @param user 用户
      */
     public static void encryptPassword(User user){
         ByteSource salt = random.nextBytes();

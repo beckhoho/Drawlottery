@@ -1,6 +1,6 @@
 package com.hudongwx;
 
-import com.hudongwx.drawlottery.common.main.DemoApplication;
+import com.hudongwx.drawlottery.DemoApplication;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;

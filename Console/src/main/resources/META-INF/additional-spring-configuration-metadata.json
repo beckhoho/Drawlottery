@@ -1,0 +1,89 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.max-active",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.max-active."
+    },
+    {
+      "name": "spring.datasource.max-idle",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.max-idle."
+    },
+    {
+      "name": "spring.datasource.min-idle",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.min-idle."
+    },
+    {
+      "name": "spring.datasource.initial-size",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.initial-size."
+    },
+    {
+      "name": "spring.datasource.maxWait",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.maxWait."
+    },
+    {
+      "name": "spring.datasource.timeBetweenEvictionRunsMillis",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.timeBetweenEvictionRunsMillis."
+    },
+    {
+      "name": "spring.datasource.validationQuery",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.validationQuery."
+    },
+    {
+      "name": "spring.datasource.minEvictableIdleTimeMillis",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.minEvictableIdleTimeMillis."
+    },
+    {
+      "name": "spring.datasource.testWhileIdle",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.testWhileIdle."
+    },
+    {
+      "name": "spring.datasource.testOnBorrow",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.testOnBorrow."
+    },
+    {
+      "name": "spring.datasource.testOnReturn",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.testOnReturn."
+    },
+    {
+      "name": "spring.datasource.poolPreparedStatements",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.poolPreparedStatements."
+    },
+    {
+      "name": "spring.datasource.maxPoolPreparedStatementPerConnectionSize",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.maxPoolPreparedStatementPerConnectionSize."
+    },
+    {
+      "name": "spring.datasource.filters",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.filters."
+    },
+    {
+      "name": "spring.datasource.connectionProperties",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.connectionProperties."
+    },
+    {
+      "name": "spring.datasource.filter.resultSetLogEnabled",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.filter.resultSetLogEnabled."
+    },
+    {
+      "name": "spring.datasource.filter.statementExecutableSqlLogEnable",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.filter.statementExecutableSqlLogEnable."
+    }
+  ]
+}
