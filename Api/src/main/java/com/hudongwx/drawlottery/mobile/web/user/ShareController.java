@@ -7,7 +7,13 @@ import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +48,18 @@ public class ShareController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/add", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject addShareInfo(@RequestBody Share share) {
+    public JSONObject addShareInfo(@RequestBody Share share, @RequestParam("imgFileList")List<MultipartFile> imgFileList) {
+        share.setIssueDate(new Date());
         boolean status = shareService.addShare(share);
+        for (MultipartFile m : imgFileList){
+            try {
+                byte[] bytes = m.getBytes();
+                BufferedOutputStream out =
+                        new BufferedOutputStream(new FileOutputStream(new File("D:\\文件夹")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return response(status);
     }
 

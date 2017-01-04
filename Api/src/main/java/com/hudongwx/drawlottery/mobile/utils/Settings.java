@@ -136,4 +136,6 @@ public class Settings {
 
     public static final long ONE_DAY_LONG_VALUE = 1000 * 60 * 60 * 24;
 
+
+
 }
