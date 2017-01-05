@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.PrepaidCardMapper">
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.PrepaidCard">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
+        <result column="card_number" jdbcType="VARCHAR" property="cardNumber"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="worth" jdbcType="INTEGER" property="worth"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+    </resultMap>
+</mapper>

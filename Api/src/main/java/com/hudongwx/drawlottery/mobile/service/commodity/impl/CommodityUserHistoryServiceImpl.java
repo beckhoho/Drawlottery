@@ -1,0 +1,23 @@
+package com.hudongwx.drawlottery.mobile.service.commodity.impl;
+
+import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityUserHistoryService;
+import org.springframework.stereotype.Service;
+
+/**
+ * 开发公司：hudongwx.com<br/>
+ * 版权：294786949@qq.com<br/>
+ * <p>
+ *
+ * @author Kiter
+ * @version 1.0, 2017/1/5 <br/>
+ * @desc <p>
+ * <p>
+ * 创建　kiter　2017/1/5 11:29　<br/>
+ * <p>
+ * 什么类？
+ * <p>
+ * @email 346905702@qq.com
+ */
+@Service
+public class CommodityUserHistoryServiceImpl implements ICommodityUserHistoryService {
+}

@@ -171,7 +171,7 @@ public class UserServiceImpl implements IUserService {
             map.put("commodityId", com.getId());//添加商品ID
             map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
-            map.put("state", com.getState());//添加状态
+            map.put("state", com.getStateId());//添加状态
             map.put("roundTime", com.getRoundTime());//添加期数
             map.put("coverImgUrl", com.getCoverImgUrl());//添加封面图URL
             map.put("name", com.getName());//添加商品名

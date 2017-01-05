@@ -79,7 +79,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     @Override
     public boolean updateCommodity(Long accountId, Long commId, Integer count) {
         Commoditys commoditys = commodMapper.selectByPrimaryKey(commId);
-        Integer state = commoditys.getState();
+        Integer state = commoditys.getStateId();
         boolean can = commoditys.getBuyCurrentNumber() + count > commoditys.getBuyTotalNumber();
         if (state == Settings.COMMODITY_STATE_ON_LOTTERY || state == Settings.COMMODITY_STATE_HAS_LOTTERY || can)
             return false;
