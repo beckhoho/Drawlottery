@@ -1,6 +1,6 @@
-package com.hudongwx.drawlottery.mobile.utils;
+package com.hudongwx.drawlottery.common.utils;
 
-import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.pojo.User;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -20,7 +20,7 @@ public final class PasswordUtils {
 
     /**
      * 加密用户密码
-     * @param user 用户
+     * @param user
      */
     public static void encryptPassword(User user){
         ByteSource salt = random.nextBytes();

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.dao.DeliveryAddressMapper">
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.pojo.DeliveryAddress">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
+    <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+</mapper>

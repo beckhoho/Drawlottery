@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <properties resource="generator/generator.properties"/>
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+
+        <plugin type="${mapper.plugin}">
+            <property name="mappers" value="com.hudongwx.drawlottery.common.base.BaseMapper"/>
+            <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.user}"
+                        password="${jdbc.password}">
+        </jdbcConnection>
+
+
+        <!-- 配置实体类 -->
+        <javaModelGenerator targetPackage="com.hudongwx.drawlottery.pojo"
+                            targetProject="src\main\java">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.users.model， true:com.oop.eksp.users.model.[schemaName] -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 配置mapper文件 -->
+        <sqlMapGenerator targetPackage="com.hudongwx.drawlottery.mapping"
+                         targetProject="src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+
+        <javaClientGenerator targetPackage="com.hudongwx.drawlottery.dao"
+                             targetProject="src\main\java" type="XMLMAPPER" />
+
+        <table tableName="t_users" modelType="flat" domainObjectName="User">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_approve" modelType="flat" domainObjectName="Approve">
+            <generatedKey column="user_id" sqlStatement="Mysql" identity="false"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_pay_mode" modelType="flat" domainObjectName="PayMode">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_red_packets" modelType="flat" domainObjectName="RedPackets">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_delivery_address" modelType="flat" domainObjectName="DeliveryAddress">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_commoditys" modelType="flat" domainObjectName="Commoditys">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_user_luck_codes_history" modelType="flat" domainObjectName="UserCodesHistory">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_commodity_type" modelType="flat" domainObjectName="CommodityType">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_commodity_history" modelType="flat" domainObjectName="CommodityHistory">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_luck_codes" modelType="flat" domainObjectName="LuckCodes">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_user_luck_codes" modelType="flat" domainObjectName="UserLuckCodes">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_share" modelType="flat" domainObjectName="Share">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_commoditys_imags" modelType="flat" domainObjectName="CommodityImg">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_notification" modelType="flat" domainObjectName="Notification">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+        <table tableName="t_orders" modelType="flat" domainObjectName="Orders">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+
+
+    </context>
+</generatorConfiguration>
