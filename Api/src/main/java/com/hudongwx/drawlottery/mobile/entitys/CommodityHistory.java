@@ -27,11 +27,6 @@ public class CommodityHistory {
     @Column(name = "commodity_name")
     private String commodityName;
 
-    /**
-     * 商品得主id
-     */
-    @Column(name = "user_account")
-    private Long userAccount;
 
     /**
      * 期数
@@ -159,23 +154,6 @@ public class CommodityHistory {
         this.luckCode = luckCodeId;
     }
 
-    /**
-     * 获取商品得主id
-     *
-     * @return user_account_id - 商品得主id
-     */
-    public Long getUserAccount() {
-        return userAccount;
-    }
-
-    /**
-     * 设置商品得主id
-     *
-     * @param userAccountId 商品得主id
-     */
-    public void setUserAccount(Long userAccountId) {
-        this.userAccount = userAccountId;
-    }
 
     /**
      * 获取期数

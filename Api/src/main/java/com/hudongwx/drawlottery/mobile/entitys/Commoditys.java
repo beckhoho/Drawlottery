@@ -40,8 +40,8 @@ public class Commoditys {
     /**
      * 开抢时间
      */
-    @Column(name = "start_time")
-    private Date startTime;
+    @Column(name = "ground_time")
+    private Date groundTime;
 
     /**
      * 中奖幸运码id
@@ -50,9 +50,10 @@ public class Commoditys {
     private Long luckCodeId;
 
     /**
-     * 当前中奖状态（1：已开奖，0：未开奖）
+     * 商品状态ID
      */
-    private Integer state;
+    @Column(name = "state_id")
+    private Integer stateId;
 
     /**
      * 当前期数
@@ -113,6 +114,33 @@ public class Commoditys {
      */
     @Column(name = "sell_out_time")
     private Date sellOutTime;
+
+    /**
+     * 下架时间
+     */
+    @Column(name = "undercarriage_date")
+    private Date undercarriageDate;
+
+    /**
+     * 是否可用
+     */
+    private Integer valid;
+
+    public Date getUndercarriageDate() {
+        return undercarriageDate;
+    }
+
+    public void setUndercarriageDate(Date undercarriageDate) {
+        this.undercarriageDate = undercarriageDate;
+    }
+
+    public Integer getValid() {
+        return valid;
+    }
+
+    public void setValid(Integer valid) {
+        this.valid = valid;
+    }
 
     /**
      * @return id
@@ -223,17 +251,17 @@ public class Commoditys {
      *
      * @return startTime - 开抢时间
      */
-    public Date getStartTime() {
-        return startTime;
+    public Date getGroundTime() {
+        return groundTime;
     }
 
     /**
      * 设置开抢时间
      *
-     * @param startTime 开抢时间
+     * @param groundTime 开抢时间
      */
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setGroundTime(Date groundTime) {
+        this.groundTime = groundTime;
     }
 
     /**
@@ -259,8 +287,8 @@ public class Commoditys {
      *
      * @return state - 当前中奖状态（1：已开奖，0：未开奖）
      */
-    public Integer getState() {
-        return state;
+    public Integer getStateId() {
+        return stateId;
     }
 
     /**
@@ -268,8 +296,8 @@ public class Commoditys {
      *
      * @param state 当前中奖状态（1：已开奖，0：未开奖）
      */
-    public void setState(Integer state) {
-        this.state = state;
+    public void setStateId(Integer state) {
+        this.stateId = state;
     }
 
     /**

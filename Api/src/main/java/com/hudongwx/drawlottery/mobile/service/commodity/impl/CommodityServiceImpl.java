@@ -183,7 +183,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("residualTime", residualTime);
             map.put("detailUrl", comm.getCommodityDescUrl());
             map.put("desc", comm.getCommodityDesc());
-            map.put("state", comm.getState());
+            map.put("state", comm.getStateId());
             map.put("totalNumber", comm.getBuyTotalNumber());
             map.put("userPayNum", 0);
             map.put("roundTime", comm.getRoundTime());
@@ -201,18 +201,18 @@ public class CommodityServiceImpl implements ICommodityService {
     public Map<String, Object> selectCommodity(Long commodId) {
         Commoditys com = mapper.selectByPrimaryKey(commodId);
         Map<String, Object> map = new HashMap<>();
-        if (com.getState() == 0) {//如果未开奖
+        if (com.getStateId() == 0) {//如果未开奖
             String roundTime = com.getRoundTime();
             CommodityHistory comh = historyMapper.selectBycommodId(com.getName(), Long.valueOf(roundTime));
             map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
         }
-        if (com.getState() == 1) {//如果已开奖
+        if (com.getStateId() == 1) {//如果已开奖
             CommodityHistory comm = historyMapper.selectBycommod(commodId);
             map.put("beforeLottery", mapBefore(comm));
         }
         map.put("commId", commodId);//商品ID
         map.put("imgUrl", listUrl(commodId));//添加图片url数组
-        map.put("onState", com.getState());//添加是否已开奖状态
+        map.put("onState", com.getStateId());//添加是否已开奖状态
         map.put("commodityName", com.getName());//添加商品名
         map.put("buyTotal", com.getBuyTotalNumber());//添加总购买次数
         map.put("buyCurrent", com.getBuyCurrentNumber());//添加当前购买次数
@@ -235,7 +235,7 @@ public class CommodityServiceImpl implements ICommodityService {
             Commoditys com = coms.get(s);
             map.put("name", com.getName());//获取商品名
             map.put("id", com.getId());//获取商品ID
-            map.put("state", com.getState());//获取状态
+            map.put("state", com.getStateId());//获取状态
             map.put("buyCurrentNumber", com.getBuyCurrentNumber());//获取当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//获取总购买人次
             map.put("coverImgUrl", com.getCoverImgUrl());//获取商品封面图片URL
@@ -384,7 +384,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("totalNumber", com.getBuyTotalNumber());//添加商品总购买人次
             map.put("currentNumber", com.getBuyCurrentNumber());//添加商品当前购买人次
             map.put("headerImg", com.getCoverImgUrl());//商品封面图URL
-            map.put("state", com.getState());//添加商品状态
+            map.put("state", com.getStateId());//添加商品状态
             listMap.add(map);
         }
         return listMap;
