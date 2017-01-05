@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.pojo.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="account_id" jdbcType="BIGINT" property="accountId"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="user_integral" jdbcType="INTEGER" property="userIntegral"/>
+        <result column="current_state" jdbcType="INTEGER" property="currentState"/>
+        <result column="header_url" jdbcType="VARCHAR" property="headerUrl"/>
+        <result column="gold_number" jdbcType="INTEGER" property="goldNumber"/>
+    </resultMap>
+    <select id="selectUserByPhoneNumber" resultType="com.hudongwx.drawlottery.pojo.User">
+      SELECT *
+      FROM t_users
+      WHERE phone_number = #{phoneNum}
+    </select>
+</mapper>

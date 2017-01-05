@@ -411,7 +411,7 @@ public class CommodityServiceImpl implements ICommodityService {
                 // TODO: 2017/1/5 开奖
                 comm.setState(Settings.COMMODITY_STATE_HAS_LOTTERY);
                 comm.setLuckCodeId(11000208485L);
-                
+
 
             }
             map.put("id", comm.getId());//商品id

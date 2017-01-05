@@ -17,7 +17,7 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
             @Result(column = "commodity_name",property = "commodityName"),
             @Result(column="commodity_id",property="commodityId"),
             @Result(column="luck_code",property="luckCode"),
-            @Result(column="user_account_id",property="userAccountId"),
+            @Result(column="luck_user_account_id",property="luckUserAccountId"),
             @Result(column="round_time",property="roundTime"),
             @Result(column = "end_time",property = "endTime")
     })
@@ -30,7 +30,7 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
             @Result(column = "commodity_name",property = "commodityName"),
             @Result(column="commodity_id",property="commodityId"),
             @Result(column="luck_code",property="luckCode"),
-            @Result(column="user_account_id",property="userAccountId"),
+            @Result(column="luck_user_account_id",property="luckUserAccountId"),
             @Result(column="round_time",property="roundTime"),
             @Result(column = "end_time",property = "endTime")
     })
