@@ -26,7 +26,8 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "auto_round", property = "autoRound"),
             @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
             @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime")
+            @Result(column = "sell_out_time", property = "sellOutTime"),
+            @Result(column = "state_id", property = "stateId")
 
     })
     List<Commoditys> selectPaging(@Param("commodTypeId") Integer commodTypeId, @Param("startNum") Integer startNum, @Param("endNum") Integer endNum);
@@ -53,7 +54,8 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "auto_round", property = "autoRound"),
             @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
             @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime")
+            @Result(column = "sell_out_time", property = "sellOutTime"),
+            @Result(column = "state_id", property = "stateId")
     })
     List<Commoditys> selectByTemp1();
 
@@ -71,7 +73,8 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "auto_round", property = "autoRound"),
             @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
             @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime")
+            @Result(column = "sell_out_time", property = "sellOutTime"),
+            @Result(column = "state_id", property = "stateId")
     })
     List<Commoditys> selectByTemp2();
 
@@ -89,7 +92,8 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "auto_round", property = "autoRound"),
             @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
             @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime")
+            @Result(column = "sell_out_time", property = "sellOutTime"),
+            @Result(column = "state_id", property = "stateId")
     })
     List<Commoditys> selectByTemp3();
 
@@ -107,11 +111,12 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "auto_round", property = "autoRound"),
             @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
             @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime")
+            @Result(column = "sell_out_time", property = "sellOutTime"),
+            @Result(column = "state_id", property = "stateId")
     })
     List<Commoditys> selectByTemp4();
 
-    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number=0 AND state=2")
+    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number=0 AND state_id=2")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_desc", property = "commodityDesc"),
@@ -125,61 +130,67 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "auto_round", property = "autoRound"),
             @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
             @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime")
+            @Result(column = "sell_out_time", property = "sellOutTime"),
+            @Result(column = "state_id", property = "stateId")
     })
     List<Commoditys> selectOnLottery();
 
 
-    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state,name from t_commoditys where commodity_type_id  =  #{typeId}")
+    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where commodity_type_id  =  #{typeId}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "state_id", property = "stateId")
 
     })
     List<Commoditys> selectByType(@Param("typeId") Integer typeId);
 
 
-    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state,name from t_commoditys where name like #{name}")
+    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where name like #{name}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "state_id", property = "stateId")
 
     })
     List<Commoditys> selectByName(@Param("name") String name);
 
-    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state,name from t_commoditys where commodity_type_id = #{typeId} and name like #{name}")
+    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where commodity_type_id = #{typeId} and name like #{name}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "state_id", property = "stateId")
 
     })
     List<Commoditys> selectByTypeAndName(@Param("name") String name, @Param("typeId") Integer typeId);
 
-    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state from t_commoditys where buy_current_number/buy_total_number>1/2 and buy_current_number!=buy_total_number")
+    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state_id from t_commoditys where buy_current_number/buy_total_number>1/2 and buy_current_number!=buy_total_number")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "state_id", property = "stateId")
 
     })
     List<Commoditys> selectByGuess();
 
-    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state from t_commoditys where buy_total_number<#{number}")
+    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state_id from t_commoditys where buy_total_number<#{number}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "state_id", property = "stateId")
 
     })
     List<Commoditys> selectHeight(@Param("number") Integer number);
