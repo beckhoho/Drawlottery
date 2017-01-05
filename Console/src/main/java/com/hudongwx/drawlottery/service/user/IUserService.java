@@ -18,4 +18,6 @@ public interface IUserService {
      * @return 用户实体
      */
     User queryUserByPhoneNum(final String phoneNum);
+
+    User getUsers();
 }

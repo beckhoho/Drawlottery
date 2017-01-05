@@ -25,7 +25,7 @@ public class MyBatisMapperScannerConfig {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         mapperScannerConfigurer.setBasePackage("com.hudongwx.drawlottery.dao");
-        //mapperScannerConfigurer.setBasePackage("tk.mybatis.springboot.mapper");
+        //mapperScannerConfigurer.setBasePackage("org.mybatis.springboot.mapper");
         Properties properties = new Properties();
         // 这里要特别注意，不要把MyMapper放到 basePackage 中，也就是不能同其他Mapper一样被扫描到。
         properties.setProperty("mappers", "com.hudongwx.drawlottery.common.base.BaseMapper");

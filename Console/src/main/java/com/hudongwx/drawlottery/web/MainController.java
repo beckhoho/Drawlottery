@@ -28,7 +28,7 @@ public class MainController extends BaseController {
         final ModelAndView modelAndView = new ModelAndView("index");
         final User user = userService.queryUserByPhoneNum("13990949387");
         final Map<String, Object> model = modelAndView.getModel();
-        model.put("user",user);
+        model.put("user", user);
         return modelAndView;
     }
 }

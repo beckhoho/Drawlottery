@@ -1,6 +1,8 @@
 package com.hudongwx.drawlottery.common.constants;
 
 import com.hudongwx.drawlottery.common.utils.PropertiesUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 配置常量类.
@@ -11,42 +13,41 @@ import com.hudongwx.drawlottery.common.utils.PropertiesUtils;
  * @version 1.0.0
  */
 public class ConfigConstants {
-
+    private static Logger logger  = LoggerFactory.getLogger(ConfigConstants.class);
 
     /**
      * 获取properties配置文件属性
      */
-    private static final String DEPLOY_PROPERTIES = "properties/deploy.properties";
+    private static final String DEPLOY_PROPERTIES = "project/deploy.properties";
 
-    private static PropertiesUtils propertiesUtils = new PropertiesUtils();
 
-    public static boolean load() {
-        return propertiesUtils.readProperties(DEPLOY_PROPERTIES);
+    static {
+        PropertiesUtils.loadAllProperties(DEPLOY_PROPERTIES);
     }
 
     /**
      * 项目路径
      */
     private static final String LABEL_CONTEXT_PATH = "contextPath";
-    public static final String contextPath = propertiesUtils.getProperty(LABEL_CONTEXT_PATH);
+    public static final String contextPath = PropertiesUtils.getProperty(LABEL_CONTEXT_PATH);
 
     /**
      * 静态资源
      */
     private static final String LABEL_STATIC_SERVE_PATH = "staticServePath";
-    public static final String staticServePath = propertiesUtils.getProperty(LABEL_STATIC_SERVE_PATH);
+    public static final String staticServePath = PropertiesUtils.getProperty(LABEL_STATIC_SERVE_PATH);
 
     /**
      * shiro 管理地址
      */
     private static final String LABEL_LOGIN_URL = "loginUrl";
-    public static final String loginUrl = propertiesUtils.getProperty(LABEL_LOGIN_URL);
+    public static final String loginUrl = PropertiesUtils.getProperty(LABEL_LOGIN_URL);
 
     private static final String LABEL_SUCCESS_URL = "successUrl";
-    public static final String successUrl = propertiesUtils.getProperty(LABEL_SUCCESS_URL);
+    public static final String successUrl = PropertiesUtils.getProperty(LABEL_SUCCESS_URL);
 
     private static final String LABEL_UNAUTHORIZED_URL = "unauthorizedUrl";
-    public static final String unauthorizedUrl = propertiesUtils.getProperty(LABEL_UNAUTHORIZED_URL);
+    public static final String unauthorizedUrl = PropertiesUtils.getProperty(LABEL_UNAUTHORIZED_URL);
 
     private ConfigConstants() {
     }

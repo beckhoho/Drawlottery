@@ -5,6 +5,7 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -26,6 +27,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
     private DataSource dataSource;
 
     @Bean(name = "sqlSessionFactory")
+    @ConditionalOnMissingBean
     public SqlSessionFactory sqlSessionFactoryBean() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);

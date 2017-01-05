@@ -33,8 +33,9 @@ import java.util.Map;
  * @author <a href="http://userwu.github.io">wuhongxu</a>.
  * @version 1.0.0
  */
-@Configuration
+//@Configuration
 //@ConditionalOnBean({net.sf.ehcache.management.CacheManager.class})
+@Configuration
 @EnableCaching
 public class ShiroConfig {
 
@@ -50,6 +51,9 @@ public class ShiroConfig {
         return new AuthorRetryLimitCredentialsMatcher();
     }
 
+    /**
+     * ShiroFilter，配置访问过滤器.<br/>
+     */
     //配置过滤器
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean() {
@@ -96,15 +100,15 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-    /*
-      默认安全管理器
-    * 这个类组合了登陆，登出，权限，session的处理
-    * */
+    /**
+     * 默认安全管理器
+     * 这个类组合了登陆，登出，权限，session的处理
+     */
     @Bean(name = "securityManager")
     @Profile("dev")
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        //管理认证器
+        //管理认证器 设置自定义的Realm
         securityManager.setRealm(getRealm());
         return securityManager;
     }

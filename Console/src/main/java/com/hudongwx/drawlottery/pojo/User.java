@@ -1,6 +1,12 @@
 package com.hudongwx.drawlottery.pojo;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Table(name = "t_users")
 public class User {
@@ -61,6 +67,11 @@ public class User {
      */
     @Column(name = "gold_number")
     private Integer goldNumber;
+    /**
+     * 一个用户对应多个角色 ，通用mapper忽略此字段
+     */
+    @Transient
+    private List<Role> roleList;
 
     /**
      * 获取用户账号,ID号
@@ -89,11 +100,20 @@ public class User {
         return password;
     }
 
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
     /**
      * 设置用户密码
      *
      * @param password 用户密码
      */
+
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
     }
@@ -265,5 +285,15 @@ public class User {
                 ", headerUrl='" + headerUrl + '\'' +
                 ", goldNumber=" + goldNumber +
                 '}';
+    }
+
+    @Transient
+    public Set<String> getRolesName() {
+        List<Role> roles = getRoleList();
+        Set<String> set = new HashSet<String>();
+        for (Role role : roles) {
+            set.add(role.getName());
+        }
+        return set;
     }
 }

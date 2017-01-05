@@ -1,2 +1,3 @@
 org.springframework.context.ApplicationListener=\
-  com.hudongwx.drawlottery.common.config.spring.ApplicationStopListener
+  com.hudongwx.drawlottery.common.config.spring.ApplicationStopListener,\
+  com.hudongwx.drawlottery.common.config.spring.ApplicationStartListener

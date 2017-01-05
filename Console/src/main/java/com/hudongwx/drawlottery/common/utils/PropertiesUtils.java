@@ -2,11 +2,13 @@ package com.hudongwx.drawlottery.common.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -15,42 +17,36 @@ import java.util.Properties;
  * @description： 读取配置通用处理工具类
  */
 public class PropertiesUtils {
+    private static Map<String, String> propertiesMap = new HashMap<>();
+    // Default as in PropertyPlaceholderConfigurer
+    private static Logger logger  = LoggerFactory.getLogger(PropertiesUtils.class);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
-    private  Properties properties = new Properties();
+    public static void processProperties( Properties props) throws BeansException {
 
-    public  Properties getProperties() {
-        return properties;
-    }
+        propertiesMap = new HashMap<String, String>();
+        for (Object key : props.keySet()) {
+            String keyStr = key.toString();
 
-    public  void setProperties(Properties properties) {
-        this.properties = properties;
-    }
-
-    /**
-     * 读取配置文件
-     *
-     * @param fileName
-     */
-    public boolean readProperties(String fileName) {
-        try {
-            InputStream in = PropertiesUtils.class.getResourceAsStream("/" + fileName);
-            BufferedReader bf = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-            properties.load(bf);
-        } catch (IOException e) {
-            LOGGER.error("PropertiesUtils.readProperties:{}", e);
-            return false;
+            try {
+                //PropertiesLoaderUtils的默认编码是ISO-8859-1,在这里转码一下
+                propertiesMap.put(keyStr, new String(props.getProperty(keyStr).getBytes("ISO-8859-1"),"utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
-        return true;
+        logger.info(propertiesMap.toString());
+    }
+    public static void loadAllProperties(String fileName){
+        try {
+
+            Properties properties = PropertiesLoaderUtils.loadAllProperties(fileName);
+            processProperties(properties);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * 根据key读取对应的value
-     *
-     * @param key
-     * @return
-     */
-    public String getProperty(String key) {
-        return properties.getProperty(key);
+    public static String getProperty(String name) {
+        return propertiesMap.get(name);
     }
 }

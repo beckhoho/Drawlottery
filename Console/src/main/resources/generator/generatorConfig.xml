@@ -43,7 +43,7 @@
 
 
         <javaClientGenerator targetPackage="com.hudongwx.drawlottery.dao"
-                             targetProject="src\main\java" type="XMLMAPPER" />
+                             targetProject="src\main\java" type="XMLMAPPER"/>
 
         <!--<table tableName="t_users" modelType="flat" domainObjectName="User">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
@@ -119,14 +119,14 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>-->
-        <table tableName="t_role" modelType="flat" domainObjectName="Role">
+        <!--<table tableName="t_role" modelType="flat" domainObjectName="Role">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
-        <table tableName="t_role" modelType="flat" domainObjectName="Role">
+        <table tableName="t_user_role" modelType="flat" domainObjectName="UserRole">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
-        </table>
+        </table>-->
         <table tableName="t_permission" modelType="flat" domainObjectName="Permission">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>

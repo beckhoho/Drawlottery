@@ -30,4 +30,9 @@ public class UserServiceImpl implements IUserService {
     public User queryUserByPhoneNum(final String phoneNum) {
         return userMapper.selectUserByPhoneNumber(phoneNum);
     }
+
+    @Override
+    public User getUsers() {
+        return null;
+    }
 }

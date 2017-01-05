@@ -42,7 +42,7 @@
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
-                    <include>**/*.xml</include>
+                    <include>**/*Mapper.xml</include>
                 </includes>
             </resource>
         </resources>

@@ -1,6 +1,8 @@
 package com.hudongwx.drawlottery.common.config.spring;
 
 import net.sf.ehcache.constructs.web.ShutdownListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextStoppedEvent;
 
@@ -20,7 +22,7 @@ import org.springframework.context.event.ContextStoppedEvent;
  * @email 294786949@qq.com
  */
 public class ApplicationStopListener implements ApplicationListener<ContextStoppedEvent> {
-
+    private Logger logger = LoggerFactory.getLogger(ApplicationStopListener.class);
      /* if (event instanceof ApplicationEnvironmentPreparedEvent) { // 初始化环境变量 }
         else if (event instanceof ApplicationPreparedEvent) { // 初始化完成 }
         else if (event instanceof ContextRefreshedEvent) { // 应用刷新 }
@@ -33,6 +35,6 @@ public class ApplicationStopListener implements ApplicationListener<ContextStopp
     public void onApplicationEvent(ContextStoppedEvent contextStoppedEvent) {
         //为了正常关闭缓存框架
         new ShutdownListener().contextDestroyed(null);
-        System.out.println("关闭缓存框架....");
+        logger.info("spring boot 关闭监听->关闭缓存框架");
     }
 }

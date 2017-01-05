@@ -15,12 +15,10 @@ public class CommonConstants {
     /**
      * 获取常量配置配置文件属性
      */
-    private static final String CONSTANTS_PROPERTIES = "properties/constants.properties";
+    private static final String CONSTANTS_PROPERTIES = "project/constants.properties";
 
-    private static PropertiesUtils propertiesUtils = new PropertiesUtils();
-
-    public static boolean load() {
-        return propertiesUtils.readProperties(CONSTANTS_PROPERTIES);
+    static {
+        PropertiesUtils.loadAllProperties(CONSTANTS_PROPERTIES);
     }
 
     /**
