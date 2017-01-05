@@ -33,10 +33,10 @@ public interface IDeliveryAddressService {
     /**
      * 删除指定的收货地址信息
      *
-     * @param id 收貨地址id
-     * @return boolean
+     * @param daId
+     * @return
      */
-    public boolean deleteDa(Long id);
+    public boolean deleteDa(Long daId);
 
     /**
      * 更新收货地址信息
@@ -49,17 +49,9 @@ public interface IDeliveryAddressService {
     /**
      * 查看指定用户的收货地址列表
      *
-     * @param accountId 用户账号
-     * @return List<DeliveryAddress>
-     */
-    public List<Map<String,Object>> selectByUserAccountId(Long accountId);
-
-    /**
-     * 查询单条地址信息
-     *
-     * @param id 地址信息id
+     * @param accountId
      * @return
      */
-    public DeliveryAddress selectById(Long id);
+    public List<Map<String, Object>> selectByUser(Long accountId);
 
 }

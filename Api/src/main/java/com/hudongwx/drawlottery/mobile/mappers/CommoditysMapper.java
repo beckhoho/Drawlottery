@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
@@ -112,7 +111,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     })
     List<Commoditys> selectByTemp4();
 
-    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number=0 AND state=2;")
+    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number=0 AND state=2")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_desc", property = "commodityDesc"),

@@ -122,21 +122,21 @@ public abstract class BaseController {
     /**
      * 万能数据响应
      * @param isOk
-     * @param sucsMsg
+     * @param sucMsg
      * @return
      */
-    public JSONObject response(boolean isOk,String sucsMsg, String failmsg){
-        return isOk?success(sucsMsg):fail(failmsg);
+    public JSONObject response(boolean isOk,String sucMsg, String failMsg){
+        return isOk?success(sucMsg):fail(failMsg);
     }
 
     /**
      * 万能数据响应
      * @param isOk
-     * @param failmsg
+     * @param msg
      * @return
      */
-    public JSONObject response(boolean isOk,String failmsg){
-        return isOk?success(null):fail(failmsg);
+    public JSONObject response(boolean isOk,String msg){
+        return isOk?success(msg):fail(msg);
     }
 
     /**

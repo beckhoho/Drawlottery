@@ -17,6 +17,20 @@ package com.hudongwx.drawlottery.mobile.utils;
  */
 public class Settings {
 
+    /**↑↓**/
+    /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*收貨地址*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
+    /**
+     * 默认收货地址
+     */
+    public static final int DELIVERY_ADDRESS_DEFAULT = 1;
+
+    /**
+     * 常规地址
+     */
+    public static final int DELIVERY_ADDRESS_NORMAL = 0;
+    /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*收貨地址*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
+
+    /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*用户状态*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
     /**
      * 用户正常状态
      */
@@ -26,7 +40,9 @@ public class Settings {
      * 用户锁定
      */
     public static final int USER_STATA_LOCKED = -1;
+    /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*用户状态*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
+    /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*通用状态*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
     /**
      * 状态可用
      */
@@ -36,11 +52,12 @@ public class Settings {
      * 状态不可用
      */
     public static final int STATE_DISABLE = 0;
+    /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*通用状态*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
     /**
      * 用户最大添加的地址数量
      */
-    public static final int ADDRESS_ADD_MAX = 5;
+    public static final int ADDRESS_ADD_MAX = 3;
 
     /**
      * 下拉刷新每页的最大小数
@@ -109,7 +126,6 @@ public class Settings {
      * 商品售罄开奖中
      */
     public static final int COMMODITY_STATE_ON_LOTTERY = 2;
-
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*commodity(商品)*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
     /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*verifyCode*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
@@ -127,7 +143,6 @@ public class Settings {
      * 验证码长度
      */
     public static final int VERIFY_CODE_LENGTH = 4;
-
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*verifyCode*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
     /**
@@ -175,7 +190,6 @@ public class Settings {
      * 图标图片路径
      */
     public static final String IMG_PATH_SHARE = "imgs/shareimg/";
-
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*imgPath*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
     /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*redPacket*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
@@ -198,6 +212,20 @@ public class Settings {
      * 红包已过期
      */
     public static final int RED_PACKET_overdue = 0;
-
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*redPacket*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
+
+    /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*Prepaid card*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
+    /**
+     * 电话卡已派发
+     */
+    public static final int PREPAID_CARD_STATE_DISPATCHED = 1;
+
+    /**
+     * 电话卡未派发
+     */
+    public static final int PREPAID_CARD_STATE_UN_DISPATCHED = 0;
+    /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*Prepaid card*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
+
+    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL=1000*60*3;
+
 }

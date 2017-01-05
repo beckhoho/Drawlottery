@@ -171,25 +171,12 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Map<String, Object>> selectOnLottery(Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectOnLottery(), page);
-        List<Map<String, Object>> infoList = new ArrayList<>();
-        int s = Settings.PAGE_LOAD_SIZE >= list.size() ? list.size() : Settings.PAGE_LOAD_SIZE;
-        for (int i = 0; i < s; i++) {
-            Commoditys comm = list.get(i);
-            long residualTime = 1000 * 10 * 1;
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", comm.getId());
-            map.put("imgUrl", comm.getCoverImgUrl());
-            map.put("residualTime", residualTime);
-            map.put("detailUrl", comm.getCommodityDescUrl());
-            map.put("desc", comm.getCommodityDesc());
-            map.put("state", comm.getState());
-            map.put("totalNumber", comm.getBuyTotalNumber());
-            map.put("userPayNum", 0);
-            map.put("roundTime", comm.getRoundTime());
-            infoList.add(map);
-        }
-        return infoList;
+        return getOnLotteryMapList(null, page);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectOneOnLottery(Long commodId) {
+        return getOnLotteryMapList(commodId, null);
     }
 
     /**
@@ -403,4 +390,42 @@ public class CommodityServiceImpl implements ICommodityService {
         return forPut(list);
     }
 
+    private List<Map<String, Object>> getOnLotteryMapList(Long commId, Integer page) {
+        List<Map<String, Object>> infoList = new ArrayList<>();
+        List<Commoditys> list = null;
+        if (null == commId && null != page) {
+            list = ServiceUtils.getPageList(mapper.selectOnLottery(), page);
+        } else if (null != commId && null == page) {
+            list = new ArrayList<>();
+            list.add(mapper.selectByPrimaryKey(commId));
+        }
+        long nowTime = new Date().getTime();
+        for (int i = 0; i < list.size(); i++) {
+            Commoditys comm = list.get(i);
+            long sellOutTime = comm.getSellOutTime().getTime();
+            int residualTime = 0;//开奖剩余秒数
+            Map<String, Object> map = new HashMap<>();
+            if (nowTime - sellOutTime <= Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL) {
+                residualTime = (int) ((nowTime - sellOutTime) / 1000);
+            } else {
+                // TODO: 2017/1/5 开奖
+                comm.setState(Settings.COMMODITY_STATE_HAS_LOTTERY);
+                comm.setLuckCodeId(11000208485L);
+                
+
+            }
+            map.put("id", comm.getId());//商品id
+            map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
+            map.put("residualMinutes", residualTime);//剩余开奖秒数
+            map.put("currentTime", nowTime);//当前时间
+            map.put("detailUrl", comm.getCommodityDescUrl());//详情url
+            map.put("desc", comm.getCommodityDesc());//商品描述
+            map.put("state", comm.getState());//上商品是否可用
+            map.put("totalNumber", comm.getBuyTotalNumber());//所需总人次
+            map.put("roundTime", comm.getRoundTime());//期数
+            map.put("userPayNum", 0);//
+            infoList.add(map);
+        }
+        return infoList;
+    }
 }

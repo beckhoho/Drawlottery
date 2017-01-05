@@ -36,32 +36,46 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
      * 添加用户收货地址（每个用户允许最多添加10条收货地址信息）
      *
      * @param address 用户地址信息
-     * @return boolean
+     * @return
      */
     @Override
     public boolean addDa(DeliveryAddress address) {
         DeliveryAddress da = new DeliveryAddress();
         da.setUserId(address.getUserId());
-        if (damapper.selectCount(da) >= Settings.ADDRESS_ADD_MAX) return false;
+        List<DeliveryAddress> addresses = damapper.select(da);
+        if (addresses.size() >= Settings.ADDRESS_ADD_MAX)
+            return false;
+        int i = 0;
+        if (!addresses.isEmpty()) {
+            for (DeliveryAddress addr : addresses) {
+                if (addr.getState() == Settings.DELIVERY_ADDRESS_DEFAULT)
+                    i++;
+            }
+        }
+        if (i > 0) {
+            address.setState(Settings.DELIVERY_ADDRESS_NORMAL);
+        } else {
+            address.setState(Settings.DELIVERY_ADDRESS_DEFAULT);
+        }
         return damapper.insert(address) > 0;
     }
 
     /**
      * 删除指定的收货地址信息
      *
-     * @param id 收貨地址id
-     * @return boolean
+     * @param daId
+     * @return
      */
     @Override
-    public boolean deleteDa(Long id) {
-        return damapper.deleteByPrimaryKey(id) > 0;
+    public boolean deleteDa(Long daId) {
+        return damapper.deleteByPrimaryKey(daId) > 0;
     }
 
     /**
      * 更新收货地址信息
      *
      * @param address 用户地址信息
-     * @return boolean
+     * @return
      */
     @Override
     public boolean updateDa(DeliveryAddress address) {
@@ -71,37 +85,25 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
     /**
      * 查看指定用户的收货地址列表
      *
-     * @param accountId 用户账号
-     * @return List<DeliveryAddress>
+     * @param accountId
+     * @return
      */
     @Override
-    public List<Map<String,Object>> selectByUserAccountId(Long accountId) {
-        List<Map<String,Object>> mapList = new ArrayList<>();
+    public List<Map<String, Object>> selectByUser(Long accountId) {
+        List<Map<String, Object>> mapList = new ArrayList<>();
         DeliveryAddress da = new DeliveryAddress();
         da.setUserId(accountId);
         List<DeliveryAddress> list = damapper.select(da);
-        for (DeliveryAddress de : list){
-            Map<String,Object> map = new HashMap<>();
-            map.put("id",de.getId());//获取收货地址ID
-            map.put("receiverName",de.getReceiverName());//收货人姓名
-            map.put("address",de.getAddress());//收货地址
-            map.put("phone",de.getPhone());//手机号码
-            map.put("userAccountId",de.getUserId());//用户id
-            map.put("state",de.getState());//是否是默认地址（1：是，0：不是）
+        for (DeliveryAddress de : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", de.getId());//获取收货地址ID
+            map.put("receiverName", de.getReceiverName());//收货人姓名
+            map.put("address", de.getAddress());//收货地址
+            map.put("phone", de.getPhone());//手机号码
+            map.put("userAccountId", de.getUserId());//用户id
+            map.put("state", de.getState());//是否是默认地址（1：是，0：不是）
             mapList.add(map);
         }
         return mapList;
     }
-
-    /**
-     * 查询单条地址信息
-     *
-     * @param id 地址信息id
-     * @return
-     */
-    @Override
-    public DeliveryAddress selectById(Long id) {
-        return damapper.selectByPrimaryKey(id);
-    }
-
 }

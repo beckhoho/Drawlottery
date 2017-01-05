@@ -35,7 +35,7 @@ public class ShoppingCartController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/api/v1/user/shoppingcart/add")
+    @RequestMapping(value = "/api/v1/user/shoppingcart/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addCartInfo(@RequestParam("commId") Long commId, @RequestParam("count") Integer count) {
         return response(scService.addCommodityToCart(getUserId(), commId, count));
     }
@@ -46,7 +46,7 @@ public class ShoppingCartController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/api/v1/user/shoppingcart/delete")
+    @RequestMapping(value = "/api/v1/user/shoppingcart/delete", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject deleteCartInfo(@RequestParam("commId") Long commId) {
         return response(scService.deleteCommodity(getUserId(), commId));
     }
@@ -57,7 +57,7 @@ public class ShoppingCartController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/api/v1/user/shoppingcart/update")
+    @RequestMapping(value = "/api/v1/user/shoppingcart/update", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateCartInfo(@RequestParam("commId") Long commId, @RequestParam("count") Integer count) {
         return response(scService.updateCommodity(getUserId(), commId, count));
     }

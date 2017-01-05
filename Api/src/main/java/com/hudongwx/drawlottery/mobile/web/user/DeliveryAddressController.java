@@ -41,22 +41,22 @@ public class DeliveryAddressController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/address/add", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/address/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addAddress(@RequestBody DeliveryAddress address) {
         boolean status = addressService.addDa(address);
-        return response(status, "最多添加5条收货地址");
+        return response(status, "最多添加3条收货地址");
     }
 
     /**
      * 刪除收货地址
      *
-     * @param addressid 收货地址id
+     * @param addressId 收货地址id
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/address/del", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject deleteAddress(@RequestParam("addrid") Long addressid) {
-        boolean status = addressService.deleteDa(addressid);
+    @RequestMapping(value = "/api/v1/user/address/del", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject deleteAddress(@RequestParam("addressId") Long addressId) {
+        boolean status = addressService.deleteDa(addressId);
         return response(status);
     }
 
@@ -67,7 +67,7 @@ public class DeliveryAddressController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/address/up", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/address/up", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateAddress(@RequestBody DeliveryAddress address) {
         boolean status = addressService.updateDa(address);
         return response(status);
@@ -76,13 +76,12 @@ public class DeliveryAddressController extends BaseController {
     /**
      * 获取收货地址信息
      *
-     * @param accountid 用户账号
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/address/show", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject queryAddress(@RequestParam("acc") Long accountid) {
-        List<Map<String, Object>> mapList = addressService.selectByUserAccountId(accountid);
+    @RequestMapping(value = "/api/v1/user/address/show", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryAddress() {
+        List<Map<String, Object>> mapList = addressService.selectByUser(getUserId());
         return success(mapList);
     }
 }

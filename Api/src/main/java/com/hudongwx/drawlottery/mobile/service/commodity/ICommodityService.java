@@ -50,9 +50,9 @@ public interface ICommodityService {
      * 3、name无值，按category搜索
      * 4、name和category都无值，搜索所有
      *
-     * @param category   商品类别
-     * @param commName   商品名称
-     * @param page 当前最后一个显示的商品id
+     * @param category 商品类别
+     * @param commName 商品名称
+     * @param page     当前最后一个显示的商品id
      * @return JSONObject
      */
     List<Map<String, Object>> selectPaging(Integer category, String commName, Integer page);
@@ -62,10 +62,13 @@ public interface ICommodityService {
 
 
     //通过商品的价格，人气，最新进行查询
-    List<Map<String, Object>> selectByStyle( Integer type, Integer page);
+    List<Map<String, Object>> selectByStyle(Integer type, Integer page);
 
     //查询正在开奖的商品
     List<Map<String, Object>> selectOnLottery(Integer page);
+
+    //查询正在开奖的商品
+    List<Map<String, Object>> selectOneOnLottery(Long commId);
 
     //商品详情
     Map<String, Object> selectCommodity(Long commodId);

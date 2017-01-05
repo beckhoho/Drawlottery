@@ -89,16 +89,29 @@ public class CommoditysController extends BaseController {
     }
 
     /**
-     * 查看单件商品详情
+     * 查看单件正在开奖的商品
      *
-     * @param commodityid 商品id
+     * @param page 页码
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/onlottery", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryOnLotteryInfo(@RequestParam("commid") Long commodityid) {
-        Map<String, Object> map = cService.selectCommodity(commodityid);
-        return success(map);
+    public JSONObject queryOnLotteryInfo(@RequestParam("page") int page) {
+        List<Map<String, Object>> mapList = cService.selectOnLottery(page);
+        return success(mapList);
+    }
+
+    /**
+     * 查看单件正在开奖的商品
+     *
+     * @param commId 商品id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/pub/commodity/onlottery/one", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryOnLotteryInfo(@RequestParam("commId") Long commId) {
+        List<Map<String, Object>> mapList = cService.selectOneOnLottery(commId);
+        return success(mapList);
     }
 
 }

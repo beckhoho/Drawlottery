@@ -51,7 +51,6 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserInfo() {
-        User user = getUser();//获取当前用户信息
         Map<String, Object> userInfo = userService.getUserInfo(userService.queryUserByPhoneNum("13990949387"));
         return success(userInfo);
     }
@@ -131,7 +130,7 @@ public class UserController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/update/nickname", method = RequestMethod.POST)
-    public JSONObject updateUserNickName(@RequestParam("name")String userNickName) throws IOException {
+    public JSONObject updateUserNickName(@RequestParam("nickname")String userNickName) throws IOException {
 
         return response(true);
     }
