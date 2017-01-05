@@ -1,6 +1,6 @@
 package com.hudongwx;
 
-import com.hudongwx.drawlottery.DemoApplication;
+import com.hudongwx.drawlottery.MainApplication;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 //用于dao测试
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DemoApplication.class})
+@SpringBootTest(classes = {MainApplication.class})
 @Transactional //回滚数据
 @ActiveProfiles("dev")
 public class TestBaseMapper extends AbstractTestNGSpringContextTests {

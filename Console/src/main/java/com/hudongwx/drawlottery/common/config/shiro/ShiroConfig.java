@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.common.config.shiro;
 
 
+import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.shiro.AuthorRetryLimitCredentialsMatcher;
 import com.hudongwx.drawlottery.common.shiro.AuthorUserRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -25,7 +26,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * shiro权限框架
+ * shrio配置.
+ * Date: 2017/1/5 0005
+ * Time: 12:00
+ *
+ * @author <a href="http://userwu.github.io">wuhongxu</a>.
+ * @version 1.0.0
  */
 @Configuration
 //@ConditionalOnBean({net.sf.ehcache.management.CacheManager.class})
@@ -34,29 +40,29 @@ public class ShiroConfig {
 
     @Bean
     @Qualifier
-    public AuthorUserRealm getRealm(){
+    public AuthorUserRealm getRealm() {
         //设置密码匹配器
-        return new AuthorUserRealm(getShiroCacheManager(),getCredentialsMatcher(),"Login_AuthorizationCacheName","Login_AuthenticationCacheName");
+        return new AuthorUserRealm(getShiroCacheManager(), getCredentialsMatcher(), "Login_AuthorizationCacheName", "Login_AuthenticationCacheName");
     }
 
     @Bean
-    public HashedCredentialsMatcher getCredentialsMatcher(){
+    public HashedCredentialsMatcher getCredentialsMatcher() {
         return new AuthorRetryLimitCredentialsMatcher();
     }
 
     //配置过滤器
     @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(){
+    public ShiroFilterFactoryBean shiroFilterFactoryBean() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //管理安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager());
 
-        shiroFilterFactoryBean.setLoginUrl("/auth/queryUserByPhoneNum");//登录地址
-        shiroFilterFactoryBean.setSuccessUrl("/auth/loginok");//登录成功地址
-        shiroFilterFactoryBean.setUnauthorizedUrl("/auth/nologin");//没有登录地址
+        shiroFilterFactoryBean.setLoginUrl(ConfigConstants.loginUrl);//登录地址
+        shiroFilterFactoryBean.setSuccessUrl(ConfigConstants.successUrl);//登录成功地址
+        shiroFilterFactoryBean.setUnauthorizedUrl(ConfigConstants.unauthorizedUrl);//没有登录地址
 
         //自定义过滤器
-        Map<String,Filter> filters = new LinkedHashMap<String,Filter>();
+        Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         shiroFilterFactoryBean.setFilters(filters);
 
         //设置自带过滤器,配置url=过滤器关系
@@ -75,7 +81,7 @@ public class ShiroConfig {
             user 	org.apache.shiro.web.filter.authc.UserFilter 	如果访问一个已知用户，比如记住
         */
 
-        filterChainDefinitionMap.put("/*","anon");
+        filterChainDefinitionMap.put("/*", "anon");
         //filterChainDefinitionMap.put("/auth/queryUserByPhoneNum","authc");
 
         /*filterChainDefinitionMap.put("/static*","anon"); //anon 不需要登录就可以访问
@@ -96,7 +102,7 @@ public class ShiroConfig {
     * */
     @Bean(name = "securityManager")
     @Profile("dev")
-    public SecurityManager securityManager(){
+    public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //管理认证器
         securityManager.setRealm(getRealm());
@@ -105,7 +111,7 @@ public class ShiroConfig {
 
     @Bean(name = "securityManager")
     @Profile("test")
-    public SecurityManager securityManagerTest(){
+    public SecurityManager securityManagerTest() {
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         //管理认证器
         securityManager.setRealm(getRealm());
@@ -117,27 +123,28 @@ public class ShiroConfig {
     * 负责org.apache.shiro.util.Initializable类型bean的生命周期的，初始化和销毁
     * */
     @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
 
 
     @Bean
-    public EhCacheManager getShiroCacheManager(){
+    public EhCacheManager getShiroCacheManager() {
         EhCacheManager ehCacheManager = new EhCacheManager();
         ehCacheManager.setCacheManager(getEhcacheManager());
         return ehCacheManager;
     }
 
     @Bean
-    public net.sf.ehcache.CacheManager getEhcacheManager(){
+    public net.sf.ehcache.CacheManager getEhcacheManager() {
         net.sf.ehcache.CacheManager cacheManager;
-        return  EhCacheManagerUtils.buildCacheManager(new ClassPathResource("ehcache-dev-config.xml"));
+        return EhCacheManagerUtils.buildCacheManager(new ClassPathResource("ehcache-dev-config.xml"));
     }
 
     /**
      * 启动权限注解
      * Spring的一个bean，由Advisor决定对哪些类的方法进行AOP代理
+     *
      * @return
      */
     @Bean
@@ -149,6 +156,7 @@ public class ShiroConfig {
 
     /**
      * 启动权限注解
+     *
      * @return
      */
     @Bean
@@ -157,7 +165,6 @@ public class ShiroConfig {
         aasa.setSecurityManager(securityManager());
         return aasa;
     }
-
 
 
 }

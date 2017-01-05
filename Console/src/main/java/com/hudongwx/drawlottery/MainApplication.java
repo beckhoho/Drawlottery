@@ -12,9 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 如果不处于顶层，会导致注解扫描不到
  */
 @SpringBootApplication
-public class DemoApplication {
+public class MainApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(MainApplication.class, args);
     }
 }
