@@ -45,7 +45,7 @@
         <javaClientGenerator targetPackage="com.hudongwx.drawlottery.dao"
                              targetProject="src\main\java" type="XMLMAPPER" />
 
-        <table tableName="t_users" modelType="flat" domainObjectName="User">
+        <!--<table tableName="t_users" modelType="flat" domainObjectName="User">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
@@ -118,8 +118,18 @@
         <table tableName="t_orders" modelType="flat" domainObjectName="Orders">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>-->
+        <table tableName="t_role" modelType="flat" domainObjectName="Role">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
-
-
+        <table tableName="t_role" modelType="flat" domainObjectName="Role">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
+        <table tableName="t_permission" modelType="flat" domainObjectName="Permission">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
     </context>
 </generatorConfiguration>

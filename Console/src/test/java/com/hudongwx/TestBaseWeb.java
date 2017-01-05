@@ -1,6 +1,6 @@
 package com.hudongwx;
 
-import com.hudongwx.drawlottery.DemoApplication;
+import com.hudongwx.drawlottery.MainApplication;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.ThreadContext;
 import org.junit.BeforeClass;
@@ -20,7 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 //,MockServletContext.class,
 //用于web测试
-@SpringBootTest(classes = {DemoApplication.class})
+@SpringBootTest(classes = {MainApplication.class})
 @WebAppConfiguration
 @Transactional
 @ActiveProfiles("test")

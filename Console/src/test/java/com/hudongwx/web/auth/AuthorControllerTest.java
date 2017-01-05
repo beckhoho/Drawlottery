@@ -2,7 +2,7 @@ package com.hudongwx.web.auth;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.TestBaseWeb;
-import com.hudongwx.drawlottery.DemoApplication;
+import com.hudongwx.drawlottery.MainApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
  * <p>
  * @email 294786949@qq.com
  */
-@SpringBootTest(classes = {DemoApplication.class})
+@SpringBootTest(classes = {MainApplication.class})
 @WebAppConfiguration
 @Transactional
 @ActiveProfiles("test")

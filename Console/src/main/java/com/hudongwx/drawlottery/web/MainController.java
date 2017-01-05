@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * Drawlottery.
@@ -26,7 +27,8 @@ public class MainController extends BaseController {
     public ModelAndView main() {
         final ModelAndView modelAndView = new ModelAndView("index");
         final User user = userService.queryUserByPhoneNum("13990949387");
-        modelAndView.addObject("user",user);
+        final Map<String, Object> model = modelAndView.getModel();
+        model.put("user",user);
         return modelAndView;
     }
 }

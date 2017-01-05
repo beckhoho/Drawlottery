@@ -9,7 +9,8 @@ import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource.Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 
@@ -17,8 +18,8 @@ import javax.annotation.Resource;
  * 用户登录验证器
  */
 public class AuthorUserRealm extends AuthorizingRealm {
-
-    @Autowired
+    private static final Logger logger = LoggerFactory.getLogger(AuthorUserRealm.class);
+    @Resource
     private IUserService userService;
 
     /**
@@ -47,18 +48,19 @@ public class AuthorUserRealm extends AuthorizingRealm {
     }
 
     /**
-     * 权限实现
+     * 权限认证
      *
      * @param principals
      * @return
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+
         return null;
     }
 
     /**
-     * 用户信息实现
+     * 登录认证
      *
      * @param token
      * @return
@@ -66,6 +68,7 @@ public class AuthorUserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        logger.info("##################执行Shiro登录认证##################");
         //获取用户信息
         UsernamePasswordToken passwordToken = (UsernamePasswordToken) token;
         String username = passwordToken.getUsername();
