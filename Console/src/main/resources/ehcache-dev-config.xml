@@ -1,6 +1,6 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
-         >
+>
     <!--
         系统临时目录
         users.dir  : 用户当前工作目录
@@ -38,21 +38,22 @@
             memoryStoreEvictionPolicy="LRU"
     >
         <!-- 初始化操作 -->
-        <bootstrapCacheLoaderFactory class="net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=true"/>
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory"
+                                     properties="bootstrapAsynchronously=true"/>
     </defaultCache>
 
 
     <cache
-           name="login_cache"
-           maxElementsInMemory="1"
-           eternal="false"
-           timeToIdleSeconds="120"
-           timeToLiveSeconds="120"
-           overflowToDisk="true"
-           maxElementsOnDisk="10000000"
-           diskPersistent="true"
-           diskExpiryThreadIntervalSeconds="120"
-           memoryStoreEvictionPolicy="LRU"></cache>
+            name="login_cache"
+            maxElementsInMemory="1"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"></cache>
 
 
     <!--权限信息-->
