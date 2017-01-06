@@ -1,8 +1,8 @@
 package com.hudongwx.drawlottery.mobile.service.notification.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.NotificationActivity;
-import com.hudongwx.drawlottery.mobile.mappers.NotificationActivityMapper;
-import com.hudongwx.drawlottery.mobile.service.notification.INotificationActivityService;
+import com.hudongwx.drawlottery.mobile.entitys.NotificationCampaign;
+import com.hudongwx.drawlottery.mobile.mappers.NotificationCampaignMapper;
+import com.hudongwx.drawlottery.mobile.service.notification.INotificationCampaignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +27,10 @@ import java.util.Map;
  * @email 346905702@qq.com
  */
 @Service
-public class NotificationActivityServiceImpl implements INotificationActivityService{
+public class NotificationCampaignServiceImpl implements INotificationCampaignService {
 
     @Autowired
-    NotificationActivityMapper mapper;
+    NotificationCampaignMapper mapper;
 
     /**
      * 添加活动通知
@@ -38,7 +38,7 @@ public class NotificationActivityServiceImpl implements INotificationActivitySer
      * @return
      */
     @Override
-    public boolean addNoticeActivity(NotificationActivity activity) {
+    public boolean addNoticeActivity(NotificationCampaign activity) {
         return mapper.insert(activity)>0;
     }
 
@@ -48,7 +48,7 @@ public class NotificationActivityServiceImpl implements INotificationActivitySer
      * @return
      */
     @Override
-    public boolean deleteNotice(NotificationActivity activity) {
+    public boolean deleteNotice(NotificationCampaign activity) {
         return mapper.delete(activity)>0;
     }
 
@@ -59,9 +59,9 @@ public class NotificationActivityServiceImpl implements INotificationActivitySer
      */
     @Override
     public List<Map<String, Object>> selectAllActivity(Long accountId) {
-        NotificationActivity activity = new NotificationActivity();
+        NotificationCampaign activity = new NotificationCampaign();
         activity.setUserAccountId(accountId);
-        List<NotificationActivity> list = mapper.select(activity);
+        List<NotificationCampaign> list = mapper.select(activity);
         return selectTool(list);
     }
 
@@ -70,13 +70,13 @@ public class NotificationActivityServiceImpl implements INotificationActivitySer
      * @return
      */
     public List<Map<String,Object>> selectAll(){
-        List<NotificationActivity> list = mapper.selectTitle();
+        List<NotificationCampaign> list = mapper.selectTitle();
         return selectTool(list);
     }
 
-    public List<Map<String,Object>> selectTool(List<NotificationActivity> list){
+    public List<Map<String,Object>> selectTool(List<NotificationCampaign> list){
         List<Map<String, Object>> mapList = new ArrayList<>();
-        for (NotificationActivity ac : list){
+        for (NotificationCampaign ac : list){
             Map<String,Object> map = new HashMap<>();
             map.put("id",ac.getId());//添加活动通知ID
             map.put("accountId",ac.getUserAccountId());//添加用户ID

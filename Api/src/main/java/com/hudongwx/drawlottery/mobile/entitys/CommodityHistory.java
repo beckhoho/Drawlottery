@@ -32,7 +32,7 @@ public class CommodityHistory {
      * 期数
      */
     @Column(name = "round_time")
-    private Long roundTime;
+    private String roundTime;
 
     /**
      * 购买数量
@@ -160,7 +160,7 @@ public class CommodityHistory {
      *
      * @return round_time - 期数
      */
-    public Long getRoundTime() {
+    public String getRoundTime() {
         return roundTime;
     }
 
@@ -169,7 +169,7 @@ public class CommodityHistory {
      *
      * @param roundTime 期数
      */
-    public void setRoundTime(Long roundTime) {
+    public void setRoundTime(String roundTime) {
         this.roundTime = roundTime;
     }
 

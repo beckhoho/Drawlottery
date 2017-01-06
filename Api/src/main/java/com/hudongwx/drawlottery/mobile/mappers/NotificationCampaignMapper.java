@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
-import com.hudongwx.drawlottery.mobile.entitys.NotificationActivity;
+import com.hudongwx.drawlottery.mobile.entitys.NotificationCampaign;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -23,7 +23,7 @@ import java.util.List;
  * <p>
  * @email 346905702@qq.com
  */
-public interface NotificationActivityMapper extends BaseMapper<NotificationActivity> {
+public interface NotificationCampaignMapper extends BaseMapper<NotificationCampaign> {
 
     @Select("select  distinct * from t_notification_activity GROUP BY notice_title")
     @Results({
@@ -34,6 +34,6 @@ public interface NotificationActivityMapper extends BaseMapper<NotificationActiv
             @Result(column = "notice_cover_img_url", property = "noticeCoverImgUrl"),
             @Result(column = "send_date", property = "sendDate")
     })
-    List<NotificationActivity> selectTitle();
+    List<NotificationCampaign> selectTitle();
 
 }

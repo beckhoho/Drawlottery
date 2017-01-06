@@ -226,6 +226,9 @@ public class Settings {
     public static final int PREPAID_CARD_STATE_UN_DISPATCHED = 0;
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*Prepaid card*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
-    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL=1000*60*3;
+    /**
+     * 设置开奖延后时长
+     */
+    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL=1000*60*10;
 
 }

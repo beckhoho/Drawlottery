@@ -76,6 +76,20 @@ public class CommoditysController extends BaseController {
     }
 
     /**
+     * 搜索商品信息
+     * 按商品名称name搜索
+     *
+     * @param page 页数
+     * @return JSONObject
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/pub/commodity/search/name", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryCommoditys(@RequestParam("name") String name, @RequestParam("page") Integer page) {
+        List<Map<String, Object>> infoList = cService.selectPaging(null, name, page);
+        return success(infoList);
+    }
+
+    /**
      * 查看单件商品详情
      *
      * @param commodityid 商品id
@@ -97,7 +111,7 @@ public class CommoditysController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/onlottery", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOnLotteryInfo(@RequestParam("page") int page) {
-        List<Map<String, Object>> mapList = cService.selectOnLottery(page);
+        List<Map<String, Object>> mapList = cService.selectOnLottery(null, page);
         return success(mapList);
     }
 
@@ -110,7 +124,7 @@ public class CommoditysController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/onlottery/one", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOnLotteryInfo(@RequestParam("commId") Long commId) {
-        List<Map<String, Object>> mapList = cService.selectOneOnLottery(commId);
+        List<Map<String, Object>> mapList = cService.selectOneOnLottery(null, commId);
         return success(mapList);
     }
 

@@ -143,6 +143,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })
@@ -156,6 +157,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })
@@ -168,6 +170,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })
@@ -179,6 +182,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })
@@ -190,6 +194,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })

@@ -16,9 +16,8 @@ import javax.persistence.Id;
  * <p>
  * 创建　kiter　2017/1/4 21:51　<br/>
  * <p>
- *          充值卡实体类
+ * 充值卡实体类
  * <p>
- *
  * @email 346905702@qq.com
  */
 public class PrepaidCard {
@@ -32,6 +31,12 @@ public class PrepaidCard {
      */
     @Column(name = "user_account_id")
     private Long userAccountId;
+
+    /**
+     * 卡号
+     */
+    @Column(name = "img_url")
+    private String imgUrl;
 
     /**
      * 卡号
@@ -57,8 +62,7 @@ public class PrepaidCard {
     /**
      * 使用状态
      */
-    @Column(name = "state")
-    private Integer State;
+    private Integer state;
 
     public Long getId() {
         return id;
@@ -74,6 +78,14 @@ public class PrepaidCard {
 
     public void setUserAccountId(Long userAccountId) {
         this.userAccountId = userAccountId;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getCardNumber() {
@@ -109,10 +121,10 @@ public class PrepaidCard {
     }
 
     public Integer getState() {
-        return State;
+        return state;
     }
 
     public void setState(Integer State) {
-        this.State = State;
+        this.state = State;
     }
 }

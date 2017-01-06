@@ -5,8 +5,9 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
         <result column="card_number" jdbcType="VARCHAR" property="cardNumber"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="operator" jdbcType="VARCHAR" property="operator"/>
