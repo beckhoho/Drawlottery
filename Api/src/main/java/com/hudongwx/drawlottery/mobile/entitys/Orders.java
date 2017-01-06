@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_orders")
 public class Orders {
@@ -20,6 +20,11 @@ public class Orders {
      */
     @Column(name = "user_account_id")
     private Long userAccountId;
+
+    /**
+     * 用户购买数量
+     */
+    private Integer amount;
 
     /**
      * 是否已支付（1为已支付，0为未支付）
@@ -87,6 +92,24 @@ public class Orders {
      */
     public void setUserAccountId(Long userAccountId) {
         this.userAccountId = userAccountId;
+    }
+
+    /**
+     * 获取购买数量
+     *
+     * @return
+     */
+    public Integer getAmount() {
+        return amount;
+    }
+
+    /**
+     * 设置购买数量
+     *
+     * @param amount
+     */
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     /**

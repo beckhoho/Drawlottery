@@ -5,9 +5,9 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="search_number" jdbcType="BIGINT" property="searchNumber"/>
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="frequency" jdbcType="BIGINT" property="frequency"/>
 
     </resultMap>
 </mapper>

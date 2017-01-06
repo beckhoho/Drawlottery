@@ -15,7 +15,7 @@ import java.util.List;
  * <p>
  * 创建　kiter　2017/1/4 11:25　<br/>
  * <p>
- *      热门搜索service
+ * 热门搜索service
  * <p>
  * @email 346905702@qq.com
  */
@@ -29,4 +29,7 @@ public interface IHotSearchService {
 
     //更新关键字
     boolean updateHotSearch(HotSearch search);
+
+    //更新关键字
+    List<String> selectRecommend();
 }

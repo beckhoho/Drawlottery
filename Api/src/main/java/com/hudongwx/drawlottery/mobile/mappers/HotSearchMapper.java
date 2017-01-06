@@ -2,6 +2,9 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.HotSearch;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -20,4 +23,6 @@ import com.hudongwx.drawlottery.mobile.entitys.HotSearch;
  */
 public interface HotSearchMapper extends BaseMapper<HotSearch>{
 
+    @Select("select name from t_hot_search order by frequency desc limit 0, 10")
+    List<String> selectRecommend();
 }

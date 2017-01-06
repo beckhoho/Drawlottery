@@ -83,7 +83,6 @@ public class AppIndexController extends BaseController {
     @RequestMapping(value = "/api/v1/index/announce", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject announceCommodityInfo() {
         List<Map<String, Object>> infoList = cService.selectOnLottery(null,1);
-        System.out.println("/api/v1/index/announce------------->"+infoList.size());
         return success(infoList);
     }
 

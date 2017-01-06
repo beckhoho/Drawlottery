@@ -32,6 +32,11 @@ public class AdvertisementController extends BaseController {
     @Autowired
     IAdvertisementService adService;
 
+    /**
+     * 广告
+     *
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/ad/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAdvertisement() {
