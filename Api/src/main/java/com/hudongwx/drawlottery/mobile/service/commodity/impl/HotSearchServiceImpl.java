@@ -30,22 +30,22 @@ public class HotSearchServiceImpl implements IHotSearchService {
     HotSearchMapper mapper;
 
     @Override
-    public boolean addHotSearch(HotSearch search) {
-        return mapper.insert(search) > 0;
+    public boolean addHotSearch(String keywords) {
+        if (null == keywords)
+            return false;
+        HotSearch hs = new HotSearch();
+        hs.setName(keywords);
+        HotSearch hotSearch = mapper.selectOne(hs);
+        if (null != hotSearch) {
+            return mapper.updateRecommend(hotSearch.getId(), hotSearch.getFrequency() + 1) > 0;
+        } else {
+            hs.setFrequency(1L);
+            return mapper.insert(hs) > 0;
+        }
     }
 
     @Override
-    public boolean deleteHotSearch(HotSearch search) {
-        return mapper.delete(search) > 0;
-    }
-
-    @Override
-    public boolean updateHotSearch(HotSearch search) {
-        return mapper.updateByPrimaryKeySelective(search) > 0;
-    }
-
-    @Override
-    public List<String> selectRecommend() {
+    public List<String> queryRecommend() {
         return mapper.selectRecommend();
     }
 }

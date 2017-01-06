@@ -36,14 +36,15 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
     })
     CommodityHistory selectBycommod(@Param("cmmodId") Long commodId);
 
-    @Select("select id,commodity_name,luck_code,round_time,buy_number,end_time from t_commodity_history where luck_user_account_id = #{accountId}")
+    @Select("select * from t_commodity_history where luck_user_account_id = #{accountId}")
     @Results({
             @Result(id = true, column = "id",property = "id"),
             @Result(column = "commodity_name",property = "commodityName"),
             @Result(column = "luck_code",property = "luckCode"),
             @Result(column = "round_time",property = "roundTime"),
             @Result(column = "buy_number",property = "buyNumber"),
-            @Result(column = "end_time",property = "endTime")
+            @Result(column = "end_time",property = "endTime"),
+            @Result(column = "cover_img_url",property = "coverImgUrl")
     })
     List<CommodityHistory> selectHistoryLottery(@Param("accountId") Long accountId);
 

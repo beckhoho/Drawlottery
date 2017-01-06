@@ -101,9 +101,8 @@ public class CommodityServiceImpl implements ICommodityService {
     @Override
     public boolean update(Commoditys commod) {
         int i = mapper.updateByPrimaryKeySelective(commod);
-        if (i > 0) {
+        if (i > 0)
             return true;
-        }
         return false;
     }
 
@@ -145,6 +144,8 @@ public class CommodityServiceImpl implements ICommodityService {
             cList = ServiceUtils.getPageList(mapper.selectByTemp2(), page);
         } else if (type == Settings.COMMODITY_ORDER_NEWEST) {
             cList = ServiceUtils.getPageList(mapper.selectByTemp3(), page);
+        } else if (type == Settings.COMMODITY_ORDER_HIGHT_RATE) {
+            cList = ServiceUtils.getPageList(mapper.selectHeight(100), page);
         } else {
             cList = ServiceUtils.getPageList(mapper.selectByTemp4(), page);
         }

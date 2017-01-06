@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web.index;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.service.advertisement.IAdvertisementService;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import com.hudongwx.drawlottery.mobile.service.images.ImagesService;
 import com.hudongwx.drawlottery.mobile.service.notification.INotificationPrizeService;
@@ -33,6 +34,8 @@ public class AppIndexController extends BaseController {
 
     @Autowired
     ImagesService iService;
+    @Autowired
+    IAdvertisementService adService;
     @Autowired
     ICommodityService cService;
     @Autowired
@@ -89,7 +92,7 @@ public class AppIndexController extends BaseController {
     /**
      * 客户端首页商品板块信息（默认人气搜索）
      *
-     * @param type 排序类型(1、按人气，2、按最快，3、最新，4、高价)
+     * @param type 排序类型(1、按人气，2、按最快，3、最新，4、高价，5高中奖率)
      * @param page 页
      * @return JSONObject
      */

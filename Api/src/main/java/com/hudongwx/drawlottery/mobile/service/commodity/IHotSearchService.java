@@ -1,7 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
-import com.hudongwx.drawlottery.mobile.entitys.HotSearch;
-
 import java.util.List;
 
 /**
@@ -21,15 +19,18 @@ import java.util.List;
  */
 public interface IHotSearchService {
 
-    //添加热门搜索关键词
-    boolean addHotSearch(HotSearch search);
+    /**
+     * 添加热门搜索关键词
+     *
+     * @param keywords
+     * @return
+     */
+    boolean addHotSearch(String keywords);
 
-    //删除关键词
-    boolean deleteHotSearch(HotSearch search);
-
-    //更新关键字
-    boolean updateHotSearch(HotSearch search);
-
-    //更新关键字
-    List<String> selectRecommend();
+    /**
+     * 获取热门推荐
+     *
+     * @return
+     */
+    List<String> queryRecommend();
 }

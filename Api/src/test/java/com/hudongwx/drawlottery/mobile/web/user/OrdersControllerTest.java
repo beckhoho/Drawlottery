@@ -1,11 +1,9 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
-import com.alibaba.fastjson.JSON;
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
-import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import org.testng.annotations.Test;
 
-import java.util.Date;
+import javax.annotation.Resource;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -23,6 +21,10 @@ import java.util.Date;
  * @email 294786949@qq.com
  */
 public class OrdersControllerTest extends TestBaseWeb {
+
+    @Resource
+    OrdersController ordersController;
+
     @Test
     public void testAddOrders() throws Exception {
 
@@ -45,6 +47,6 @@ public class OrdersControllerTest extends TestBaseWeb {
 
     @Override
     public Object getController() {
-        return new OrdersController();
+        return ordersController;
     }
 }

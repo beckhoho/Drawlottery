@@ -118,20 +118,25 @@ public class Commoditys {
     /**
      * 下架时间
      */
-    @Column(name = "undercarriage_date")
-    private Date undercarriageDate;
+    @Column(name = "undercarriage_time")
+    private Date undercarriageTime;
 
     /**
      * 是否可用
      */
     private Integer valid;
 
-    public Date getUndercarriageDate() {
-        return undercarriageDate;
+    /**
+     * 最低购买量
+     */
+    private Integer minimum;
+
+    public Date getUndercarriageTime() {
+        return undercarriageTime;
     }
 
-    public void setUndercarriageDate(Date undercarriageDate) {
-        this.undercarriageDate = undercarriageDate;
+    public void setUndercarriageTime(Date undercarriageTime) {
+        this.undercarriageTime = undercarriageTime;
     }
 
     public Integer getValid() {
@@ -404,5 +409,13 @@ public class Commoditys {
 
     public void setSellOutTime(Date sellOutTime) {
         this.sellOutTime = sellOutTime;
+    }
+
+    public Integer getMinimum() {
+        return minimum;
+    }
+
+    public void setMinimum(Integer minimum) {
+        this.minimum = minimum;
     }
 }

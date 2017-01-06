@@ -64,6 +64,11 @@ public class CommodityHistory {
     @Column(name = "buy_total_number")
     private Integer buyTotalNumber;
 
+    /**
+     * 本期总需人数
+     */
+    private Integer genre;
+
     public Integer getBuyTotalNumber() {
         return buyTotalNumber;
     }
@@ -189,5 +194,13 @@ public class CommodityHistory {
      */
     public void setBuyNumber(Integer buyNumber) {
         this.buyNumber = buyNumber;
+    }
+
+    public Integer getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Integer genre) {
+        this.genre = genre;
     }
 }

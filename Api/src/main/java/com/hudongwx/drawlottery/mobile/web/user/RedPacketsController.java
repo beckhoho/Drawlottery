@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
 import com.hudongwx.drawlottery.mobile.service.user.IRedPacketsService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
@@ -32,6 +33,8 @@ public class RedPacketsController extends BaseController {
 
     @Autowired
     IRedPacketsService rpService;
+    @Autowired
+    IOdersService oService;
 
     /**
      * 获取用户不可用的红包
@@ -52,8 +55,9 @@ public class RedPacketsController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/redpacket/use", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject updateUserRedPacket(@RequestParam("rpId") Long rpId) {
-        return response(rpService.useRedPacket(10000L, rpId));
+    public JSONObject updateUserRedPacket(@RequestParam("price") Integer price) {
+        // TODO: 2017/1/6 User---------------
+        return success(oService.selectOrders(10000L,price));
     }
 
 }
