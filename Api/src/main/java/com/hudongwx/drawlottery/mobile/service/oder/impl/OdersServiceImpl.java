@@ -3,9 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.oder.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.*;
-import com.hudongwx.drawlottery.mobile.mappers.OrdersMapper;
-import com.hudongwx.drawlottery.mobile.mappers.RedPacketsMapper;
-import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
+import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
 import com.hudongwx.drawlottery.mobile.service.oder.IOrdersCommoditysService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,7 @@ import java.util.Map;
  * <p>
  * 创建　kiter　2016/12/22 19:50　<br/>
  * <p>
- * 订单service实现类
+ *     订单service实现类
  * <p>
  * @email 346905702@qq.com
  */
@@ -42,7 +40,12 @@ public class OdersServiceImpl implements IOdersService {
     RedPacketsMapper redMapper;
     @Autowired
     IOrdersCommoditysService ordersCommoditysService;
-
+    @Autowired
+    CommoditysMapper comMapper;
+    @Autowired
+    UserLuckCodesMapper luckMapper;
+    @Autowired
+    LuckCodesMapper codesMapper;
     /**
      * 添加订单对象
      *
@@ -135,6 +138,50 @@ public class OdersServiceImpl implements IOdersService {
         }
         m.put("useRedPackets", idList);//添加可使用红包ID
         return m;
+    }
+
+
+    /**
+     * 支付完成界面
+     * @param accountId 用户ID
+     * @param commodityAmounts  实体类集合
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> selectPaySuccess(Long accountId,List<CommodityAmount> commodityAmounts) {
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        Integer number = 0;
+        for(CommodityAmount ca : commodityAmounts){
+            Map<String,Object> map = new HashMap<>();
+            map.put("amount",ca.getAmount());//参与人次
+            Commoditys commoditys = comMapper.selectByPrimaryKey(ca.getCommodityId());
+            map.put("commodityName",commoditys.getName());//商品名
+            map.put("roundTime",commoditys.getRoundTime());//期数
+            map.put("luckCodes",luckCodes(accountId,ca.getCommodityId()));//用户参与商品的幸运码
+            number+=ca.getAmount();
+            mapList.add(map);
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("overallNumber",number);//添加总购买人次
+        map.put("overallCommodity",commodityAmounts.size());//添加购买商品总数
+        mapList.add(map);
+
+        return mapList;
+
+    }
+
+    //查询用户参与商品的所有幸运号
+    public List<Integer> luckCodes(Long accountId,Long commodityId){
+        List<Integer> list = new ArrayList<>();
+        UserLuckCodes user = new UserLuckCodes();
+        user.setUserAccountId(accountId);
+        user.setCommodityId(commodityId);
+        List<UserLuckCodes> codes = luckMapper.select(user);
+        for (UserLuckCodes luckCodes : codes){
+            LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLockCodeId());
+            list.add(codes1.getLockCode());
+        }
+        return list;
     }
 
 
