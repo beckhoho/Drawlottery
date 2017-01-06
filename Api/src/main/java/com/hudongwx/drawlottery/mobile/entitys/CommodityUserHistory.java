@@ -35,8 +35,8 @@ public class CommodityUserHistory {
     /**
      * 商品历史ID
      */
-    @Column(name = "commodity_history_id")
-    private Long commodityHistoryId;
+    @Column(name = "commodity_id")
+    private Long commodityId;
 
     /**
      * 购买商品时间
@@ -61,11 +61,11 @@ public class CommodityUserHistory {
     }
 
     public Long getCommodityHistoryId() {
-        return commodityHistoryId;
+        return commodityId;
     }
 
     public void setCommodityHistoryId(Long commodityHistoryId) {
-        this.commodityHistoryId = commodityHistoryId;
+        this.commodityId = commodityHistoryId;
     }
 
     public Date getPartakeDate() {

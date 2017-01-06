@@ -7,10 +7,8 @@
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
-        <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
-        <result column="amount" jdbcType="INTEGER" property="amount"/>
-        <result column="pay_state" jdbcType="TINYINT" property="payState"/>
-        <result column="pay_mode_id" jdbcType="TINYINT" property="payModeId"/>
+        <result column="pay_mode_id" jdbcType="INTEGER" property="payModeId"/>
         <result column="submit_date" jdbcType="TIMESTAMP" property="submitDate"/>
+        <result column="price" jdbcType="INTEGER"   property="price"/>
     </resultMap>
 </mapper>

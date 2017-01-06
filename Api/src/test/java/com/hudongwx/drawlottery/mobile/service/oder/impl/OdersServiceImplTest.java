@@ -31,16 +31,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
     IOdersService odersSer;
     @Test
     public void testAddOder() throws Exception {
-        Date d = new Date();
-        byte s = 1;
-        Orders o = new Orders();
-        o.setCommodityId(1l);
-        o.setPayModeId(s);
-        o.setPayState(s);
-        o.setUserAccountId(1l);
-        o.setSubmitDate(d);
-        boolean b = odersSer.addOder(o);
-        Assert.assertTrue(b);
+
 
         //测试完成    可用
 

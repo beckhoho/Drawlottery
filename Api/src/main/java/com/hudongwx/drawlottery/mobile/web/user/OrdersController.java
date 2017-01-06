@@ -40,8 +40,9 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/add", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject addOrders(@RequestBody Orders order) {
-        boolean status = ordersService.addOder(order);
-        return response(status);
+   //     boolean status = ordersService.addOder();
+     //   return response(status);
+        return null;
     }
 
     /**

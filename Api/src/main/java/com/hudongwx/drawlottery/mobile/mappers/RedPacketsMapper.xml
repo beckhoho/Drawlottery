@@ -10,8 +10,8 @@
     <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
     <result column="overdue_date" jdbcType="TIMESTAMP" property="overdueDate" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="use_price" jdbcType="DECIMAL" property="usePrice" />
-    <result column="worth" jdbcType="DECIMAL" property="worth" />
+    <result column="use_price" jdbcType="INTEGER" property="usePrice" />
+    <result column="worth" jdbcType="INTEGER" property="worth" />
     <result column="use_state" jdbcType="INTEGER" property="useState"/>
   </resultMap>
 </mapper>

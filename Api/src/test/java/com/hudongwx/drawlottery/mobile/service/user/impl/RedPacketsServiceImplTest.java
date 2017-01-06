@@ -30,14 +30,7 @@ public class RedPacketsServiceImplTest extends TestBaseMapper {
     IRedPacketsService ird;
     @Test
     public void testAddRP() throws Exception {
-        BigDecimal big = new BigDecimal(1);
-        RedPackets rp = new RedPackets();
-        rp.setUserAccountId(1l);
-        rp.setName("新手红包");
-        rp.setValidDate(new Date());
-        rp.setOverdueDate(new Date());
-        rp.setUsePrice(big);
-        rp.setWorth(big);
+
     }
 
     @Test

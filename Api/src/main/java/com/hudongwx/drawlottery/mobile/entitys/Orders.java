@@ -10,39 +10,36 @@ public class Orders {
     private Long id;
 
     /**
-     * 商品id
-     */
-    @Column(name = "commodity_id")
-    private Long commodityId;
-
-    /**
      * 用户accuount_id
      */
     @Column(name = "user_account_id")
     private Long userAccountId;
 
-    /**
-     * 用户购买数量
-     */
-    private Integer amount;
 
-    /**
-     * 是否已支付（1为已支付，0为未支付）
-     */
-    @Column(name = "pay_state")
-    private Byte payState;
+
+    private Integer price;
+
 
     /**
      * 支付方式id
      */
     @Column(name = "pay_mode_id")
-    private Byte payModeId;
+    private Integer payModeId;
 
     /**
      * 订单提交时间
      */
     @Column(name = "submit_date")
     private Date submitDate;
+
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 
     /**
      * @return id
@@ -56,24 +53,6 @@ public class Orders {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * 获取商品id
-     *
-     * @return commodity_id - 商品id
-     */
-    public Long getCommodityId() {
-        return commodityId;
-    }
-
-    /**
-     * 设置商品id
-     *
-     * @param commodityId 商品id
-     */
-    public void setCommodityId(Long commodityId) {
-        this.commodityId = commodityId;
     }
 
     /**
@@ -94,48 +73,13 @@ public class Orders {
         this.userAccountId = userAccountId;
     }
 
-    /**
-     * 获取购买数量
-     *
-     * @return
-     */
-    public Integer getAmount() {
-        return amount;
-    }
-
-    /**
-     * 设置购买数量
-     *
-     * @param amount
-     */
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    /**
-     * 获取是否已支付（1为已支付，0为未支付）
-     *
-     * @return pay_state - 是否已支付（1为已支付，0为未支付）
-     */
-    public Byte getPayState() {
-        return payState;
-    }
-
-    /**
-     * 设置是否已支付（1为已支付，0为未支付）
-     *
-     * @param payState 是否已支付（1为已支付，0为未支付）
-     */
-    public void setPayState(Byte payState) {
-        this.payState = payState;
-    }
 
     /**
      * 获取支付方式id
      *
      * @return pay_mode_id - 支付方式id
      */
-    public Byte getPayModeId() {
+    public Integer getPayModeId() {
         return payModeId;
     }
 
@@ -144,7 +88,7 @@ public class Orders {
      *
      * @param payModeId 支付方式id
      */
-    public void setPayModeId(Byte payModeId) {
+    public void setPayModeId(Integer payModeId) {
         this.payModeId = payModeId;
     }
 

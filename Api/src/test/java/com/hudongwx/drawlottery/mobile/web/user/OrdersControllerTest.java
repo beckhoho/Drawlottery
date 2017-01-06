@@ -25,13 +25,7 @@ import java.util.Date;
 public class OrdersControllerTest extends TestBaseWeb {
     @Test
     public void testAddOrders() throws Exception {
-        Orders orders=new Orders();
-        orders.setCommodityId(1000l);
-        orders.setUserAccountId(10000l);
-        orders.setPayModeId((byte) 1);
-        orders.setSubmitDate(new Date());
-        orders.setPayState((byte) 1);
-        post("/user/orders/add", JSON.toJSONString(orders));
+
     }
 
     @Test

@@ -1,5 +1,10 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
+import com.hudongwx.drawlottery.mobile.entitys.CommodityUserHistory;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -16,5 +21,13 @@ package com.hudongwx.drawlottery.mobile.service.commodity;
  * @email 346905702@qq.com
  */
 public interface ICommodityUserHistoryService {
+
+    boolean addCommodityUserHistory(CommodityUserHistory userHistory);
+
+    boolean deleteUserHistory(CommodityUserHistory userHistory);
+
+    boolean updateUserHistory(CommodityUserHistory userHistory);
+
+    List<Map<String,Object>> selectUserHistory(Long accountId);
 
 }
