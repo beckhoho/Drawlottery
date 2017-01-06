@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.dao.CommodityMapper">
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.pojo.Commodity">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="commodity_desc" jdbcType="VARCHAR" property="commodityDesc"/>
+        <result column="commodity_type_id" jdbcType="BIGINT" property="commodityTypeId"/>
+        <result column="genre" jdbcType="INTEGER" property="genre"/>
+        <result column="buy_last_number" jdbcType="INTEGER" property="buyLastNumber"/>
+        <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber"/>
+        <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
+        <result column="state" jdbcType="INTEGER" property="stateId"/>
+        <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
+        <result column="cover_img_url" jdbcType="VARCHAR" property="coverImgUrl"/>
+        <result column="auto_round" jdbcType="INTEGER" property="autoRound"/>
+        <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl"/>
+        <result column="sell_out_time" jdbcType="TIMESTAMP" property="sellOutTime"/>
+    </resultMap>
+    <sql id="LessColumn">
+        SELECT
+          commodity.id,
+          commodity.name,
+          commodity.round_time                                      AS roundTime,
+          commodity.genre,
+          IFNULL(type.name,'未知类型')                                                AS typeName,
+          IFNULL(state.name, '未知属性')                        AS stateName,
+          commodity.ground_time                                     AS groundTime,
+          commodity.undercarriage_date                              AS undercarriageDate,
+          commodity.view_num                                        AS viewNum,
+          commodity.buy_total_number                                AS buyTotalNumber,
+          commodity.buy_current_number                              AS buyCurrentNumber,
+          commodity.buy_total_number - commodity.buy_current_number AS buyNowNum
+        FROM t_commoditys AS commodity
+          LEFT JOIN t_commodity_type AS type ON commodity.commodity_type_id = type.id
+          LEFT JOIN t_commodity_states AS state ON commodity.state_id = state.id
+    </sql>
+    <update id="updateState">
+        update draw_lottery.t_commoditys SET state_id = #{state},
+        <if test="groundTime != null">
+            ground_time = #{groundTime},
+        </if>
+        undercarriage_time = #{underTime}
+        where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+    <delete id="batchDelete">
+        delete from draw_lottery.t_commoditys where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCommodities" resultType="com.hudongwx.drawlottery.pojo.Commodity">
+        <include refid="LessColumn"/>
+        <where>
+            <if test="key != null and key.length() > 0">
+                <bind name="pattern" value="'%' + key + '%'"/>
+                commodity.name like #{pattern}
+            </if>
+            <if test="genres != null and genres.size() > 0">
+                and commodity.genre in
+                <foreach collection="genres" open="(" close=")" separator="," item="genre">
+                    #{genre}
+                </foreach>
+            </if>
+            <if test="types != null and types.size() > 0">
+                and commodity.commodity_type_id in
+                <foreach collection="types" open="(" separator="," close=")" item="type">
+                    #{type}
+                </foreach>
+            </if>
+            <if test="statuses != null and statuses.size() > 0">
+                and commodity.state_id in
+                <foreach collection="statuses" open="(" separator="," close=")" item="state">
+                    #{state}
+                </foreach>
+            </if>
+            <if test="groundTimeFront != null and groundTimeAfter != null">
+                and commodity.ground_time &gt; #{groundTimeFront}
+                and commodity.ground_time &lt; #{groundTimeAfter}
+            </if>
+            <if test="undercarriageTimeFront!= null and undercarriageTimeAfter != null">
+                and commodity.undercarriage_date &gt; #{undercarriageTimeFront}
+                and commodity.undercarriage_date &lt; #{undercarriageTimeAfter}
+            </if>
+            and commodity.valid = #{valid}
+        </where>
+        order BY
+        <choose>
+            <when test="order == 1">
+                commodity.ground_time
+            </when>
+            <when test="order == 2">
+                commodity.undercarriage_date
+            </when>
+            <when test="order == 3">
+                buyTotalNumber
+            </when>
+            <when test="order == 4">
+                buyCurrentNumber
+            </when>
+            <when test="order == 5">
+                buyNowNum
+            </when>
+            <otherwise>
+                commodity.id
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="direction == 0">
+                DESC
+            </when>
+            <otherwise>
+                ASC
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

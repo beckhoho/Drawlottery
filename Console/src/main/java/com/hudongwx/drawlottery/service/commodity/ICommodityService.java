@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.service.commodity;
 
 import com.github.pagehelper.PageInfo;
-import com.hudongwx.drawlottery.pojo.Commoditys;
+import com.hudongwx.drawlottery.pojo.Commodity;
 
 import java.util.Date;
 import java.util.List;
@@ -33,19 +33,19 @@ public interface ICommodityService {
      * @param valid                  是否可用  TODO 用于回收站（预留）
      * @return 商品分页
      */
-    public PageInfo<Commoditys> getCommondities(final int currentPage,
-                                                final int pageSize,
-                                                final String key,
-                                                final List<Integer> genres,
-                                                final List<Integer> types,
-                                                final List<Integer> statuses,
-                                                final Date groundTimeFront,
-                                                final Date groundTimeAfter,
-                                                final Date undercarriageTimeFront,
-                                                final Date undercarriageTimeAfter,
-                                                final String order,
-                                                final String direction,
-                                                final int valid);
+    public PageInfo<Commodity> getCommodities(final int currentPage,
+                                              final int pageSize,
+                                              final String key,
+                                              final List<Integer> genres,
+                                              final List<Integer> types,
+                                              final List<Integer> statuses,
+                                              final Date groundTimeFront,
+                                              final Date groundTimeAfter,
+                                              final Date undercarriageTimeFront,
+                                              final Date undercarriageTimeAfter,
+                                              final int order,
+                                              final int direction,
+                                              final int valid);
 
     /**
      * 根据商品 id 得到商品.
@@ -53,23 +53,23 @@ public interface ICommodityService {
      * @param id 商品id
      * @return 商品
      */
-    public Commoditys getCommodityById(final int id);
+    public Commodity getCommodityById(final int id);
 
     /**
      * 添加商品.
      *
-     * @param commoditys 商品实体类
+     * @param commodity 商品实体类
      * @return 状态
      */
-    public int addCommondity(final Commoditys commoditys);
+    public int addCommodity(final Commodity commodity);
 
     /**
      * 修改商品信息.
      *
-     * @param commoditys 修改实体类
+     * @param commodity 修改实体类
      * @return 状态
      */
-    public int updateCommondity(final Commoditys commoditys);
+    public int updateCommodity(final Commodity commodity);
 
     /**
      * 批量删除商品.
@@ -77,21 +77,21 @@ public interface ICommodityService {
      * @param commodityId 删除商品的id集合
      * @return 状态
      */
-    public int deleteCommondity(final List<Integer> commodityId);
+    public int deleteCommodity(final List<Integer> commodityId);
 
     /**
      * 批量上架商品.
      *
-     * @param commondityIds 商品id集合
+     * @param commodityIds 商品id集合
      * @return 状态
      */
-    public int ground(final List<Integer> commondityIds);
+    public int ground(final List<Integer> commodityIds);
 
     /**
      * 批量下架商品.
      *
-     * @param commondityIds 商品id集合
+     * @param commodityIds 商品id集合
      * @return 状态
      */
-    public int undercarriage(final List<Integer> commondityIds);
+    public int undercarriage(final List<Integer> commodityIds);
 }

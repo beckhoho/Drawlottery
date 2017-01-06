@@ -1,10 +1,15 @@
 package com.hudongwx.drawlottery.pojo;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_commoditys")
-public class Commoditys {
+public class Commodity {
+    public static final int ON_SALE = 3;
+    public static final int WILL_SALE = 4;
+    public static final int DID_SALE = 5;
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +32,13 @@ public class Commoditys {
     private Long commodityTypeId;
 
     /**
-     * 商品类别（1：实体，0：虚拟）
+     * 类型名
+     */
+    @Transient
+    private String typeName;
+
+    /**
+     * 商品类别（1：实体，0：虚拟,2：实体不能快递）
      */
     private Integer genre;
 
@@ -50,6 +61,28 @@ public class Commoditys {
     private Integer buyTotalNumber;
 
     /**
+     * 剩余购买人次
+     */
+    @Transient
+    private Integer buyNowNumber;
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public Integer getBuyNowNumber() {
+        return buyNowNumber;
+    }
+
+    public void setBuyNowNumber(Integer buyNowNumber) {
+        this.buyNowNumber = buyNowNumber;
+    }
+
+    /**
      * 开抢时间
      */
     @Column(name = "start_time")
@@ -62,9 +95,17 @@ public class Commoditys {
     private Long luckCodeId;
 
     /**
-     * 当前中奖状态（1：已开奖，0：未开奖，2：售罄开奖中）
+     * 商品状态id
      */
-    private Integer state;
+    @Column(name = "state_id")
+    private Integer stateId;
+
+
+    /**
+     * 状态名
+     */
+    @Transient
+    private String stateName;
 
     /**
      * 当前期数
@@ -95,6 +136,12 @@ public class Commoditys {
      */
     @Column(name = "sell_out_time")
     private Date sellOutTime;
+
+    /**
+     * 浏览量（商品点击量）
+     */
+    @Column(name = "view_num")
+    private Long viewNum;
 
     /**
      * @return id
@@ -273,24 +320,6 @@ public class Commoditys {
     }
 
     /**
-     * 获取当前中奖状态（1：已开奖，0：未开奖，2：售罄开奖中）
-     *
-     * @return state - 当前中奖状态（1：已开奖，0：未开奖，2：售罄开奖中）
-     */
-    public Integer getState() {
-        return state;
-    }
-
-    /**
-     * 设置当前中奖状态（1：已开奖，0：未开奖，2：售罄开奖中）
-     *
-     * @param state 当前中奖状态（1：已开奖，0：未开奖，2：售罄开奖中）
-     */
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    /**
      * 获取当前期数
      *
      * @return round_time - 当前期数
@@ -378,5 +407,29 @@ public class Commoditys {
      */
     public void setSellOutTime(Date sellOutTime) {
         this.sellOutTime = sellOutTime;
+    }
+
+    public Long getViewNum() {
+        return viewNum;
+    }
+
+    public void setViewNum(Long viewNum) {
+        this.viewNum = viewNum;
+    }
+
+    public Integer getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Integer stateId) {
+        this.stateId = stateId;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 }

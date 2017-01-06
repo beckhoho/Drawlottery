@@ -15,7 +15,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MainApplication {
 
     public static void main(String[] args) {
-        SpringApplication springApplication = new SpringApplication(MainApplication.class);
-        springApplication.run(args);
+        SpringApplication.run(MainApplication.class, args);
     }
 }

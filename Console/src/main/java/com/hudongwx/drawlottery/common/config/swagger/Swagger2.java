@@ -48,20 +48,20 @@ public class Swagger2 {
     */
 
     @Bean
-    public Docket createApi(){
-        return  new Docket(DocumentationType.SWAGGER_2)
+    public Docket createApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.hudongwx.drawlottery.mobile"))
+                .apis(RequestHandlerSelectors.basePackage("com.hudongwx.drawlottery.web"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
-    private ApiInfo apiInfo(){
-        return  new ApiInfoBuilder()
-                .title("DrawLottery Mobile Api接口平台")
-                .description("所有api数据接口")
-                .contact("origin")
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("DrawLottery 后台管理 Api接口平台")
+                .description("后台所有api数据接口")
+                .contact("wuhongxu")
                 .version("1.0.0")
                 .build();
     }

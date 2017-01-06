@@ -29,25 +29,25 @@ public class ConfigConstants {
      * 项目路径
      */
     private static final String LABEL_CONTEXT_PATH = "contextPath";
-    public static final String contextPath = PropertiesUtils.getProperty(LABEL_CONTEXT_PATH);
+    public static final String contextPath = PropertiesUtils.getProp(LABEL_CONTEXT_PATH);
 
     /**
      * 静态资源
      */
     private static final String LABEL_STATIC_SERVE_PATH = "staticServePath";
-    public static final String staticServePath = PropertiesUtils.getProperty(LABEL_STATIC_SERVE_PATH);
+    public static final String staticServePath = PropertiesUtils.getProp(LABEL_STATIC_SERVE_PATH);
 
     /**
      * shiro 管理地址
      */
     private static final String LABEL_LOGIN_URL = "loginUrl";
-    public static final String loginUrl = PropertiesUtils.getProperty(LABEL_LOGIN_URL);
+    public static final String loginUrl = PropertiesUtils.getProp(LABEL_LOGIN_URL);
 
     private static final String LABEL_SUCCESS_URL = "successUrl";
-    public static final String successUrl = PropertiesUtils.getProperty(LABEL_SUCCESS_URL);
+    public static final String successUrl = PropertiesUtils.getProp(LABEL_SUCCESS_URL);
 
     private static final String LABEL_UNAUTHORIZED_URL = "unauthorizedUrl";
-    public static final String unauthorizedUrl = PropertiesUtils.getProperty(LABEL_UNAUTHORIZED_URL);
+    public static final String unauthorizedUrl = PropertiesUtils.getProp(LABEL_UNAUTHORIZED_URL);
 
     private ConfigConstants() {
     }

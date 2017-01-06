@@ -17,6 +17,7 @@ public class CommonConstants {
      */
     private static final String CONSTANTS_PROPERTIES = "project/constants.properties";
 
+
     static {
         PropertiesUtils.loadAllProperties(CONSTANTS_PROPERTIES);
     }
@@ -43,8 +44,11 @@ public class CommonConstants {
     /**
      * 可用/不可用.
      */
-    public static final String VALID = "1";
-    public static final String INVALID = "0";
+    public static final int VALID = 1;
+    public static final int INVALID = 0;
+
+    private static final String LABEL_MAX_PAGE_SIZE = "maxPageSize";
+    public static final int MAX_PAGE_SIZE = PropertiesUtils.getPropToInt(LABEL_MAX_PAGE_SIZE);
 
     private CommonConstants() {
     }

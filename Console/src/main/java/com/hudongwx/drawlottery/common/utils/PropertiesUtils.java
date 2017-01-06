@@ -19,9 +19,9 @@ import java.util.Properties;
 public class PropertiesUtils {
     private static Map<String, String> propertiesMap = new HashMap<>();
     // Default as in PropertyPlaceholderConfigurer
-    private static Logger logger  = LoggerFactory.getLogger(PropertiesUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
 
-    public static void processProperties( Properties props) throws BeansException {
+    public static void processProperties(Properties props) throws BeansException {
 
         propertiesMap = new HashMap<String, String>();
         for (Object key : props.keySet()) {
@@ -29,14 +29,15 @@ public class PropertiesUtils {
 
             try {
                 //PropertiesLoaderUtils的默认编码是ISO-8859-1,在这里转码一下
-                propertiesMap.put(keyStr, new String(props.getProperty(keyStr).getBytes("ISO-8859-1"),"utf-8"));
+                propertiesMap.put(keyStr, new String(props.getProperty(keyStr).getBytes("ISO-8859-1"), "utf-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
         logger.info(propertiesMap.toString());
     }
-    public static void loadAllProperties(String fileName){
+
+    public static void loadAllProperties(String fileName) {
         try {
 
             Properties properties = PropertiesLoaderUtils.loadAllProperties(fileName);
@@ -46,7 +47,11 @@ public class PropertiesUtils {
         }
     }
 
-    public static String getProperty(String name) {
+    public static String getProp(String name) {
         return propertiesMap.get(name);
+    }
+
+    public static int getPropToInt(String name) {
+        return Integer.valueOf(propertiesMap.get(name));
     }
 }
