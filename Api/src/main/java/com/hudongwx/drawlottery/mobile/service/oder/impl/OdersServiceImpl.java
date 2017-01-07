@@ -9,10 +9,7 @@ import com.hudongwx.drawlottery.mobile.service.oder.IOrdersCommoditysService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -55,6 +52,7 @@ public class OdersServiceImpl implements IOdersService {
      */
     @Override
     public boolean addOder(Long accountId, JSONObject jsonObject) {
+        boolean b = true;
         Orders orders = JSONObject.toJavaObject(jsonObject.getJSONObject("order"), Orders.class);
         orders.setUserAccountId(accountId);
         JSONArray ca = jsonObject.getJSONArray("ca");
@@ -62,62 +60,88 @@ public class OdersServiceImpl implements IOdersService {
         for (int i = 0; i < ca.size(); i++) {
             caList.add(JSONObject.toJavaObject(ca.getJSONObject(i), CommodityAmount.class));
         }
-        int i = mapper.insert(orders);
-        List<Orders> list = mapper.select(orders);
-        for (int s = 0; s < caList.size(); s++) {
-            OrdersCommoditys oc = new OrdersCommoditys();
-            oc.setOrdersId(list.get(0).getId());//添加订单ID
-            oc.setCommodityId(caList.get(s).getCommodityId());//添加商品ID
-            oc.setAmount(caList.get(s).getAmount());//添加购买人次；
-            ordersCommoditysService.addOrdersCommodity(oc);
-        }
-        if (orders.getPayModeId() == 1) {//如果支付方式为余额支付
-            User u = userMapper.selectByPrimaryKey(accountId);
-            Integer number = orders.getPrice();
-            User user = new User();
-            user.setAccountId(accountId);
-            user.setGoldNumber(u.getGoldNumber() - number);
-            userMapper.updateByPrimaryKeySelective(user);
-        }
-        if(updateCommodity(caList,accountId)&&i>0){
-            return true;
-        }
-        else {
-            return false;
-        }
+        if (updateCommodity(caList, accountId)) {
+            if (mapper.insert(orders) > 0) {
+                List<Orders> list = mapper.select(orders);
+                for (int s = 0; s < caList.size(); s++) {
+                    Long commodityId = caList.get(s).getCommodityId();
+                    Integer amount = caList.get(s).getAmount();
+                    OrdersCommoditys oc = new OrdersCommoditys();
+                    oc.setOrdersId(list.get(0).getId());//添加订单ID
+                    oc.setCommodityId(commodityId);//添加商品ID
+                    oc.setAmount(amount);//添加购买人次；
+                    ordersCommoditysService.addOrdersCommodity(oc);
 
+                    //为用户生成幸运码
+                    List<LuckCodes> codes = addLuckCodes(commodityId, amount);
+                    for (LuckCodes code : codes){
+                        Date date = new Date();
+                        UserLuckCodes luckCodes = new UserLuckCodes();
+                        luckCodes.setUserAccountId(accountId);
+                        luckCodes.setCommodityId(commodityId);
+                        luckCodes.setLockCodeId(code.getId());
+                        luckCodes.setBuyDate(date);
+                        luckMapper.insert(luckCodes);
+                        LuckCodes l = new LuckCodes();
+                        l.setId(code.getId());
+                        l.setState(1);
+                        codesMapper.updateByPrimaryKeySelective(l);
+                    }
+
+                }
+                if (orders.getPayModeId() == 1) {//如果支付方式为余额支付
+                    User u = userMapper.selectByPrimaryKey(accountId);
+                    Integer number = orders.getPrice();
+                    User user = new User();
+                    user.setAccountId(accountId);
+                    user.setGoldNumber(u.getGoldNumber() - number);
+                    userMapper.updateByPrimaryKeySelective(user);
+                }
+            }
+        } else {
+            b = false;
+        }
+        return b;
     }
 
-    public boolean updateCommodity(List<CommodityAmount> list,Long accountId){
+    public List<LuckCodes> addLuckCodes(Long commodityId,Integer number){
+        List<LuckCodes> list = new ArrayList<>();
+        List<LuckCodes> codes = codesMapper.selectByUsable(commodityId);
+        for (int i = 0; i < number; i++) {
+            list.add(codes.get(i));
+        }
 
-        for (CommodityAmount ca : list){
+        return list;
+    }
+
+    public boolean updateCommodity(List<CommodityAmount> list, Long accountId) {
+
+        for (CommodityAmount ca : list) {
             //提交订单前先进行查询，
             Commoditys commodity = comMapper.selectByPrimaryKey(ca.getCommodityId());
             //如果商品当前购买人次加用户购买人次大于总购买人次
-            if(commodity.getBuyCurrentNumber()+ca.getAmount()>commodity.getBuyTotalNumber()){
-                int i = commodity.getBuyCurrentNumber()+ca.getAmount()-commodity.getBuyTotalNumber();
+            if (commodity.getBuyCurrentNumber() + ca.getAmount() > commodity.getBuyTotalNumber()) {
+                int i = commodity.getBuyCurrentNumber() + ca.getAmount() - commodity.getBuyTotalNumber();
                 User user = userMapper.selectByPrimaryKey(accountId);
                 int goldNumber = user.getGoldNumber();
                 User u = new User();
                 u.setAccountId(accountId);
-                u.setGoldNumber(i+goldNumber);
-                userMapper.updateByPrimaryKeySelective(u);
+                u.setGoldNumber(i + goldNumber);
+                return userMapper.updateByPrimaryKeySelective(u) > 0;
                 //如果当前购买量已经超过了商品的总量，那么将多余的购买余额转为闪币存入用户账户
-            }
-            else if(commodity.getBuyCurrentNumber()+ca.getAmount()==commodity.getBuyTotalNumber()){
+            } else if (commodity.getBuyCurrentNumber() + ca.getAmount() == commodity.getBuyTotalNumber()) {
                 int i = ca.getAmount();
                 Commoditys com = new Commoditys();
                 com.setId(ca.getCommodityId());
-                com.setBuyCurrentNumber(commodity.getBuyCurrentNumber()+i);
+                com.setBuyCurrentNumber(commodity.getBuyCurrentNumber() + i);
                 com.setStateId(2);
-                return comMapper.updateByPrimaryKeySelective(com)>0;
-            }
-            else{
+                return comMapper.updateByPrimaryKeySelective(com) > 0;
+            } else {
                 int i = ca.getAmount();
                 Commoditys com = new Commoditys();
                 com.setId(ca.getCommodityId());
-                com.setBuyCurrentNumber(commodity.getBuyCurrentNumber()+i);
-                return comMapper.updateByPrimaryKeySelective(com)>0;
+                com.setBuyCurrentNumber(commodity.getBuyCurrentNumber() + i);
+                return comMapper.updateByPrimaryKeySelective(com) > 0;
             }
         }
         return false;
@@ -213,7 +237,6 @@ public class OdersServiceImpl implements IOdersService {
         map.put("overallNumber", number);//添加总购买人次
         map.put("overallCommodity", commodityAmounts.size());//添加购买商品总数
         mapList.add(map);
-
         return mapList;
 
     }
@@ -226,12 +249,11 @@ public class OdersServiceImpl implements IOdersService {
         user.setCommodityId(commodityId);
         List<UserLuckCodes> codes = luckMapper.select(user);
         for (UserLuckCodes luckCodes : codes) {
-            System.out.println("luckCodes.getLockCodeId()------>"+luckCodes.getLockCodeId());
+            System.out.println("luckCodes.getLockCodeId()------>" + luckCodes.getLockCodeId());
             LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLockCodeId());
             list.add(codes1.getLockCode());
         }
         return list;
     }
-
 
 }

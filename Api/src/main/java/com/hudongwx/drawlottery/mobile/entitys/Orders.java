@@ -15,7 +15,6 @@ public class Orders {
     @Column(name = "user_account_id")
     private Long userAccountId;
 
-
     /**
      * 价格
      */

@@ -39,5 +39,5 @@ public interface IOdersService {
     Map<String,Object> selectOrders(Long accountId,Integer sum);
 
     //支付成功界面数据
-    List<Map<String,Object>> selectPaySuccess(Long accountId,JSONObject jsonObject);
+    List<Map<String, Object>> selectPaySuccess(Long accountId,JSONObject jsonObject);
 }

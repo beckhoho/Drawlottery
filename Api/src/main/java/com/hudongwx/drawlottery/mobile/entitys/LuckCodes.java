@@ -21,6 +21,19 @@ public class LuckCodes {
     private Long commodityId;
 
     /**
+     * 幸运码状态
+     */
+    private Integer state;
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    /**
      * @return id
      */
     public Long getId() {
