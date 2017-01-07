@@ -13,48 +13,53 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
 
     @Select("select * from t_commodity_history where commodity_name = #{commodName} and round_time < #{roundTime}")
     @Results({
-            @Result(id = true,property = "id",column = "id"),
-            @Result(column = "commodity_name",property = "commodityName"),
-            @Result(column="commodity_id",property="commodityId"),
-            @Result(column="luck_code",property="luckCode"),
-            @Result(column="luck_user_account_id",property="luckUserAccountId"),
-            @Result(column="round_time",property="roundTime"),
-            @Result(column = "end_time",property = "endTime")
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "commodity_name", property = "commodityName"),
+            @Result(column = "commodity_id", property = "commodityId"),
+            @Result(column = "luck_code", property = "luckCode"),
+            @Result(column = "luck_user_account_id", property = "luckUserAccountId"),
+            @Result(column = "round_time", property = "roundTime"),
+            @Result(column = "end_time", property = "endTime")
     })
-    CommodityHistory selectBycommodId(@Param("commodName") String commodName,@Param("roundTime") Long roundTime);
+    CommodityHistory selectBycommodId(@Param("commodName") String commodName, @Param("roundTime") Long roundTime);
 
 
     @Select("select * from t_commodity_history where commodity_id = #{cmmodId}")
     @Results({
-            @Result(id = true,property = "id",column = "id"),
-            @Result(column = "commodity_name",property = "commodityName"),
-            @Result(column="commodity_id",property="commodityId"),
-            @Result(column="luck_code",property="luckCode"),
-            @Result(column="luck_user_account_id",property="luckUserAccountId"),
-            @Result(column="round_time",property="roundTime"),
-            @Result(column = "end_time",property = "endTime")
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "commodity_name", property = "commodityName"),
+            @Result(column = "commodity_id", property = "commodityId"),
+            @Result(column = "luck_code", property = "luckCode"),
+            @Result(column = "luck_user_account_id", property = "luckUserAccountId"),
+            @Result(column = "round_time", property = "roundTime"),
+            @Result(column = "end_time", property = "endTime"),
+            @Result(column = "buy_last_number", property = "buyLastNumber"),
+            @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "buy_total_number", property = "buyTotalNumber"),
+            @Result(column = "buy_number", property = "buyNumber")
     })
     CommodityHistory selectBycommod(@Param("cmmodId") Long commodId);
 
-    @Select("select id,commodity_name,luck_code,round_time,buy_number,end_time from t_commodity_history where luck_user_account_id = #{accountId}")
+    @Select("select * from t_commodity_history where luck_user_account_id = #{accountId}")
     @Results({
-            @Result(id = true, column = "id",property = "id"),
-            @Result(column = "commodity_name",property = "commodityName"),
-            @Result(column = "luck_code",property = "luckCode"),
-            @Result(column = "round_time",property = "roundTime"),
-            @Result(column = "buy_number",property = "buyNumber"),
-            @Result(column = "end_time",property = "endTime")
+            @Result(id = true, column = "id", property = "id"),
+            @Result(column = "commodity_name", property = "commodityName"),
+            @Result(column = "luck_code", property = "luckCode"),
+            @Result(column = "round_time", property = "roundTime"),
+            @Result(column = "buy_number", property = "buyNumber"),
+            @Result(column = "end_time", property = "endTime"),
+            @Result(column = "cover_img_url", property = "coverImgUrl")
     })
     List<CommodityHistory> selectHistoryLottery(@Param("accountId") Long accountId);
 
     @Select("select id,commodity_name,luck_code,round_time,buy_number,end_time from t_commodity_history where luck_user_account_id = #{accountId}")
     @Results({
-            @Result(id = true, column = "id",property = "id"),
-            @Result(column = "commodity_name",property = "commodityName"),
-            @Result(column = "luck_code",property = "luckCode"),
-            @Result(column = "round_time",property = "roundTime"),
-            @Result(column = "buy_number",property = "buyNumber"),
-            @Result(column = "end_time",property = "endTime")
+            @Result(id = true, column = "id", property = "id"),
+            @Result(column = "commodity_name", property = "commodityName"),
+            @Result(column = "luck_code", property = "luckCode"),
+            @Result(column = "round_time", property = "roundTime"),
+            @Result(column = "buy_number", property = "buyNumber"),
+            @Result(column = "end_time", property = "endTime")
     })
     List<CommodityHistory> selectHistoryPay(@Param("accountId") Long accountId);
 }

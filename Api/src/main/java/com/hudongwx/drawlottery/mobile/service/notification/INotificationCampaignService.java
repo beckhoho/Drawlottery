@@ -1,6 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.notification;
 
-import com.hudongwx.drawlottery.mobile.entitys.NotificationActivity;
+import com.hudongwx.drawlottery.mobile.entitys.NotificationCampaign;
 
 import java.util.List;
 import java.util.Map;
@@ -20,13 +20,13 @@ import java.util.Map;
  * <p>
  * @email 346905702@qq.com
  */
-public interface INotificationActivityService {
+public interface INotificationCampaignService {
 
     //添加活动通知
-    boolean addNoticeActivity(NotificationActivity activity);
+    boolean addNoticeActivity(NotificationCampaign activity);
 
     //删除通知
-    boolean deleteNotice(NotificationActivity activity);
+    boolean deleteNotice(NotificationCampaign activity);
 
     //查看活动通知
     List<Map<String,Object>> selectAllActivity(Long accountId);

@@ -7,7 +7,7 @@
         -->
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
-        <result column="commodity_history_id" jdbcType="BIGINT" property="commodityHistoryId" />
+        <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
         <result column="partake_date" jdbcType="TIMESTAMP" property="partakeDate"/>
 
     </resultMap>

@@ -21,7 +21,7 @@ import java.util.Date;
  * <p>
  * @email 346905702@qq.com
  */
-public class NotificationActivity {
+public class NotificationCampaign {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

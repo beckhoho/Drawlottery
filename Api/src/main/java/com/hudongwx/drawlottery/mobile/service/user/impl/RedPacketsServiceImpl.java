@@ -43,18 +43,24 @@ public class RedPacketsServiceImpl implements IRedPacketsService {
         List<RedPackets> list = mapper.select(redPackets);
         for (RedPackets r : list) {
             Map<String, Object> map = new HashMap<>();
-            map.put("rpId", r.getId());//获取红包ID
+            map.put("id", r.getId());//获取红包ID
             map.put("name", r.getName());//获取红包名
             map.put("userAccountId", r.getUserAccountId());//获取用户ID
             map.put("validDate", r.getValidDate());//获取生效时间
             map.put("overdueDate", r.getOverdueDate());//获取失效时间
             map.put("usePrice", r.getUsePrice());//获取使用泛围
             map.put("worth", r.getWorth());//获取红包大小
-            map.put("useState", r.getUseState());//获取红包状态（1.已使用，0.未使用）
+            Integer useState = r.getUseState();
+            map.put("useState", useState);//获取红包状态（1.已使用，0.未使用）
             if (overdue(r)) {
-                map.put("overdue", Settings.RED_PACKET_overdue_not);//是否可使用？1：可使用
+                map.put("overdue", Settings.RED_PACKET_overdue);//是否过期？0：未过期
             } else {
-                map.put("overdue", Settings.RED_PACKET_overdue);//是否可使用？0：不可使用
+                map.put("overdue", Settings.RED_PACKET_overdue_not);//是否过期？1：已过期
+            }
+            if (useState == Settings.RED_PACKET_USE_STATE_USED || overdue(r)) {
+                map.put("usable", Settings.STATE_DISABLE);
+            } else {
+                map.put("usable", Settings.STATE_AVAILABLE);
             }
             mapList.add(map);
         }
@@ -73,7 +79,7 @@ public class RedPacketsServiceImpl implements IRedPacketsService {
 
     public boolean overdue(RedPackets r) {
         Date date = new Date();
-        if (r.getOverdueDate().getTime() > date.getTime() || r.getValidDate().getTime() < date.getTime())
+        if (r.getOverdueDate().getTime() > date.getTime())
             return false;
         return true;
     }

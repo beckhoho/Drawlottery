@@ -55,9 +55,9 @@ public class UserServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectHistoryPay() throws Exception {
-        List<Map<String, Object>> mapList = service.selectHistoryPay(2l, 0);
+        List<Map<String, Object>> mapList = service.selectHistoryPay(10000l, 0);
         for (Map<String,Object> map: mapList) {
-            System.out.println(map.get("name"));
+            System.out.println(map.get("buyNumber"));
         }
     }
 

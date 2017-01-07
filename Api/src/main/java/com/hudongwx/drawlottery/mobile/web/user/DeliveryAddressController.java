@@ -43,7 +43,7 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addAddress(@RequestBody DeliveryAddress address) {
-        boolean status = addressService.addDa(address);
+        boolean status = addressService.addDa(10000L,address);
         return response(status, "最多添加3条收货地址");
     }
 
@@ -69,7 +69,7 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/up", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateAddress(@RequestBody DeliveryAddress address) {
-        boolean status = addressService.updateDa(address);
+        boolean status = addressService.updateDa(10000L,address);
         return response(status);
     }
 
@@ -81,7 +81,7 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAddress() {
-        List<Map<String, Object>> mapList = addressService.selectByUser(getUserId());
+        List<Map<String, Object>> mapList = addressService.selectByUser(10000L);
         return success(mapList);
     }
 }

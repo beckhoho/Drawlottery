@@ -9,4 +9,7 @@ import java.util.List;
 
 public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
 
+    @Select("select * from t_luck_codes where commodity_id = #{commodityId} and state = 0")
+    List<LuckCodes> selectByUsable(@Param("commodityId") Long commodityId);
+
 }

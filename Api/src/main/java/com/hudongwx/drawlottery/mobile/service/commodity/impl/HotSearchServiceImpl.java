@@ -6,6 +6,8 @@ import com.hudongwx.drawlottery.mobile.service.commodity.IHotSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Service;
  * <p>
  * 创建　kiter　2017/1/4 11:34　<br/>
  * <p>
- *      热门搜索service实现类
+ * 热门搜索service实现类
  * <p>
  * @email 346905702@qq.com
  */
@@ -26,18 +28,24 @@ public class HotSearchServiceImpl implements IHotSearchService {
 
     @Autowired
     HotSearchMapper mapper;
+
     @Override
-    public boolean addHotSearch(HotSearch search) {
-        return mapper.insert(search)>0;
+    public boolean addHotSearch(String keywords) {
+        if (null == keywords)
+            return false;
+        HotSearch hs = new HotSearch();
+        hs.setName(keywords);
+        HotSearch hotSearch = mapper.selectOne(hs);
+        if (null != hotSearch) {
+            return mapper.updateRecommend(hotSearch.getId(), hotSearch.getFrequency() + 1) > 0;
+        } else {
+            hs.setFrequency(1L);
+            return mapper.insert(hs) > 0;
+        }
     }
 
     @Override
-    public boolean deleteHotSearch(HotSearch search) {
-        return mapper.delete(search)>0;
-    }
-
-    @Override
-    public boolean updateHotSearch(HotSearch search) {
-        return mapper.updateByPrimaryKeySelective(search)>0;
+    public List<String> queryRecommend() {
+        return mapper.selectRecommend();
     }
 }

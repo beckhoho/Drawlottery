@@ -113,6 +113,11 @@ public class Settings {
     public static final int COMMODITY_ORDER_HIGH_PRICE = 4;
 
     /**
+     * 按最新获取数据库商品(HIGHT_RATE 高中奖率)
+     */
+    public static final int COMMODITY_ORDER_HIGHT_RATE = 5;
+
+    /**
      * 商品未开奖
      */
     public static final int COMMODITY_STATE_NO_LOTTERY = 0;
@@ -206,12 +211,12 @@ public class Settings {
     /**
      * 红包未过期
      */
-    public static final int RED_PACKET_overdue_not = 1;
+    public static final int RED_PACKET_overdue_not = 0;
 
     /**
      * 红包已过期
      */
-    public static final int RED_PACKET_overdue = 0;
+    public static final int RED_PACKET_overdue = 1;
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*redPacket*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
     /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*Prepaid card*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
@@ -226,6 +231,9 @@ public class Settings {
     public static final int PREPAID_CARD_STATE_UN_DISPATCHED = 0;
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*Prepaid card*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
-    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL=1000*60*3;
+    /**
+     * 设置开奖延后时长
+     */
+    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL=1000*60*10;
 
 }

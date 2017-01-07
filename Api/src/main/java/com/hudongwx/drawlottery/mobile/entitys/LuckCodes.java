@@ -12,13 +12,26 @@ public class LuckCodes {
      * 幸运号
      */
     @Column(name = "lock_code")
-    private Integer lockCode;
+    private String lockCode;
 
     /**
      * 商品ID
      */
     @Column(name = "commodity_id")
     private Long commodityId;
+
+    /**
+     * 幸运码状态
+     */
+    private Integer state;
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
 
     /**
      * @return id
@@ -39,7 +52,7 @@ public class LuckCodes {
      *
      * @return lock_code - 幸运号
      */
-    public Integer getLockCode() {
+    public String getLockCode() {
         return lockCode;
     }
 
@@ -48,7 +61,7 @@ public class LuckCodes {
      *
      * @param lockCode 幸运号
      */
-    public void setLockCode(Integer lockCode) {
+    public void setLockCode(String lockCode) {
         this.lockCode = lockCode;
     }
 

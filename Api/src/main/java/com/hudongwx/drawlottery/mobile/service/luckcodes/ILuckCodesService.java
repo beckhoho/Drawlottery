@@ -1,8 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.luckcodes;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
-import com.hudongwx.drawlottery.mobile.entitys.User;
 
 import java.util.List;
 
@@ -24,7 +22,7 @@ import java.util.List;
 public interface ILuckCodesService {
 
     //添加幸运码
-    boolean addLuckCode(LuckCodes codes);
+    boolean createLuckCode(Long commId,boolean rebuild);
 
     //查询商品幸运码
     List<LuckCodes> select(Long commodId);

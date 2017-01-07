@@ -21,12 +21,6 @@ public class PayMode {
     private Integer payState;
 
     /**
-     * 用户account_ID
-     */
-    @Column(name = "user_account_id")
-    private Long userAccountId;
-
-    /**
      * @return id
      */
     public Long getId() {
@@ -76,21 +70,4 @@ public class PayMode {
         this.payState = payState;
     }
 
-    /**
-     * 获取用户account_ID
-     *
-     * @return user_account_id - 用户account_ID
-     */
-    public Long getUserAccountId() {
-        return userAccountId;
-    }
-
-    /**
-     * 设置用户account_ID
-     *
-     * @param userAccountId 用户account_ID
-     */
-    public void setUserAccountId(Long userAccountId) {
-        this.userAccountId = userAccountId;
-    }
 }

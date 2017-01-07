@@ -43,7 +43,7 @@ public class RedPackets {
      * 使用条件,订单高于该价格就可使用
      */
     @Column(name = "use_price")
-    private BigDecimal usePrice;
+    private Integer usePrice;
 
     public Integer getUseState() {
         return useState;
@@ -56,7 +56,7 @@ public class RedPackets {
     /**
      * 红包大小
      */
-    private BigDecimal worth;
+    private Integer worth;
 
     /**
      * @return id
@@ -149,7 +149,7 @@ public class RedPackets {
      *
      * @return use_price - 使用条件,订单高于该价格就可使用
      */
-    public BigDecimal getUsePrice() {
+    public Integer getUsePrice() {
         return usePrice;
     }
 
@@ -158,7 +158,7 @@ public class RedPackets {
      *
      * @param usePrice 使用条件,订单高于该价格就可使用
      */
-    public void setUsePrice(BigDecimal usePrice) {
+    public void setUsePrice(Integer usePrice) {
         this.usePrice = usePrice;
     }
 
@@ -167,7 +167,7 @@ public class RedPackets {
      *
      * @return worth - 红包大小
      */
-    public BigDecimal getWorth() {
+    public Integer getWorth() {
         return worth;
     }
 
@@ -176,7 +176,7 @@ public class RedPackets {
      *
      * @param worth 红包大小
      */
-    public void setWorth(BigDecimal worth) {
+    public void setWorth(Integer worth) {
         this.worth = worth;
     }
 }

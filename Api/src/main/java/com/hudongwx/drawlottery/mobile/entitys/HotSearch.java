@@ -13,7 +13,7 @@ import javax.persistence.*;
  * <p>
  * 创建　kiter　2017/1/4 11:09　<br/>
  * <p>
- *      热门搜索实体类
+ * 热门搜索实体类
  * <p>
  * @email 346905702@qq.com
  */
@@ -32,8 +32,7 @@ public class HotSearch {
     /**
      * 搜索次数
      */
-    @Column(name = "search_number")
-    private Long searchNumber;
+    private Long frequency;
 
     public Long getId() {
         return id;
@@ -51,11 +50,11 @@ public class HotSearch {
         this.name = name;
     }
 
-    public Long getSearchNumber() {
-        return searchNumber;
+    public Long getFrequency() {
+        return frequency;
     }
 
-    public void setSearchNumber(Long searchNumber) {
-        this.searchNumber = searchNumber;
+    public void setFrequency(Long frequency) {
+        this.frequency = frequency;
     }
 }

@@ -143,6 +143,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })
@@ -156,6 +157,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })
@@ -168,6 +170,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })
@@ -179,6 +182,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })
@@ -187,9 +191,18 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state_id from t_commoditys where buy_total_number<#{number}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
+            @Result(column = "commodity_desc", property = "commodityDesc"),
+            @Result(column = "commodity_type_id", property = "commodityTypeId"),
             @Result(column = "buy_current_number", property = "buyCurrentNumber"),
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
+            @Result(column = "start_time", property = "startTime"),
+            @Result(column = "luck_code_id", property = "luckCodeId"),
+            @Result(column = "round_time", property = "roundTime"),
             @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "auto_round", property = "autoRound"),
+            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
+            @Result(column = "buy_last_number", property = "byLastNumber"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
 
     })

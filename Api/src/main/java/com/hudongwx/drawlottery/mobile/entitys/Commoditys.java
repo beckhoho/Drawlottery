@@ -86,6 +86,35 @@ public class Commoditys {
     private String commodityDesc;
 
     /**
+     * 上一次购买人次
+     */
+    @Column(name = "buy_last_number")
+    private Integer byLastNumber;
+
+
+    /**
+     * 售罄时间
+     */
+    @Column(name = "sell_out_time")
+    private Date sellOutTime;
+
+    /**
+     * 下架时间
+     */
+    @Column(name = "undercarriage_time")
+    private Date undercarriageTime;
+
+    /**
+     * 是否可用
+     */
+    private Integer valid;
+
+    /**
+     * 最低购买量
+     */
+    private Integer minimum;
+
+    /**
      * 获取上一次购买人次数量
      *
      * @return 上一次购买人次
@@ -103,35 +132,16 @@ public class Commoditys {
         this.byLastNumber = byLastNumber;
     }
 
-    /**
-     * 上一次购买人次
-     */
-    @Column(name = "buy_last_number")
-    private Integer byLastNumber;
 
-    /**
-     * 售罄时间
-     */
-    @Column(name = "sell_out_time")
-    private Date sellOutTime;
 
-    /**
-     * 下架时间
-     */
-    @Column(name = "undercarriage_date")
-    private Date undercarriageDate;
 
-    /**
-     * 是否可用
-     */
-    private Integer valid;
 
-    public Date getUndercarriageDate() {
-        return undercarriageDate;
+    public Date getUndercarriageTime() {
+        return undercarriageTime;
     }
 
-    public void setUndercarriageDate(Date undercarriageDate) {
-        this.undercarriageDate = undercarriageDate;
+    public void setUndercarriageTime(Date undercarriageTime) {
+        this.undercarriageTime = undercarriageTime;
     }
 
     public Integer getValid() {
@@ -404,5 +414,13 @@ public class Commoditys {
 
     public void setSellOutTime(Date sellOutTime) {
         this.sellOutTime = sellOutTime;
+    }
+
+    public Integer getMinimum() {
+        return minimum;
+    }
+
+    public void setMinimum(Integer minimum) {
+        this.minimum = minimum;
     }
 }

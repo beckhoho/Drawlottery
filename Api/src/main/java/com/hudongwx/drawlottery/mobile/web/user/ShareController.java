@@ -45,24 +45,26 @@ public class ShareController extends BaseController {
 
     @Autowired
     IShareImgService shareImgService;
+
     /**
      * 用户添加晒单分享信息
      *
-     * @param share 客户端传来的晒单信息
-     * @return JSONObject
+     * @param share
+     * @param imgFileList
+     * @return
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/add", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject addShareInfo(@RequestBody Share share, @RequestParam("imgFileList")List<MultipartFile> imgFileList) {
+    public JSONObject addShareInfo(@RequestBody Share share, @RequestParam("imgFile") MultipartFile[] imgFileList) {
         share.setIssueDate(new Date());
         boolean status = shareService.addShare(share);
         Date date = new Date();
-        for (MultipartFile m : imgFileList){
+        for (MultipartFile m : imgFileList) {
             try {
-                String fileName = "shareImg"+date.getTime()+".png";
+                String fileName = "shareImg" + date.getTime() + ".png";
                 byte[] bytes = m.getBytes();
                 BufferedOutputStream out =
-                        new BufferedOutputStream(new FileOutputStream(new File(Settings.IMG_PATH_SHARE,fileName)));
+                        new BufferedOutputStream(new FileOutputStream(new File(Settings.IMG_PATH_SHARE, fileName)));
                 out.write(bytes);
                 out.close();
                 ShareImg shareImg = new ShareImg();

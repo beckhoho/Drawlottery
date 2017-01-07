@@ -19,7 +19,7 @@ public class CommodityHistory {
      * 幸运号id
      */
     @Column(name = "luck_code")
-    private Long luckCode;
+    private String luckCode;
 
     /**
      * 商品名
@@ -32,7 +32,7 @@ public class CommodityHistory {
      * 期数
      */
     @Column(name = "round_time")
-    private Long roundTime;
+    private String roundTime;
 
     /**
      * 购买数量
@@ -63,6 +63,11 @@ public class CommodityHistory {
      */
     @Column(name = "buy_total_number")
     private Integer buyTotalNumber;
+
+    /**
+     * 本期总需人数
+     */
+    private Integer genre;
 
     public Integer getBuyTotalNumber() {
         return buyTotalNumber;
@@ -141,7 +146,7 @@ public class CommodityHistory {
      *
      * @return luck_code - 幸运号id
      */
-    public Long getLuckCode() {
+    public String getLuckCode() {
         return luckCode;
     }
 
@@ -150,7 +155,7 @@ public class CommodityHistory {
      *
      * @param luckCodeId 幸运号id
      */
-    public void setLuckCode(Long luckCodeId) {
+    public void setLuckCode(String luckCodeId) {
         this.luckCode = luckCodeId;
     }
 
@@ -160,7 +165,7 @@ public class CommodityHistory {
      *
      * @return round_time - 期数
      */
-    public Long getRoundTime() {
+    public String getRoundTime() {
         return roundTime;
     }
 
@@ -169,7 +174,7 @@ public class CommodityHistory {
      *
      * @param roundTime 期数
      */
-    public void setRoundTime(Long roundTime) {
+    public void setRoundTime(String roundTime) {
         this.roundTime = roundTime;
     }
 
@@ -189,5 +194,13 @@ public class CommodityHistory {
      */
     public void setBuyNumber(Integer buyNumber) {
         this.buyNumber = buyNumber;
+    }
+
+    public Integer getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Integer genre) {
+        this.genre = genre;
     }
 }

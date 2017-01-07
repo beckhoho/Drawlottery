@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.images.impl;
 import com.hudongwx.drawlottery.mobile.entitys.Images;
 import com.hudongwx.drawlottery.mobile.mappers.ImagesMapper;
 import com.hudongwx.drawlottery.mobile.service.images.ImagesService;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +79,7 @@ public class ImagesServiceImpl implements ImagesService {
         for (Images images : imagesList) {
             Map<String, Object>map=new HashMap<>();
             map.put("id",images.getId());
-            map.put("imgUrl",images.getImgUrl());
+            map.put("imgUrl", Settings.SERVER_URL_PATH+images.getImgUrl());
             map.put("desc",images.getDepict());
             map.put("skipUrl",images.getSkipUrl());
             infoList.add(map);

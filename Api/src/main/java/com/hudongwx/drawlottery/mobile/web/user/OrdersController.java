@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -31,30 +33,18 @@ public class OrdersController extends BaseController {
 
     @Autowired
     IOdersService ordersService;
+
     /**
      * 用户添加订单信息
      *
-     * @param order 订单信息
-     * @return JSONObject
+     * @param jsonObject
+     * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/orders/add", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject addOrders(@RequestBody Orders order) {
-        boolean status = ordersService.addOder(order);
-        return response(status);
-    }
-
-    /**
-     * 用户删除指定订单信息
-     *
-     * @param orderid 订单id
-     * @return JSONObject
-     */
-    @ResponseBody
-    @RequestMapping(value = "/api/v1/user/orders/del", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject deleteOrder(@RequestParam("orderid") Long orderid) {
-        boolean status = ordersService.deleteOder(orderid);
-        return response(status);
+    @RequestMapping(value = "/api/v1/user/orders/sub", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject addOrders(@RequestBody JSONObject jsonObject) {
+        System.out.println("jsonObject----------->" + jsonObject.toString());
+        return response(ordersService.addOder(10000L, jsonObject));
     }
 
     /**
@@ -64,10 +54,24 @@ public class OrdersController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/orders/info", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/orders/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOrder(@RequestParam("orderid") Long orderid) {
         Orders order = new Orders();// TODO: 2016/12/24 查看单条订单？？？
         return success(order);
+    }
+
+    /**
+     * 用户查看指定订单信息
+     *
+     * @return JSONObject
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/orders/suc", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryOrderSuccess(@RequestBody JSONObject jsonObject) {
+        System.out.println("suc------>" + jsonObject.toString());
+        Map<String, Object> mapInfo = ordersService.selectPaySuccess(10000L, jsonObject);
+        System.out.println("mapList---------------->" + JSON.toJSONString(mapInfo));
+        return success(mapInfo);
     }
 
     /**
@@ -77,7 +81,7 @@ public class OrdersController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/orders/show", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/orders/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAllUserOrders(@RequestParam("acc") Long accountid) {
         List<Orders> olist = ordersService.selectByUserAccount(accountid);
         return success(olist);

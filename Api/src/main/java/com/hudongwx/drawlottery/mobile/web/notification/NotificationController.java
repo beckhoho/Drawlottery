@@ -24,30 +24,65 @@ import java.util.List;
  * @email 294786949@qq.com
  */
 @RestController
-@Api(value = "NotificationController",description = "通知管理")
+@Api(value = "NotificationController", description = "消息通知管理")
 public class NotificationController extends BaseController {
 
     /**
-     * 通知列表信息
+     * 用户中奖消息
      *
-     * @param accountid 用户账号
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/notify/show", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject queryUserNotification(@RequestParam("acc") Long accountid) {
+    @RequestMapping(value = "/api/v1/user/notify/prize", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryUserPrizeMessage() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
         return success(nlist);
     }
 
     /**
-     * 通知列表信息
+     * 快递消息
      *
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/notify/show", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject queryNotification() {
+    @RequestMapping(value = "/api/v1/user/notify/deliverymsg", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryDeliveryMessage() {
+        List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
+        return success(nlist);
+    }
+
+    /**
+     * 客服反馈消息
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/notify/feedback", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryFeedBack() {
+        List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
+        return success(nlist);
+    }
+
+    /**
+     * 系统消息
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/pub/notify/sys", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject querySystemMessage() {
+        List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
+        return success(nlist);
+    }
+
+    /**
+     * 活动消息
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/pub/notify/campaign", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryCampaignMessage() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
         return success(nlist);
     }

@@ -146,7 +146,7 @@ public class TestHttpConnectionUtil {
     public static void main(String[] args) {
 
         // 上传文件测试
-        String str = uploadFile("http://192.168.6.199:8080/api/v1/user/upload/headimg.do",new String[] { "C:\\Users\\Public\\Pictures\\Sample Pictures\\Tulips.jpg" });
+        String str = uploadFile("http://192.168.6.199:8080/api/v1/user/share/uploadTest",new String[] { "C:\\Users\\Public\\Pictures\\Sample Pictures\\Tulips.jpg" });
         System.out.println(str);
 
 
