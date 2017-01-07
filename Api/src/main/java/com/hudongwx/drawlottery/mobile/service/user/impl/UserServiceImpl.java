@@ -41,6 +41,8 @@ public class UserServiceImpl implements IUserService {
     UserCodesHistoryMapper userCodeHistMapper;
     @Autowired
     CommoditysMapper comMapper;
+    @Autowired
+    LuckCodesMapper codesMapper;
 
 
     @Override
@@ -173,6 +175,7 @@ public class UserServiceImpl implements IUserService {
         for (UserLuckCodes u : s1) {
             Map<String, Object> map = new HashMap<>();
             Commoditys com = comMapper.selectByPrimaryKey(u.getCommodityId());
+            List<Integer> integers = luckUserList(accountId, com.getId());
             map.put("id", com.getId());//添加商品ID
             map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
@@ -181,7 +184,23 @@ public class UserServiceImpl implements IUserService {
             map.put("coverImgUrl", com.getCoverImgUrl());//添加封面图URL
             map.put("name", com.getName());//添加商品名
             map.put("userAccountId", accountId);//添加用户ID
+            map.put("codesList",integers);//添加用户参与购买的幸运码集合
+            map.put("payNumber",integers.size());//添加用户本商品购买人次；
             list.add(map);
+        }
+        return list;
+    }
+
+    //查询用户参与商品购买人次和幸运码
+    public List<Integer> luckUserList(Long accountId,Long commodityId){
+        List<Integer> list = new ArrayList<>();
+        UserLuckCodes luckCodes = new UserLuckCodes();
+        luckCodes.setCommodityId(commodityId);
+        luckCodes.setUserAccountId(accountId);
+        List<UserLuckCodes> codes = luckCodesMapper.select(luckCodes);
+        for (UserLuckCodes code : codes){
+            LuckCodes key = codesMapper.selectByPrimaryKey(code.getLockCodeId());
+            list.add(key.getLockCode());
         }
         return list;
     }

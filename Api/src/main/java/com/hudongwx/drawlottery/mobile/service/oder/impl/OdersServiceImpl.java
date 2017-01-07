@@ -72,14 +72,55 @@ public class OdersServiceImpl implements IOdersService {
             ordersCommoditysService.addOrdersCommodity(oc);
         }
         if (orders.getPayModeId() == 1) {//如果支付方式为余额支付
-            User u = userMapper.selectByPrimaryKey(orders.getUserAccountId());
+            User u = userMapper.selectByPrimaryKey(accountId);
             Integer number = orders.getPrice();
             User user = new User();
-            user.setAccountId(orders.getUserAccountId());
+            user.setAccountId(accountId);
             user.setGoldNumber(u.getGoldNumber() - number);
             userMapper.updateByPrimaryKeySelective(user);
         }
-        return i > 0;
+        if(updateCommodity(caList,accountId)&&i>0){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    public boolean updateCommodity(List<CommodityAmount> list,Long accountId){
+
+        for (CommodityAmount ca : list){
+            //提交订单前先进行查询，
+            Commoditys commodity = comMapper.selectByPrimaryKey(ca.getCommodityId());
+            //如果商品当前购买人次加用户购买人次大于总购买人次
+            if(commodity.getBuyCurrentNumber()+ca.getAmount()>commodity.getBuyTotalNumber()){
+                int i = commodity.getBuyCurrentNumber()+ca.getAmount()-commodity.getBuyTotalNumber();
+                User user = userMapper.selectByPrimaryKey(accountId);
+                int goldNumber = user.getGoldNumber();
+                User u = new User();
+                u.setAccountId(accountId);
+                u.setGoldNumber(i+goldNumber);
+                userMapper.updateByPrimaryKeySelective(u);
+                //如果当前购买量已经超过了商品的总量，那么将多余的购买余额转为闪币存入用户账户
+            }
+            else if(commodity.getBuyCurrentNumber()+ca.getAmount()==commodity.getBuyTotalNumber()){
+                int i = ca.getAmount();
+                Commoditys com = new Commoditys();
+                com.setId(ca.getCommodityId());
+                com.setBuyCurrentNumber(commodity.getBuyCurrentNumber()+i);
+                com.setStateId(2);
+                return comMapper.updateByPrimaryKeySelective(com)>0;
+            }
+            else{
+                int i = ca.getAmount();
+                Commoditys com = new Commoditys();
+                com.setId(ca.getCommodityId());
+                com.setBuyCurrentNumber(commodity.getBuyCurrentNumber()+i);
+                return comMapper.updateByPrimaryKeySelective(com)>0;
+            }
+        }
+        return false;
     }
 
     /**

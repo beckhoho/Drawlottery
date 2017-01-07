@@ -16,7 +16,9 @@ public class Orders {
     private Long userAccountId;
 
 
-
+    /**
+     * 价格
+     */
     private Integer price;
 
 

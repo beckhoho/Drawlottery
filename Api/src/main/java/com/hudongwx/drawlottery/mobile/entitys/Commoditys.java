@@ -86,28 +86,11 @@ public class Commoditys {
     private String commodityDesc;
 
     /**
-     * 获取上一次购买人次数量
-     *
-     * @return 上一次购买人次
-     */
-    public Integer getByLastNumber() {
-        return byLastNumber;
-    }
-
-    /**
-     * 修改上一次购买人次数量
-     *
-     * @param byLastNumber 上一次购买人次
-     */
-    public void setByLastNumber(Integer byLastNumber) {
-        this.byLastNumber = byLastNumber;
-    }
-
-    /**
      * 上一次购买人次
      */
     @Column(name = "buy_last_number")
     private Integer byLastNumber;
+
 
     /**
      * 售罄时间
@@ -130,6 +113,28 @@ public class Commoditys {
      * 最低购买量
      */
     private Integer minimum;
+
+    /**
+     * 获取上一次购买人次数量
+     *
+     * @return 上一次购买人次
+     */
+    public Integer getByLastNumber() {
+        return byLastNumber;
+    }
+
+    /**
+     * 修改上一次购买人次数量
+     *
+     * @param byLastNumber 上一次购买人次
+     */
+    public void setByLastNumber(Integer byLastNumber) {
+        this.byLastNumber = byLastNumber;
+    }
+
+
+
+
 
     public Date getUndercarriageTime() {
         return undercarriageTime;

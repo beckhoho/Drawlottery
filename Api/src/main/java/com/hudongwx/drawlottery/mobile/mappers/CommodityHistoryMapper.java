@@ -32,7 +32,11 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
             @Result(column="luck_code",property="luckCode"),
             @Result(column="luck_user_account_id",property="luckUserAccountId"),
             @Result(column="round_time",property="roundTime"),
-            @Result(column = "end_time",property = "endTime")
+            @Result(column = "end_time",property = "endTime"),
+            @Result(column = "buy_last_number",property = "buyLastNumber"),
+            @Result(column = "cover_img_url",property = "coverImgUrl"),
+            @Result(column = "buy_total_number",property = "buyTotalNumber"),
+            @Result(column = "buy_number",property = "buyNumber")
     })
     CommodityHistory selectBycommod(@Param("cmmodId") Long commodId);
 
