@@ -142,9 +142,9 @@ public class UserServiceImpl implements IUserService {
         List<UserCodesHistory> s1 = userCodeHistMapper.select(userHistory);
         for (UserCodesHistory u : s1) {
             Map<String, Object> map = new HashMap<>();
-            CommodityHistory history = comHistoryMapper.selectByPrimaryKey(u.getCommodityId());
+            CommodityHistory history = comHistoryMapper.selectBycommod(u.getCommodityId());
             User user1 = mapper.selectByPrimaryKey(history.getLuckUserAccountId());
-            map.put("commodityId", history.getCommodityId());//商品ID
+            map.put("id", history.getCommodityId());//商品ID
             map.put("buyNumber", history.getBuyNumber());//添加本用户购买次数
             map.put("endTime", history.getEndTime());//添加揭晓时间
             map.put("name", history.getCommodityName());//添加商品名
@@ -154,7 +154,7 @@ public class UserServiceImpl implements IUserService {
             map.put("buyTotalNumber", history.getBuyTotalNumber());//添加当期总需人次
             map.put("nickname", user1.getNickname());//中奖者昵称
             map.put("userAccountId", accountId);//添加用户ID
-            if (accountId == history.getLuckUserAccountId()) {
+            if (accountId.longValue() == history.getLuckUserAccountId().longValue()) {
                 map.put("userState", 1);//是否中奖者是本用户（是）
             } else {
                 map.put("userState", 0);//是否中奖者是本用户（不是）
@@ -173,7 +173,7 @@ public class UserServiceImpl implements IUserService {
         for (UserLuckCodes u : s1) {
             Map<String, Object> map = new HashMap<>();
             Commoditys com = comMapper.selectByPrimaryKey(u.getCommodityId());
-            map.put("commodityId", com.getId());//添加商品ID
+            map.put("id", com.getId());//添加商品ID
             map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
             map.put("state", com.getStateId());//添加状态

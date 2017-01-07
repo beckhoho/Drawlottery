@@ -78,8 +78,8 @@ public class UserController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/usercomm/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserCommRecord(@RequestParam("item") int item, @RequestParam("page") int page) {
-        User user = getUser();//获取当前用户信息
+    public JSONObject queryUserCommRecord(@RequestParam("item") Integer item, @RequestParam("page") Integer page) {
+        System.out.println(item+"------------------"+page);
         List<Map<String, Object>> historyLottery = userService.selectHistoryPay(10000L, item);
         return success(historyLottery);
     }
