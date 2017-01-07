@@ -23,7 +23,7 @@ public class PropertiesUtils {
 
     public static void processProperties(Properties props) throws BeansException {
 
-        propertiesMap = new HashMap<String, String>();
+        propertiesMap = new HashMap<>();
         for (Object key : props.keySet()) {
             String keyStr = key.toString();
 
@@ -34,7 +34,6 @@ public class PropertiesUtils {
                 e.printStackTrace();
             }
         }
-        logger.info(propertiesMap.toString());
     }
 
     public static void loadAllProperties(String fileName) {
