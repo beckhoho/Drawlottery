@@ -46,36 +46,31 @@ public class ServiceUtils {
         return newList;
     }
 
-    public static void createLuckCode(LuckCodesMapper mapper, CommoditysMapper commMapper, Long commId) {
-        //期数+总购买人次（随机）201707101532000001
-        Date date=new Date();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
-        int total= commMapper.selectByPrimaryKey(commId).getBuyTotalNumber();
-        for (int i = 0; i < total; i++) {
-                LuckCodes lc=new LuckCodes();
-                lc.setCommodityId(commId);
+    public static void createLuckCode(LuckCodesMapper mapper, CommoditysMapper commMapper, Long commId, boolean rebuild) {
+        //期数+总购买人次 例：201707101532000001
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+        int total = commMapper.selectByPrimaryKey(commId).getBuyTotalNumber();
+        LuckCodes lc = new LuckCodes();
+        lc.setCommodityId(commId);
+        int size = mapper.select(lc).size();
+        if ((size >= total && rebuild) || size < total) {
+            mapper.delete(lc);
+        } else if (size >= total && !rebuild) {
+            return;
+        }
+        for (int i = 1; i <= total; i++) {
+            LuckCodes luckCodes = new LuckCodes();
+            luckCodes.setCommodityId(commId);
             int tl = String.valueOf(total).length();
             int il = String.valueOf(i).length();
-            StringBuffer s=new StringBuffer();
-            for(int j=0;j<tl-il;i++){
+            StringBuffer s = new StringBuffer();
+            for (int j = 0; j < tl - il; j++) {
                 s.append("0");
             }
             s.append(i);
-            lc.setLockCode(sdf.format(date)+s);
-                mapper.insert(lc);
+            luckCodes.setLockCode(sdf.format(date) + s);
+            mapper.insert(lc);
         }
     }
-
-//    private static int[] createCodeArray(int total) {
-//        int startArray[] = {0,1,2,3,4,5,6,7,8,9};//seed array
-//        int N = total;//随机数个数
-//        int resultArray[] = new int [total];//结果存放在里面
-//        for(int i = 0; i < N; i++)
-//        {
-//            int seed = random(0, startArray.length - i);//从剩下的随机数里生成
-//            resultArray[i] = startArray[seed];//赋值给结果数组
-//            startArray[seed] = startArray[startArray.length - i - 1];//把随机数产生过的位置替换为未被选中的值。
-//        }
-//        return resultArray;
-//    }
 }

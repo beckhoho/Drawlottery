@@ -79,7 +79,8 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
      * @return
      */
     @Override
-    public boolean updateDa(DeliveryAddress address) {
+    public boolean updateDa(Long accountId,DeliveryAddress address) {
+        address.setUserId(accountId);
         return damapper.updateByPrimaryKey(address) > 0;
     }
 

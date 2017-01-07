@@ -69,7 +69,7 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/up", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateAddress(@RequestBody DeliveryAddress address) {
-        boolean status = addressService.updateDa(address);
+        boolean status = addressService.updateDa(10000L,address);
         return response(status);
     }
 

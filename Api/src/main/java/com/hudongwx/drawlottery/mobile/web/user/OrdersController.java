@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -42,8 +44,7 @@ public class OrdersController extends BaseController {
     @RequestMapping(value = "/api/v1/user/orders/sub", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addOrders(@RequestBody JSONObject jsonObject) {
         System.out.println("jsonObject----------->" + jsonObject.toString());
-        ordersService.addOder(10000L, jsonObject);
-        return response(true);
+        return response(ordersService.addOder(10000L, jsonObject));
     }
 
     /**
@@ -68,7 +69,9 @@ public class OrdersController extends BaseController {
     @RequestMapping(value = "/api/v1/user/orders/suc", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOrderSuccess(@RequestBody JSONObject jsonObject) {
         System.out.println("suc------>" + jsonObject.toString());
-        return success(ordersService.selectPaySuccess(10000L, jsonObject));
+        Map<String, Object> mapInfo = ordersService.selectPaySuccess(10000L, jsonObject);
+        System.out.println("mapList---------------->" + JSON.toJSONString(mapInfo));
+        return success(mapInfo);
     }
 
     /**

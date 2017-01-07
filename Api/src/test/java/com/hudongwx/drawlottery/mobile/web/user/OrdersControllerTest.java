@@ -31,10 +31,10 @@ public class OrdersControllerTest extends TestBaseWeb {
         Map<String, Object> map = new HashMap<>();
         List<CommodityAmount> list = new ArrayList<>();
 //        for (int i = 0; i < 3; i++) {
-            CommodityAmount ca = new CommodityAmount();
-            ca.setCommodityId(1L);
-            ca.setAmount(1);
-            list.add(ca);
+        CommodityAmount ca = new CommodityAmount();
+        ca.setCommodityId(1L);
+        ca.setAmount(1);
+        list.add(ca);
 //        }
         map.put("ca", list);
         String s = "{\"ca\":\"[{\"commodityId\":4,\"amount\":1},{\"commodityId\":8,\"amount\":2}]}";
@@ -49,17 +49,15 @@ public class OrdersControllerTest extends TestBaseWeb {
         Map<String, Object> map = new HashMap<>();
         Orders order = new Orders();
         order.setUserAccountId(10000L);
-        order.setPrice(1000);
+        order.setPrice(1);
         order.setPayModeId(1);
         order.setSubmitDate(new Date());
         map.put("order", order);
         List<CommodityAmount> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            CommodityAmount ca = new CommodityAmount();
-            ca.setAmount(100);
-            ca.setCommodityId(1L);
-            list.add(ca);
-        }
+        CommodityAmount ca = new CommodityAmount();
+        ca.setAmount(1);
+        ca.setCommodityId(4L);
+        list.add(ca);
         map.put("ca", list);
         post("/api/v1/user/orders/sub", JSON.toJSONString(map));
 

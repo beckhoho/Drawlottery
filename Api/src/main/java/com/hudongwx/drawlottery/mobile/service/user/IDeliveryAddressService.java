@@ -44,7 +44,7 @@ public interface IDeliveryAddressService {
      * @param address 用户地址信息
      * @return boolean
      */
-    public boolean updateDa(DeliveryAddress address);
+    public boolean updateDa(Long accountId,DeliveryAddress address);
 
     /**
      * 查看指定用户的收货地址列表

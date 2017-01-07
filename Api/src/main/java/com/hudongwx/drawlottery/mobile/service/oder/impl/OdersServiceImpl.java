@@ -215,13 +215,14 @@ public class OdersServiceImpl implements IOdersService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectPaySuccess(Long accountId, JSONObject jsonObject) {
+    public Map<String,Object> selectPaySuccess(Long accountId, JSONObject jsonObject) {
         List<CommodityAmount> commodityAmounts = new ArrayList<>();
         JSONArray caJArray = jsonObject.getJSONArray("ca");
         for (int i = 0; i < caJArray.size(); i++) {
             commodityAmounts.add(JSONObject.toJavaObject(caJArray.getJSONObject(i), CommodityAmount.class));
         }
         List<Map<String, Object>> mapList = new ArrayList<>();
+        Map<String,Object>mapInfo=new HashMap<>();
         Integer number = 0;
         for (CommodityAmount ca : commodityAmounts) {
             Map<String, Object> map = new HashMap<>();
@@ -236,8 +237,9 @@ public class OdersServiceImpl implements IOdersService {
         Map<String, Object> map = new HashMap<>();
         map.put("overallNumber", number);//添加总购买人次
         map.put("overallCommodity", commodityAmounts.size());//添加购买商品总数
-        mapList.add(map);
-        return mapList;
+        mapInfo.put("list",mapList);
+        mapInfo.put("data",map);
+        return mapInfo;
 
     }
 
@@ -249,7 +251,7 @@ public class OdersServiceImpl implements IOdersService {
         user.setCommodityId(commodityId);
         List<UserLuckCodes> codes = luckMapper.select(user);
         for (UserLuckCodes luckCodes : codes) {
-            System.out.println("luckCodes.getLockCodeId()------>" + luckCodes.getLockCodeId());
+            System.out.println("luckCodes.getLockCodeId()------>"+luckCodes.getLockCodeId());
             LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLockCodeId());
             list.add(codes1.getLockCode());
         }
