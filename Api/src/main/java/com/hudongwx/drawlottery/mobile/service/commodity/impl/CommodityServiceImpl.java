@@ -159,7 +159,7 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("id", comm.getId());
         map.put("state", comm.getStateId());
         map.put("name", comm.getName());
-        map.put("imgUrl", comm.getCoverImgUrl());
+        map.put("imgUrl", Settings.SERVER_URL_PATH +comm.getCoverImgUrl());
         map.put("currentNumber", comm.getBuyCurrentNumber());
         map.put("totalNumber", comm.getBuyTotalNumber());
         map.put("detailUrl", comm.getCommodityDescUrl());
@@ -240,7 +240,7 @@ public class CommodityServiceImpl implements ICommodityService {
         img.setCommodityId(commodId);
         List<CommodityImg> select = imgMapper.select(img);
         for (CommodityImg imgs : select) {
-            listImg.add(imgs.getUrl());
+            listImg.add(Settings.SERVER_URL_PATH +imgs.getUrl());
         }
         return listImg;
     }
@@ -287,10 +287,8 @@ public class CommodityServiceImpl implements ICommodityService {
         List<User> select1 = userMapper.select(user);
         String name = select1.get(0).getNickname();
         String headerUrl = select1.get(0).getHeaderUrl();
-        map.put("userName", name);
-        map.put("headerUrl", headerUrl);
         map.put("userName", name);//用户名
-        map.put("headerUrl", headerUrl);//头像地址
+        map.put("headerUrl", Settings.SERVER_URL_PATH+headerUrl);//头像地址
 
         return map;
     }
@@ -371,7 +369,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("commodityName", com.getName());//添加商品名
             map.put("totalNumber", com.getBuyTotalNumber());//添加商品总购买人次
             map.put("currentNumber", com.getBuyCurrentNumber());//添加商品当前购买人次
-            map.put("headerImg", com.getCoverImgUrl());//商品封面图URL
+            map.put("headerImg", Settings.SERVER_URL_PATH +com.getCoverImgUrl());//商品封面图URL
             map.put("state", com.getStateId());//添加商品状态
             listMap.add(map);
         }
@@ -428,11 +426,11 @@ public class CommodityServiceImpl implements ICommodityService {
                 }
             }
             map.put("residualMinutes", residualMinutes);//剩余开奖秒数
-            map.put("userHeadImgUrl", userHeadImgUrl);//
+            map.put("userHeadImgUrl", Settings.SERVER_URL_PATH+userHeadImgUrl);//
             map.put("userNickName", userNickName);//
             map.put("userPayNum", userPayNum);//
             map.put("id", comm.getId());//商品id
-            map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
+            map.put("imgUrl", Settings.SERVER_URL_PATH +comm.getCoverImgUrl());//封面图片url
             map.put("currentTime", nowTime);//当前时间
             map.put("detailUrl", comm.getCommodityDescUrl());//详情url
             map.put("desc", comm.getCommodityDesc());//商品描述

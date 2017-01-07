@@ -19,7 +19,7 @@ public class CommodityHistory {
      * 幸运号id
      */
     @Column(name = "luck_code")
-    private Long luckCode;
+    private String luckCode;
 
     /**
      * 商品名
@@ -146,7 +146,7 @@ public class CommodityHistory {
      *
      * @return luck_code - 幸运号id
      */
-    public Long getLuckCode() {
+    public String getLuckCode() {
         return luckCode;
     }
 
@@ -155,7 +155,7 @@ public class CommodityHistory {
      *
      * @param luckCodeId 幸运号id
      */
-    public void setLuckCode(Long luckCodeId) {
+    public void setLuckCode(String luckCodeId) {
         this.luckCode = luckCodeId;
     }
 

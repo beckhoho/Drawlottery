@@ -9,8 +9,6 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static org.testng.Assert.*;
-
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -33,8 +31,8 @@ public class LuckCodesServiceImplTest extends TestBaseMapper {
     @Test
     public void testAddLuckCode() throws Exception {
         LuckCodes codes = new LuckCodes();
-        codes.setCommodityId(2l);
-        codes.setLockCode(2016122411);
+        codes.setCommodityId(10000L);
+        codes.setLockCode("2016122411");
         boolean b = luckService.addLuckCode(codes);
         Assert.assertTrue(b);
 

@@ -219,8 +219,8 @@ public class OdersServiceImpl implements IOdersService {
     }
 
     //查询用户参与商品的所有幸运号
-    public List<Integer> luckCodes(Long accountId, Long commodityId) {
-        List<Integer> list = new ArrayList<>();
+    public List<String> luckCodes(Long accountId, Long commodityId) {
+        List<String> list = new ArrayList<>();
         UserLuckCodes user = new UserLuckCodes();
         user.setUserAccountId(accountId);
         user.setCommodityId(commodityId);

@@ -8,4 +8,5 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
 
     @Select("select count(id) from t_luck_codes")
     Long selectCountMember();
+
 }
