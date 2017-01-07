@@ -84,6 +84,21 @@
       "name": "spring.datasource.filter.statementExecutableSqlLogEnable",
       "type": "java.lang.String",
       "description": "Description for spring.datasource.filter.statementExecutableSqlLogEnable."
+    },
+    {
+      "name": "spring.shiro.loginUrl",
+      "type": "java.lang.String",
+      "description": "Description for spring.shiro.loginUrl."
+    },
+    {
+      "name": "spring.shiro.successUrl",
+      "type": "java.lang.String",
+      "description": "Description for spring.shiro.successUrl."
+    },
+    {
+      "name": "spring.shiro.unauthorizedUrl",
+      "type": "java.lang.String",
+      "description": "Description for spring.shiro.unauthorizedUrl."
     }
   ]
 }

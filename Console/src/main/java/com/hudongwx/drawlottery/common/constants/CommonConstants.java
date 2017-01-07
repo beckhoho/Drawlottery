@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.common.constants;
 
-import com.hudongwx.drawlottery.common.utils.PropertiesUtils;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * 通用常量类.
@@ -10,46 +11,76 @@ import com.hudongwx.drawlottery.common.utils.PropertiesUtils;
  * @author <a href="http://userwu.github.io">wuhongxu</a>.
  * @version 1.0.0
  */
+@Component
+@ConfigurationProperties(locations = {"classpath:project/constants.properties"})
 public class CommonConstants {
-
-    /**
-     * 获取常量配置配置文件属性
-     */
-    private static final String CONSTANTS_PROPERTIES = "project/constants.properties";
-
-
-    static {
-        PropertiesUtils.loadAllProperties(CONSTANTS_PROPERTIES);
-    }
 
     /**
      * 显示/隐藏.
      */
-    public static final String SHOW = "1";
-    public static final String HIDE = "0";
+    private static final String SHOW = "1";
+    private static final String HIDE = "0";
 
     /**
      * 是/否.
      */
-    public static final String YES = "1";
-    public static final String NO = "0";
+    private static final String YES = "1";
+    private static final String NO = "0";
 
 
     /**
      * 对/错.
      */
-    public static final String TRUE = "true";
-    public static final String FALSE = "false";
+    private static final String TRUE = "true";
+    private static final String FALSE = "false";
 
     /**
      * 可用/不可用.
      */
-    public static final int VALID = 1;
-    public static final int INVALID = 0;
+    private static final int VALID = 1;
+    private static final int INVALID = 0;
+    /**
+     * 默认分页行数
+     */
+    private int maxPageSize;
 
-    private static final String LABEL_MAX_PAGE_SIZE = "maxPageSize";
-    public static final int MAX_PAGE_SIZE = PropertiesUtils.getPropToInt(LABEL_MAX_PAGE_SIZE);
+    public int getMaxPageSize() {
+        return maxPageSize;
+    }
 
-    private CommonConstants() {
+    public void setMaxPageSize(int maxPageSize) {
+        this.maxPageSize = maxPageSize;
+    }
+
+    public String getSHOW() {
+        return SHOW;
+    }
+
+    public String getHIDE() {
+        return HIDE;
+    }
+
+    public String getYES() {
+        return YES;
+    }
+
+    public String getNO() {
+        return NO;
+    }
+
+    public static String getTRUE() {
+        return TRUE;
+    }
+
+    public String getFALSE() {
+        return FALSE;
+    }
+
+    public int getVALID() {
+        return VALID;
+    }
+
+    public int getINVALID() {
+        return INVALID;
     }
 }

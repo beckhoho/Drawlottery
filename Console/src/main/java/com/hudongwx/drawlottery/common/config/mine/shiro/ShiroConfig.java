@@ -1,12 +1,12 @@
 package com.hudongwx.drawlottery.common.config.mine.shiro;
 
-import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
@@ -27,7 +27,12 @@ import java.util.Map;
  * @version 1.0.0
  */
 public class ShiroConfig {
-
+    @Value("spring.shiro.loginUrl")
+    private String loginUrl;
+    @Value("spring.shiro.successUrl")
+    private String successUrl;
+    @Value("spring.shiro.unauthorizedUrl")
+    private String unauthorizedUrl;
     private Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
 
     /**
@@ -79,10 +84,9 @@ public class ShiroConfig {
         //<!-- 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterChainDefinitionMap.put("/**", "authc");
-        logger.info("初始化登录地址为：" + ConfigConstants.loginUrl);
-        shiroFilterFactoryBean.setLoginUrl(ConfigConstants.loginUrl);//登录地址
-        shiroFilterFactoryBean.setSuccessUrl(ConfigConstants.successUrl);//登录成功地址
-        shiroFilterFactoryBean.setUnauthorizedUrl(ConfigConstants.unauthorizedUrl);//没有登录地址
+        shiroFilterFactoryBean.setLoginUrl(loginUrl);//登录地址
+        shiroFilterFactoryBean.setSuccessUrl(successUrl);//登录成功地址
+        shiroFilterFactoryBean.setUnauthorizedUrl(unauthorizedUrl);//没有登录地址
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
@@ -102,7 +106,6 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         return securityManager;
     }
-
 
 
     @Bean(name = "securityManager")

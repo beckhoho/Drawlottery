@@ -2,7 +2,6 @@ package com.hudongwx.drawlottery.web;
 
 import com.github.pagehelper.PageInfo;
 import com.hudongwx.drawlottery.common.base.BaseController;
-import com.hudongwx.drawlottery.common.constants.CommonConstants;
 import com.hudongwx.drawlottery.common.dto.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.paramBody.AllParamList;
 import com.hudongwx.drawlottery.pojo.Commodity;
@@ -11,6 +10,8 @@ import com.hudongwx.drawlottery.service.user.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ import java.util.List;
 @RequestMapping(value = "/commodity", method = RequestMethod.POST)
 public class CommodityController extends BaseController {
 
+    private Logger logger = LoggerFactory.getLogger(CommodityController.class);
     @Resource
     private IUserService userService;
 
@@ -38,14 +40,14 @@ public class CommodityController extends BaseController {
     @ApiOperation("获取商品列表")
     @RequestMapping("/")
     public PageInfo<Commodity> index(@ApiParam(name = "p", defaultValue = "1") @RequestParam(defaultValue = "1") final int p,
-                                     @RequestBody AllParamList condition) {
+                                     @ApiParam() @RequestBody AllParamList condition) {
         return commodityService.getCommodities(p,
-                CommonConstants.MAX_PAGE_SIZE,
+                commonConstants.getMaxPageSize(),
                 condition.getKey(), condition.getGenres(), condition.getTypes(), condition.getStatuses(),
                 condition.getGroundTimeFront(), condition.getGroundTimeAfter(),
                 condition.getUndercarriageTimeFront(),
                 condition.getUndercarriageTimeAfter(),
-                condition.getOrder(), condition.getDirection(), CommonConstants.VALID);
+                condition.getOrder(), condition.getDirection(), commonConstants.getVALID());
     }
 
     @ApiOperation("批量删除商品")

@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.common.config.shiro;
 
 
-import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.shiro.AuthorRetryLimitCredentialsMatcher;
 import com.hudongwx.drawlottery.common.shiro.AuthorUserRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -14,6 +13,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheManagerUtils;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +38,12 @@ import java.util.Map;
 @Configuration
 @EnableCaching
 public class ShiroConfig {
+    @Value("spring.shiro.loginUrl")
+    private String loginUrl;
+    @Value("spring.shiro.successUrl")
+    private String successUrl;
+    @Value("spring.shiro.unauthorizedUrl")
+    private String unauthorizedUrl;
 
     @Bean
     @Qualifier
@@ -60,10 +66,9 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //管理安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager());
-
-        shiroFilterFactoryBean.setLoginUrl(ConfigConstants.loginUrl);//登录地址
-        shiroFilterFactoryBean.setSuccessUrl(ConfigConstants.successUrl);//登录成功地址
-        shiroFilterFactoryBean.setUnauthorizedUrl(ConfigConstants.unauthorizedUrl);//没有登录地址
+        shiroFilterFactoryBean.setLoginUrl(loginUrl);//登录地址
+        shiroFilterFactoryBean.setSuccessUrl(successUrl);//登录成功地址
+        shiroFilterFactoryBean.setUnauthorizedUrl(unauthorizedUrl);//没有登录地址
 
         //自定义过滤器
         Map<String, Filter> filters = new LinkedHashMap<String, Filter>();

@@ -1,4 +1,4 @@
-package com.hudongwx.service.user.impl;
+package com.hudongwx.service.user;
 
 import com.hudongwx.TestBaseMapper;
 import com.hudongwx.drawlottery.pojo.User;
