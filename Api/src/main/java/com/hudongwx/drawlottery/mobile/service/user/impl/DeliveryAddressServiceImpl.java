@@ -39,9 +39,10 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
      * @return
      */
     @Override
-    public boolean addDa(DeliveryAddress address) {
+    public boolean addDa(Long accountId, DeliveryAddress address) {
+        address.setUserId(accountId);
         DeliveryAddress da = new DeliveryAddress();
-        da.setUserId(address.getUserId());
+        da.setUserId(accountId);
         List<DeliveryAddress> addresses = damapper.select(da);
         if (addresses.size() >= Settings.ADDRESS_ADD_MAX)
             return false;

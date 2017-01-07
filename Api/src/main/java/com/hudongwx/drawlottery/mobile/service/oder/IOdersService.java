@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.oder;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.Map;
 public interface IOdersService {
 
     //创建订单
-    boolean addOder(JSONObject jsonObject);
+    boolean addOder(Long accountId,JSONObject jsonObject);
 
     //查看订单详情
     List<Orders> selectByUserAccount(Long userAccount);
@@ -40,5 +39,5 @@ public interface IOdersService {
     Map<String,Object> selectOrders(Long accountId,Integer sum);
 
     //支付成功界面数据
-    List<Map<String,Object>> selectPaySuccess(Long accountId,List<CommodityAmount> commodityAmounts);
+    List<Map<String,Object>> selectPaySuccess(Long accountId,JSONObject jsonObject);
 }

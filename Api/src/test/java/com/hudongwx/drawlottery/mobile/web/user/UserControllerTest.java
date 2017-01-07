@@ -1,9 +1,10 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
 import org.testng.annotations.Test;
+
+import javax.annotation.Resource;
 /**
  * Created by wu on 2016/12/23.
  */
@@ -24,6 +25,17 @@ import org.testng.annotations.Test;
  * @email 294786949@qq.com
  */
 public class UserControllerTest extends TestBaseWeb {
+    @Resource
+    UserController userController;
+
+    @Test
+    public void testQueryUserCommRecord() throws Exception {
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("item",1);
+        jsonObject.put("page",1);
+        post("/api/v1/user/usercomm/show",jsonObject.toJSONString());
+
+    }
 
     @Test
     public void testRegister() throws Exception {
@@ -33,6 +45,6 @@ public class UserControllerTest extends TestBaseWeb {
 
     @Override
     public Object getController() {
-        return new UserController();
+        return userController;
     }
 }

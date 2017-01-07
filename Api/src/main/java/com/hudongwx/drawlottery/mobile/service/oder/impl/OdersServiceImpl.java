@@ -25,7 +25,7 @@ import java.util.Map;
  * <p>
  * 创建　kiter　2016/12/22 19:50　<br/>
  * <p>
- *     订单service实现类
+ * 订单service实现类
  * <p>
  * @email 346905702@qq.com
  */
@@ -46,6 +46,7 @@ public class OdersServiceImpl implements IOdersService {
     UserLuckCodesMapper luckMapper;
     @Autowired
     LuckCodesMapper codesMapper;
+
     /**
      * 添加订单对象
      *
@@ -53,8 +54,9 @@ public class OdersServiceImpl implements IOdersService {
      * @return 返回添加结果
      */
     @Override
-    public boolean addOder(JSONObject jsonObject) {
+    public boolean addOder(Long accountId, JSONObject jsonObject) {
         Orders orders = JSONObject.toJavaObject(jsonObject.getJSONObject("order"), Orders.class);
+        orders.setUserAccountId(accountId);
         JSONArray ca = jsonObject.getJSONArray("ca");
         List<CommodityAmount> caList = new ArrayList<>();
         for (int i = 0; i < ca.size(); i++) {
@@ -143,27 +145,32 @@ public class OdersServiceImpl implements IOdersService {
 
     /**
      * 支付完成界面
+     *
      * @param accountId 用户ID
-     * @param commodityAmounts  实体类集合
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectPaySuccess(Long accountId,List<CommodityAmount> commodityAmounts) {
+    public List<Map<String, Object>> selectPaySuccess(Long accountId, JSONObject jsonObject) {
+        List<CommodityAmount> commodityAmounts = new ArrayList<>();
+        JSONArray caJArray = jsonObject.getJSONArray("ca");
+        for (int i = 0; i < caJArray.size(); i++) {
+            commodityAmounts.add(JSONObject.toJavaObject(caJArray.getJSONObject(i), CommodityAmount.class));
+        }
         List<Map<String, Object>> mapList = new ArrayList<>();
         Integer number = 0;
-        for(CommodityAmount ca : commodityAmounts){
-            Map<String,Object> map = new HashMap<>();
-            map.put("amount",ca.getAmount());//参与人次
+        for (CommodityAmount ca : commodityAmounts) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("amount", ca.getAmount());//参与人次
             Commoditys commoditys = comMapper.selectByPrimaryKey(ca.getCommodityId());
-            map.put("commodityName",commoditys.getName());//商品名
-            map.put("roundTime",commoditys.getRoundTime());//期数
-            map.put("luckCodes",luckCodes(accountId,ca.getCommodityId()));//用户参与商品的幸运码
-            number+=ca.getAmount();
+            map.put("commodityName", commoditys.getName());//商品名
+            map.put("roundTime", commoditys.getRoundTime());//期数
+            map.put("luckCodes", luckCodes(accountId, ca.getCommodityId()));//用户参与商品的幸运码
+            number += ca.getAmount();
             mapList.add(map);
         }
-        Map<String,Object> map = new HashMap<>();
-        map.put("overallNumber",number);//添加总购买人次
-        map.put("overallCommodity",commodityAmounts.size());//添加购买商品总数
+        Map<String, Object> map = new HashMap<>();
+        map.put("overallNumber", number);//添加总购买人次
+        map.put("overallCommodity", commodityAmounts.size());//添加购买商品总数
         mapList.add(map);
 
         return mapList;
@@ -171,13 +178,14 @@ public class OdersServiceImpl implements IOdersService {
     }
 
     //查询用户参与商品的所有幸运号
-    public List<Integer> luckCodes(Long accountId,Long commodityId){
+    public List<Integer> luckCodes(Long accountId, Long commodityId) {
         List<Integer> list = new ArrayList<>();
         UserLuckCodes user = new UserLuckCodes();
         user.setUserAccountId(accountId);
         user.setCommodityId(commodityId);
         List<UserLuckCodes> codes = luckMapper.select(user);
-        for (UserLuckCodes luckCodes : codes){
+        for (UserLuckCodes luckCodes : codes) {
+            System.out.println("luckCodes.getLockCodeId()------>"+luckCodes.getLockCodeId());
             LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLockCodeId());
             list.add(codes1.getLockCode());
         }

@@ -30,7 +30,7 @@ public class ServiceUtils {
     public static <T extends Object> List<T> getPageList(List<T> list, Integer page) {
         List<T> newList = new ArrayList<>();
         if (null == page || page <= 0)
-            return newList;
+            page = 1;
         int startPosition = Settings.PAGE_LOAD_SIZE * (page - 1);
         int endPosition = Settings.PAGE_LOAD_SIZE + startPosition;
         int maxPosition = endPosition >= list.size() ? list.size() : endPosition;

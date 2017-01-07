@@ -52,7 +52,6 @@ public class CommodityServiceImpl implements ICommodityService {
     @Override
     public boolean addCommodity(Commoditys commod) {
         return mapper.insert(commod) > 0;
-
     }
 
     /**
@@ -158,6 +157,7 @@ public class CommodityServiceImpl implements ICommodityService {
     private Map<String, Object> dealCommSelectByStyle(Commoditys comm) {
         Map<String, Object> map = new HashMap<>();
         map.put("id", comm.getId());
+        map.put("state", comm.getStateId());
         map.put("name", comm.getName());
         map.put("imgUrl", comm.getCoverImgUrl());
         map.put("currentNumber", comm.getBuyCurrentNumber());

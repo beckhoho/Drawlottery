@@ -53,7 +53,7 @@ public class CommoditysController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/search", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryCommoditys(@RequestParam(name = "categoryId", required = false) Integer categoryId, @RequestParam(name = "commName", required = false) String commName, @RequestParam("page") Integer page) {
+    public JSONObject queryCommoditys(@RequestParam(name = "categoryId", required = false) Integer categoryId, @RequestParam(name = "commName", required = false) String commName, @RequestParam(name = "page", required = false) Integer page) {
         hsService.addHotSearch(commName);
         List<Map<String, Object>> infoList = cService.selectPaging(categoryId, commName, page);
         return success(infoList);

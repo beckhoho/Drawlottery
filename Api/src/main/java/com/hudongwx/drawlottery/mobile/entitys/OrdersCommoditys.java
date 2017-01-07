@@ -1,9 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -16,10 +13,11 @@ import javax.persistence.Id;
  * <p>
  * 创建　kiter　2017/1/6 13:41　<br/>
  * <p>
- *          订单商品对应表实体类
+ * 订单商品对应表实体类
  * <p>
  * @email 346905702@qq.com
  */
+@Table(name = "t_orders_commoditys")
 public class OrdersCommoditys {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

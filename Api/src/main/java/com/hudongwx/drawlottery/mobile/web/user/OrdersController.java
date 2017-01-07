@@ -42,7 +42,7 @@ public class OrdersController extends BaseController {
     @RequestMapping(value = "/api/v1/user/orders/sub", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addOrders(@RequestBody JSONObject jsonObject) {
         System.out.println("jsonObject----------->" + jsonObject.toString());
-        ordersService.addOder(jsonObject);
+        ordersService.addOder(10000L, jsonObject);
         return response(true);
     }
 
@@ -57,6 +57,18 @@ public class OrdersController extends BaseController {
     public JSONObject queryOrder(@RequestParam("orderid") Long orderid) {
         Orders order = new Orders();// TODO: 2016/12/24 查看单条订单？？？
         return success(order);
+    }
+
+    /**
+     * 用户查看指定订单信息
+     *
+     * @return JSONObject
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/orders/suc", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryOrderSuccess(@RequestBody JSONObject jsonObject) {
+        System.out.println("suc------>" + jsonObject.toString());
+        return success(ordersService.selectPaySuccess(10000L, jsonObject));
     }
 
     /**
