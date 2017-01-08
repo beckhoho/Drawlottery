@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     /**
      * 权限名
@@ -17,19 +17,19 @@ public class Permission {
      * 对应角色id
      */
     @Column(name = "role_id")
-    private Integer roleId;
+    private Long roleId;
 
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,7 +56,7 @@ public class Permission {
      *
      * @return role_id - 对应角色id
      */
-    public Integer getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
@@ -65,7 +65,7 @@ public class Permission {
      *
      * @param roleId 对应角色id
      */
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 }

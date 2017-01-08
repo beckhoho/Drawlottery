@@ -2,16 +2,23 @@ package com.hudongwx.drawlottery.web;
 
 import com.github.pagehelper.PageInfo;
 import com.hudongwx.drawlottery.common.base.BaseController;
-import com.hudongwx.drawlottery.common.dto.AjaxResult;
+import com.hudongwx.drawlottery.common.constants.LangConstants;
+import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.paramBody.AllParamList;
+import com.hudongwx.drawlottery.common.dto.response.CommodityFiltersResult;
 import com.hudongwx.drawlottery.pojo.Commodity;
+import com.hudongwx.drawlottery.pojo.CommodityState;
+import com.hudongwx.drawlottery.pojo.CommodityType;
 import com.hudongwx.drawlottery.service.commodity.ICommodityService;
+import com.hudongwx.drawlottery.service.commodity.IStateService;
+import com.hudongwx.drawlottery.service.commodity.ITypeService;
 import com.hudongwx.drawlottery.service.user.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,21 +36,27 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/commodity", method = RequestMethod.POST)
 public class CommodityController extends BaseController {
-
+    @Autowired
+    private LangConstants langConstants;
     private Logger logger = LoggerFactory.getLogger(CommodityController.class);
     @Resource
     private IUserService userService;
 
     @Resource
+    private ITypeService typeService;
+    @Resource
     private ICommodityService commodityService;
 
+    @Resource
+    private IStateService stateService;
+
     @ApiOperation("获取商品列表")
-    @RequestMapping("/")
-    public PageInfo<Commodity> index(@ApiParam(name = "p", defaultValue = "1") @RequestParam(defaultValue = "1") final int p,
+    @RequestMapping("")
+    public PageInfo<Commodity> index(@ApiParam(name = "p", defaultValue = "1") @RequestParam(defaultValue = "1") final Integer p,
                                      @ApiParam() @RequestBody AllParamList condition) {
         return commodityService.getCommodities(p,
                 commonConstants.getMaxPageSize(),
-                condition.getKey(), condition.getGenres(), condition.getTypes(), condition.getStatuses(),
+                condition.getKey(), condition.getGenre(), condition.getType(), condition.getState(),
                 condition.getGroundTimeFront(), condition.getGroundTimeAfter(),
                 condition.getUndercarriageTimeFront(),
                 condition.getUndercarriageTimeAfter(),
@@ -64,23 +77,46 @@ public class CommodityController extends BaseController {
     public AjaxResult addCommodity(@ApiParam("有id则为修改，无id则为删除") @RequestBody Commodity commodity) {
         if (commodity.getId() == null) {
             commodityService.addCommodity(commodity);
-            return success("添加成功！");
+            return success(langConstants.getLang(langConstants.ADD_COMMODITY_SUCCESS));
         }
         commodityService.updateCommodity(commodity);
-        return success("修改成功！");
+        return success(langConstants.getLang(langConstants.UPDATE_COMMODITY_SUCCESS));
     }
 
     @ApiOperation("批量上架")
     @RequestMapping("/ground")
     public AjaxResult groundCommodities(@ApiParam @RequestBody List<Integer> list) {
         commodityService.ground(list);
-        return success("上架成功！");
+        return success(langConstants.getLang(langConstants.GROUND_COMMODITY_SUCCESS));
     }
 
     @ApiOperation("批量下架")
     @RequestMapping("/under")
     public AjaxResult underCommodities(@ApiParam @RequestBody List<Integer> list) {
         commodityService.undercarriage(list);
-        return success("下架成功");
+        return success(langConstants.getLang(langConstants.UNDERCARRIAGE_COMMODITY_SUCCESS));
     }
+
+    @ApiOperation("得到所有的类型")
+    @RequestMapping("/allType")
+    public List<CommodityType> getAllType() {
+        return typeService.getAllTypes();
+    }
+
+    @ApiOperation("得到后台所有的可用状态")
+    @RequestMapping("/allState")
+    public List<CommodityState> getAllState() {
+        return stateService.getAllState();
+    }
+
+    @ApiOperation("得到筛选条件json数据")
+    @RequestMapping("/filters")
+    public CommodityFiltersResult getFilters(){
+        final CommodityFiltersResult commodityFiltersResult = new CommodityFiltersResult();
+        commodityFiltersResult.setStates(stateService.getAllState());
+        commodityFiltersResult.setTypes(typeService.getAllTypes());
+        return commodityFiltersResult;
+    }
+
 }
+

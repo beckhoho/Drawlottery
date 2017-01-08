@@ -1,18 +1,16 @@
 package com.hudongwx.drawlottery.common.base;
 
 import com.hudongwx.drawlottery.common.constants.CommonConstants;
-import com.hudongwx.drawlottery.common.dto.AjaxResult;
+import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.pojo.User;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -192,15 +190,6 @@ public class BaseController {
             random += ra.nextInt(9);
         }
         return random;
-    }
-
-    protected String getLang(String key) {
-        return getLang(key, "<未找到相关字段>");
-    }
-
-    protected String getLang(String key, String defaultLang) {
-        final Locale locale = RequestContextUtils.getLocale(request);
-        return messageSource.getMessage(key, null, defaultLang, locale);
     }
 
 }

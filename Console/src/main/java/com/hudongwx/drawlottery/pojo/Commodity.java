@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.pojo;
 
+import com.hudongwx.drawlottery.common.utils.DateUtils;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -60,10 +62,60 @@ public class Commodity {
     @Column(name = "buy_total_number")
     private Integer buyTotalNumber;
 
+    public Date getGroundTime() {
+        return groundTime;
+    }
+
+    public void setGroundTime(Date groundTime) {
+        this.groundTime = groundTime;
+        if (groundTime == null) this.setGroundTimeLabel("");
+        else this.setGroundTimeLabel(DateUtils.format(groundTime));
+    }
+
+    public Date getUndercarriageTime() {
+        return undercarriageTime;
+    }
+
+    public void setUndercarriageTime(Date undercarriageTime) {
+        this.undercarriageTime = undercarriageTime;
+        if (undercarriageTime == null) this.setUndercarriageTimeLabel("");
+        else this.setGroundTimeLabel(DateUtils.format(undercarriageTime));
+    }
+
+    public String getGroundTimeLabel() {
+        return groundTimeLabel;
+    }
+
+    public void setGroundTimeLabel(String groundTimeLabel) {
+        this.groundTimeLabel = groundTimeLabel;
+    }
+
+    public String getUndercarriageTimeLabel() {
+        return undercarriageTimeLabel;
+    }
+
+    public void setUndercarriageTimeLabel(String undercarriageTimeLabel) {
+        this.undercarriageTimeLabel = undercarriageTimeLabel;
+    }
+
+    private String groundTimeLabel;
+    private String undercarriageTimeLabel;
+
+    /**
+     * 上架时间
+     */
+    @Column(name = "ground_time")
+    private Date groundTime;
+
+    /**
+     * 下架时间
+     */
+    @Column(name = "undercarriage_date")
+    private Date undercarriageTime;
+
     /**
      * 剩余购买人次
      */
-    @Transient
     private Integer buyNowNumber;
 
     public String getTypeName() {

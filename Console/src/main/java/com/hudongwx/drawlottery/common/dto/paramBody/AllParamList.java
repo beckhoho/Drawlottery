@@ -22,11 +22,11 @@ public class AllParamList implements Serializable {
     @ApiModelProperty("关键字搜索，支持模糊搜索")
     private String key;
     @ApiModelProperty("商品类别")
-    private List<Integer> genres;
+    private List<Integer> genre;
     @ApiModelProperty("商品类型")
-    private List<Integer> types;
+    private List<Integer> type;
     @ApiModelProperty("商品属性")
-    private List<Integer> statuses;
+    private List<Integer> state;
     @ApiModelProperty("最早上架时间")
     private Date groundTimeFront;
     @ApiModelProperty("最晚上架时间")
@@ -44,9 +44,9 @@ public class AllParamList implements Serializable {
      * 获取商品列表.
      * <p>
      * key                    搜索关键字
-     * genres                 商品属性（数据库对应商品类别）
-     * types                  商品类型
-     * statuses               商品状态
+     * genre                 商品属性（数据库对应商品类别）
+     * type                  商品类型
+     * state               商品状态
      * groundTimeFront        上架时间（开始）
      * groundTimeAfter        上架时间（结束）
      * undercarriageTimeFront 下架时间（开始）
@@ -63,28 +63,28 @@ public class AllParamList implements Serializable {
         this.key = key;
     }
 
-    public List<Integer> getGenres() {
-        return genres;
+    public List<Integer> getGenre() {
+        return genre;
     }
 
-    public void setGenres(List<Integer> genres) {
-        this.genres = genres;
+    public void setGenre(List<Integer> genre) {
+        this.genre = genre;
     }
 
-    public List<Integer> getTypes() {
-        return types;
+    public List<Integer> getType() {
+        return type;
     }
 
-    public void setTypes(List<Integer> types) {
-        this.types = types;
+    public void setType(List<Integer> type) {
+        this.type = type;
     }
 
-    public List<Integer> getStatuses() {
-        return statuses;
+    public List<Integer> getState() {
+        return state;
     }
 
-    public void setStatuses(List<Integer> statuses) {
-        this.statuses = statuses;
+    public void setState(List<Integer> state) {
+        this.state = state;
     }
 
     public Date getGroundTimeFront() {

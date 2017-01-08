@@ -6,6 +6,7 @@ import com.hudongwx.drawlottery.service.commodity.ITypeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Drawlottery.
@@ -40,5 +41,15 @@ public class TypeServiceImpl implements ITypeService {
     @Override
     public CommodityType getTypeByName(String name) {
         return commodityTypeMapper.selectByName(name);
+    }
+
+    /**
+     * 获取所有类型
+     *
+     * @return 返回类型列表
+     */
+    @Override
+    public List<CommodityType> getAllTypes() {
+        return commodityTypeMapper.selectAll();
     }
 }

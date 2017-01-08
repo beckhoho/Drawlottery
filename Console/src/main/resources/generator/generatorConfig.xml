@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 
-    <properties resource="generator.properties"/>
+    <properties resource="generator/generator.properties"/>
 
     <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
 
@@ -127,6 +127,10 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>-->
+        <table tableName="t_commodity_states" modelType="flat" domainObjectName="CommodityState">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnRenamingRule searchString="^t" replaceString=""/>
+        </table>
         <table tableName="t_permission" modelType="flat" domainObjectName="Permission">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>

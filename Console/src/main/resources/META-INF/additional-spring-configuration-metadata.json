@@ -99,6 +99,21 @@
       "name": "spring.shiro.unauthorizedUrl",
       "type": "java.lang.String",
       "description": "Description for spring.shiro.unauthorizedUrl."
+    },
+    {
+      "name": "spring.cross.addAllowedOrigin",
+      "type": "java.lang.String",
+      "description": "Description for spring.cross.addAllowedOrigin."
+    },
+    {
+      "name": "spring.cross.addAllowedHeader",
+      "type": "java.lang.String",
+      "description": "Description for spring.cross.addAllowedHeader."
+    },
+    {
+      "name": "spring.cross.addAllowedMethod",
+      "type": "java.lang.String",
+      "description": "Description for spring.cross.addAllowedMethod."
     }
   ]
 }

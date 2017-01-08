@@ -31,9 +31,9 @@ public class ICommodityServiceImpl implements ICommodityService {
      * @param currentPage            当前页数
      * @param pageSize               每页最大数量
      * @param key                    搜索关键字
-     * @param genres                 商品属性（数据库对应商品类别）
-     * @param types                  商品类型
-     * @param statuses               商品状态
+     * @param genre                 商品属性（数据库对应商品类别）
+     * @param type                  商品类型
+     * @param state               商品状态
      * @param groundTimeFront        上架时间（开始）
      * @param groundTimeAfter        上架时间（结束）
      * @param undercarriageTimeFront 下架时间（开始）
@@ -44,12 +44,12 @@ public class ICommodityServiceImpl implements ICommodityService {
      * @return 商品分页
      */
     @Override
-    public PageInfo<Commodity> getCommodities(int currentPage, int pageSize, String key, List<Integer> genres,
-                                              List<Integer> types, List<Integer> statuses, Date groundTimeFront,
+    public PageInfo<Commodity> getCommodities(int currentPage, int pageSize, String key, List<Integer> genre,
+                                              List<Integer> type, List<Integer> state, Date groundTimeFront,
                                               Date groundTimeAfter, Date undercarriageTimeFront,
                                               Date undercarriageTimeAfter, final int order, int direction, int valid) {
         PageHelper.startPage(currentPage, pageSize);
-        final List<Commodity> commodities = commodityMapper.selectCommodities(key, genres, types, statuses, groundTimeFront,
+        final List<Commodity> commodities = commodityMapper.selectCommodities(key, genre, type, state, groundTimeFront,
                 groundTimeAfter, undercarriageTimeFront, undercarriageTimeAfter, order, direction, valid);
         return new PageInfo<>(commodities);
     }

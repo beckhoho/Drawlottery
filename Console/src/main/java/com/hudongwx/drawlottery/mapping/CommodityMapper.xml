@@ -29,13 +29,13 @@
           commodity.round_time                                      AS roundTime,
           commodity.genre,
           IFNULL(type.name,'未知类型')                                                AS typeName,
-          IFNULL(state.name, '未知属性')                        AS stateName,
+          IFNULL(state.name, '未知状态')                        AS stateName,
           commodity.ground_time                                     AS groundTime,
-          commodity.undercarriage_date                              AS undercarriageDate,
+          commodity.undercarriage_date                              AS undercarriageTime,
           commodity.view_num                                        AS viewNum,
           commodity.buy_total_number                                AS buyTotalNumber,
           commodity.buy_current_number                              AS buyCurrentNumber,
-          commodity.buy_total_number - commodity.buy_current_number AS buyNowNum
+          commodity.buy_total_number - commodity.buy_current_number AS buyNowNumber
         FROM t_commoditys AS commodity
           LEFT JOIN t_commodity_type AS type ON commodity.commodity_type_id = type.id
           LEFT JOIN t_commodity_states AS state ON commodity.state_id = state.id
@@ -64,21 +64,21 @@
                 <bind name="pattern" value="'%' + key + '%'"/>
                 commodity.name like #{pattern}
             </if>
-            <if test="genres != null and genres.size() > 0">
+            <if test="genre != null and genre.size() > 0">
                 and commodity.genre in
-                <foreach collection="genres" open="(" close=")" separator="," item="genre">
+                <foreach collection="genre" open="(" close=")" separator="," item="genre">
                     #{genre}
                 </foreach>
             </if>
-            <if test="types != null and types.size() > 0">
+            <if test="type != null and type.size() > 0">
                 and commodity.commodity_type_id in
-                <foreach collection="types" open="(" separator="," close=")" item="type">
+                <foreach collection="type" open="(" separator="," close=")" item="type">
                     #{type}
                 </foreach>
             </if>
-            <if test="statuses != null and statuses.size() > 0">
+            <if test="state != null and state.size() > 0">
                 and commodity.state_id in
-                <foreach collection="statuses" open="(" separator="," close=")" item="state">
+                <foreach collection="state" open="(" separator="," close=")" item="state">
                     #{state}
                 </foreach>
             </if>
@@ -107,7 +107,10 @@
                 buyCurrentNumber
             </when>
             <when test="order == 5">
-                buyNowNum
+                buyNowNumber
+            </when>
+            <when test="order == 6">
+                viewNum
             </when>
             <otherwise>
                 commodity.id

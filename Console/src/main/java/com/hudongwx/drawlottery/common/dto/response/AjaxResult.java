@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.common.dto;
+package com.hudongwx.drawlottery.common.dto.response;
 
 /**
  * Drawlottery.

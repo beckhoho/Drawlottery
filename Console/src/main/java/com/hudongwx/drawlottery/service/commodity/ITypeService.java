@@ -2,6 +2,8 @@ package com.hudongwx.drawlottery.service.commodity;
 
 import com.hudongwx.drawlottery.pojo.CommodityType;
 
+import java.util.List;
+
 /**
  * 商品类型相关 service 接口.
  * Date: 2017/1/6 0006
@@ -26,4 +28,10 @@ public interface ITypeService {
      * @return 类型实体
      */
     public CommodityType getTypeByName(final String name);
+
+    /**
+     * 获取所有类型
+     * @return 返回类型列表
+     */
+    public List<CommodityType> getAllTypes();
 }
