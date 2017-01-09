@@ -8,6 +8,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="pay_name" jdbcType="VARCHAR" property="payName" />
     <result column="pay_state" jdbcType="INTEGER" property="payState" />
-    <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
+    <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
   </resultMap>
 </mapper>

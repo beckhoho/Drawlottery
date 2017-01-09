@@ -1,19 +1,13 @@
-package com.hudongwx.drawlottery.mobile.service.oder.impl;
+package com.hudongwx.drawlottery.mobile.service.order.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.entitys.OrdersCommoditys;
-import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.mappers.OrdersCommoditysMapper;
-import com.hudongwx.drawlottery.mobile.service.oder.IOrdersCommoditysService;
+import com.hudongwx.drawlottery.mobile.service.order.IOrdersCommoditysService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -31,7 +25,7 @@ import java.util.Map;
  * @email 346905702@qq.com
  */
 @Service
-public class OrdersCommoditysServiceImpl implements IOrdersCommoditysService{
+public class OrdersCommoditysServiceImpl implements IOrdersCommoditysService {
 
     @Autowired
     OrdersCommoditysMapper mapper;

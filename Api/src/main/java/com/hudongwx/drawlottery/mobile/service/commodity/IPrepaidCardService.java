@@ -1,6 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
-import com.hudongwx.drawlottery.mobile.entitys.PrepaidCard;
+import com.hudongwx.drawlottery.mobile.entitys.VirtualCommodity;
 
 import java.util.List;
 import java.util.Map;
@@ -23,14 +23,14 @@ import java.util.Map;
 public interface IPrepaidCardService {
 
     //添加虚拟充值卡
-    boolean addCard(PrepaidCard card);
+    boolean addCard(VirtualCommodity card);
 
     //删除
-    boolean deleteCard(PrepaidCard card);
+    boolean deleteCard(VirtualCommodity card);
 
     //查看
     List<Map<String,Object>> selectUserCard(Long accountId);
 
     //修改
-    boolean updateUserCard(PrepaidCard card);
+    boolean updateUserCard(VirtualCommodity card);
 }

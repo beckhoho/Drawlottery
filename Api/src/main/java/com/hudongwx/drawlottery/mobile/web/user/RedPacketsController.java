@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
+import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.service.user.IRedPacketsService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
@@ -34,7 +34,7 @@ public class RedPacketsController extends BaseController {
     @Autowired
     IRedPacketsService rpService;
     @Autowired
-    IOdersService oService;
+    IOrdersService oService;
 
     /**
      * 获取用户不可用的红包

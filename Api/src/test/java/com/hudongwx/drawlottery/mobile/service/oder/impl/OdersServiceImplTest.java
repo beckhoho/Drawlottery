@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.mappers.OrdersMapper;
-import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
+import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class OdersServiceImplTest extends TestBaseMapper {
     @Autowired
-    IOdersService odersSer;
+    IOrdersService odersSer;
     @Test
     public void testAddOder() throws Exception {
         JSONObject object = new JSONObject();

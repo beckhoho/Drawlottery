@@ -6,7 +6,7 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
+        <result column="user_account_id" jdbcType="BIGINT" property="commdityId"/>
         <result column="pay_mode_id" jdbcType="INTEGER" property="payModeId"/>
         <result column="submit_date" jdbcType="TIMESTAMP" property="submitDate"/>
         <result column="price" jdbcType="INTEGER" property="price"/>

@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
-import com.hudongwx.drawlottery.mobile.entitys.PrepaidCard;
+import com.hudongwx.drawlottery.mobile.entitys.VirtualCommodity;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -18,5 +18,5 @@ import com.hudongwx.drawlottery.mobile.entitys.PrepaidCard;
  * <p>
  * @email 346905702@qq.com
  */
-public interface PrepaidCardMapper extends BaseMapper<PrepaidCard>{
+public interface VirtualCommodityMapper extends BaseMapper<VirtualCommodity>{
 }

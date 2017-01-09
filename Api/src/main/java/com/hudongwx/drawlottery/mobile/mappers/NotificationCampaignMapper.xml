@@ -6,7 +6,7 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
+        <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
         <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle"/>
         <result column="notice_url" jdbcType="VARCHAR" property="noticeUrl"/>
         <result column="send_date" jdbcType="TIMESTAMP" property="sendDate"/>

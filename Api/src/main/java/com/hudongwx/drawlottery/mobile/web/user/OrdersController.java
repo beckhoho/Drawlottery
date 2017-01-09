@@ -3,7 +3,7 @@ package com.hudongwx.drawlottery.mobile.web.user;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
-import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
+import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import java.util.Map;
 public class OrdersController extends BaseController {
 
     @Autowired
-    IOdersService ordersService;
+    IOrdersService ordersService;
 
     /**
      * 用户添加订单信息
