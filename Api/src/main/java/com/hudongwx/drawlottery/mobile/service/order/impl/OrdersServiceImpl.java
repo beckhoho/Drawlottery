@@ -63,7 +63,6 @@ public class OrdersServiceImpl implements IOrdersService {
         }
         if (updateCommodity(caList, accountId)) {
             if (mapper.insert(orders) > 0) {
-
                 RedPackets red = new RedPackets();//更改红包使用状态
                 red.setId(orders.getRedPacketId());
                 red.setUseState(1);
@@ -88,6 +87,7 @@ public class OrdersServiceImpl implements IOrdersService {
                         luckCodes.setCommodityId(commodityId);
                         luckCodes.setLockCodeId(code.getId());
                         luckCodes.setBuyDate(date);
+                        luckCodes.setOrdersId(list.get(0).getId());
                         luckMapper.insert(luckCodes);
                         LuckCodes l = new LuckCodes();
                         l.setId(code.getId());
@@ -250,7 +250,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
     }
 
-    //查询用户参与商品的所有幸运号
+    //查询用户当前订单参与商品的所有幸运号
     public List<String> luckCodes(Long accountId, Long commodityId) {
         List<String> list = new ArrayList<>();
         UserLuckCodes user = new UserLuckCodes();
@@ -258,7 +258,6 @@ public class OrdersServiceImpl implements IOrdersService {
         user.setCommodityId(commodityId);
         List<UserLuckCodes> codes = luckMapper.select(user);
         for (UserLuckCodes luckCodes : codes) {
-            System.out.println("luckCodes.getLockCodeId()------>" + luckCodes.getLockCodeId());
             LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLockCodeId());
             list.add(codes1.getLockCode());
         }

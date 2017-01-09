@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hudongwx.drawlottery.mobile.mappers.UserLuckCodesMapper">
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId" />
-    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-    <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
-    <result column="buy_date" jdbcType="TIMESTAMP" property="buyDate"/>
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
+        <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
+        <result column="user_account_id" jdbcType="BIGINT" property="commdityId"/>
+        <result column="buy_date" jdbcType="TIMESTAMP" property="buyDate"/>
+        <result column="orders_id" jdbcType="BIGINT" property="ordersId"/>
+    </resultMap>
 </mapper>
