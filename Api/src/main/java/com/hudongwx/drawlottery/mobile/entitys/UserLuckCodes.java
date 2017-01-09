@@ -39,14 +39,6 @@ public class UserLuckCodes {
     @Column(name = "orders_id")
     private Long ordersId;
 
-    public Long getLuckCodeId() {
-        return luckCodeId;
-    }
-
-    public void setLuckCodeId(Long luckCodeId) {
-        this.luckCodeId = luckCodeId;
-    }
-
     public Long getOrdersId() {
         return ordersId;
     }

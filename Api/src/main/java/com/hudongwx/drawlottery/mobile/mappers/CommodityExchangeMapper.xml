@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.CommodityExchangeMapper">
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.CommodityExchange">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+        <result column="exchange_way_id" jdbcType="INTEGER" property="exchangeWayId"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+
+    </resultMap>
+</mapper>

@@ -448,4 +448,30 @@ public class CommodityServiceImpl implements ICommodityService {
         }
         return infoList;
     }
+
+
+    @Override
+    public boolean reviseInfo(String luckCode, Long commodityId) {
+        Commoditys com = mapper.selectByPrimaryKey(commodityId);
+        LuckCodes luckCodes = new LuckCodes();
+        luckCodes.setLockCode(luckCode);
+        luckCodes.setCommodityId(commodityId);
+        List<LuckCodes> codes = luckCodeMapper.select(luckCodes);
+
+        UserLuckCodes userLuckCodes = new UserLuckCodes();
+        userLuckCodes.setLockCodeId(codes.get(0).getId());
+        List<UserLuckCodes> select = userluckMapper.select(userLuckCodes);
+
+        CommodityHistory history = new CommodityHistory();
+        history.setCommodityId(commodityId);
+        history.setBuyTotalNumber(com.getBuyTotalNumber());
+        history.setCoverImgUrl(com.getCoverImgUrl());
+        history.setEndTime(new Date());
+        history.setCommodityName(com.getName());
+        history.setLuckCode(luckCode);
+        history.setRoundTime(com.getRoundTime());
+
+        historyMapper.insert(history);
+        return false;
+    }
 }

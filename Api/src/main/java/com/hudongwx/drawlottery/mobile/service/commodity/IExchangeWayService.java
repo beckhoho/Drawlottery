@@ -1,5 +1,9 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
+import com.hudongwx.drawlottery.mobile.entitys.ExchangeWay;
+
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -17,4 +21,15 @@ package com.hudongwx.drawlottery.mobile.service.commodity;
  */
 public interface IExchangeWayService {
 
+    //添加兑换方式
+    boolean addExchangeWay(ExchangeWay way);
+
+    //删除兑换方式
+    boolean deleteExchangeWay(ExchangeWay way);
+
+    //修改兑换方式
+    boolean updateExchangeWay(ExchangeWay way);
+
+    //查看兑换方式
+    List<ExchangeWay> selectAll();
 }
