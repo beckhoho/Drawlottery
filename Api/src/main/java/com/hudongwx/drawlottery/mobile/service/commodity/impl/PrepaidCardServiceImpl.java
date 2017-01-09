@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.PrepaidCard;
-import com.hudongwx.drawlottery.mobile.mappers.PrepaidCardMapper;
+import com.hudongwx.drawlottery.mobile.entitys.VirtualCommodity;
+import com.hudongwx.drawlottery.mobile.mappers.VirtualCommodityMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.IPrepaidCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,26 +30,26 @@ import java.util.Map;
 @Service
 public class PrepaidCardServiceImpl implements IPrepaidCardService {
     @Autowired
-    PrepaidCardMapper mapper;
+    VirtualCommodityMapper mapper;
     @Override
-    public boolean addCard(PrepaidCard card) {
+    public boolean addCard(VirtualCommodity card) {
         return mapper.insert(card)>0;
     }
 
     @Override
-    public boolean deleteCard(PrepaidCard card) {
+    public boolean deleteCard(VirtualCommodity card) {
         return mapper.delete(card)>0;
     }
 
     @Override
     public List<Map<String,Object>> selectUserCard(Long accountId) {
         List<Map<String,Object>> mapList = new ArrayList<>();
-        PrepaidCard card = new PrepaidCard();
-        card.setUserAccountId(accountId);
-        List<PrepaidCard> list = mapper.select(card);
-        for (PrepaidCard car : list){
+        VirtualCommodity card = new VirtualCommodity();
+        card.setCommodityId(accountId);
+        List<VirtualCommodity> list = mapper.select(card);
+        for (VirtualCommodity car : list){
             Map<String,Object> map = new HashMap<>();
-            map.put("userAccountId",car.getUserAccountId());//获取用户ID
+            map.put("userAccountId",car.getCommodityId());//获取用户ID
             map.put("id",car.getId());//获取充值卡ID
             map.put("cardNumber",car.getCardNumber());//获取卡号
             map.put("operator",car.getOperator());//运营商
@@ -62,7 +62,7 @@ public class PrepaidCardServiceImpl implements IPrepaidCardService {
     }
 
     @Override
-    public boolean updateUserCard(PrepaidCard card) {
+    public boolean updateUserCard(VirtualCommodity card) {
         return mapper.updateByPrimaryKeySelective(card)>0;
     }
 }

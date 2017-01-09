@@ -3,10 +3,14 @@ package com.hudongwx.drawlottery.mobile.service.advertisement.impl;
 import com.hudongwx.drawlottery.mobile.entitys.Advertisement;
 import com.hudongwx.drawlottery.mobile.mappers.AdvertisementMapper;
 import com.hudongwx.drawlottery.mobile.service.advertisement.IAdvertisementService;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -30,7 +34,23 @@ public class AdvertisementServiceImpl implements IAdvertisementService {
     AdvertisementMapper adMapper;
 
     @Override
-    public List<Advertisement> queryAdvertisement() {
-        return adMapper.selectAll();
+    public List<Map<String, Object>> selectAdvertisement() {
+        Advertisement ad = new Advertisement();
+        ad.setState(1);
+        List<Advertisement> adList = adMapper.select(ad);
+        return dealImgInfo(adList);
+    }
+
+    private List<Map<String, Object>> dealImgInfo(List<Advertisement> adList) {
+        List<Map<String, Object>> infoList = new ArrayList<>();
+        for (Advertisement ad : adList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", ad.getId());
+            map.put("imgUrl", Settings.SERVER_URL_PATH + ad.getImgUrl());
+            map.put("desc", ad.getDescription());
+            map.put("skipUrl", Settings.SERVER_URL_PATH + ad.getUrl());
+            infoList.add(map);
+        }
+        return infoList;
     }
 }

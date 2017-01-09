@@ -3,7 +3,8 @@ package com.hudongwx.drawlottery.mobile.web.user;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
-import com.hudongwx.drawlottery.mobile.service.oder.IOdersService;
+import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserLuckCodesService;
+import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ import java.util.Map;
 public class OrdersController extends BaseController {
 
     @Autowired
-    IOdersService ordersService;
+    IOrdersService ordersService;
+    @Autowired
+    IUserLuckCodesService ulcService;
 
     /**
      * 用户添加订单信息
@@ -84,6 +87,20 @@ public class OrdersController extends BaseController {
     @RequestMapping(value = "/api/v1/user/orders/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAllUserOrders(@RequestParam("acc") Long accountid) {
         List<Orders> olist = ordersService.selectByUserAccount(accountid);
+        return success(olist);
+    }
+
+    /**
+     * 用户查看所有个人订单信息
+     *
+     * @param orderId 用户id
+     * @return JSONObject
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/orders/show/code", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryOrderCodes(@RequestParam("orderId") Long orderId) {
+        List<Orders> olist = ordersService.selectByUserAccount(orderId);
+        // TODO: 2017/1/9 查询code
         return success(olist);
     }
 }

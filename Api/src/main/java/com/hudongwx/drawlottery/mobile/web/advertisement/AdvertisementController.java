@@ -40,6 +40,6 @@ public class AdvertisementController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/ad/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAdvertisement() {
-        return success(adService.queryAdvertisement());
+        return success(adService.selectAdvertisement());
     }
 }

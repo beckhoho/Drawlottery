@@ -75,4 +75,7 @@ public interface ICommodityService {
 
     //查询高中奖率商品
     List<Map<String, Object>> selectHeight(Integer number);
+
+    //开奖之后改变信息
+    boolean reviseInfo(String luckCode,Long commodityId);
 }

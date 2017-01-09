@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.mobile.service.oder;
+package com.hudongwx.drawlottery.mobile.service.order;
 
 import com.hudongwx.drawlottery.mobile.entitys.OrdersCommoditys;
 

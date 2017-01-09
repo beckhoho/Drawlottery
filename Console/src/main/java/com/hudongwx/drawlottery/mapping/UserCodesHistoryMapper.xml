@@ -8,6 +8,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_luck_code_id" jdbcType="BIGINT" property="userLuckCodeId" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-    <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
+    <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
   </resultMap>
 </mapper>

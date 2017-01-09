@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.mobile.service.oder;
+package com.hudongwx.drawlottery.mobile.service.order;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
@@ -21,7 +21,7 @@ import java.util.Map;
  * <p>
  * @email 346905702@qq.com
  */
-public interface IOdersService {
+public interface IOrdersService {
 
     //创建订单
     boolean addOder(Long accountId,JSONObject jsonObject);

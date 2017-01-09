@@ -18,6 +18,12 @@ package com.hudongwx.drawlottery.mobile.utils;
 public class Settings {
 
     /**↑↓**/
+
+    /**
+     * 最大信息条数
+     */
+    public static final int MAX_INFO_SIZE = 500;
+
     /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*收貨地址*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
     /**
      * 默认收货地址
@@ -118,11 +124,6 @@ public class Settings {
     public static final int COMMODITY_ORDER_HIGHT_RATE = 5;
 
     /**
-     * 商品未开奖
-     */
-    public static final int COMMODITY_STATE_NO_LOTTERY = 0;
-
-    /**
      * 商品已开奖
      */
     public static final int COMMODITY_STATE_HAS_LOTTERY = 1;
@@ -131,6 +132,12 @@ public class Settings {
      * 商品售罄开奖中
      */
     public static final int COMMODITY_STATE_ON_LOTTERY = 2;
+
+    /**
+     * 商品售卖中
+     */
+    public static final int COMMODITY_STATE_NO_SALE = 3;
+
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*commodity(商品)*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
     /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*verifyCode*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/

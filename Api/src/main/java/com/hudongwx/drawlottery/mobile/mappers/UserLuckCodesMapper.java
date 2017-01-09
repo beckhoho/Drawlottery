@@ -17,4 +17,6 @@ public interface UserLuckCodesMapper extends BaseMapper<UserLuckCodes> {
     })
     List<UserLuckCodes> selectCountByCommodity(@Param("commod") Long commod);
 
+    @Select("select distinct commodity_id from t_user_luck_codes WHERE user_account_id = #{accountId}")
+    List<Long> selectDistinctGroupByCommId(@Param("accountId") Long accountId);
 }

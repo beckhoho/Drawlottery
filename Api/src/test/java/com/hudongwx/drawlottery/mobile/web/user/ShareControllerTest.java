@@ -28,7 +28,7 @@ public class ShareControllerTest extends TestBaseWeb {
     public void testAddShareInfo() throws Exception {
 //        Share share = new Share();
 //        share.setIssueDate(new Date());
-//        share.setUserAccountId(1l);
+//        share.setCommodityId(1l);
 //        share.setParticulars("这是我写的晒单详情！！！！");
 //        share.setCommodityId(10l);
 //        FileInputStream fis = new FileInputStream("C:\\Users\\Public\\Pictures\\Sample Pictures\\Tulips.jpg");

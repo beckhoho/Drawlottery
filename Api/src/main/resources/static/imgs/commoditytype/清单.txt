@@ -1,0 +1,15 @@
+commoditytype（电脑办公）：imgs/commoditytype/computeroffice.png
+
+commoditytype（化妆护肤）：imgs/commoditytype/cosmeticskincare.png
+
+commoditytype（电子数码）：imgs/commoditytype/electronicProduct.png
+
+commoditytype（食品饮料）：imgs/commoditytype/foodandbeverage.png
+
+commoditytype（家用电器）：imgs/commoditytype/householdelectricAppliances.png
+
+commoditytype（钟表首饰）：imgs/commoditytype/watchjewelry.png
+
+commoditytype（各系跑车）：imgs/commoditytype/car.png
+
+commoditytype（其他）：imgs/commoditytype/other.png

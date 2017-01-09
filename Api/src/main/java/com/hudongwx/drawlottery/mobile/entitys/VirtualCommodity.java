@@ -1,9 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -16,27 +13,22 @@ import javax.persistence.Id;
  * <p>
  * 创建　kiter　2017/1/4 21:51　<br/>
  * <p>
- * 充值卡实体类
+ * 虚拟商品
  * <p>
  * @email 346905702@qq.com
  */
-public class PrepaidCard {
+@Table(name = "t_virtual_commodity")
+public class VirtualCommodity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * 用户ID
+     * 商品ID
      */
-    @Column(name = "user_account_id")
-    private Long userAccountId;
-
-    /**
-     * 卡号
-     */
-    @Column(name = "img_url")
-    private String imgUrl;
+    @Column(name = "commodity_id")
+    private Long commodityId;
 
     /**
      * 卡号
@@ -72,20 +64,12 @@ public class PrepaidCard {
         this.id = id;
     }
 
-    public Long getUserAccountId() {
-        return userAccountId;
+    public Long getCommodityId() {
+        return commodityId;
     }
 
-    public void setUserAccountId(Long userAccountId) {
-        this.userAccountId = userAccountId;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setCommodityId(Long commodityId) {
+        this.commodityId = commodityId;
     }
 
     public String getCardNumber() {

@@ -33,6 +33,20 @@ public class UserLuckCodes {
     @Column(name = "buy_date")
     private Date buyDate;
 
+    /**
+     * 订单ID
+     */
+    @Column(name = "orders_id")
+    private Long ordersId;
+
+    public Long getOrdersId() {
+        return ordersId;
+    }
+
+    public void setOrdersId(Long ordersId) {
+        this.ordersId = ordersId;
+    }
+
     public Date getBuyDate() {
         return buyDate;
     }
