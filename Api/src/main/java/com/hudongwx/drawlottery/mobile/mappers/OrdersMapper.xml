@@ -10,5 +10,6 @@
         <result column="pay_mode_id" jdbcType="INTEGER" property="payModeId"/>
         <result column="submit_date" jdbcType="TIMESTAMP" property="submitDate"/>
         <result column="price" jdbcType="INTEGER" property="price"/>
+        <result column="red_packet_id" jdbcType="BIGINT" property="redPacketId"/>
     </resultMap>
 </mapper>

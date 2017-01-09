@@ -33,6 +33,19 @@ public class Orders {
     @Column(name = "submit_date")
     private Date submitDate;
 
+    /**
+     * 点击使用的红包ID
+     */
+    @Column(name = "red_packet_id")
+    private Long redPacketId;
+
+    public Long getRedPacketId() {
+        return redPacketId;
+    }
+
+    public void setRedPacketId(Long redPacketId) {
+        this.redPacketId = redPacketId;
+    }
 
     public Integer getPrice() {
         return price;

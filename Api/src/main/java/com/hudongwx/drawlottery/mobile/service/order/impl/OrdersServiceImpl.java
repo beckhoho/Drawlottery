@@ -55,6 +55,7 @@ public class OrdersServiceImpl implements IOrdersService {
         boolean b = true;
         Orders orders = JSONObject.toJavaObject(jsonObject.getJSONObject("order"), Orders.class);
         orders.setUserAccountId(accountId);
+        orders.setSubmitDate(new Date());//修改订单提交时间
         JSONArray ca = jsonObject.getJSONArray("ca");
         List<CommodityAmount> caList = new ArrayList<>();
         for (int i = 0; i < ca.size(); i++) {
@@ -62,6 +63,12 @@ public class OrdersServiceImpl implements IOrdersService {
         }
         if (updateCommodity(caList, accountId)) {
             if (mapper.insert(orders) > 0) {
+
+                RedPackets red = new RedPackets();//更改红包使用状态
+                red.setId(orders.getRedPacketId());
+                red.setUseState(1);
+                redMapper.updateByPrimaryKeySelective(red);
+
                 List<Orders> list = mapper.select(orders);
                 for (int s = 0; s < caList.size(); s++) {
                     Long commodityId = caList.get(s).getCommodityId();
@@ -87,7 +94,6 @@ public class OrdersServiceImpl implements IOrdersService {
                         l.setState(1);
                         codesMapper.updateByPrimaryKeySelective(l);
                     }
-
                 }
                 if (orders.getPayModeId() == 1) {//如果支付方式为余额支付
                     User u = userMapper.selectByPrimaryKey(accountId);
