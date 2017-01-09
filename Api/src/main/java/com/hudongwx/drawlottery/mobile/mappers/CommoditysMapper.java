@@ -40,7 +40,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     @Select("select id from t_commodity_type where name = #{commodType} ")
     Long selectType(@Param("commodType") String commodType);
 
-    @Select("SELECT * FROM t_commoditys ORDER BY buy_current_number/buy_total_number DESC")
+    @Select("SELECT * FROM t_commoditys where state_id = 3 ORDER BY buy_current_number/buy_total_number DESC")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_desc", property = "commodityDesc"),
@@ -59,7 +59,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     })
     List<Commoditys> selectByTemp1();
 
-    @Select("SELECT * FROM t_commoditys ORDER BY buy_current_number-buy_last_number DESC")
+    @Select("SELECT * FROM t_commoditys where state_id = 3 ORDER BY buy_current_number-buy_last_number DESC")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_desc", property = "commodityDesc"),
@@ -78,7 +78,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     })
     List<Commoditys> selectByTemp2();
 
-    @Select("SELECT * FROM t_commoditys ORDER BY start_time DESC")
+    @Select("SELECT * FROM t_commoditys where state_id = 3 ORDER BY start_time DESC")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_desc", property = "commodityDesc"),
@@ -97,7 +97,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     })
     List<Commoditys> selectByTemp3();
 
-    @Select("SELECT * FROM t_commoditys ORDER BY buy_total_number DESC")
+    @Select("SELECT * FROM t_commoditys where state_id = 3 ORDER BY buy_total_number DESC")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_desc", property = "commodityDesc"),
@@ -116,7 +116,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     })
     List<Commoditys> selectByTemp4();
 
-    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number=0 AND state_id=2")
+    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number = 0 AND state_id = 2 order by sell_out_time desc limit #{maxInfo}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_desc", property = "commodityDesc"),
@@ -133,7 +133,26 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId")
     })
-    List<Commoditys> selectOnLottery();
+    List<Commoditys> selectOnLottery(@Param("maxInfo") Integer maxInfo);
+
+    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number=0 AND state_id=2 order by sell_out_time desc limit 10")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "commodity_desc", property = "commodityDesc"),
+            @Result(column = "commodity_type_id", property = "commodityTypeId"),
+            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
+            @Result(column = "buy_total_number", property = "buyTotalNumber"),
+            @Result(column = "start_time", property = "startTime"),
+            @Result(column = "luck_code_id", property = "luckCodeId"),
+            @Result(column = "round_time", property = "roundTime"),
+            @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "auto_round", property = "autoRound"),
+            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
+            @Result(column = "buy_last_number", property = "byLastNumber"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
+            @Result(column = "state_id", property = "stateId")
+    })
+    List<Commoditys> selectTopTenOnLottery();
 
 
     @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where commodity_type_id  =  #{typeId}")
@@ -188,7 +207,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     })
     List<Commoditys> selectByGuess();
 
-    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state_id from t_commoditys where buy_total_number<#{number}")
+    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state_id from t_commoditys where state_id = 3 and buy_total_number<#{number}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_desc", property = "commodityDesc"),
@@ -207,4 +226,23 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
     })
     List<Commoditys> selectHeight(@Param("number") Integer number);
+
+    @Select("SELECT * FROM t_commoditys where state_id = 1 ORDER by sell_out_time DESC")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(column = "commodity_desc", property = "commodityDesc"),
+            @Result(column = "commodity_type_id", property = "commodityTypeId"),
+            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
+            @Result(column = "buy_total_number", property = "buyTotalNumber"),
+            @Result(column = "start_time", property = "startTime"),
+            @Result(column = "luck_code_id", property = "luckCodeId"),
+            @Result(column = "round_time", property = "roundTime"),
+            @Result(column = "cover_img_url", property = "coverImgUrl"),
+            @Result(column = "auto_round", property = "autoRound"),
+            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
+            @Result(column = "buy_last_number", property = "byLastNumber"),
+            @Result(column = "sell_out_time", property = "sellOutTime"),
+            @Result(column = "state_id", property = "stateId")
+    })
+    List<Commoditys> selectHasTheLotteryComm();
 }

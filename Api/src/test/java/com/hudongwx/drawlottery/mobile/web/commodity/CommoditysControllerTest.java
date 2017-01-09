@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
 import org.testng.annotations.Test;
 
+import javax.annotation.Resource;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -20,6 +22,16 @@ import org.testng.annotations.Test;
  * @email 294786949@qq.com
  */
 public class CommoditysControllerTest extends TestBaseWeb {
+    @Resource
+    CommoditysController commoditysController;
+
+    @Test
+    public void testQueryOnLotteryInfo() throws Exception {
+        JSONObject object = new JSONObject();
+        object.put("page",1);
+        post("/api/v1/pub/commodity/onlottery",object.toJSONString());
+    }
+
     @Test
     public void testQueryTest() throws Exception {
         JSONObject jsonObject=new JSONObject();
@@ -33,6 +45,6 @@ public class CommoditysControllerTest extends TestBaseWeb {
 
     @Override
     public Object getController() {
-        return new CommoditysController();
+        return commoditysController;
     }
 }

@@ -159,8 +159,8 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("id", comm.getId());
         map.put("state", comm.getStateId());
         map.put("name", comm.getName());
-        map.put("imgUrl", Settings.SERVER_URL_PATH +comm.getCoverImgUrl());
-        map.put("currentNumber", comm.getBuyCurrentNumber());
+        map.put("imgUrl", Settings.SERVER_URL_PATH + comm.getCoverImgUrl());
+        map.put("currentNumber", comm.getBuyTotalNumber() - comm.getBuyCurrentNumber());
         map.put("totalNumber", comm.getBuyTotalNumber());
         map.put("detailUrl", comm.getCommodityDescUrl());
         return map;
@@ -204,7 +204,7 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("onState", com.getStateId());//添加是否已开奖状态
         map.put("commodityName", com.getName());//添加商品名
         map.put("buyTotal", com.getBuyTotalNumber());//添加总购买次数
-        map.put("buyCurrent", com.getBuyCurrentNumber());//添加当前购买次数
+        map.put("buyCurrent", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买次数
         map.put("roundTime", com.getRoundTime());//获取当前期数
         map.put("user", 0);//是否参与本商品
         map.put("countDown", 18000l);//倒计时
@@ -225,7 +225,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("name", com.getName());//获取商品名
             map.put("id", com.getId());//获取商品ID
             map.put("state", com.getStateId());//获取状态
-            map.put("buyCurrentNumber", com.getBuyCurrentNumber());//获取当前购买人次
+            map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//获取当前剩余人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//获取总购买人次
             map.put("coverImgUrl", com.getCoverImgUrl());//获取商品封面图片URL
             list.add(map);
@@ -240,7 +240,7 @@ public class CommodityServiceImpl implements ICommodityService {
         img.setCommodityId(commodId);
         List<CommodityImg> select = imgMapper.select(img);
         for (CommodityImg imgs : select) {
-            listImg.add(Settings.SERVER_URL_PATH +imgs.getUrl());
+            listImg.add(Settings.SERVER_URL_PATH + imgs.getUrl());
         }
         return listImg;
     }
@@ -288,7 +288,7 @@ public class CommodityServiceImpl implements ICommodityService {
         String name = select1.get(0).getNickname();
         String headerUrl = select1.get(0).getHeaderUrl();
         map.put("userName", name);//用户名
-        map.put("headerUrl", Settings.SERVER_URL_PATH+headerUrl);//头像地址
+        map.put("headerUrl", Settings.SERVER_URL_PATH + headerUrl);//头像地址
 
         return map;
     }
@@ -368,8 +368,8 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("typeId", com.getCommodityTypeId());//添加商品类型ID
             map.put("commodityName", com.getName());//添加商品名
             map.put("totalNumber", com.getBuyTotalNumber());//添加商品总购买人次
-            map.put("currentNumber", com.getBuyCurrentNumber());//添加商品当前购买人次
-            map.put("headerImg", Settings.SERVER_URL_PATH +com.getCoverImgUrl());//商品封面图URL
+            map.put("currentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//商品剩余
+            map.put("headerImg", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//商品封面图URL
             map.put("state", com.getStateId());//添加商品状态
             listMap.add(map);
         }
@@ -391,16 +391,19 @@ public class CommodityServiceImpl implements ICommodityService {
 
     private List<Map<String, Object>> getOnLotteryMapList(Long accountId, Long commId, Integer page) {
         List<Map<String, Object>> infoList = new ArrayList<>();
-        List<Commoditys> list = null;
+        List<Commoditys> onLotteryList = null;
+        List<Commoditys> sellOutList = null;
         if (null == commId && null != page) {
-            list = ServiceUtils.getPageList(mapper.selectOnLottery(), page);
+            List<Commoditys> list = mapper.selectOnLottery(Settings.MAX_INFO_SIZE);
+            list.addAll(mapper.selectHasTheLotteryComm());
+            onLotteryList = ServiceUtils.getPageList(list, page);
         } else if (null != commId && null == page) {
-            list = new ArrayList<>();
-            list.add(mapper.selectByPrimaryKey(commId));
+            onLotteryList = new ArrayList<>();
+            onLotteryList.add(mapper.selectByPrimaryKey(commId));
         }
         long nowTime = new Date().getTime();
-        for (int i = 0; i < list.size(); i++) {
-            Commoditys comm = list.get(i);
+        for (int i = 0; i < onLotteryList.size(); i++) {
+            Commoditys comm = onLotteryList.get(i);
             Map<String, Object> map = new HashMap<>();
             long sellOutTime = null == comm.getSellOutTime() ? 0 : comm.getSellOutTime().getTime();
             long endTime = sellOutTime + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
@@ -411,6 +414,9 @@ public class CommodityServiceImpl implements ICommodityService {
             if (nowTime < endTime) {
                 residualMinutes = (int) ((endTime - nowTime) / 1000);
             } else {
+                // TODO: 2017/1/9 wertyuiop
+                comm.setStateId(Settings.COMMODITY_STATE_HAS_LOTTERY);
+                mapper.updateByPrimaryKeySelective(comm);
                 UserLuckCodes ulc = new UserLuckCodes();
                 ulc.setLockCodeId(comm.getLuckCodeId());
                 ulc.setCommodityId(comm.getId());
@@ -424,17 +430,18 @@ public class CommodityServiceImpl implements ICommodityService {
                     userNickName = user.getNickname();
                     userHeadImgUrl = user.getHeaderUrl();
                 }
+
             }
             map.put("residualMinutes", residualMinutes);//剩余开奖秒数
-            map.put("userHeadImgUrl", Settings.SERVER_URL_PATH+userHeadImgUrl);//
+            map.put("userHeadImgUrl", Settings.SERVER_URL_PATH + userHeadImgUrl);//
             map.put("userNickName", userNickName);//
             map.put("userPayNum", userPayNum);//
             map.put("id", comm.getId());//商品id
-            map.put("imgUrl", Settings.SERVER_URL_PATH +comm.getCoverImgUrl());//封面图片url
+            map.put("imgUrl", Settings.SERVER_URL_PATH + comm.getCoverImgUrl());//封面图片url
             map.put("currentTime", nowTime);//当前时间
             map.put("detailUrl", comm.getCommodityDescUrl());//详情url
             map.put("desc", comm.getCommodityDesc());//商品描述
-            map.put("state", comm.getStateId());//上商品是否可用
+            map.put("state", comm.getStateId());//上商状态
             map.put("totalNumber", comm.getBuyTotalNumber());//所需总人次
             map.put("roundTime", comm.getRoundTime());//期数
             infoList.add(map);

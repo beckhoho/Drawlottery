@@ -45,7 +45,6 @@ public class UserController extends BaseController {
     ISignInService signInService;
 
     /**
-     *
      * @return
      */
     @ResponseBody
@@ -79,7 +78,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/usercomm/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserCommRecord(@RequestParam("item") Integer item, @RequestParam("page") Integer page) {
-        System.out.println(item+"------------------"+page);
+        System.out.println(item + "------------------" + page);
         List<Map<String, Object>> historyLottery = userService.selectHistoryPay(10000L, item);
         return success(historyLottery);
     }
@@ -114,23 +113,30 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/upload/headimg.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/upload/headimg.do", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject uploadUserImg(HttpServletRequest request) throws IOException {
         BufferedInputStream bis = new BufferedInputStream(request.getInputStream());
         byte[] bytes = TestHttp.readInputStream(bis);
-        String path="C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\userportrait";
-        File file=new File(path,new Date().getTime()+".jpg");
-        if(!file.exists())
+        String path = "C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\userportrait";
+        File file = new File(path, new Date().getTime() + ".jpg");
+        if (!file.exists())
             file.getParentFile().createNewFile();
-        FileOutputStream fos=new FileOutputStream(file);
+        FileOutputStream fos = new FileOutputStream(file);
         fos.write(bytes);
         fos.close();
         return success();
     }
 
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/update/nickname", method = RequestMethod.POST)
-    public JSONObject updateUserNickName(@RequestParam("nickname")String userNickName) throws IOException {
+    @RequestMapping(value = "/api/v1/user/update/nickname", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject updateUserNickName(@RequestParam("nickname") String userNickName) throws IOException {
+
+        return response(true);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/vircomm/exchange", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject exchangePrize(@RequestParam("type") String type, @RequestParam("commId") Long commId) throws IOException {
 
         return response(true);
     }

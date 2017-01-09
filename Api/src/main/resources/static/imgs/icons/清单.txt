@@ -1,0 +1,9 @@
+icon（高中奖率）：imgs/icons/hightwinningrate.png
+
+icon（最新活动）：imgs/icons/newestcampaign.png
+
+icon（每日签到）：imgs/icons/dailyattendance.png
+
+icon（晒单）：imgs/icons/share.png
+
+icon（用户默认头像）：imgs/icons/defaultheadportrait.png
