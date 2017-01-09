@@ -94,4 +94,11 @@ public interface ICommodityService {
      * @return 状态
      */
     public int undercarriage(final List<Integer> commodityIds);
+
+    /**
+     * 通过模糊搜索得到字段结果（限制了结果条数）
+     * @param name 商品名
+     * @return 匹配集合
+     */
+    public List<String> getNames(String name);
 }

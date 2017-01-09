@@ -31,7 +31,7 @@
           IFNULL(type.name,'未知类型')                                                AS typeName,
           IFNULL(state.name, '未知状态')                        AS stateName,
           commodity.ground_time                                     AS groundTime,
-          commodity.undercarriage_date                              AS undercarriageTime,
+          commodity.undercarriage_time                              AS undercarriageTime,
           commodity.view_num                                        AS viewNum,
           commodity.buy_total_number                                AS buyTotalNumber,
           commodity.buy_current_number                              AS buyCurrentNumber,
@@ -124,5 +124,9 @@
                 ASC
             </otherwise>
         </choose>
+    </select>
+    <select id="selectNames" resultType="java.lang.String">
+        <bind name="pattern" value="'%' + name + '%'"/>
+        select DISTINCT name from t_commoditys where name like #{pattern} LIMIT 0,10
     </select>
 </mapper>

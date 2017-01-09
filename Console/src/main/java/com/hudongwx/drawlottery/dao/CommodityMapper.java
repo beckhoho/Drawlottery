@@ -30,4 +30,6 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
      * @return 更新结果
      */
     int updateState(@Param("ids") List<Integer> ids, @Param("state") int state, @Param("groundTime") Date groundTime, @Param("underTime") Date underTime);
+
+    List<String> selectNames(@Param("name") String name);
 }

@@ -2,9 +2,10 @@ package com.hudongwx.drawlottery.web;
 
 import com.github.pagehelper.PageInfo;
 import com.hudongwx.drawlottery.common.base.BaseController;
+import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
-import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.paramBody.AllParamList;
+import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.response.CommodityFiltersResult;
 import com.hudongwx.drawlottery.pojo.Commodity;
 import com.hudongwx.drawlottery.pojo.CommodityState;
@@ -18,10 +19,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -36,7 +40,9 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/commodity", method = RequestMethod.POST)
 public class CommodityController extends BaseController {
-    @Autowired
+    @Resource
+    private ConfigConstants configConstants;
+    @Resource
     private LangConstants langConstants;
     private Logger logger = LoggerFactory.getLogger(CommodityController.class);
     @Resource
@@ -111,12 +117,38 @@ public class CommodityController extends BaseController {
 
     @ApiOperation("得到筛选条件json数据")
     @RequestMapping("/filters")
-    public CommodityFiltersResult getFilters(){
+    public CommodityFiltersResult getFilters() {
         final CommodityFiltersResult commodityFiltersResult = new CommodityFiltersResult();
         commodityFiltersResult.setStates(stateService.getAllState());
         commodityFiltersResult.setTypes(typeService.getAllTypes());
         return commodityFiltersResult;
     }
 
+    @ApiOperation("关键字搜索自动完成数据源")
+    @RequestMapping("/keys")
+    public List<String> getKeys(@ApiParam @RequestParam("key") String name) {
+        return commodityService.getNames(name);
+    }
+
+    @ApiOperation("图片文件上传地址")
+    @RequestMapping("/uploadFile")
+    public AjaxResult uploadFile(@RequestParam("name") String name,
+                                 @RequestParam("file") MultipartFile file) {
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                file.getOriginalFilename();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File(configConstants.getUploadPath() + "/ok.txt")));
+                stream.write(bytes);
+                stream.close();
+                return success("You successfully uploaded " + name + " into " + name + "-uploaded !");
+            } catch (Exception e) {
+                return fail("You failed to upload " + name + " => " + e.getMessage());
+            }
+        } else {
+            return fail("You failed to upload " + name + " because the file was empty.");
+        }
+    }
 }
 

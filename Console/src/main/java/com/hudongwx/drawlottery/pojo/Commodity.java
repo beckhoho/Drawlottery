@@ -10,12 +10,9 @@ public class Commodity {
     public static final int ON_SALE = 3;
     public static final int WILL_SALE = 4;
     public static final int DID_SALE = 5;
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     /**
      * 商品名
      */
@@ -55,52 +52,20 @@ public class Commodity {
      */
     @Column(name = "buy_current_number")
     private Integer buyCurrentNumber;
-
-    /**
-     * 总购买人次
-     */
-    @Column(name = "buy_total_number")
-    private Integer buyTotalNumber;
-
-    public Date getGroundTime() {
-        return groundTime;
-    }
-
-    public void setGroundTime(Date groundTime) {
-        this.groundTime = groundTime;
-        if (groundTime == null) this.setGroundTimeLabel("");
-        else this.setGroundTimeLabel(DateUtils.format(groundTime));
-    }
-
-    public Date getUndercarriageTime() {
-        return undercarriageTime;
-    }
-
-    public void setUndercarriageTime(Date undercarriageTime) {
-        this.undercarriageTime = undercarriageTime;
-        if (undercarriageTime == null) this.setUndercarriageTimeLabel("");
-        else this.setGroundTimeLabel(DateUtils.format(undercarriageTime));
-    }
-
-    public String getGroundTimeLabel() {
-        return groundTimeLabel;
-    }
-
-    public void setGroundTimeLabel(String groundTimeLabel) {
-        this.groundTimeLabel = groundTimeLabel;
-    }
-
-    public String getUndercarriageTimeLabel() {
-        return undercarriageTimeLabel;
-    }
-
-    public void setUndercarriageTimeLabel(String undercarriageTimeLabel) {
-        this.undercarriageTimeLabel = undercarriageTimeLabel;
-    }
-
+    @Column(name = "contact_name")
+    private String contactName;
+    @Column(name = "contact_phone")
+    private String contactPhone;
+    @Column(name = "contact_address")
+    private String contactAddress;
+    @Column(name = "card_type")
+    private Integer cardType;
+    @Column(name = "card_num")
+    private Integer cardNum;
+    @Column(name = "card_money")
+    private Integer cardMoney;
     private String groundTimeLabel;
     private String undercarriageTimeLabel;
-
     /**
      * 上架时间
      */
@@ -110,29 +75,18 @@ public class Commodity {
     /**
      * 下架时间
      */
-    @Column(name = "undercarriage_date")
+    @Column(name = "undercarriage_time")
     private Date undercarriageTime;
 
     /**
      * 剩余购买人次
      */
     private Integer buyNowNumber;
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public Integer getBuyNowNumber() {
-        return buyNowNumber;
-    }
-
-    public void setBuyNowNumber(Integer buyNowNumber) {
-        this.buyNowNumber = buyNowNumber;
-    }
+    /**
+     * 总购买人次
+     */
+    @Column(name = "buy_total_number")
+    private Integer buyTotalNumber;
 
     /**
      * 开抢时间
@@ -194,6 +148,70 @@ public class Commodity {
      */
     @Column(name = "view_num")
     private Long viewNum;
+
+    @Column(name = "content")
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+
+    public Date getGroundTime() {
+        return groundTime;
+    }
+
+    public void setGroundTime(Date groundTime) {
+        this.groundTime = groundTime;
+        if (groundTime == null) this.setGroundTimeLabel("");
+        else this.setGroundTimeLabel(DateUtils.format(groundTime));
+    }
+
+    public Date getUndercarriageTime() {
+        return undercarriageTime;
+    }
+
+    public void setUndercarriageTime(Date undercarriageTime) {
+        this.undercarriageTime = undercarriageTime;
+        if (undercarriageTime == null) this.setUndercarriageTimeLabel("");
+        else this.setGroundTimeLabel(DateUtils.format(undercarriageTime));
+    }
+
+    public String getGroundTimeLabel() {
+        return groundTimeLabel;
+    }
+
+    public void setGroundTimeLabel(String groundTimeLabel) {
+        this.groundTimeLabel = groundTimeLabel;
+    }
+
+    public String getUndercarriageTimeLabel() {
+        return undercarriageTimeLabel;
+    }
+
+    public void setUndercarriageTimeLabel(String undercarriageTimeLabel) {
+        this.undercarriageTimeLabel = undercarriageTimeLabel;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public Integer getBuyNowNumber() {
+        return buyNowNumber;
+    }
+
+    public void setBuyNowNumber(Integer buyNowNumber) {
+        this.buyNowNumber = buyNowNumber;
+    }
 
     /**
      * @return id
@@ -483,5 +501,53 @@ public class Commodity {
 
     public void setStateName(String stateName) {
         this.stateName = stateName;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public String getContactAddress() {
+        return contactAddress;
+    }
+
+    public void setContactAddress(String contactAddress) {
+        this.contactAddress = contactAddress;
+    }
+
+    public Integer getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(Integer cardType) {
+        this.cardType = cardType;
+    }
+
+    public Integer getCardNum() {
+        return cardNum;
+    }
+
+    public void setCardNum(Integer cardNum) {
+        this.cardNum = cardNum;
+    }
+
+    public Integer getCardMoney() {
+        return cardMoney;
+    }
+
+    public void setCardMoney(Integer cardMoney) {
+        this.cardMoney = cardMoney;
     }
 }

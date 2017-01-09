@@ -26,6 +26,12 @@ public class ConfigConstants {
      */
     private String staticServePath;
 
+
+    /**
+     * 文件上传路径
+     */
+    private String uploadPath;
+
     public String getContextPath() {
         return contextPath;
     }
@@ -40,5 +46,13 @@ public class ConfigConstants {
 
     public void setStaticServePath(String staticServePath) {
         this.staticServePath = staticServePath;
+    }
+
+    public String getUploadPath() {
+        return uploadPath;
+    }
+
+    public void setUploadPath(String uploadPath) {
+        this.uploadPath = uploadPath;
     }
 }

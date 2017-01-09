@@ -119,4 +119,15 @@ public class ICommodityServiceImpl implements ICommodityService {
     public int undercarriage(List<Integer> commodityIds) {
         return commodityMapper.updateState(commodityIds, Commodity.DID_SALE, null, new Date());
     }
+
+    /**
+     * 通过模糊搜索得到字段结果（限制了结果条数）
+     *
+     * @param name 商品名
+     * @return 匹配集合
+     */
+    @Override
+    public List<String> getNames(String name) {
+        return commodityMapper.selectNames(name);
+    }
 }

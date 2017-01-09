@@ -114,6 +114,11 @@
       "name": "spring.cross.addAllowedMethod",
       "type": "java.lang.String",
       "description": "Description for spring.cross.addAllowedMethod."
+    },
+    {
+      "name": "spring.upload.upload-path",
+      "type": "java.lang.String",
+      "description": "Description for spring.upload.upload-path."
     }
   ]
 }
