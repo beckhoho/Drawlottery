@@ -143,21 +143,24 @@ public class UserServiceImpl implements IUserService {
             Map<String, Object> map = new HashMap<>();
             CommodityHistory history = comHistoryMapper.selectBycommod(u.getCommodityId());
             User user1 = mapper.selectByPrimaryKey(history.getLuckUserAccountId());
+            List<String> integers = luckUserList(accountId, history.getCommodityId());
             map.put("id", history.getCommodityId());//商品ID
-            map.put("buyNumber", history.getBuyNumber());//添加本用户购买次数
-            map.put("endTime", history.getEndTime());//添加揭晓时间
-            map.put("name", history.getCommodityName());//添加商品名
-            map.put("roundTime", history.getRoundTime());//添加期数
-            map.put("state", 1);//添加状态
-            map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//添加商品封面图URL
             map.put("buyTotalNumber", history.getBuyTotalNumber());//添加当期总需人次
-            map.put("nickname", user1.getNickname());//中奖者昵称
+            map.put("buyCurrentNumber", history.getBuyTotalNumber());//添加当前购买人次
+            map.put("commState", 1);//商品状态
+            map.put("roundTime", history.getRoundTime());//添加期数
+            map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//添加商品封面图URL
+            map.put("commName", history.getCommodityName());//添加商品名
             map.put("userAccountId", accountId);//添加用户ID
+            map.put("userCodesList", integers);//添加用户参与购买的幸运码集合
+            map.put("userBuyNumber", history.getBuyNumber());//添加本用户购买次数
             if (accountId.longValue() == history.getLuckUserAccountId().longValue()) {
-                map.put("userState", 1);//是否中奖者是本用户（是）
+                map.put("isWinner", 1);//是否中奖者是本用户（是）
             } else {
-                map.put("userState", 0);//是否中奖者是本用户（不是）
+                map.put("isWinner", 0);//是否中奖者是本用户（不是）
             }
+            map.put("userNickname", user1.getNickname());//中奖者昵称
+            map.put("endTime", history.getEndTime());//添加揭晓时间
             list.add(map);
         }
         return list;
@@ -166,59 +169,28 @@ public class UserServiceImpl implements IUserService {
     //添加正在进行的商品
     public List<Map<String, Object>> selectToNew(Long accountId) {
         List<Map<String, Object>> list = new ArrayList<>();
-        UserLuckCodes user = new UserLuckCodes();
-        user.setUserAccountId(accountId);
-        List<UserLuckCodes> s1 = luckCodesMapper.select(user);
-        for (UserLuckCodes u : s1) {
+        List<Long> commIdList = luckCodesMapper.selectDistinctGroupByCommId(accountId);
+        for (Long commId : commIdList) {
             Map<String, Object> map = new HashMap<>();
-            Commoditys com = comMapper.selectByPrimaryKey(u.getCommodityId());
+            Commoditys com = comMapper.selectByPrimaryKey(commId);
             List<String> integers = luckUserList(accountId, com.getId());
             map.put("id", com.getId());//添加商品ID
             map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
-            map.put("state", com.getStateId());//添加状态
+            map.put("commState", com.getStateId());//商品状态
             map.put("roundTime", com.getRoundTime());//添加期数
             map.put("coverImgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//添加封面图URL
-            map.put("name", com.getName());//添加商品名
+            map.put("commName", com.getName());//添加商品名
             map.put("userAccountId", accountId);//添加用户ID
-            map.put("codesList", integers);//添加用户参与购买的幸运码集合
-            map.put("payNumber", integers.size());//添加用户本商品购买人次；
+            map.put("userCodesList", integers);//添加用户参与购买的幸运码集合
+            map.put("userBuyNumber", integers.size());//添加用户本商品购买人次；
+            map.put("isWinner", 0);
+            map.put("userNickname", null);//中奖者昵称
+            map.put("endTime", null);//添加揭晓时间
             list.add(map);
         }
         return list;
     }
-// TODO: 2017/1/9 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝
-
-    public List<Map<String, Object>> selectUserComm(Long accountId) {
-        List<Map<String, Object>> infoList = new ArrayList<>();
-
-
-        UserLuckCodes user = new UserLuckCodes();
-        user.setUserAccountId(accountId);
-        List<UserLuckCodes> s1 = luckCodesMapper.select(user);
-        for (UserLuckCodes u : s1) {
-            Map<String, Object> map = new HashMap<>();
-            Commoditys com = comMapper.selectByPrimaryKey(u.getCommodityId());
-            List<String> integers = luckUserList(accountId, com.getId());
-            map.put("id", com.getId());//添加商品ID
-            map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次
-            map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
-            map.put("state", com.getStateId());//添加状态
-            map.put("roundTime", com.getRoundTime());//添加期数
-            map.put("coverImgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//添加封面图URL
-            map.put("name", com.getName());//添加商品名
-            map.put("userAccountId", accountId);//添加用户ID
-            map.put("codesList", integers);//添加用户参与购买的幸运码集合
-            map.put("payNumber", integers.size());//添加用户本商品购买人次；
-            infoList.add(map);
-        }
-
-
-        return infoList;
-    }
-
-    // TODO: 2017/1/9 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝 夺宝
-
 
     //查询用户参与商品购买人次和幸运码
     public List<String> luckUserList(Long accountId, Long commodityId) {
