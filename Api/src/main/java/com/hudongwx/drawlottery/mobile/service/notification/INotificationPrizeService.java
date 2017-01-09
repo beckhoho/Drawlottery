@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.notification;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.NotificationPrize;
 
 import java.util.List;

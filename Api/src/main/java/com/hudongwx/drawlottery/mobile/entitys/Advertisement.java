@@ -30,6 +30,11 @@ public class Advertisement {
     private String imgUrl;
 
     /**
+     * 描述
+     */
+    private String description;
+
+    /**
      * 详情url
      */
     private String url;
@@ -37,7 +42,7 @@ public class Advertisement {
     /**
      * 广告状态
      */
-    private String state;
+    private Integer state;
 
     public Integer getId() {
         return id;
@@ -55,6 +60,14 @@ public class Advertisement {
         this.imgUrl = imgUrl;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -63,11 +76,11 @@ public class Advertisement {
         this.url = url;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 }

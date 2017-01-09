@@ -70,7 +70,8 @@ public class ServiceUtils {
             }
             s.append(i);
             luckCodes.setLockCode(sdf.format(date) + s);
-            mapper.insert(lc);
+            luckCodes.setState(0);
+            mapper.insert(luckCodes);
         }
     }
 }

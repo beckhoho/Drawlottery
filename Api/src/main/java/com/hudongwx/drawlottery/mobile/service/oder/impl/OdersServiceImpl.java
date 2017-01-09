@@ -115,7 +115,6 @@ public class OdersServiceImpl implements IOdersService {
     }
 
     public boolean updateCommodity(List<CommodityAmount> list, Long accountId) {
-
         for (CommodityAmount ca : list) {
             //提交订单前先进行查询，
             Commoditys commodity = comMapper.selectByPrimaryKey(ca.getCommodityId());

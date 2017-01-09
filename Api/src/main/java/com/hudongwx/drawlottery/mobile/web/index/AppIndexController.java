@@ -49,7 +49,7 @@ public class AppIndexController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/index/banner", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject banner() {
-        List<Map<String, Object>> infoList = iService.selectAdvert();
+        List<Map<String, Object>> infoList = adService.selectAdvertisement();
         return success(infoList);
     }
 
@@ -85,7 +85,7 @@ public class AppIndexController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/index/announce", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject announceCommodityInfo() {
-        List<Map<String, Object>> infoList = cService.selectOnLottery(null,1);
+        List<Map<String, Object>> infoList = cService.selectOnLottery(null, 1);
         return success(infoList);
     }
 

@@ -1,8 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.advertisement;
 
-import com.hudongwx.drawlottery.mobile.entitys.Advertisement;
-
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -21,5 +20,5 @@ import java.util.List;
  */
 public interface IAdvertisementService {
 
-    List<Advertisement> queryAdvertisement();
+    List<Map<String, Object>> selectAdvertisement();
 }
