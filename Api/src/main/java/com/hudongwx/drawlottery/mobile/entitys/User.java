@@ -62,6 +62,31 @@ public class User implements Serializable{
     private Integer goldNumber;
 
     /**
+     * QQ——openID
+     */
+    @Column(name = "qq_open_id")
+    private String qqOpenId;
+
+    @Column(name = "weixin_open_id")
+    private String weixinOpenId;
+
+    public String getQqOpenId() {
+        return qqOpenId;
+    }
+
+    public void setQqOpenId(String qqOpenId) {
+        this.qqOpenId = qqOpenId;
+    }
+
+    public String getWeixinOpenId() {
+        return weixinOpenId;
+    }
+
+    public void setWeixinOpenId(String weixinOpenId) {
+        this.weixinOpenId = weixinOpenId;
+    }
+
+    /**
      * @return id
      */
     public Long getAccountId() {

@@ -39,6 +39,20 @@ public class UserLuckCodes {
     @Column(name = "orders_id")
     private Long ordersId;
 
+    /**
+     * IP地址
+     */
+    @Column(name = "address_ip")
+    private String addressIp;
+
+    public String getAddressIp() {
+        return addressIp;
+    }
+
+    public void setAddressIp(String addressIp) {
+        this.addressIp = addressIp;
+    }
+
     public Long getOrdersId() {
         return ordersId;
     }

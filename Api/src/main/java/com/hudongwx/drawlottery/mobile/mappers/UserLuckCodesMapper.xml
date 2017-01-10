@@ -11,5 +11,6 @@
         <result column="user_account_id" jdbcType="BIGINT" property="commdityId"/>
         <result column="buy_date" jdbcType="TIMESTAMP" property="buyDate"/>
         <result column="orders_id" jdbcType="BIGINT" property="ordersId"/>
+        <result column="address_ip" jdbcType="VARCHAR" property="addressIp"/>
     </resultMap>
 </mapper>

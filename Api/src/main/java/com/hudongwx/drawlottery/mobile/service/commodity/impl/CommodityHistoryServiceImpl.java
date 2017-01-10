@@ -70,7 +70,7 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService{
             map.put("endTime",comHis.getEndTime());//添加揭晓时间；
             map.put("coverImgUrl",comHis.getCoverImgUrl());//添加商品封面图
             map.put("exchangeState",comHis.getExchangeState());
-            //添加兑换状态（1：已选择兑换方式，2：卡密兑换方式派发成功，3：商品派发，4：晒单）
+            //添加兑换状态（1：已选择兑换方式，2：卡密兑换方式派发成功，3：商品派发成功，4：晒单成功）
             mapList.add(map);
         }
         return mapList;

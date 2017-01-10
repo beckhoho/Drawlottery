@@ -15,5 +15,7 @@
     <result column="current_state" jdbcType="INTEGER" property="currentState" />
     <result column="header_url" jdbcType="INTEGER" property="headerUrl" />
     <result column="gold_number" jdbcType="INTEGER" property="goldNumber" />
+    <result column="qq_open_id" jdbcType="VARCHAR" property="qqOpenId"/>
+    <result column="weixin_open_id" jdbcType="VARCHAR" property="weixinOpenId"/>
   </resultMap>
 </mapper>
