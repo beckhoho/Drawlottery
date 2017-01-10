@@ -3,6 +3,8 @@ package com.hudongwx.drawlottery.mobile.web.user;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityExchangeService;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
+import com.hudongwx.drawlottery.mobile.service.commodity.IVirtualCommodityService;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ public class CommodityExchangeController extends BaseController {
     ICommodityExchangeService ceService;
     @Autowired
     ICommodityHistoryService chService;
+    @Autowired
+    IVirtualCommodityService vcService;
 
     /**
      * 查询商品兑换方式
@@ -69,15 +73,15 @@ public class CommodityExchangeController extends BaseController {
     }
 
     /**
-     * 兑换充值卡
+     * 兑换充值卡(查看卡密)
      *
-     * @param commId
+     * @param cardNumber
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/exc", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToRechargeCard(@RequestParam("commId") Long commId) {
-        return success();
+    public JSONObject exchangeToRechargeCard(@RequestParam("cardNumber") String cardNumber) {
+        return success("操作成功！", vcService.updateCardStateByCardNumber(cardNumber, Settings.PASSWORD_VIEWED));
     }
 
     /**
@@ -90,7 +94,7 @@ public class CommodityExchangeController extends BaseController {
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCard(@RequestParam("commId") Long commId) {
         // TODO: 2017/1/10 更换用户Id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        return success(chService.selectCard(10000L,commId));
+        return success(chService.selectCard(10000L, commId));
     }
 
     /**
@@ -103,7 +107,7 @@ public class CommodityExchangeController extends BaseController {
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCardInfo(@RequestParam("commId") Long commId) {
         // TODO: 2017/1/10 更换用户Id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        return success(chService.selectUserPrize(10000L,commId));
+        return success(chService.selectUserPrize(10000L, commId));
     }
 
     /**

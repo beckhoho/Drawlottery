@@ -107,15 +107,24 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
     }
 
     public Map<String, Object> demo2(Long commodityId, Map<String, Object> map) {
-        List<String> list = new ArrayList<>();
         VirtualCommodity v = new VirtualCommodity();
         v.setCommodityId(commodityId);
         List<VirtualCommodity> vc = virtMapper.select(v);
         map.put("size", vc.size());//添加有几张充值卡
+        int worth = 0;
+        String pwd = null;
+        List<Map<String, Object>> list = new ArrayList<>();
         for (VirtualCommodity vir : vc) {
-            list.add(vir.getCardNumber());
-            map.put("worth", vir.getWorth());//添加面额
+            worth += vir.getWorth();
+            Map<String, Object> map1 = new HashMap<>();
+            map1.put("cardNumber", vir.getCardNumber());
+            if (vir.getState() == Settings.PASSWORD_VIEWED)
+                pwd = vir.getPassword();
+            map1.put("password", pwd);
+            map1.put("state", vir.getState());
+            list.add(map1);
         }
+        map.put("worth", worth);//添加面额
         map.put("cardList", list);
         return map;
     }

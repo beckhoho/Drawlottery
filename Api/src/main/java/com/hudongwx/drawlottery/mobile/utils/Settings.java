@@ -243,4 +243,14 @@ public class Settings {
      */
     public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL=1000*60*3;
 
+    /**
+     * 卡密已查看
+     */
+    public static final int PASSWORD_VIEWED=1;
+    /**
+     * 卡密未被查看
+     */
+    public static final int PASSWORD_NOT_VIEWED=0;
+
+
 }

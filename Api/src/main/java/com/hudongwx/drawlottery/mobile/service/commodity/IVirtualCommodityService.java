@@ -20,7 +20,7 @@ import java.util.Map;
  * <p>
  * @email 346905702@qq.com
  */
-public interface IPrepaidCardService {
+public interface IVirtualCommodityService {
 
     //添加虚拟充值卡
     boolean addCard(VirtualCommodity card);
@@ -32,5 +32,5 @@ public interface IPrepaidCardService {
     List<Map<String,Object>> selectUserCard(Long accountId);
 
     //修改
-    boolean updateUserCard(VirtualCommodity card);
+    String updateCardStateByCardNumber(String cardNumber, int state);
 }
