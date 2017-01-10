@@ -65,6 +65,20 @@ public class CommodityHistory {
     private Integer buyTotalNumber;
 
     /**
+     * 兑换状态
+     */
+    @Column(name = "exchange_state")
+    private Integer exchangeState;
+
+    public Integer getExchangeState() {
+        return exchangeState;
+    }
+
+    public void setExchangeState(Integer exchangeState) {
+        this.exchangeState = exchangeState;
+    }
+
+    /**
      * 本期总需人数
      */
     private Integer genre;

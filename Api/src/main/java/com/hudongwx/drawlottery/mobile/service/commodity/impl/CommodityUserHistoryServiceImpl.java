@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
+import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityUserHistory;
 import com.hudongwx.drawlottery.mobile.mappers.CommodityUserHistoryMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityUserHistoryService;
@@ -62,4 +63,5 @@ public class CommodityUserHistoryServiceImpl implements ICommodityUserHistorySer
         }
         return mapList;
     }
+
 }

@@ -15,7 +15,7 @@
         <result column="luck_user_account_id" jdbcType="BIGINT" property="luckUserAccountId"/>
         <result column="cover_img_url" jdbcType="VARCHAR" property="coverImgUrl"/>
         <result column="genre" jdbcType="INTEGER" property="genre"/>
-
+        <result column="exchange_state" jdbcType="INTEGER" property="exchangeState"/>
         <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
     </resultMap>
 </mapper>
