@@ -136,7 +136,7 @@ public class Settings {
     /**
      * 商品售卖中
      */
-    public static final int COMMODITY_STATE_NO_SALE = 3;
+    public static final int COMMODITY_STATE_ON_SALE = 3;
 
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*commodity(商品)*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
@@ -241,6 +241,6 @@ public class Settings {
     /**
      * 设置开奖延后时长
      */
-    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL=1000*60*10;
+    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL=1000*60*3;
 
 }

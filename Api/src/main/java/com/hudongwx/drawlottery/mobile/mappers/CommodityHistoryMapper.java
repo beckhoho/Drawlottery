@@ -21,7 +21,7 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
             @Result(column = "round_time", property = "roundTime"),
             @Result(column = "end_time", property = "endTime")
     })
-    CommodityHistory selectBycommodId(@Param("commodName") String commodName, @Param("roundTime") Long roundTime);
+    CommodityHistory selectBycommodId(@Param("commodName") String commodName, @Param("roundTime") String roundTime);
 
 
     @Select("select * from t_commodity_history where commodity_id = #{cmmodId}")

@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
+import java.util.Date;
 
 @Table(name = "t_user_luck_codes_history")
 public class UserCodesHistory {
@@ -37,7 +37,7 @@ public class UserCodesHistory {
      * 购买时间
      */
     @Column(name = "buy_date")
-    private Data buyDate;
+    private Date buyDate;
 
     /**
      * IP地址
@@ -53,11 +53,11 @@ public class UserCodesHistory {
         this.roundTime = roundTime;
     }
 
-    public Data getBuyDate() {
+    public Date getBuyDate() {
         return buyDate;
     }
 
-    public void setBuyDate(Data buyDate) {
+    public void setBuyDate(Date buyDate) {
         this.buyDate = buyDate;
     }
 

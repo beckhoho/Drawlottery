@@ -3,6 +3,8 @@ package com.hudongwx.drawlottery.mobile.mappers;
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityExchange;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -22,9 +24,13 @@ import java.util.List;
  * <p>
  * @email 346905702@qq.com
  */
-public interface CommodityExchangeMapper extends BaseMapper<CommodityExchange>{
+public interface CommodityExchangeMapper extends BaseMapper<CommodityExchange> {
 
     @Select("select * from t_commodity_exchange where commodity_id = #{commodityId}")
+    @Results({
+            @Result(column = "commodity_id", property = "commodityId"),
+            @Result(column = "exchange_way_id", property = "exchangeWayId")
+    })
     List<CommodityExchange> selectByCommodityId(@Param("commodityId") Long commodityId);
 
 }

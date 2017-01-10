@@ -29,7 +29,7 @@ public class LuckCodesServiceImplTest extends TestBaseMapper {
     @Test
     public void testCreateLuckCode() throws Exception {
         //生成商品LuckCode;
-        Long commId=7L;//要生成对应luckcode的商品Id;
+        Long commId=9L;//要生成对应luckcode的商品Id;
         boolean rebuild=true;
         boolean b = luckService.createLuckCode(commId,rebuild);
         Assert.assertTrue(b);

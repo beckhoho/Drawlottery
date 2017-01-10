@@ -1,9 +1,9 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityExchange;
-import com.sun.xml.internal.ws.api.ComponentEx;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -32,5 +32,5 @@ public interface ICommodityExchangeService {
     boolean updateExchange(CommodityExchange exchange);
 
     //查看商品兑换方式对应
-    List<CommodityExchange> selectByCommodityId(Long commodityId);
+    List<Map<String, Object>> selectByCommodityId(Long commId);
 }

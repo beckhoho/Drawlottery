@@ -16,7 +16,7 @@ import java.util.Map;
  * <p>
  * 创建　kiter　2016/12/22 16:07　<br/>
  * <p>
- *          历史商品service接口
+ * 历史商品service接口
  * <p>
  * @email 346905702@qq.com
  */
@@ -29,8 +29,8 @@ public interface ICommodityHistoryService {
     CommodityHistory selectHistoryCommod();
 
     //查看user充值卡
-    List<Map<String,Object>> selectCard(Long accountId, Long commodityID);
+    List<Map<String, Object>> selectCard(Long accountId, Long commodityID);
 
     //奖品领取详情
-    List<Map<String,Object>> selectUserPrize(Long commodityId);
+    Map<String, Object> selectUserPrize(Long accountId, Long commodityId);
 }

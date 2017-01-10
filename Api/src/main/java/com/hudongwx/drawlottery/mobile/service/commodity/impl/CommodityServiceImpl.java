@@ -174,13 +174,13 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return 返回正在开奖的商品
      */
     @Override
-    public List<Map<String, Object>> selectOnLottery(Long accountId, Integer page) {
-        return getOnLotteryMapList(accountId, null, page);
+    public List<Map<String, Object>> selectOnLottery(Integer page) {
+        return getOnLotteryMapList(null, page);
     }
 
     @Override
-    public List<Map<String, Object>> selectOneOnLottery(Long accountId, Long commId) {
-        return getOnLotteryMapList(accountId, commId, null);
+    public List<Map<String, Object>> selectOneOnLottery(Long commId) {
+        return getOnLotteryMapList(commId, null);
     }
 
     /**
@@ -193,8 +193,7 @@ public class CommodityServiceImpl implements ICommodityService {
         Commoditys com = mapper.selectByPrimaryKey(commodId);
         Map<String, Object> map = new HashMap<>();
         if (com.getStateId() == 3) {//如果未开奖
-            String roundTime = com.getRoundTime();
-            CommodityHistory comh = historyMapper.selectBycommodId(com.getName(), Long.valueOf(roundTime));
+            CommodityHistory comh = historyMapper.selectBycommodId(com.getName(), com.getRoundTime());
             map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
         }
         if (com.getStateId() == 1) {//如果已开奖
@@ -298,11 +297,12 @@ public class CommodityServiceImpl implements ICommodityService {
         userLuck.setCommodityId(commodId);
         userLuck.setUserAccountId(userAccountId);
         List<UserLuckCodes> select = userluckMapper.select(userLuck);
-        if (select.size() == 0) {
-            select = new ArrayList<>();
+        Date buyDate = null;
+        int size = 0;
+        if (!select.isEmpty()) {
+            size = select.size();
+            buyDate = select.get(0).getBuyDate();
         }
-        Date buyDate = select.get(0).getBuyDate();
-        int size = select.size();
         map.put("partakeNumber", size);//参与人次
         map.put("buyDate", buyDate);//添加时间
         return map;
@@ -340,19 +340,19 @@ public class CommodityServiceImpl implements ICommodityService {
 
     //已分类的商品名搜索
     public List<Map<String, Object>> type1(Integer categoryId, String commName, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByTypeAndName("%" + commName + "%", categoryId), page);
+        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByTypeAndName("%" + commName + "%", categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
         return forPut(list);
     }
 
     //已分类商品搜索
     public List<Map<String, Object>> byType(Integer categoryId, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByType(categoryId), page);
+        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByType(categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
         return forPut(list);
     }
 
     //未分类的商品名搜索
     public List<Map<String, Object>> type4(String commName, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByName("%" + commName + "%"), page);
+        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE), page);
         return forPut(list);
     }
 
@@ -386,10 +386,9 @@ public class CommodityServiceImpl implements ICommodityService {
         return forPut(list);
     }
 
-    private List<Map<String, Object>> getOnLotteryMapList(Long accountId, Long commId, Integer page) {
+    private List<Map<String, Object>> getOnLotteryMapList(Long commId, Integer page) {
         List<Map<String, Object>> infoList = new ArrayList<>();
         List<Commoditys> onLotteryList = null;
-        List<Commoditys> sellOutList = null;
         if (null == commId && null != page) {
             List<Commoditys> list = mapper.selectOnLottery(Settings.MAX_INFO_SIZE);
             list.addAll(mapper.selectHasTheLotteryComm());
@@ -411,7 +410,6 @@ public class CommodityServiceImpl implements ICommodityService {
             if (nowTime < endTime) {
                 residualMinutes = (int) ((endTime - nowTime) / 1000);
             } else {
-                // TODO: 2017/1/9 wertyuiop
                 comm.setStateId(Settings.COMMODITY_STATE_HAS_LOTTERY);
                 mapper.updateByPrimaryKeySelective(comm);
                 UserLuckCodes ulc = new UserLuckCodes();
@@ -427,7 +425,6 @@ public class CommodityServiceImpl implements ICommodityService {
                     userNickName = user.getNickname();
                     userHeadImgUrl = user.getHeaderUrl();
                 }
-
             }
             map.put("residualMinutes", residualMinutes);//剩余开奖秒数
             map.put("userHeadImgUrl", Settings.SERVER_URL_PATH + userHeadImgUrl);//
@@ -461,7 +458,6 @@ public class CommodityServiceImpl implements ICommodityService {
         luckCodes.setLockCode(luckCode);
         luckCodes.setCommodityId(commodityId);
         List<LuckCodes> codes = luckCodeMapper.select(luckCodes);
-
         Long codeId = codes.get(0).getId();
         UserLuckCodes userLuckCodes = new UserLuckCodes();
         userLuckCodes.setLockCodeId(codeId);
