@@ -3,7 +3,9 @@ package com.hudongwx.drawlottery.service.commodity.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hudongwx.drawlottery.dao.CommodityMapper;
+import com.hudongwx.drawlottery.dao.CommodityTemplateMapper;
 import com.hudongwx.drawlottery.pojo.Commodity;
+import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 import com.hudongwx.drawlottery.service.commodity.ICommodityService;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,9 @@ public class ICommodityServiceImpl implements ICommodityService {
     @Resource
     private CommodityMapper commodityMapper;
 
+    @Resource
+    private CommodityTemplateMapper tempMapper;
+
     /**
      * 获取商品列表.
      *
@@ -45,9 +50,9 @@ public class ICommodityServiceImpl implements ICommodityService {
      */
     @Override
     public PageInfo<Commodity> getCommodities(int currentPage, int pageSize, String key, List<Integer> genre,
-                                              List<Integer> type, List<Integer> state, Date groundTimeFront,
-                                              Date groundTimeAfter, Date undercarriageTimeFront,
-                                              Date undercarriageTimeAfter, final int order, int direction, int valid) {
+                                                      List<Integer> type, List<Integer> state, Date groundTimeFront,
+                                                      Date groundTimeAfter, Date undercarriageTimeFront,
+                                                      Date undercarriageTimeAfter, final int order, int direction, int valid) {
         PageHelper.startPage(currentPage, pageSize);
         final List<Commodity> commodities = commodityMapper.selectCommodities(key, genre, type, state, groundTimeFront,
                 groundTimeAfter, undercarriageTimeFront, undercarriageTimeAfter, order, direction, valid);
@@ -61,29 +66,34 @@ public class ICommodityServiceImpl implements ICommodityService {
      * @return 商品
      */
     @Override
-    public Commodity getCommodityById(int id) {
+    public CommodityTemplate getCommodityById(int id) {
         return null;
     }
 
     /**
      * 添加商品.
      *
-     * @param commodity 商品实体类
+     * @param commodityTemplate 商品实体类
      * @return 状态
      */
     @Override
-    public int addCommodity(Commodity commodity) {
-        return commodityMapper.insertSelective(commodity);
+    public int addCommodityTemplate(CommodityTemplate commodityTemplate) {
+        if(new Date().after(commodityTemplate.getGroundTime()))
+            commodityTemplate.setStateId(CommodityTemplate.WILL_SALE);
+        else
+            commodityTemplate.setStateId(CommodityTemplate.ON_SALE);
+
+        return tempMapper.insertSelective(commodityTemplate);
     }
 
     /**
      * 修改商品信息.
      *
-     * @param commodity 修改实体类
+     * @param commodityTemplate 修改实体类
      * @return 状态
      */
     @Override
-    public int updateCommodity(Commodity commodity) {
+    public int updateCommodity(CommodityTemplate commodityTemplate) {
         return 0;
     }
 
@@ -106,7 +116,7 @@ public class ICommodityServiceImpl implements ICommodityService {
      */
     @Override
     public int ground(List<Integer> commodityIds) {
-        return commodityMapper.updateState(commodityIds, Commodity.ON_SALE, new Date(), null);
+        return commodityMapper.updateState(commodityIds, CommodityTemplate.ON_SALE, new Date(), null);
     }
 
     /**
@@ -117,7 +127,7 @@ public class ICommodityServiceImpl implements ICommodityService {
      */
     @Override
     public int undercarriage(List<Integer> commodityIds) {
-        return commodityMapper.updateState(commodityIds, Commodity.DID_SALE, null, new Date());
+        return commodityMapper.updateState(commodityIds, CommodityTemplate.DID_SALE, null, new Date());
     }
 
     /**
@@ -130,4 +140,5 @@ public class ICommodityServiceImpl implements ICommodityService {
     public List<String> getNames(String name) {
         return commodityMapper.selectNames(name);
     }
+
 }

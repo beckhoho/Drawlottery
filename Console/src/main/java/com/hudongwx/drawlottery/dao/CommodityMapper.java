@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface CommodityMapper extends BaseMapper<Commodity> {
     public List<Commodity> selectCommodities(@Param("key") String key,
-                                             @Param("genre") List<Integer> genre,
-                                             @Param("type") List<Integer> type,
-                                             @Param("state") List<Integer> state,
-                                             @Param("groundTimeFront") Date groundTimeFront,
-                                             @Param("groundTimeAfter") Date groundTimeAfter,
-                                             @Param("undercarriageTimeFront") Date undercarriageTimeFront,
-                                             @Param("undercarriageTimeAfter") Date undercarriageTimeAfter,
-                                             @Param("order") int order, @Param("direction") int direction, @Param("valid") int valid);
+                                                     @Param("genre") List<Integer> genre,
+                                                     @Param("type") List<Integer> type,
+                                                     @Param("state") List<Integer> state,
+                                                     @Param("groundTimeFront") Date groundTimeFront,
+                                                     @Param("groundTimeAfter") Date groundTimeAfter,
+                                                     @Param("undercarriageTimeFront") Date undercarriageTimeFront,
+                                                     @Param("undercarriageTimeAfter") Date undercarriageTimeAfter,
+                                                     @Param("order") int order, @Param("direction") int direction, @Param("valid") int valid);
 
     int batchDelete(@Param("commodityId") List<Integer> commodityId);
 

@@ -5,10 +5,12 @@ import com.hudongwx.drawlottery.common.base.BaseController;
 import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.dto.paramBody.AllParamList;
+import com.hudongwx.drawlottery.common.dto.paramBody.TempBody;
 import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.response.CommodityFiltersResult;
 import com.hudongwx.drawlottery.pojo.Commodity;
 import com.hudongwx.drawlottery.pojo.CommodityState;
+import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 import com.hudongwx.drawlottery.pojo.CommodityType;
 import com.hudongwx.drawlottery.service.commodity.ICommodityService;
 import com.hudongwx.drawlottery.service.commodity.IStateService;
@@ -26,6 +28,7 @@ import javax.annotation.Resource;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -80,12 +83,13 @@ public class CommodityController extends BaseController {
 
     @ApiOperation("添加/修改商品")
     @RequestMapping("/save")
-    public AjaxResult addCommodity(@ApiParam("有id则为修改，无id则为删除") @RequestBody Commodity commodity) {
-        if (commodity.getId() == null) {
-            commodityService.addCommodity(commodity);
+    public AjaxResult addCommodity(@ApiParam("有id则为修改，无id则为删除") @RequestBody TempBody body) {
+        final CommodityTemplate commodityTemplate = body.packingMe();
+        if (commodityTemplate.getId() == null) {
+            commodityService.addCommodityTemplate(commodityTemplate);
             return success(langConstants.getLang(langConstants.ADD_COMMODITY_SUCCESS));
         }
-        commodityService.updateCommodity(commodity);
+        commodityService.updateCommodity(commodityTemplate);
         return success(langConstants.getLang(langConstants.UPDATE_COMMODITY_SUCCESS));
     }
 
@@ -149,6 +153,24 @@ public class CommodityController extends BaseController {
         } else {
             return fail("You failed to upload " + name + " because the file was empty.");
         }
+    }
+
+    @ApiOperation("图片上传地址")
+    @RequestMapping("/uploadImage")
+    public AjaxResult uploadImage(@RequestParam MultipartFile file) {
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                final BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(configConstants.getUploadPath() + "/image.jpg")));
+                stream.write(bytes);
+                stream.close();
+                return success("上传成功");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return fail("上传失败");
+            }
+        }
+        return fail("上传失败");
     }
 }
 

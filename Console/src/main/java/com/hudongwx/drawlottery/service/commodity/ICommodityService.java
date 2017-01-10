@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.service.commodity;
 
 import com.github.pagehelper.PageInfo;
 import com.hudongwx.drawlottery.pojo.Commodity;
+import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 
 import java.util.Date;
 import java.util.List;
@@ -53,23 +54,23 @@ public interface ICommodityService {
      * @param id 商品id
      * @return 商品
      */
-    public Commodity getCommodityById(final int id);
+    public CommodityTemplate getCommodityById(final int id);
 
     /**
      * 添加商品.
      *
-     * @param commodity 商品实体类
+     * @param commodityTemplate 商品实体类
      * @return 状态
      */
-    public int addCommodity(final Commodity commodity);
+    public int addCommodityTemplate(final CommodityTemplate commodityTemplate);
 
     /**
      * 修改商品信息.
      *
-     * @param commodity 修改实体类
+     * @param commodityTemplate 修改实体类
      * @return 状态
      */
-    public int updateCommodity(final Commodity commodity);
+    public int updateCommodity(final CommodityTemplate commodityTemplate);
 
     /**
      * 批量删除商品.
