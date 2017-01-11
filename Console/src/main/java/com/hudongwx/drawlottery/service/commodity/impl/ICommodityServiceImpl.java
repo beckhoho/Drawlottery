@@ -112,7 +112,7 @@ public class ICommodityServiceImpl implements ICommodityService {
         else
             commodityTemplate.setStateId(CommodityTemplate.ON_SALE);
         commodityTemplate.setValid(1);
-        commodityTemplate.setCoverImgUrl("http://pic93.nipic.com/file/20160318/20584984_105122996275_2.jpg");
+        //commodityTemplate.setCoverImgUrl("http://pic93.nipic.com/file/20160318/20584984_105122996275_2.jpg");
         return tempMapper.insert(commodityTemplate);
     }
 

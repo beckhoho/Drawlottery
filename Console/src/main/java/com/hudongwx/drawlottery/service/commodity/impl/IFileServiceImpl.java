@@ -3,8 +3,6 @@ package com.hudongwx.drawlottery.service.commodity.impl;
 import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.exceptions.ServiceException;
-import com.hudongwx.drawlottery.dao.ConnectFilePathMapper;
-import com.hudongwx.drawlottery.pojo.ConnectFilePath;
 import com.hudongwx.drawlottery.service.commodity.IFileService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,8 +28,6 @@ public class IFileServiceImpl implements IFileService {
     private ConfigConstants configConstants;
     @Resource
     private LangConstants langConstants;
-    @Resource
-    private ConnectFilePathMapper connectFilePathMapper;
 
     /**
      * 文件上传功能
@@ -44,7 +40,7 @@ public class IFileServiceImpl implements IFileService {
         try {
             byte[] bytes = file.getBytes();
             final String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            final int hash = fileName.hashCode();
+            /*final int hash = fileName.hashCode();
             final String hashChar = Integer.toHexString(hash);//转成十六进制（长度为8） 每一位生成一个文件夹（每一级最多16个目录）
             char[] hss = hashChar.toCharArray();//转为char型数组，用于分目录
             String path = configConstants.getUploadPath();
@@ -58,26 +54,20 @@ public class IFileServiceImpl implements IFileService {
             }
             final BufferedOutputStream stream = new BufferedOutputStream(
                     new FileOutputStream(
-                            new File(path + contain, fileName)));
+                            new File(path + contain, fileName)));*/
+            String path = configConstants.getUploadPath();
+            if (!new File(path).exists() && !new File(path).mkdirs()) {
+                throw new ServiceException("文件目录生成失败！");
+            }
+            final BufferedOutputStream stream = new BufferedOutputStream(
+                    new FileOutputStream(
+                            new File(path, fileName)));
             stream.write(bytes);
             stream.close();
-            rememberFilePath(fileName, contain);
+//            rememberFilePath(fileName, contain);
             return fileName;
         } catch (IOException e) {
             throw new ServiceException("文件上传失败");
         }
-    }
-
-    @Override
-    public void rememberFilePath(String fileName, String path) {
-        ConnectFilePath connectFilePath = new ConnectFilePath();
-        connectFilePath.setFileName(fileName);
-        connectFilePath.setPath(path);
-        connectFilePathMapper.insert(connectFilePath);
-    }
-
-    @Override
-    public String getPath(String fileName) {
-        return connectFilePathMapper.getPath(fileName);
     }
 }
