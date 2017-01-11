@@ -14,7 +14,6 @@ public class AjaxResult {
      * 返回结果
      */
     private boolean success;
-
     /**
      * 返回信息
      */
@@ -24,6 +23,7 @@ public class AjaxResult {
      * 返回数据
      */
     private Object data;
+
     public AjaxResult(boolean success) {
         this.success = success;
         this.message = "";
@@ -120,5 +120,4 @@ public class AjaxResult {
     public void setData(Object data) {
         this.data = data;
     }
-
 }

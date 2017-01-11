@@ -1,12 +1,19 @@
 package com.hudongwx.drawlottery.web;
 
 import com.hudongwx.drawlottery.common.base.BaseController;
+import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.dto.response.MenuResult;
 import com.hudongwx.drawlottery.pojo.User;
+import com.hudongwx.drawlottery.service.commodity.IFileService;
 import com.hudongwx.drawlottery.service.user.IUserService;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -20,12 +27,18 @@ import java.util.Map;
  * @author <a href="http://userwu.github.io">wuhongxu</a>.
  * @version 1.0.0
  */
-@RestController
+@Controller
 public class MainController extends BaseController {
     @Resource
     private IUserService userService;
     @Resource
     private LangConstants langConstants;
+    @Resource
+    private ResourceLoader resourceLoader;
+    @Resource
+    private ConfigConstants configConstants;
+    @Resource
+    private IFileService fileService;
 
     @RequestMapping("/")
     public ModelAndView main() {
@@ -37,6 +50,7 @@ public class MainController extends BaseController {
     }
 
     @RequestMapping("/getMenuResult")
+    @ResponseBody
     public MenuResult getMenuResult() {
         return new MenuResult(new String[]{
                 langConstants.getLang(langConstants.MAIN),
@@ -49,5 +63,18 @@ public class MainController extends BaseController {
                 langConstants.getLang(langConstants.FEEDBACK),
                 langConstants.getLang(langConstants.MESSAGE_MANAGEMENT)
         });
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{filename:.+}")
+    public ResponseEntity<?> getFile(@PathVariable String filename) {
+        //return ResponseEntity.notFound().build();
+        final String path = fileService.getPath(filename);
+        if (path == null)
+            return ResponseEntity.notFound().build();
+        try {
+            return ResponseEntity.ok(resourceLoader.getResource("file:" + configConstants.getUploadPath() + filename));
+        } catch (RuntimeException ignored) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

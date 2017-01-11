@@ -39,6 +39,51 @@ public class LangConstants {
     }
 
     /**
+     * 常量字段 首页 .
+     */
+    public final String MAIN = "MAIN";
+
+    /**
+     * 常量字段 商品管理 .
+     */
+    public final String COMMODITY_MANAGEMENT = "COMMODITY_MANAGEMENT";
+
+    /**
+     * 常量字段 订单管理 .
+     */
+    public final String ORDER_MANAGEMENT = "ORDER_MANAGEMENT";
+
+    /**
+     * 常量字段 用户管理 .
+     */
+    public final String USER_MANAGEMENT = "USER_MANAGEMENT";
+
+    /**
+     * 常量字段 晒单管理 .
+     */
+    public final String SHARE_MANAGEMENT = "SHARE_MANAGEMENT";
+
+    /**
+     * 常量字段 积分管理 .
+     */
+    public final String INTEGRAL_MANAGEMENT = "INTEGRAL_MANAGEMENT";
+
+    /**
+     * 常量字段 广告管理 .
+     */
+    public final String AD_MANAGEMENT = "AD_MANAGEMENT";
+
+    /**
+     * 常量字段 留言反馈 .
+     */
+    public final String FEEDBACK = "FEEDBACK";
+
+    /**
+     * 常量字段 消息管理 .
+     */
+    public final String MESSAGE_MANAGEMENT = "MESSAGE_MANAGEMENT";
+
+    /**
      * 常量字段 添加 .
      */
     public final String ADD = "ADD";
@@ -100,6 +145,10 @@ public class LangConstants {
      * 常量字段 修改商品成功 .
      */
     public final String UPDATE_COMMODITY_SUCCESS = "UPDATE_COMMODITY_SUCCESS";
+    /**
+     * 常量字段 删除商品成功 .
+     */
+    public final String DELETE_COMMODITY_SUCCESS = "DELETE_COMMODITY_SUCCESS";
 
     /**
      * 常量字段 上架商品成功 .
@@ -112,49 +161,27 @@ public class LangConstants {
     public final String UNDERCARRIAGE_COMMODITY_SUCCESS = "UNDERCARRIAGE_COMMODITY_SUCCESS";
 
     /**
-     * 常量字段 首页 .
+     * 常量字段 下架时间不能为空 .
      */
-    public final String MAIN = "MAIN";
+    public final String GROUND_TIME_NOT_NULL = "GROUND_TIME_NOT_NULL";
+    /**
+     * 常量字段 标题不能为空 .
+     */
+    public final String TITLE_IS_NOT_NULL = "TITLE_IS_NOT_NULL";
+    /**
+     * 常量字段 必须有分类 .
+     */
+    public final String TYPE_NOT_NULL = "TYPE_NOT_NULL";
 
     /**
-     * 常量字段 商品管理 .
+     * 常量字段 属性不能为空 .
      */
-    public final String COMMODITY_MANAGEMENT = "COMMODITY_MANAGEMENT";
+    public final String GENRE_NOT_NULL = "GENRE_NOT_NULL";
 
     /**
-     * 常量字段 订单管理 .
+     * 常量字段 必须选择至少一种分配方式 .
      */
-    public final String ORDER_MANAGEMENT = "ORDER_MANAGEMENT";
-
-    /**
-     * 常量字段 用户管理 .
-     */
-    public final String USER_MANAGEMENT = "USER_MANAGEMENT";
-
-    /**
-     * 常量字段 晒单管理 .
-     */
-    public final String SHARE_MANAGEMENT = "SHARE_MANAGEMENT";
-
-    /**
-     * 常量字段 积分管理 .
-     */
-    public final String INTEGRAL_MANAGEMENT = "INTEGRAL_MANAGEMENT";
-
-    /**
-     * 常量字段 广告管理 .
-     */
-    public final String AD_MANAGEMENT = "AD_MANAGEMENT";
-
-    /**
-     * 常量字段 留言反馈 .
-     */
-    public final String FEEDBACK = "FEEDBACK";
-
-    /**
-     * 常量字段 消息管理 .
-     */
-    public final String MESSAGE_MANAGEMENT = "MESSAGE_MANAGEMENT";
+    public final String MUST_CHOOSE_WAY = "MUST_CHOOSE_WAY";
 
 }
 

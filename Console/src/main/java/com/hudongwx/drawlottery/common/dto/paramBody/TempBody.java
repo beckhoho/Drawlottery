@@ -16,33 +16,26 @@ import java.util.Date;
 public class TempBody implements PoParamBase<CommodityTemplate> {
 
     private Long id;
-
     private String name;
     private Long type;
     private Integer genre;
-
     private String contactName;
     private String contactPhone;
     private String contactAddress;
-
     private Boolean sendCard;
     private Integer cardType;
     private Integer cardNum;
     private Integer cardMoney;
-
     private Boolean withdrawals;
     private Integer withdrawalsMoney;
-
     private Boolean exchangeable;
     private Integer exchangeMoney;
-
     private String coverImgUrl;
     private String content;
-
     private Boolean easyWinning;
+    private Boolean autoRound;
     private Integer buyTotalNumber;
     private Integer minimum;
-
     private Integer openTime;
     private Date groundTime;
 
@@ -83,7 +76,10 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
 
         c.setGroundTime(groundTime);
 
-        return null;
+        c.setAutoRound(autoRound ? 1 : 0);
+        c.setEasyWinning(easyWinning ? 1 : 0);
+
+        return c;
     }
 
     public String getName() {
@@ -260,6 +256,14 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getAutoRound() {
+        return autoRound;
+    }
+
+    public void setAutoRound(Boolean autoRound) {
+        this.autoRound = autoRound;
     }
 
 
