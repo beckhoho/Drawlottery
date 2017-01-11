@@ -136,7 +136,17 @@ public class Settings {
     /**
      * 商品售卖中
      */
-    public static final int COMMODITY_STATE_NO_SALE = 3;
+    public static final int COMMODITY_STATE_ON_SALE = 3;
+
+    /**
+     * 商品已兑换完成
+     */
+    public static final int COMMODITY_STATE_EXCHANGED = 1;
+
+    /**
+     * 商品未兑换完成
+     */
+    public static final int COMMODITY_STATE_UN_EXCHANGED = 0;
 
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*commodity(商品)*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
@@ -241,6 +251,16 @@ public class Settings {
     /**
      * 设置开奖延后时长
      */
-    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL=1000*60*10;
+    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL = 1000 * 60 * 3;
+
+    /**
+     * 卡密已查看
+     */
+    public static final int PASSWORD_VIEWED = 1;
+    /**
+     * 卡密未被查看
+     */
+    public static final int PASSWORD_NOT_VIEWED = 0;
+
 
 }

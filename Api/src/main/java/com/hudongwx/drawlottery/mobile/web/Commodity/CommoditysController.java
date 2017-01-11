@@ -121,7 +121,7 @@ public class CommoditysController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/onlottery", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOnLotteryInfo(@RequestParam("page") int page) {
-        List<Map<String, Object>> mapList = cService.selectOnLottery(null, page);
+        List<Map<String, Object>> mapList = cService.selectOnLottery(page);
         return success(mapList);
     }
 
@@ -134,7 +134,7 @@ public class CommoditysController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/onlottery/one", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOnLotteryInfo(@RequestParam("commId") Long commId) {
-        List<Map<String, Object>> mapList = cService.selectOneOnLottery(null, commId);
+        List<Map<String, Object>> mapList = cService.selectOneOnLottery(commId);
         return success(mapList);
     }
 

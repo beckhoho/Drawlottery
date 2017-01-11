@@ -133,11 +133,4 @@ public class UserController extends BaseController {
 
         return response(true);
     }
-
-    @ResponseBody
-    @RequestMapping(value = "/api/v1/user/vircomm/exchange", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangePrize(@RequestParam("type") String type, @RequestParam("commId") Long commId) throws IOException {
-
-        return response(true);
-    }
 }

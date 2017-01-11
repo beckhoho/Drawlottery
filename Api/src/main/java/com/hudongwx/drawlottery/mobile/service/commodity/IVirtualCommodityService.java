@@ -16,11 +16,11 @@ import java.util.Map;
  * <p>
  * 创建　kiter　2017/1/5 9:33　<br/>
  * <p>
- *      充值卡service
+ * 充值卡service
  * <p>
  * @email 346905702@qq.com
  */
-public interface IPrepaidCardService {
+public interface IVirtualCommodityService {
 
     //添加虚拟充值卡
     boolean addCard(VirtualCommodity card);
@@ -29,8 +29,14 @@ public interface IPrepaidCardService {
     boolean deleteCard(VirtualCommodity card);
 
     //查看
-    List<Map<String,Object>> selectUserCard(Long accountId);
+    List<Map<String, Object>> selectUserCard(Long accountId);
 
-    //修改
-    boolean updateUserCard(VirtualCommodity card);
+    /**
+     * 更改充值卡状态，在商品下的所有卡被查看卡密后修改虚拟商品兑换状态
+     *
+     * @param cardNumber
+     * @param state
+     * @return
+     */
+    String updateCardStateByCardNumber(String cardNumber, int state);
 }

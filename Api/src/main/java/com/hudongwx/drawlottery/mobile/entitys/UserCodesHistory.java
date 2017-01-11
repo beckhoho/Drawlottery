@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_user_luck_codes_history")
 public class UserCodesHistory {
@@ -11,8 +12,8 @@ public class UserCodesHistory {
     /**
      * 幸运号id
      */
-    @Column(name = "user_luck_code_id")
-    private Long userLuckCodeId;
+    @Column(name = "luck_code_id")
+    private Long luckCodeId;
 
     /**
      * 商品ID
@@ -25,6 +26,48 @@ public class UserCodesHistory {
      */
     @Column(name = "user_account_id")
     private Long userAccountId;
+
+    /**
+     * 商品期数
+     */
+    @Column(name = "round_time")
+    private String roundTime;
+
+    /**
+     * 购买时间
+     */
+    @Column(name = "buy_date")
+    private Date buyDate;
+
+    /**
+     * IP地址
+     */
+    @Column(name = "address_ip")
+    private String addressIp;
+
+    public String getRoundTime() {
+        return roundTime;
+    }
+
+    public void setRoundTime(String roundTime) {
+        this.roundTime = roundTime;
+    }
+
+    public Date getBuyDate() {
+        return buyDate;
+    }
+
+    public void setBuyDate(Date buyDate) {
+        this.buyDate = buyDate;
+    }
+
+    public String getAddressIp() {
+        return addressIp;
+    }
+
+    public void setAddressIp(String addressIp) {
+        this.addressIp = addressIp;
+    }
 
     /**
      * @return id
@@ -46,7 +89,7 @@ public class UserCodesHistory {
      * @return user_luck_code_id - 幸运号id
      */
     public Long getUserLuckCodeId() {
-        return userLuckCodeId;
+        return luckCodeId;
     }
 
     /**
@@ -55,7 +98,7 @@ public class UserCodesHistory {
      * @param userLuckCodeId 幸运号id
      */
     public void setUserLuckCodeId(Long userLuckCodeId) {
-        this.userLuckCodeId = userLuckCodeId;
+        this.luckCodeId = userLuckCodeId;
     }
 
     /**

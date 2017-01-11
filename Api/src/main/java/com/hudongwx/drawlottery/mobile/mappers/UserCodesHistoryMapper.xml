@@ -5,9 +5,12 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_luck_code_id" jdbcType="BIGINT" property="userLuckCodeId" />
-    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-    <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
+    <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
+    <result column="buy_date" jdbcType="TIMESTAMP" property="buyDate"/>
+    <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
+    <result column="address_ip" jdbcType="VARCHAR" property="addressIp"/>
   </resultMap>
 </mapper>

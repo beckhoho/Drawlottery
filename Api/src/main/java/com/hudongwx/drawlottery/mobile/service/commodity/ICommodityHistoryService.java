@@ -13,7 +13,7 @@ import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
  * <p>
  * 创建　kiter　2016/12/22 16:07　<br/>
  * <p>
- *          历史商品service接口
+ * 历史商品service接口
  * <p>
  * @email 346905702@qq.com
  */
@@ -24,4 +24,6 @@ public interface ICommodityHistoryService {
 
     //查看历史商品
     CommodityHistory selectHistoryCommod();
+
+
 }

@@ -65,10 +65,10 @@ public interface ICommodityService {
     List<Map<String, Object>> selectByStyle(Integer type, Integer page);
 
     //查询正在开奖的商品
-    List<Map<String, Object>> selectOnLottery(Long accountId, Integer page);
+    List<Map<String, Object>> selectOnLottery(Integer page);
 
     //查询正在开奖的商品
-    List<Map<String, Object>> selectOneOnLottery(Long accountId, Long commId);
+    List<Map<String, Object>> selectOneOnLottery(Long commId);
 
     //商品详情
     Map<String, Object> selectCommodity(Long commId);
@@ -77,5 +77,5 @@ public interface ICommodityService {
     List<Map<String, Object>> selectHeight(Integer number);
 
     //开奖之后改变信息
-    boolean reviseInfo(String luckCode,Long commodityId);
+    boolean reviseInfo(String luckCode, Long commodityId);
 }

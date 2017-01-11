@@ -141,7 +141,7 @@ public class UserServiceImpl implements IUserService {
         List<UserCodesHistory> s1 = userCodeHistMapper.select(userHistory);
         for (UserCodesHistory u : s1) {
             Map<String, Object> map = new HashMap<>();
-            CommodityHistory history = comHistoryMapper.selectBycommod(u.getCommodityId());
+            CommodityHistory history = comHistoryMapper.selectBycommId(u.getCommodityId());
             User user1 = mapper.selectByPrimaryKey(history.getLuckUserAccountId());
             List<String> integers = luckUserList(accountId, history.getCommodityId());
             map.put("id", history.getCommodityId());//商品ID

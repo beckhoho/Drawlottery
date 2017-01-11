@@ -155,7 +155,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     List<Commoditys> selectTopTenOnLottery();
 
 
-    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where commodity_type_id  =  #{typeId}")
+    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where commodity_type_id  =  #{typeId} and state_id = #{stateId}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
@@ -166,10 +166,10 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "state_id", property = "stateId")
 
     })
-    List<Commoditys> selectByType(@Param("typeId") Integer typeId);
+    List<Commoditys> selectByType(@Param("typeId") Integer typeId, @Param("stateId") Integer stateId);
 
 
-    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where name like #{name}")
+    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where name like #{name} and state_id = #{stateId}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
@@ -180,9 +180,9 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "state_id", property = "stateId")
 
     })
-    List<Commoditys> selectByName(@Param("name") String name);
+    List<Commoditys> selectByName(@Param("name") String name, @Param("stateId") Integer stateId);
 
-    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where commodity_type_id = #{typeId} and name like #{name}")
+    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where commodity_type_id = #{typeId} and name like #{name} and state_id = #{stateId}")
     @Results({
             @Result(id = true, property = "id", column = "id"),
             @Result(column = "commodity_type_id", property = "commodityTypeId"),
@@ -193,7 +193,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "state_id", property = "stateId")
 
     })
-    List<Commoditys> selectByTypeAndName(@Param("name") String name, @Param("typeId") Integer typeId);
+    List<Commoditys> selectByTypeAndName(@Param("name") String name, @Param("typeId") Integer typeId, @Param("stateId") Integer stateId);
 
     @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state_id from t_commoditys where buy_current_number/buy_total_number>1/2 and buy_current_number!=buy_total_number")
     @Results({
