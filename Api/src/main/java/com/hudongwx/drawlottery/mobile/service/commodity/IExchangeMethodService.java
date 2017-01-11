@@ -28,15 +28,30 @@ public interface IExchangeMethodService {
      * @param commId
      * @return
      */
-    boolean exchangeToGold(Long commId);
+    boolean exchangeToGold(Long commId,Long userAccountId);
+
 
     /**
      * 兑换现金
-     *
-     * @param jsonObject
+     * @param exchangeTerraceName
+     * @param TerraceAccount
+     * @param commodity
+     * @param accountID
      * @return
      */
-    boolean exchangeToCash(JSONObject jsonObject);
+    boolean exchangeToCash(String exchangeTerraceName, String TerraceAccount, Long commodity,Long accountID);
+
+    /**
+     * 快递领取
+     * @return
+     */
+    boolean exchangeToLocale(Long commodityId,Long userAccountId,Long addressId);
+
+    /**
+     * 到店领取
+     * @return
+     */
+    Map<String,Object> exchangeToExpress(Long commodityId,Long userAccountId);
 
     /**
      * 查看user抽中的充值卡
@@ -55,5 +70,6 @@ public interface IExchangeMethodService {
      * @return
      */
     Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId);
+
 
 }

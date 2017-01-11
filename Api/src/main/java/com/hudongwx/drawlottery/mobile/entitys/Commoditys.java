@@ -105,6 +105,34 @@ public class Commoditys {
     private Date undercarriageTime;
 
     /**
+     * 点击量
+     */
+    @Column(name = "view_num")
+    private Long viewNum;
+
+    /**
+     * 模板ID
+     */
+    @Column(name = "temp_id")
+    private Long tempId;
+
+    public Long getViewNum() {
+        return viewNum;
+    }
+
+    public void setViewNum(Long viewNum) {
+        this.viewNum = viewNum;
+    }
+
+    public Long getTempId() {
+        return tempId;
+    }
+
+    public void setTempId(Long tempId) {
+        this.tempId = tempId;
+    }
+
+    /**
      * 是否可用
      */
     private Integer valid;

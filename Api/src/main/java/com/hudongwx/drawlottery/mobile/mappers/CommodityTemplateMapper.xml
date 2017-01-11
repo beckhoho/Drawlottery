@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.CommodityTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.CommodityTemplate">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="commodity_desc" jdbcType="VARCHAR" property="commodityDesc" />
+    <result column="commodity_type_id" jdbcType="BIGINT" property="commodityTypeId" />
+    <result column="genre" jdbcType="INTEGER" property="genre" />
+    <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber" />
+    <result column="ground_time" jdbcType="TIMESTAMP" property="groundTime" />
+    <result column="state_id" jdbcType="INTEGER" property="stateId" />
+    <result column="cover_img_url" jdbcType="VARCHAR" property="coverImgUrl" />
+    <result column="auto_round" jdbcType="INTEGER" property="autoRound" />
+    <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl" />
+    <result column="valid" jdbcType="INTEGER" property="valid" />
+    <result column="minimum" jdbcType="INTEGER" property="minimum" />
+    <result column="undercarriage_time" jdbcType="TIMESTAMP" property="undercarriageTime" />
+    <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+    <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
+    <result column="contact_address" jdbcType="VARCHAR" property="contactAddress" />
+    <result column="cart_type" jdbcType="INTEGER" property="cardType" />
+    <result column="card_num" jdbcType="INTEGER" property="cardNum" />
+    <result column="card_money" jdbcType="INTEGER" property="cardMoney" />
+    <result column="easyWinning" jdbcType="INTEGER" property="easyWinning" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+</mapper>

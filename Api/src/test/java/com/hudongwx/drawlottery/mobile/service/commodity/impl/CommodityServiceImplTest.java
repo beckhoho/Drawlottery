@@ -1,7 +1,13 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
+import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -19,19 +25,28 @@ import org.testng.annotations.Test;
  * @email 294786949@qq.com
  */
 public class CommodityServiceImplTest extends TestBaseMapper {
+
+    @Autowired
+    ICommodityService service;
     @Test
     public void testSelectPaging() throws Exception {
-
+        List<Map<String, Object>> list = service.selectPaging(1, null, 1);
+        for (Map<String,Object> map : list){
+            System.out.println(map.get("commodityName"));
+            System.out.println(map.get("buyTotalNumber"+"德玛西亚"));
+        }
     }
 
     @Test
     public void testType1() throws Exception {
-
+        Map<String, Object> map = service.selectCommodity(23l);
+        System.out.println(map.get("commodityName"));
     }
 
     @Test
     public void testByType() throws Exception {
-
+        List<Map<String, Object>> list = service.selectHeight(40000);
+        System.out.println(list.size());
     }
 
     @Test

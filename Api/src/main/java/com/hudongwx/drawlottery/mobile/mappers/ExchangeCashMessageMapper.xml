@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.ExchangeCashMessageMapper">
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.ExchangeCashMessage">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
+        <result column="user_real_name" jdbcType="VARCHAR" property="userRealName"/>
+        <result column="terrace_account" jdbcType="VARCHAR" property="terraceAccount"/>
+        <result column="exchange_amount" jdbcType="INTEGER" property="exchangeAmount"/>
+        <result column="exchange_terrace_name" jdbcType="VARCHAR" property="exchangeTerraceName"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+
+    </resultMap>
+</mapper>

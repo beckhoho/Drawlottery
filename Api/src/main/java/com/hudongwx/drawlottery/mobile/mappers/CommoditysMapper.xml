@@ -24,5 +24,7 @@
         <result column="undercarriage_time" jdbcType="TIMESTAMP" property="undercarriageTime"/>
         <result column="valid" jdbcType="INTEGER" property="valid"/>
         <result column="minimum" jdbcType="INTEGER" property="minimum"/>
+        <result column="temp_id" jdbcType="BIGINT" property="tempId"/>
+        <result column="view_num" jdbcType="BIGINT" property="viewNum"/>
     </resultMap>
 </mapper>
