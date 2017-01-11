@@ -8,11 +8,8 @@ import com.hudongwx.drawlottery.pojo.User;
 import com.hudongwx.drawlottery.service.commodity.IFileService;
 import com.hudongwx.drawlottery.service.user.IUserService;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,7 +62,7 @@ public class MainController extends BaseController {
         });
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{filename:.+}")
+    /*@RequestMapping(method = RequestMethod.GET, value = "/{filename:.+}")
     public ResponseEntity<?> getFile(@PathVariable String filename) {
         //return ResponseEntity.notFound().build();
         final String path = fileService.getPath(filename);
@@ -76,5 +73,5 @@ public class MainController extends BaseController {
         } catch (RuntimeException ignored) {
             return ResponseEntity.notFound().build();
         }
-    }
+    }*/
 }

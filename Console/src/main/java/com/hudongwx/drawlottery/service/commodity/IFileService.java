@@ -18,20 +18,4 @@ public interface IFileService {
      * @return 文件名
      */
     public String fileUpload(MultipartFile file);
-
-    /**
-     * 持久化文件和路径到数据库
-     *
-     * @param fileName 文件名
-     * @param path     路径（相对）
-     */
-    public void rememberFilePath(String fileName, String path);
-
-    /**
-     * 通过文件名查找目录
-     *
-     * @param fileName 文件名
-     * @return 目录
-     */
-    public String getPath(String fileName);
 }
