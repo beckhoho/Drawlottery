@@ -2,9 +2,6 @@ package com.hudongwx.drawlottery.mobile.service.commodity;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -28,9 +25,5 @@ public interface ICommodityHistoryService {
     //查看历史商品
     CommodityHistory selectHistoryCommod();
 
-    //查看user充值卡
-    List<Map<String, Object>> selectCard(Long accountId, Long commodityID);
 
-    //奖品领取详情
-    Map<String, Object> selectUserPrize(Long accountId, Long commodityId);
 }

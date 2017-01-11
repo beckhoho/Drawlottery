@@ -1,8 +1,11 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
+import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import com.hudongwx.drawlottery.mobile.entitys.VirtualCommodity;
+import com.hudongwx.drawlottery.mobile.mappers.CommodityHistoryMapper;
 import com.hudongwx.drawlottery.mobile.mappers.VirtualCommodityMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.IVirtualCommodityService;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,16 +33,18 @@ import java.util.Map;
 @Service
 public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
     @Autowired
-    VirtualCommodityMapper mapper;
+    VirtualCommodityMapper vcMapper;
+    @Autowired
+    CommodityHistoryMapper chMapper;
 
     @Override
     public boolean addCard(VirtualCommodity card) {
-        return mapper.insert(card) > 0;
+        return vcMapper.insert(card) > 0;
     }
 
     @Override
     public boolean deleteCard(VirtualCommodity card) {
-        return mapper.delete(card) > 0;
+        return vcMapper.delete(card) > 0;
     }
 
     @Override
@@ -47,7 +52,7 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
         List<Map<String, Object>> mapList = new ArrayList<>();
         VirtualCommodity card = new VirtualCommodity();
         card.setCommodityId(accountId);
-        List<VirtualCommodity> list = mapper.select(card);
+        List<VirtualCommodity> list = vcMapper.select(card);
         for (VirtualCommodity car : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("userAccountId", car.getCommodityId());//获取用户ID
@@ -66,10 +71,21 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
     public String updateCardStateByCardNumber(String cardNumber, int state) {
         VirtualCommodity vir = new VirtualCommodity();
         vir.setCardNumber(cardNumber);
-        VirtualCommodity vc = mapper.selectOne(vir);
+        VirtualCommodity vc = vcMapper.selectOne(vir);
         vc.setState(state);
+        CommodityHistory commodityHistory = chMapper.selectBycommId(vc.getCommodityId());
+        boolean allExchanged=true;
+        List<VirtualCommodity> vcList = vcMapper.selectByCommId(vc.getCommodityId());
+        for (VirtualCommodity virtualCommodity : vcList) {
+            if(virtualCommodity.getState()==Settings.PASSWORD_NOT_VIEWED)
+                allExchanged=false;
+        }
+        if(allExchanged){
+            commodityHistory.setExchangeState(Settings.COMMODITY_STATE_EXCHANGED);
+            chMapper.updateByPrimaryKeySelective(commodityHistory);
+        }
         String pwd = null;
-        if (mapper.updateByPrimaryKeySelective(vc) > 0)
+        if (vcMapper.updateByPrimaryKeySelective(vc) > 0)
             pwd = vc.getPassword();
         return pwd;
     }

@@ -2,7 +2,7 @@ package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityExchangeService;
-import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
+import com.hudongwx.drawlottery.mobile.service.commodity.IExchangeMethodService;
 import com.hudongwx.drawlottery.mobile.service.commodity.IVirtualCommodityService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
@@ -32,7 +32,7 @@ public class CommodityExchangeController extends BaseController {
     @Autowired
     ICommodityExchangeService ceService;
     @Autowired
-    ICommodityHistoryService chService;
+    IExchangeMethodService emService;
     @Autowired
     IVirtualCommodityService vcService;
 
@@ -94,7 +94,7 @@ public class CommodityExchangeController extends BaseController {
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCard(@RequestParam("commId") Long commId) {
         // TODO: 2017/1/10 更换用户Id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        return success(chService.selectCard(10000L, commId));
+        return success(emService.selectUserRechargeCardPrize(10000L, commId));
     }
 
     /**
@@ -107,7 +107,7 @@ public class CommodityExchangeController extends BaseController {
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCardInfo(@RequestParam("commId") Long commId) {
         // TODO: 2017/1/10 更换用户Id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        return success(chService.selectUserPrize(10000L, commId));
+        return success(emService.selectUserRechargeCardExchangeProcess(10000L, commId));
     }
 
     /**

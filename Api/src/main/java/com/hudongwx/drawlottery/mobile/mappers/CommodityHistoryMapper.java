@@ -38,7 +38,7 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
             @Result(column = "buy_total_number", property = "buyTotalNumber"),
             @Result(column = "buy_number", property = "buyNumber")
     })
-    CommodityHistory selectBycommod(@Param("cmmodId") Long commodId);
+    CommodityHistory selectBycommId(@Param("cmmodId") Long commodId);
 
     @Select("select * from t_commodity_history where luck_user_account_id = #{accountId}")
     @Results({

@@ -2,6 +2,12 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.VirtualCommodity;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -18,5 +24,12 @@ import com.hudongwx.drawlottery.mobile.entitys.VirtualCommodity;
  * <p>
  * @email 346905702@qq.com
  */
-public interface VirtualCommodityMapper extends BaseMapper<VirtualCommodity>{
+public interface VirtualCommodityMapper extends BaseMapper<VirtualCommodity> {
+
+    @Select("select * from t_virtual_commodity where commodity_id = #{commId}")
+    @Results({
+            @Result(column = "commodity_id", property = "commodityId"),
+            @Result(column = "card_number", property = "cardNumber")
+    })
+    List<VirtualCommodity> selectByCommId(@Param("commId") Long commId);
 }

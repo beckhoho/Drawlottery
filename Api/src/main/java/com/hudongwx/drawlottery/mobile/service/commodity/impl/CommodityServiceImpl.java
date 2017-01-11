@@ -197,7 +197,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
         }
         if (com.getStateId() == 1) {//如果已开奖
-            CommodityHistory comm = historyMapper.selectBycommod(commodId);
+            CommodityHistory comm = historyMapper.selectBycommId(commodId);
             map.put("beforeLottery", mapBefore(comm));
         }
         map.put("commId", commodId);//商品ID
