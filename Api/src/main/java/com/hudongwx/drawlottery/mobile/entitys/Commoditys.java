@@ -116,6 +116,34 @@ public class Commoditys {
     @Column(name = "temp_id")
     private Long tempId;
 
+    /**
+     * 折换现金
+     */
+    @Column(name = "withdrawals_money")
+    private Integer withdrawalsMoney;
+
+    /**
+     * 折换闪币
+     */
+    @Column(name = "exchange_money")
+    private Integer exchangeMoney;
+
+    public Integer getWithdrawalsMoney() {
+        return withdrawalsMoney;
+    }
+
+    public void setWithdrawalsMoney(Integer withdrawalsMoney) {
+        this.withdrawalsMoney = withdrawalsMoney;
+    }
+
+    public Integer getExchangeMoney() {
+        return exchangeMoney;
+    }
+
+    public void setExchangeMoney(Integer exchangeMoney) {
+        this.exchangeMoney = exchangeMoney;
+    }
+
     public Long getViewNum() {
         return viewNum;
     }

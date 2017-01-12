@@ -47,6 +47,8 @@ public class UserServiceImpl implements IUserService {
     LuckCodesMapper codesMapper;
     @Autowired
     CommodityExchangeMapper exchangeMapper;
+    @Autowired
+    ExchangeWayMapper wayMapper;
 
     @Override
     public boolean register(String phone, String password) {
@@ -98,6 +100,7 @@ public class UserServiceImpl implements IUserService {
         List<Map<String, Object>> mapList = new ArrayList<>();
         List<CommodityHistory> histories = comHistoryMapper.selectHistoryLottery(accountId);
         for (CommodityHistory com : histories) {
+            Commoditys byKey = comMapper.selectByKey(com.getCommodityId());
             Map<String, Object> map = new HashMap<>();
             map.put("id", com.getId());//添加商品id
             map.put("commodityName", com.getCommodityName());//添加商品名
@@ -108,17 +111,22 @@ public class UserServiceImpl implements IUserService {
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
             map.put("shareState", 0);//是否晒单（0、未晒单；1、已晒单）
             map.put("state", 0);//中奖确认流程（0、中奖--->1、确认手机号--->2、已充值）
-            map.put("exchangeId",selectExchange(com.getCommodityId()));//添加兑换方式ID
+            map.put("exchangeId",selectExchange(com.getCommodityId()));//添加兑换方式
+            map.put("withdrawalsMoney",byKey.getWithdrawalsMoney());//折换现金金额
+            map.put("exchangeMoney",byKey.getExchangeMoney());//折换闪币
             mapList.add(map);
         }
         return mapList;
     }
 
-    public List<Integer> selectExchange(Long commodityId){
-        List<Integer> list = new ArrayList<>();
+    public List<Map<String,Object>> selectExchange(Long commodityId){
+        List<Map<String,Object>> list = new ArrayList<>();
         List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commodityId);
         for (CommodityExchange ex : exchanges){
-            list.add(ex.getExchangeWayId());
+            Map<String,Object> map = new HashMap<>();
+            ExchangeWay way = wayMapper.selectByPrimaryKey(ex.getExchangeWayId());
+            map.put("1",way.getName());
+            list.add(map);
         }
         return list;
     }
