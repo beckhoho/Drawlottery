@@ -11,7 +11,7 @@
     <result column="real_number" jdbcType="VARCHAR" property="realNumber" />
     <result column="site" jdbcType="VARCHAR" property="site" />
     <result column="phone_number" jdbcType="BIGINT" property="phoneNumber" />
-    <result column="approve_date" jdbcType="TIMESTAMP" property="approveDate" />
+    <result column="approve_date" jdbcType="BIGINT" property="approveDate" />
   </resultMap>
 
 

@@ -8,7 +8,7 @@
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-        <result column="add_date" jdbcType="TIMESTAMP" property="addDate" />
+        <result column="add_date" jdbcType="BIGINT" property="addDate" />
         <result column="number" jdbcType="INTEGER" property="number"/>
 
     </resultMap>

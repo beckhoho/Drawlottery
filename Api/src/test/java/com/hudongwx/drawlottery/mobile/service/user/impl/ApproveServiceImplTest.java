@@ -35,7 +35,7 @@ public class ApproveServiceImplTest extends TestBaseMapper {
     public void testAddApproveMassage() throws Exception {
         Approve a = new Approve();
         a.setUserAccountId(1l);
-        a.setApproveDate(new Date());
+        a.setApproveDate(new Date().getTime());
         a.setPhoneNumber(15283590214l);
         a.setRealName("小张");
         a.setSite("成都市");
@@ -57,7 +57,7 @@ public class ApproveServiceImplTest extends TestBaseMapper {
 
         Approve a = new Approve();
         a.setId(1l);
-        a.setApproveDate(new Date());
+        a.setApproveDate(new Date().getTime());
         a.setRealName("小王");
         boolean update = approve.update(a);
         Assert.assertTrue(update);

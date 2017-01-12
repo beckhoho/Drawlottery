@@ -7,8 +7,8 @@
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
-    <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
-    <result column="overdue_date" jdbcType="TIMESTAMP" property="overdueDate" />
+    <result column="valid_date" jdbcType="BIGINT" property="validDate" />
+    <result column="overdue_date" jdbcType="BIGINT" property="overdueDate" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="use_price" jdbcType="INTEGER" property="usePrice" />
     <result column="worth" jdbcType="INTEGER" property="worth" />

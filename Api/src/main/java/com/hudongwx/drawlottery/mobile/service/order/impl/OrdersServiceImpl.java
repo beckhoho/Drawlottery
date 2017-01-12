@@ -55,7 +55,7 @@ public class OrdersServiceImpl implements IOrdersService {
         boolean b = true;
         Orders orders = JSONObject.toJavaObject(jsonObject.getJSONObject("order"), Orders.class);
         orders.setUserAccountId(accountId);
-        orders.setSubmitDate(new Date());//修改订单提交时间
+        orders.setSubmitDate(new Date().getTime());//修改订单提交时间
         JSONArray ca = jsonObject.getJSONArray("ca");
         List<CommodityAmount> caList = new ArrayList<>();
         for (int i = 0; i < ca.size(); i++) {
@@ -86,7 +86,7 @@ public class OrdersServiceImpl implements IOrdersService {
                         luckCodes.setUserAccountId(accountId);
                         luckCodes.setCommodityId(commodityId);
                         luckCodes.setLockCodeId(code.getId());
-                        luckCodes.setBuyDate(date);
+                        luckCodes.setBuyDate(date.getTime());
                         luckCodes.setOrdersId(list.get(0).getId());
                         luckMapper.insert(luckCodes);
                         LuckCodes l = new LuckCodes();

@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.user;
 
 import com.hudongwx.drawlottery.mobile.entitys.Share;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -25,10 +26,9 @@ public interface IShareService {
     /**
      * 用户添加晒单信息
      *
-     * @param share 晒单信息
      * @return
      */
-    boolean addShare(Share share);
+    boolean addShare(Long accountId, Long commId, String desc, List<MultipartFile> imgs);
 
     /**
      * 用户删除晒单信息
@@ -50,8 +50,8 @@ public interface IShareService {
     boolean friendsShare(Long account);
 
     //查看用户晒单
-    List<Map<String,Object>> selectUserAll(Long account);
+    List<Map<String, Object>> selectUserAll(Long account);
 
     //首页全部晒单
-    List<Map<String,Object>> selectAll();
+    List<Map<String, Object>> selectAll();
 }

@@ -5,6 +5,8 @@ import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
+import com.qq.connect.QQConnectException;
+import com.qq.connect.api.OpenID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -95,13 +97,10 @@ public class UserServiceImpl implements IUserService {
         List<CommodityHistory> histories = comHistoryMapper.selectHistoryLottery(accountId);
         for (CommodityHistory com : histories) {
             Map<String, Object> map = new HashMap<>();
-            map.put("genre", com.getGenre());//添加商品类型
+            map.put("id", com.getId());//添加商品id
             map.put("commodityName", com.getCommodityName());//添加商品名
-            map.put("luckCode", com.getLuckCode());//添加当期中奖码
             map.put("roundTime", com.getRoundTime());//添加期数
             map.put("endTime", com.getEndTime());//揭晓时间
-            map.put("luckCode", com.getLuckCode());//添加历史商品ID
-            map.put("buyNumber", com.getBuyNumber());//购买人次
             map.put("buyNumber", com.getBuyNumber());//购买人次
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
             map.put("shareState", 0);//是否晒单（0、未晒单；1、已晒单）
@@ -120,16 +119,16 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<Map<String, Object>> selectHistoryPay(Long accountId, Integer item) {
 
-        List<Map<String, Object>> mapList = selectToHistory(accountId);
+        List<Map<String, Object>> mapList =new ArrayList<>();
         if (item == 1) {
-            return selectToNew(accountId);
+            mapList = selectToNew(accountId);
         } else if (item == 2) {
-            return selectToHistory(accountId);
+            mapList = selectToHistory(accountId);
         } else {
             mapList.addAll(selectToHistory(accountId));
             mapList.addAll(selectToNew(accountId));
-            return mapList;
         }
+        return mapList;
     }
 
     //添加历史购买商品
@@ -172,7 +171,7 @@ public class UserServiceImpl implements IUserService {
         List<Long> commIdList = luckCodesMapper.selectDistinctGroupByCommId(accountId);
         for (Long commId : commIdList) {
             Map<String, Object> map = new HashMap<>();
-            Commoditys com = comMapper.selectByPrimaryKey(commId);
+            Commoditys com = comMapper.selectByKey(commId);
             List<String> integers = luckUserList(accountId, com.getId());
             map.put("id", com.getId());//添加商品ID
             map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次
@@ -205,4 +204,59 @@ public class UserServiceImpl implements IUserService {
         }
         return list;
     }
+
+    /**
+     * 第三方账号绑定注册
+     * @param openId
+     * @param password
+     * @param header_url
+     * @param nickname
+     * @param platform
+     * @return
+     */
+    @Override
+    public User registerByOpenId(String openId, String password,String header_url, String nickname, String platform) {
+        User user = new User();
+        user.setPassword(password);
+        user.setHeaderUrl(header_url);
+        if(platform.equals("wx")){
+            user.setWeixinOpenId(openId);
+        }else{
+            user.setQqOpenId(openId);
+        }
+        user.setNickname(nickname);
+        mapper.insert(user);
+        return queryByOpenId(openId,platform);
+    }
+
+    /**
+     * 校验openId是否合法
+     * @return
+     */
+    @Override
+    public boolean checkOpenId(String token,String openId) {
+        try {
+            //通过token获取openId
+            return new OpenID(token).getUserOpenID().equals(openId);
+        } catch (QQConnectException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 分平台查询用户信息
+     *
+     * @param openId
+     * @param platform
+     * @return
+     */
+    @Override
+    public User queryByOpenId(String openId, String platform) {
+        if (platform.equals("wx")) {
+            return mapper.selectByWxOpenId(openId);
+        }
+        return mapper.selectByQQOpenId(openId);
+    }
+
 }

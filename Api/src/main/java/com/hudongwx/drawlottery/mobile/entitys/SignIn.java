@@ -36,7 +36,7 @@ public class SignIn {
     private Integer signInDay;
 
     @Column(name = "new_sign_date")
-    private Date newSignInDate;
+    private Long newSignInDate;
 
     public Long getId() {
         return id;
@@ -62,11 +62,11 @@ public class SignIn {
         this.signInDay = signInDay;
     }
 
-    public Date getNewSignInDate() {
+    public Long getNewSignInDate() {
         return newSignInDate;
     }
 
-    public void setNewSignInDate(Date newSignInDate) {
+    public void setNewSignInDate(Long newSignInDate) {
         this.newSignInDate = newSignInDate;
     }
 }

@@ -52,6 +52,6 @@ public interface IDeliveryAddressService {
      * @param accountId
      * @return
      */
-    public List<Map<String, Object>> selectByUser(Long accountId);
+    public List<Map<String, Object>> selectByAccountId(Long accountId);
 
 }

@@ -53,7 +53,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
 
 //        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        Date date = new Date(timeStart);
-        /*List<Orders> oderses = odersSer.selectByUser(1l);
+        /*List<Orders> oderses = odersSer.selectByAccountId(1l);
         System.out.println(oderses.size());
         Assert.assertNotNull(oderses);*/
 
@@ -73,7 +73,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
     public void testUpdate() throws Exception {
         Orders oders = new Orders();
         oders.setId(1l);
-        oders.setSubmitDate(new Date());
+        oders.setSubmitDate(new Date().getTime());
         oders.setUserAccountId(3l);
         boolean update = odersSer.update(oders);
         Assert.assertTrue(update);

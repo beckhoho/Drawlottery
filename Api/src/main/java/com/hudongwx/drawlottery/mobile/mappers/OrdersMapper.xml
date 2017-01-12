@@ -12,4 +12,7 @@
         <result column="price" jdbcType="INTEGER" property="price"/>
         <result column="red_packet_id" jdbcType="BIGINT" property="redPacketId"/>
     </resultMap>
+    <select id="selectByUserAccount" resultMap="BaseResultMap">
+        select * from t_orders where user_account_id = #{userAccount}
+    </select>
 </mapper>

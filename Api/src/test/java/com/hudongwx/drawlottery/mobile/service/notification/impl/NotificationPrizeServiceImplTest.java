@@ -38,7 +38,7 @@ public class NotificationPrizeServiceImplTest extends TestBaseMapper {
         no.setCommodityId(3l);
         no.setAccountId(3l);
         no.setLuckCodesId(3l);
-        no.setOnPrizeDate(new Date());
+        no.setOnPrizeDate(new Date().getTime());
         boolean b = service.addPrizeNotification(no);
         Assert.assertTrue(b);
     }

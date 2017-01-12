@@ -79,7 +79,7 @@ public class RedPacketsServiceImpl implements IRedPacketsService {
 
     public boolean overdue(RedPackets r) {
         Date date = new Date();
-        if (r.getOverdueDate().getTime() > date.getTime())
+        if (r.getOverdueDate() > date.getTime())
             return false;
         return true;
     }

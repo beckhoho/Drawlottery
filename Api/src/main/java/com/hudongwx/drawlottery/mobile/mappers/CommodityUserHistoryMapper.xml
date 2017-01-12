@@ -8,7 +8,12 @@
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-        <result column="partake_date" jdbcType="TIMESTAMP" property="partakeDate"/>
+        <result column="partake_date" jdbcType="BIGINT" property="partakeDate"/>
 
     </resultMap>
+
+    <select id="selectHistoryPay" resultMap="BaseResultMap">
+        SELECT * commodity_id FROM t_commodity_user_history
+         WHERE user_account_id = #{accountId}
+    </select>
 </mapper>

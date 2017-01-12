@@ -43,7 +43,7 @@ public class Approve {
      * 认证日期
      */
     @Column(name = "approve_date")
-    private Date approveDate;
+    private Long approveDate;
 
     /**
      * @return id
@@ -154,7 +154,7 @@ public class Approve {
      *
      * @return approve_date - 认证日期
      */
-    public Date getApproveDate() {
+    public Long getApproveDate() {
         return approveDate;
     }
 
@@ -163,7 +163,7 @@ public class Approve {
      *
      * @param approveDate 认证日期
      */
-    public void setApproveDate(Date approveDate) {
+    public void setApproveDate(Long approveDate) {
         this.approveDate = approveDate;
     }
 }

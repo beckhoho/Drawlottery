@@ -18,4 +18,25 @@
         <result column="exchange_state" jdbcType="INTEGER" property="exchangeState"/>
         <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
     </resultMap>
+
+    <!-- 查询中奖历史-->
+    <select id="selectHistoryLottery" resultMap="BaseResultMap" >
+        select *  from t_commodity_history WHERE luck_user_account_id = #{accountId}
+    </select>
+
+    <!-- 查询单件历史商品信息-->
+    <select id="selectBycommId" resultMap="BaseResultMap">
+        select * from t_commodity_history where commodity_id = #{cmmodId}
+    </select>
+
+    <!-- 查询商品上期开奖信息 -->
+    <select id="selectBycommodName" resultMap="BaseResultMap">
+        select * from t_commodity_history
+        <where>
+            commodity_name = #{commodName}
+            and round_time &lt; #{roundTime}
+        </where>
+        <!-- &lt; 小于     &jt; 大于 -->
+    </select>
+
 </mapper>

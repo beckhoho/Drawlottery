@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_share")
 public class Share {
@@ -19,7 +19,7 @@ public class Share {
      * 晒单发布日期
      */
     @Column(name = "issue_date")
-    private Date issueDate;
+    private Long issueDate;
 
     /**
      * 商品id
@@ -28,7 +28,7 @@ public class Share {
     private Long commodityId;
 
     /**
-     * 晒单详情（url）
+     * 晒单文段
      */
     private String particulars;
 
@@ -69,7 +69,7 @@ public class Share {
      *
      * @return issue_date - 晒单发布日期
      */
-    public Date getIssueDate() {
+    public Long getIssueDate() {
         return issueDate;
     }
 
@@ -78,7 +78,7 @@ public class Share {
      *
      * @param issueDate 晒单发布日期
      */
-    public void setIssueDate(Date issueDate) {
+    public void setIssueDate(Long issueDate) {
         this.issueDate = issueDate;
     }
 

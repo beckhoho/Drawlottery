@@ -13,4 +13,15 @@
         <result column="orders_id" jdbcType="BIGINT" property="ordersId"/>
         <result column="address_ip" jdbcType="VARCHAR" property="addressIp"/>
     </resultMap>
+
+    <select id="selectCountByCommodity" resultMap="BaseResultMap">
+        select distinct user_account_id from t_user_luck_codes
+    </select>
+
+
+    <select id="selectDistinctGroupByCommId" resultType="java.lang.Long">
+        select distinct commodity_id from t_user_luck_codes WHERE user_account_id = #{accountId}
+    </select>
+
+
 </mapper>

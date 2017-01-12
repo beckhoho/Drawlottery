@@ -33,7 +33,7 @@ public class ShoppingCart {
     private Long userAccountId;
 
     @Column(name = "add_date")
-    private Date addDate;
+    private Long addDate;
 
     private Integer number;
 
@@ -69,11 +69,11 @@ public class ShoppingCart {
         this.userAccountId = userAccountId;
     }
 
-    public Date getAddDate() {
+    public Long getAddDate() {
         return addDate;
     }
 
-    public void setAddDate(Date addDate) {
+    public void setAddDate(Long addDate) {
         this.addDate = addDate;
     }
 }

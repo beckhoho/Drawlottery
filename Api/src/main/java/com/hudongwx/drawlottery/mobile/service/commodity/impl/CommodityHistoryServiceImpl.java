@@ -9,6 +9,8 @@ import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryServic
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -43,6 +45,9 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
 
     @Override
     public CommodityHistory selectHistoryCommod() {
+        /*CommodityHistory history = new CommodityHistory();
+        history.setLuckUserAccountId(10);
+        mapper.selectByPrimaryKey(history);*/
         return null;
     }
 

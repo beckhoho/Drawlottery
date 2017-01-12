@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityExchangeService;
 import com.hudongwx.drawlottery.mobile.service.commodity.IExchangeMethodService;
 import com.hudongwx.drawlottery.mobile.service.commodity.IVirtualCommodityService;
+import com.hudongwx.drawlottery.mobile.service.user.IDeliveryAddressService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
@@ -35,6 +36,8 @@ public class CommodityExchangeController extends BaseController {
     IExchangeMethodService emService;
     @Autowired
     IVirtualCommodityService vcService;
+    @Autowired
+    IDeliveryAddressService daService;
 
     /**
      * 查询商品兑换方式
@@ -57,7 +60,7 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/cash", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToCash(@RequestParam("commId") Long commId) {
-        return success(ceService.selectByCommodityId(commId));
+        return success();
     }
 
     /**
@@ -118,8 +121,8 @@ public class CommodityExchangeController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/express", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToExpress(@RequestParam("commId") Long commId) {
-        return success(ceService.selectByCommodityId(commId));
+    public JSONObject exchangeToExpress(@RequestParam("commId") Long commId, @RequestParam("addressId") Integer addressId) {
+        return success();
     }
 
     /**

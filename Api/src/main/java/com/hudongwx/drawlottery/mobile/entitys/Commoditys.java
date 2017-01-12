@@ -41,7 +41,7 @@ public class Commoditys {
      * 开抢时间
      */
     @Column(name = "ground_time")
-    private Date groundTime;
+    private Long groundTime;
 
     /**
      * 中奖幸运码id
@@ -103,6 +103,34 @@ public class Commoditys {
      */
     @Column(name = "undercarriage_time")
     private Date undercarriageTime;
+
+    /**
+     * 点击量
+     */
+    @Column(name = "view_num")
+    private Long viewNum;
+
+    /**
+     * 模板ID
+     */
+    @Column(name = "temp_id")
+    private Long tempId;
+
+    public Long getViewNum() {
+        return viewNum;
+    }
+
+    public void setViewNum(Long viewNum) {
+        this.viewNum = viewNum;
+    }
+
+    public Long getTempId() {
+        return tempId;
+    }
+
+    public void setTempId(Long tempId) {
+        this.tempId = tempId;
+    }
 
     /**
      * 是否可用
@@ -261,7 +289,7 @@ public class Commoditys {
      *
      * @return startTime - 开抢时间
      */
-    public Date getGroundTime() {
+    public Long getGroundTime() {
         return groundTime;
     }
 
@@ -270,7 +298,7 @@ public class Commoditys {
      *
      * @param groundTime 开抢时间
      */
-    public void setGroundTime(Date groundTime) {
+    public void setGroundTime(Long groundTime) {
         this.groundTime = groundTime;
     }
 

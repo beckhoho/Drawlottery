@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface OrdersMapper extends BaseMapper<Orders> {
 
-    @Results(@Result(column = "submit_date",property = "submitDate"))
-    @Select("select * from t_orders where user_account_id = #{userAccount}")
+    //查询用户订单
     List<Orders> selectByUserAccount(@Param("userAccount") Long userAccount);
 }

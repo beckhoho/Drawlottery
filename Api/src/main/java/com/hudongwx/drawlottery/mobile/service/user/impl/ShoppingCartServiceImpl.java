@@ -52,7 +52,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         cart.setUserAccountId(accountId);
         cart.setCommodityId(commId);
         cart.setNumber(count);
-        cart.setAddDate(new Date());
+        cart.setAddDate(new Date().getTime());
         return mapper.insert(cart) > 0;
     }
 

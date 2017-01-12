@@ -1,8 +1,6 @@
 package com.hudongwx.drawlottery.mobile.conf.spring;
 
 import net.sf.ehcache.constructs.web.ShutdownListener;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextStoppedEvent;
 

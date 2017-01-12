@@ -110,12 +110,12 @@ public class CommodityServiceImpl implements ICommodityService {
     /**
      * 查询当前类型商品的总数
      *
-     * @param commodTypeId 商品类型ID
+     * @param commodityTypeId 商品类型ID
      * @return 返回当前类型的商品总数量
      */
     @Override
-    public int selectCount(Integer commodTypeId) {
-        return mapper.selectTypeCount(commodTypeId);
+    public int selectCount(Integer commodityTypeId) {
+        return mapper.selectTypeCount(commodityTypeId);
     }
 
 
@@ -187,13 +187,14 @@ public class CommodityServiceImpl implements ICommodityService {
      * 查看商品详情
      *
      * @return 返回一个map集合
+     *
      */
     @Override
     public Map<String, Object> selectCommodity(Long commodId) {
-        Commoditys com = mapper.selectByPrimaryKey(commodId);
+        Commoditys com = mapper.selectByKey(commodId);
         Map<String, Object> map = new HashMap<>();
         if (com.getStateId() == 3) {//如果未开奖
-            CommodityHistory comh = historyMapper.selectBycommodId(com.getName(), com.getRoundTime());
+            CommodityHistory comh = historyMapper.selectBycommodName(com.getName(), com.getRoundTime());
             map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
         }
         if (com.getStateId() == 1) {//如果已开奖
@@ -215,7 +216,6 @@ public class CommodityServiceImpl implements ICommodityService {
         return map;
     }
 
-
     public List<Map<String, Object>> listMap3() {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
@@ -233,7 +233,6 @@ public class CommodityServiceImpl implements ICommodityService {
         }
         return list;
     }
-
 
     public List<String> listUrl(Long commodId) {
         List<String> listImg = new ArrayList<>();
@@ -297,7 +296,7 @@ public class CommodityServiceImpl implements ICommodityService {
         userLuck.setCommodityId(commodId);
         userLuck.setUserAccountId(userAccountId);
         List<UserLuckCodes> select = userluckMapper.select(userLuck);
-        Date buyDate = null;
+        Long buyDate = null;
         int size = 0;
         if (!select.isEmpty()) {
             size = select.size();
@@ -355,7 +354,6 @@ public class CommodityServiceImpl implements ICommodityService {
         List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE), page);
         return forPut(list);
     }
-
 
     public List<Map<String, Object>> forPut(List<Commoditys> list) {
         List<Map<String, Object>> listMap = new ArrayList<>();
@@ -453,7 +451,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean reviseInfo(String luckCode, Long commodityId) {
-        Commoditys com = mapper.selectByPrimaryKey(commodityId);
+        Commoditys com = mapper.selectByKey(commodityId);
         LuckCodes luckCodes = new LuckCodes();
         luckCodes.setLockCode(luckCode);
         luckCodes.setCommodityId(commodityId);
@@ -478,6 +476,7 @@ public class CommodityServiceImpl implements ICommodityService {
         userHistory.setUserAccountId(accountId);
         userHistory.setCommodityId(commodityId);
         userHistory.setUserLuckCodeId(codeId);
+        userHistory.setRoundTime(com.getRoundTime());
         int insert1 = userHistoryMapper.insert(userHistory);
 
         //将商品添加到历史
@@ -485,7 +484,7 @@ public class CommodityServiceImpl implements ICommodityService {
         history.setCommodityId(commodityId);
         history.setBuyTotalNumber(com.getBuyTotalNumber());
         history.setCoverImgUrl(com.getCoverImgUrl());
-        history.setEndTime(new Date());
+        history.setEndTime(new Date().getTime());
         history.setCommodityName(com.getName());
         history.setLuckCode(luckCode);
         history.setRoundTime(com.getRoundTime());
@@ -496,4 +495,5 @@ public class CommodityServiceImpl implements ICommodityService {
         int insert = historyMapper.insert(history);
         return insert > 0 && insert1 > 0 && i > 0;
     }
+
 }

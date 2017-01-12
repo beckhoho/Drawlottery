@@ -11,238 +11,104 @@ import java.util.List;
 
 public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
-    //查询指定的区域数据
-    @Select("select * from t_commoditys where commodity_type_id = #{commodTypeId}  limit #{startNum},#{endNum}")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "startTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
 
-    })
+    /**
+     * 根据主键ID查询商品信息
+     * @param commodityId   商品ID
+     * @return
+     */
+    Commoditys selectByKey(@Param("commodityId") Long commodityId);
+
+    /**
+     * 根据商品类型ID查询指定区域的商品信息
+     * @param commodTypeId  商品类型ID
+     * @param startNum     开始下标
+     * @param endNum    结束下标
+     * @return
+     */
     List<Commoditys> selectPaging(@Param("commodTypeId") Integer commodTypeId, @Param("startNum") Integer startNum, @Param("endNum") Integer endNum);
 
 
-    @Select("select count(id) from t_commoditys where commodity_type_id = #{commodTypeId} ")
+    /**
+     * 查询当前商品类型商品总量
+     * @param commodTypeId  商品类型ID
+     * @return
+     */
+    @Select("select count(id) from t_commodity_template where commodity_type_id = #{commodTypeId} ")
     int selectTypeCount(@Param("commodTypeId") Integer commodTypeId);
 
 
+    /**
+     * 通过商品类型名查询商品类型ID
+     * @param commodType  商品类型名
+     * @return
+     */
     @Select("select id from t_commodity_type where name = #{commodType} ")
     Long selectType(@Param("commodType") String commodType);
 
-    @Select("SELECT * FROM t_commoditys where state_id = 3 ORDER BY buy_current_number/buy_total_number DESC")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "startTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-    })
+
+    //人气
     List<Commoditys> selectByTemp1();
 
-    @Select("SELECT * FROM t_commoditys where state_id = 3 ORDER BY buy_current_number-buy_last_number DESC")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "startTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-    })
+    //最快
     List<Commoditys> selectByTemp2();
 
-    @Select("SELECT * FROM t_commoditys where state_id = 3 ORDER BY start_time DESC")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "startTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-    })
+    //最新
     List<Commoditys> selectByTemp3();
 
-    @Select("SELECT * FROM t_commoditys where state_id = 3 ORDER BY buy_total_number DESC")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "startTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-    })
+    //高价
     List<Commoditys> selectByTemp4();
 
-    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number = 0 AND state_id = 2 order by sell_out_time desc limit #{maxInfo}")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "startTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-    })
+    /**
+     * 查询开奖中的商品
+     * @param maxInfo
+     * @return
+     */
     List<Commoditys> selectOnLottery(@Param("maxInfo") Integer maxInfo);
 
-    @Select("SELECT * FROM t_commoditys WHERE buy_total_number-buy_current_number=0 AND state_id=2 order by sell_out_time desc limit 10")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "startTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-    })
     List<Commoditys> selectTopTenOnLottery();
 
-
-    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where commodity_type_id  =  #{typeId} and state_id = #{stateId}")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-
-    })
+    /**
+     * 通过商品类型ID查询商品
+     * @param typeId
+     * @param stateId
+     * @return
+     */
     List<Commoditys> selectByType(@Param("typeId") Integer typeId, @Param("stateId") Integer stateId);
 
-
-    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where name like #{name} and state_id = #{stateId}")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-
-    })
+    /**
+     * 通过商品名模糊查询
+     * @param name
+     * @param stateId
+     * @return
+     */
     List<Commoditys> selectByName(@Param("name") String name, @Param("stateId") Integer stateId);
 
-    @Select("select id,commodity_type_id,buy_current_number,buy_total_number,cover_img_url,state_id,name from t_commoditys where commodity_type_id = #{typeId} and name like #{name} and state_id = #{stateId}")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-
-    })
+    /**
+     * 确定商品类型，模糊查询商品
+     * @param name
+     * @param typeId
+     * @param stateId
+     * @return
+     */
     List<Commoditys> selectByTypeAndName(@Param("name") String name, @Param("typeId") Integer typeId, @Param("stateId") Integer stateId);
 
-    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state_id from t_commoditys where buy_current_number/buy_total_number>1/2 and buy_current_number!=buy_total_number")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-
-    })
+    /**
+     *  猜你喜欢商品
+     * @return
+     */
     List<Commoditys> selectByGuess();
 
-    @Select("select id,buy_current_number,buy_total_number,cover_img_url,name,state_id from t_commoditys where state_id = 3 and buy_total_number<#{number}")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "startTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-
-    })
+    /**
+     * 高中奖率商品
+     * @param number
+     * @return
+     */
     List<Commoditys> selectHeight(@Param("number") Integer number);
 
-    @Select("SELECT * FROM t_commoditys where state_id = 1 ORDER by sell_out_time DESC")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "start_time", property = "startTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId")
-    })
+    /**
+     *  已开奖的商品
+     * @return
+     */
     List<Commoditys> selectHasTheLotteryComm();
 }

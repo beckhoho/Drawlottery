@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public interface NotificationSystemMapper extends BaseMapper<NotificationSystem>{
 
-    @Select("select * from t_notification_system where user_account_id = #{accountId}")
+    //查看用户所有系统通知
     List<NotificationSystem> selectAllSystemNotice(@Param("accountId") Long accountId);
 
 }

@@ -31,7 +31,7 @@ public class NotificationPrize {
      * 开奖时间
      */
     @Column(name = "on_prize_date")
-    private Date onPrizeDate;
+    private Long onPrizeDate;
 
     @Column(name = "luck_account_id")
     private Long luckAccountId;
@@ -76,11 +76,11 @@ public class NotificationPrize {
         this.luckCodesId = luckCodesId;
     }
 
-    public Date getOnPrizeDate() {
+    public Long getOnPrizeDate() {
         return onPrizeDate;
     }
 
-    public void setOnPrizeDate(Date onPrizeDate) {
+    public void setOnPrizeDate(Long onPrizeDate) {
         this.onPrizeDate = onPrizeDate;
     }
 }
