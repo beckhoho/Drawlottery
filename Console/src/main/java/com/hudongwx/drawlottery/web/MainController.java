@@ -3,18 +3,23 @@ package com.hudongwx.drawlottery.web;
 import com.hudongwx.drawlottery.common.base.BaseController;
 import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
+import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.response.MenuResult;
 import com.hudongwx.drawlottery.pojo.User;
 import com.hudongwx.drawlottery.service.commodity.IFileService;
 import com.hudongwx.drawlottery.service.user.IUserService;
+import com.qiniu.util.Auth;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Drawlottery.
@@ -74,4 +79,26 @@ public class MainController extends BaseController {
             return ResponseEntity.notFound().build();
         }
     }*/
+
+    @RequestMapping(method = RequestMethod.POST, value = "/getUploadToken")
+    @ResponseBody
+    public AjaxResult getQiniuUploadToken(@RequestBody String suffix) {
+        //获取AccessKey
+        final String ak = configConstants.getQiniuAccessKey();
+        //获取SecretKey
+        final String qk = configConstants.getQiniuSecretKey();
+        //上传空间
+        String bucketName = configConstants.getBucketName();
+        if (!suffix.startsWith("."))
+            suffix = "." + suffix;
+        //上传到七牛后保存的文件名
+        String key = UUID.randomUUID().toString() + suffix;
+
+        //密钥配置
+        Auth auth = Auth.create(ak, qk);
+
+        auth.uploadToken(bucketName);
+        //生成token
+        return success(auth.uploadToken(bucketName, key, configConstants.getExpries(), null));
+    }
 }

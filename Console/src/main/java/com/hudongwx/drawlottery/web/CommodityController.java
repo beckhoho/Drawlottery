@@ -139,11 +139,5 @@ public class CommodityController extends BaseController {
         final String s = fileService.fileUpload(file);
         return success("上传成功", s);
     }
-
-    @RequestMapping(value = "/uploadTest", method = RequestMethod.POST,consumes = "multipart/form-data")
-    public AjaxResult uploadImage(@RequestParam(value = "file") MultipartFile file,@RequestParam("name")String name) {
-        logger.info(file.getOriginalFilename());
-        return success();
-    }
 }
 

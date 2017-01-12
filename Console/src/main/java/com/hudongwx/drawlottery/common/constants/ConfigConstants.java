@@ -34,7 +34,14 @@ public class ConfigConstants {
      * 七牛sk
      */
     private String qiniuSecretKey;
-
+    /**
+     * 七牛上传空间
+     */
+    private String bucketName;
+    /**
+     * token有效时间
+     */
+    private Long expries;
 
     /**
      * 文件上传路径
@@ -64,5 +71,37 @@ public class ConfigConstants {
 
     public void setUploadPath(String uploadPath) {
         this.uploadPath = uploadPath;
+    }
+
+    public String getQiniuAccessKey() {
+        return qiniuAccessKey;
+    }
+
+    public void setQiniuAccessKey(String qiniuAccessKey) {
+        this.qiniuAccessKey = qiniuAccessKey;
+    }
+
+    public String getQiniuSecretKey() {
+        return qiniuSecretKey;
+    }
+
+    public void setQiniuSecretKey(String qiniuSecretKey) {
+        this.qiniuSecretKey = qiniuSecretKey;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public Long getExpries() {
+        return expries;
+    }
+
+    public void setExpries(Long expries) {
+        this.expries = expries;
     }
 }

@@ -70,4 +70,8 @@ public class IFileServiceImpl implements IFileService {
             throw new ServiceException("文件上传失败");
         }
     }
+
+    public String qiniuFileUpload(MultipartFile file){
+        return null;
+    }
 }
