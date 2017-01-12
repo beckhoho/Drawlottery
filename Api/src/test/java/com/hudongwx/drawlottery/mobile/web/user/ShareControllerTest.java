@@ -63,7 +63,7 @@ public class ShareControllerTest extends TestBaseWeb {
         String url = "/api/v1/user/share/upload.do";
         ShareFormData fd = new ShareFormData();
         Share share = new Share();
-        share.setIssueDate(new Date());
+        share.setIssueDate(new Date().getTime());
         share.setCommodityId(1l);
         share.setParticulars("这是我写的晒单详情！！！！");
         List<MultipartFile> list = new ArrayList<>();

@@ -37,7 +37,7 @@ public class ShoppingCartServiceImplTest extends TestBaseMapper {
         s.setUserAccountId(2l);
         s.setCommodityId(10l);
         s.setNumber(10);
-        s.setAddDate(new Date());
+        s.setAddDate(new Date().getTime());
         boolean b = service.addCommodityToCart(1L,1L,1);
         Assert.assertTrue(b);
     }

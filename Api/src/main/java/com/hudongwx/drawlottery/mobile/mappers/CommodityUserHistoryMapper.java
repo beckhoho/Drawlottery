@@ -1,8 +1,12 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityUserHistory;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -22,4 +26,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CommodityUserHistoryMapper extends BaseMapper<CommodityUserHistory>{
 
+    /**
+     * 查询购买历史
+     * @param accountId 用户ID
+     * @return  返回历史商品信息集合
+     */
+    List<CommodityUserHistory> selectHistoryPay(@Param("accountId") Long accountId);
 }

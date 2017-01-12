@@ -194,7 +194,7 @@ public class CommodityServiceImpl implements ICommodityService {
         Commoditys com = mapper.selectByKey(commodId);
         Map<String, Object> map = new HashMap<>();
         if (com.getStateId() == 3) {//如果未开奖
-            CommodityHistory comh = historyMapper.selectBycommodId(com.getName(), com.getRoundTime());
+            CommodityHistory comh = historyMapper.selectBycommodName(com.getName(), com.getRoundTime());
             map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
         }
         if (com.getStateId() == 1) {//如果已开奖
@@ -296,7 +296,7 @@ public class CommodityServiceImpl implements ICommodityService {
         userLuck.setCommodityId(commodId);
         userLuck.setUserAccountId(userAccountId);
         List<UserLuckCodes> select = userluckMapper.select(userLuck);
-        Date buyDate = null;
+        Long buyDate = null;
         int size = 0;
         if (!select.isEmpty()) {
             size = select.size();
@@ -484,7 +484,7 @@ public class CommodityServiceImpl implements ICommodityService {
         history.setCommodityId(commodityId);
         history.setBuyTotalNumber(com.getBuyTotalNumber());
         history.setCoverImgUrl(com.getCoverImgUrl());
-        history.setEndTime(new Date());
+        history.setEndTime(new Date().getTime());
         history.setCommodityName(com.getName());
         history.setLuckCode(luckCode);
         history.setRoundTime(com.getRoundTime());

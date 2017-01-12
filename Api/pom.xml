@@ -32,5 +32,15 @@
             <version>2.4</version>
         </dependency>
     </dependencies>
-
+    <build>
+        <!--编译mapper的xml文件-->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*Mapper.xml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>

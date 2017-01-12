@@ -13,4 +13,8 @@
         <result column="worth" jdbcType="INTEGER" property="worth"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
     </resultMap>
+
+    <select id="selectByCommId" resultMap="BaseResultMap">
+        select * from t_virtual_commodity where commodity_id = #{commId}
+    </select>
 </mapper>

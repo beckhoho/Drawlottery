@@ -40,7 +40,7 @@ public class SignInServiceImpl implements ISignInService {
         SignIn signIn = new SignIn();
         List<SignIn> signInList = mapper.selectSignByAccountId(accountId);
         if (!signInList.isEmpty()) {
-            Date date1 = signInList.get(0).getNewSignInDate();
+            Long date1 = signInList.get(0).getNewSignInDate();
             if (sdf.format(date).equals(sdf.format(date1)))
                 return false;
             Date dayBack = new Date(date.getTime() - Settings.ONE_DAY_LONG_VALUE);
@@ -53,7 +53,7 @@ public class SignInServiceImpl implements ISignInService {
             signIn.setSignInDay(1);
         }
         signIn.setUserAccountId(accountId);
-        signIn.setNewSignInDate(date);
+        signIn.setNewSignInDate(date.getTime());
         return mapper.insert(signIn) > 0;
     }
 
@@ -68,7 +68,7 @@ public class SignInServiceImpl implements ISignInService {
         for (SignIn signIn : signInList) {
             Map<String, Object> map = new HashMap<>();
             map.put("continuousTimes", signIn.getSignInDay());
-            map.put("date", signIn.getNewSignInDate().getTime());
+            map.put("date", signIn.getNewSignInDate());
             infoList.add(map);
         }
         return infoList;

@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserMapper extends BaseMapper<User> {
+
+
+    //通过手机号查询用户
     @Select("select * from t_users where phone_number = #{phone}")
     @Results({
             @Result(id = true, column = "account_id",property = "accountId"),
@@ -21,6 +24,8 @@ public interface UserMapper extends BaseMapper<User> {
             @Result(column = "current_state", property = "currentState"),
             @Result(column = "header_url", property = "headerUrl"),
             @Result(column = "gold_number", property = "goldNumber"),
+            @Result(column = "weixin_open_id", property = "weixinOpenId"),
+
     })
     User selectByPhoneNumber(@Param("phone") String phone);
 

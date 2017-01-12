@@ -42,7 +42,7 @@ public class CommodityUserHistory {
      * 购买商品时间
      */
     @Column(name = "partake_date")
-    private Date partakeDate;
+    private Long partakeDate;
 
     public Long getId() {
         return id;
@@ -68,11 +68,11 @@ public class CommodityUserHistory {
         this.commodityId = commodityHistoryId;
     }
 
-    public Date getPartakeDate() {
+    public Long getPartakeDate() {
         return partakeDate;
     }
 
-    public void setPartakeDate(Date partakeDate) {
+    public void setPartakeDate(Long partakeDate) {
         this.partakeDate = partakeDate;
     }
 }

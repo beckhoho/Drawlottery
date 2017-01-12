@@ -10,4 +10,9 @@
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
     <result column="state" jdbcType="INTEGER" property="state"/>
   </resultMap>
+
+  <select id="selectByUsable" resultMap="BaseResultMap">
+    select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
+  </select>
+
 </mapper>

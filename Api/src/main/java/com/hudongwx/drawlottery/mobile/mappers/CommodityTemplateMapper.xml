@@ -11,14 +11,14 @@
     <result column="commodity_type_id" jdbcType="BIGINT" property="commodityTypeId" />
     <result column="genre" jdbcType="INTEGER" property="genre" />
     <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber" />
-    <result column="ground_time" jdbcType="TIMESTAMP" property="groundTime" />
+    <result column="ground_time" jdbcType="BIGINT" property="groundTime" />
     <result column="state_id" jdbcType="INTEGER" property="stateId" />
     <result column="cover_img_url" jdbcType="VARCHAR" property="coverImgUrl" />
     <result column="auto_round" jdbcType="INTEGER" property="autoRound" />
     <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl" />
     <result column="valid" jdbcType="INTEGER" property="valid" />
     <result column="minimum" jdbcType="INTEGER" property="minimum" />
-    <result column="undercarriage_time" jdbcType="TIMESTAMP" property="undercarriageTime" />
+    <result column="undercarriage_time" jdbcType="BIGINT" property="undercarriageTime" />
     <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
     <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
     <result column="contact_address" jdbcType="VARCHAR" property="contactAddress" />

@@ -26,11 +26,7 @@ import java.util.List;
  */
 public interface CommodityExchangeMapper extends BaseMapper<CommodityExchange> {
 
-    @Select("select * from t_commodity_exchange where commodity_id = #{commodityId}")
-    @Results({
-            @Result(column = "commodity_id", property = "commodityId"),
-            @Result(column = "exchange_way_id", property = "exchangeWayId")
-    })
+    //通过商品ID查询商品兑换方式
     List<CommodityExchange> selectByCommodityId(@Param("commodityId") Long commodityId);
 
 }

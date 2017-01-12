@@ -34,7 +34,7 @@ public class ShareServiceImplTest extends TestBaseMapper {
         Share s = new Share();
         s.setUserAccountId(2l);
         s.setCommodityId(2l);
-        s.setIssueDate(new Date());
+        s.setIssueDate(new Date().getTime());
         s.setParticulars("url1");
 //        boolean b = shareMapper.addShare(s);
 //        Assert.assertTrue(b);

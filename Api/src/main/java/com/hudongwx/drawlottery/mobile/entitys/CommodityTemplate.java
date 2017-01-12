@@ -47,7 +47,7 @@ public class CommodityTemplate {
      * 上架时间
      */
     @Column(name = "ground_time")
-    private Date groundTime;
+    private Long groundTime;
 
     /**
      * 商品状态ID
@@ -87,7 +87,7 @@ public class CommodityTemplate {
      * 下架时间
      */
     @Column(name = "undercarriage_time")
-    private Date undercarriageTime;
+    private Long undercarriageTime;
 
     @Column(name = "contact_name")
     private String contactName;
@@ -232,7 +232,7 @@ public class CommodityTemplate {
      *
      * @return ground_time - 上架时间
      */
-    public Date getGroundTime() {
+    public Long getGroundTime() {
         return groundTime;
     }
 
@@ -241,7 +241,7 @@ public class CommodityTemplate {
      *
      * @param groundTime 上架时间
      */
-    public void setGroundTime(Date groundTime) {
+    public void setGroundTime(Long groundTime) {
         this.groundTime = groundTime;
     }
 
@@ -358,7 +358,7 @@ public class CommodityTemplate {
      *
      * @return undercarriage_time - 下架时间
      */
-    public Date getUndercarriageTime() {
+    public Long getUndercarriageTime() {
         return undercarriageTime;
     }
 
@@ -367,7 +367,7 @@ public class CommodityTemplate {
      *
      * @param undercarriageTime 下架时间
      */
-    public void setUndercarriageTime(Date undercarriageTime) {
+    public void setUndercarriageTime(Long undercarriageTime) {
         this.undercarriageTime = undercarriageTime;
     }
 

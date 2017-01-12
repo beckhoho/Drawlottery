@@ -49,7 +49,7 @@ public class NotificationCampaign {
      * 发送时间
      */
     @Column(name = "send_date")
-    private Date sendDate;
+    private Long sendDate;
 
     /**
      * 活动封面图url
@@ -97,11 +97,11 @@ public class NotificationCampaign {
         this.noticeUrl = noticeUrl;
     }
 
-    public Date getSendDate() {
+    public Long getSendDate() {
         return sendDate;
     }
 
-    public void setSendDate(Date sendDate) {
+    public void setSendDate(Long sendDate) {
         this.sendDate = sendDate;
     }
 }

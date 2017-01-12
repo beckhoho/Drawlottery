@@ -3,6 +3,8 @@ package com.hudongwx.drawlottery.mobile.service.user.impl;
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -55,9 +57,9 @@ public class UserServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectHistoryPay() throws Exception {
-        List<Map<String, Object>> mapList = service.selectHistoryPay(10000l, 0);
+        List<Map<String, Object>> mapList = service.selectHistoryPay(10001l, 0);
         for (Map<String,Object> map: mapList) {
-            System.out.println(map.get("buyNumber"));
+            System.out.println(map.get("userBuyNumber"));
         }
     }
 
@@ -69,6 +71,16 @@ public class UserServiceImplTest extends TestBaseMapper {
     @Test
     public void testSelectToNew() throws Exception {
 
+    }
+
+
+    public static void main(String[] args) {
+        GenericApplicationContext parent = new GenericApplicationContext();
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+        context.setParent(parent);
+        context.refresh();
+        context.start();
+        context.close();
     }
 
 }

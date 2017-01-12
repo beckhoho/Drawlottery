@@ -73,7 +73,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
     public void testUpdate() throws Exception {
         Orders oders = new Orders();
         oders.setId(1l);
-        oders.setSubmitDate(new Date());
+        oders.setSubmitDate(new Date().getTime());
         oders.setUserAccountId(3l);
         boolean update = odersSer.update(oders);
         Assert.assertTrue(update);

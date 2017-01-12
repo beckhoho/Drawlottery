@@ -26,10 +26,7 @@ import java.util.List;
  */
 public interface VirtualCommodityMapper extends BaseMapper<VirtualCommodity> {
 
-    @Select("select * from t_virtual_commodity where commodity_id = #{commId}")
-    @Results({
-            @Result(column = "commodity_id", property = "commodityId"),
-            @Result(column = "card_number", property = "cardNumber")
-    })
+
+    //通过商品Id查询虚拟商品
     List<VirtualCommodity> selectByCommId(@Param("commId") Long commId);
 }

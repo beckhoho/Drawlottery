@@ -23,7 +23,7 @@ public class CommodityImg {
      * 添加时间
      */
     @Column(name = "add_time")
-    private Date addTime;
+    private Long addTime;
 
     /**
      * 商品ID
@@ -94,7 +94,7 @@ public class CommodityImg {
      *
      * @return add_time - 添加时间
      */
-    public Date getAddTime() {
+    public Long getAddTime() {
         return addTime;
     }
 
@@ -103,7 +103,7 @@ public class CommodityImg {
      *
      * @param addTime 添加时间
      */
-    public void setAddTime(Date addTime) {
+    public void setAddTime(Long addTime) {
         this.addTime = addTime;
     }
 }

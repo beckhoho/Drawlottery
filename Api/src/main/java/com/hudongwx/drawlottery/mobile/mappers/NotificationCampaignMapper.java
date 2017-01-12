@@ -25,15 +25,7 @@ import java.util.List;
  */
 public interface NotificationCampaignMapper extends BaseMapper<NotificationCampaign> {
 
-    @Select("select  distinct * from t_notification_activity GROUP BY notice_title")
-    @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(column = "user_account_id", property = "userAccountId"),
-            @Result(column = "notice_title", property = "noticeTitle"),
-            @Result(column = "notice_url", property = "noticeUrl"),
-            @Result(column = "notice_cover_img_url", property = "noticeCoverImgUrl"),
-            @Result(column = "send_date", property = "sendDate")
-    })
+    //查询所有活动通知
     List<NotificationCampaign> selectTitle();
 
 }

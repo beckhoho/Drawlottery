@@ -11,4 +11,7 @@
         <result column="state" jdbcType="INTEGER" property="state"/>
 
     </resultMap>
+    <select id="selectByCommodityId" resultMap="BaseResultMap">
+        select * from t_commodity_exchange where commodity_id = #{commodityId}
+    </select>
 </mapper>

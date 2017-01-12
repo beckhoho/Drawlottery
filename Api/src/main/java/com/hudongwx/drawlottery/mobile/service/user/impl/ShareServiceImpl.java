@@ -57,7 +57,7 @@ public class ShareServiceImpl implements IShareService {
         share.setCommodityId(commId);
         share.setParticulars(desc);
         share.setUserAccountId(accountId);
-        share.setIssueDate(date);
+        share.setIssueDate(date.getTime());
         if (shareMapper.insert(share) <= 0)
             return false;
         String fileSavePath = "C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\shareimg";

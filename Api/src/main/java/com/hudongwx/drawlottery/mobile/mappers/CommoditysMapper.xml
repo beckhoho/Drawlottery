@@ -12,7 +12,7 @@
         <result column="genre" jdbcType="INTEGER" property="genre"/>
         <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber"/>
         <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
-        <result column="ground_time" jdbcType="TIMESTAMP" property="groundTime"/>
+        <result column="ground_time" jdbcType="BIGINT" property="groundTime"/>
         <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
         <result column="state_id" jdbcType="INTEGER" property="stateId"/>
         <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
@@ -20,18 +20,135 @@
         <result column="auto_round" jdbcType="INTEGER" property="autoRound"/>
         <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl"/>
         <result column="buy_last_number" jdbcType="INTEGER" property="byLastNumber"/>
-        <result column="sell_out_time" jdbcType="TIMESTAMP" property="sellOutTime"/>
-        <result column="undercarriage_time" jdbcType="TIMESTAMP" property="undercarriageTime"/>
+        <result column="sell_out_time" jdbcType="BIGINT" property="sellOutTime"/>
+        <result column="undercarriage_time" jdbcType="BIGINT" property="undercarriageTime"/>
         <result column="valid" jdbcType="INTEGER" property="valid"/>
         <result column="minimum" jdbcType="INTEGER" property="minimum"/>
         <result column="temp_id" jdbcType="BIGINT" property="tempId"/>
         <result column="view_num" jdbcType="BIGINT" property="viewNum"/>
     </resultMap>
 
+    <!-- 根据商品主键ID查询商品 -->
+    <select id="selectByKey" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity.id = #{commodityId}
+    </select>
+
+    <!-- 根据商品类型ID分页查询商品 -->
+    <select id="selectPaging" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity_type_id = #{commodTypeId} limit #{startNum},#{endNum}
+    </select>
+
+    <!-- 人气 -->
+    <select id="selectByTemp1" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity.state_id = 3 ORDER BY
+        commodity.buy_current_number/template.buy_total_number DESC
+    </select>
+
+    <!-- 最快 -->
+    <select id="selectByTemp2" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity.state_id = 3 ORDER BY
+        commodity.buy_current_number-commodity.buy_last_number DESC
+    </select>
+
+    <!-- 最新 -->
+    <select id="selectByTemp3" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity.state_id = 3 ORDER BY ground_time DESC
+    </select>
+
+    <!-- 高价 -->
+    <select id="selectByTemp4" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity.state_id = 3 ORDER BY template.buy_total_number DESC
+    </select>
+
+    <!-- 查询开奖中的商品 -->
+    <select id="selectOnLottery" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE template.buy_total_number - commodity.buy_current_number = 0
+        AND commodity.state_id = 2 ORDER BY
+        commodity.sell_out_time DESC limit #{maxInfo}
+    </select>
 
 
+    <select id="selectTopTenOnLottery" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE template.buy_total_number - commodity.buy_current_number = 0
+        AND commodity.state_id=2 ORDER BY commodity.sell_out_time
+        DESC limit 10
+    </select>
 
+    <!-- 查询高中奖率商品 -->
+    <select id="selectHeight" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity.state_id = 3
+        AND template.buy_total_number &lt; #{number}
+    </select>
 
+    <!-- 查询已开奖商品 -->
+    <select id="selectHasTheLotteryComm" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        <where>
+            commodity.state_id = 1
+            ORDER BY commodity.sell_out_time DESC
+        </where>
+    </select>
 
+    <select id="selectByGuess" resultMap="BaseResultMap">
+        <include refid="selectSql2"></include>
+        WHERE commodity.buy_current_number/template.buy_total_number>1/2
+        AND commodity.buy_current_number!=template.buy_total_number
+    </select>
 
+    <!-- 确定商品类型和商品名模糊查询 -->
+    <select id="selectByTypeAndName" resultMap="BaseResultMap">
+        <include refid="selectSql2"></include>
+        WHERE template.commodity_type_id = #{typeId}
+        and template.name like #{name} and commodity.state_id = #{stateId}
+    </select>
+
+    <!-- 模糊查询 -->
+    <select id="selectByName" resultMap="BaseResultMap">
+        <include refid="selectSql2"></include>
+        WHERE template.name like #{name}
+        and commodity.state_id = #{stateId}
+    </select>
+
+    <!-- 根据商品类型查询 -->
+    <select id="selectByType" resultMap="BaseResultMap">
+        <include refid="selectSql2"></include>
+        WHERE template.commodity_type_id = #{typeId}
+        and commodity.state_id = #{stateId}
+    </select>
+
+    <!-- 商品通用查询语句 -->
+    <sql id="selectSql">
+        SELECT commodity.id,template.name,
+        commodity.view_num,template.commodity_desc,
+        template.commodity_type_id,commodity.buy_current_number,
+        template.buy_total_number,template.ground_time,
+        commodity.luck_code_id,commodity.round_time,
+        template.cover_img_url,template.auto_round,
+        template.commodity_desc_url,commodity.buy_last_number,
+        commodity.sell_out_time,commodity.state_id FROM t_commoditys
+         as commodity LEFT JOIN t_commodity_template
+          as template ON commodity.temp_id = template.id
+    </sql>
+
+    <!-- 商品通用查询语句2（少字段） -->
+    <sql id="selectSql2">
+        SELECT commodity.id,template.name,
+        commodity.view_num,template.commodity_type_id,
+        commodity.buy_current_number,
+        template.buy_total_number,
+        commodity.round_time,template.cover_img_url,
+        commodity.sell_out_time,commodity.state_id
+        FROM t_commoditys as commodity
+        LEFT JOIN t_commodity_template as template ON
+        commodity.temp_id = template.id
+    </sql>
 </mapper>

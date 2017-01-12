@@ -4,6 +4,7 @@ import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityUserHistory;
 import com.hudongwx.drawlottery.mobile.mappers.CommodityUserHistoryMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityUserHistoryService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,5 +64,6 @@ public class CommodityUserHistoryServiceImpl implements ICommodityUserHistorySer
         }
         return mapList;
     }
+
 
 }

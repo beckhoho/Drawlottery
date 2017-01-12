@@ -11,12 +11,10 @@ import java.util.List;
 
 public interface UserLuckCodesMapper extends BaseMapper<UserLuckCodes> {
 
-    @Select("select distinct user_account_id from t_user_luck_codes")
-    @Results({
-            @Result(column = "user_account_id",property = "userAccountId")
-    })
+
+    //查看商品幸运码
     List<UserLuckCodes> selectCountByCommodity(@Param("commod") Long commod);
 
-    @Select("select distinct commodity_id from t_user_luck_codes WHERE user_account_id = #{accountId}")
+    //查看用户幸运码
     List<Long> selectDistinctGroupByCommId(@Param("accountId") Long accountId);
 }

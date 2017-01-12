@@ -50,7 +50,7 @@ public class CommodityHistory {
      * 揭晓时间
      */
     @Column(name = "end_time")
-    private Date endTime;
+    private Long endTime;
 
     /**
      * 本期中奖用户
@@ -107,11 +107,11 @@ public class CommodityHistory {
         this.luckUserAccountId = luckUserAccountId;
     }
 
-    public Date getEndTime() {
+    public Long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Long endTime) {
         this.endTime = endTime;
     }
 

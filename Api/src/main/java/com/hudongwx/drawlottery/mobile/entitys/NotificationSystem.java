@@ -48,7 +48,7 @@ public class NotificationSystem {
      * 发送时间
      */
     @Column(name = "send_date")
-    private Date sendDate;
+    private Long sendDate;
 
     public Long getId() {
         return id;
@@ -82,11 +82,11 @@ public class NotificationSystem {
         this.noticeUrl = noticeUrl;
     }
 
-    public Date getSendDate() {
+    public Long getSendDate() {
         return sendDate;
     }
 
-    public void setSendDate(Date sendDate) {
+    public void setSendDate(Long sendDate) {
         this.sendDate = sendDate;
     }
 }

@@ -119,16 +119,16 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<Map<String, Object>> selectHistoryPay(Long accountId, Integer item) {
 
-        List<Map<String, Object>> mapList = selectToHistory(accountId);
+        List<Map<String, Object>> mapList =new ArrayList<>();
         if (item == 1) {
-            return selectToNew(accountId);
+            mapList = selectToNew(accountId);
         } else if (item == 2) {
-            return selectToHistory(accountId);
+            mapList = selectToHistory(accountId);
         } else {
             mapList.addAll(selectToHistory(accountId));
             mapList.addAll(selectToNew(accountId));
-            return mapList;
         }
+        return mapList;
     }
 
     //添加历史购买商品
@@ -171,7 +171,7 @@ public class UserServiceImpl implements IUserService {
         List<Long> commIdList = luckCodesMapper.selectDistinctGroupByCommId(accountId);
         for (Long commId : commIdList) {
             Map<String, Object> map = new HashMap<>();
-            Commoditys com = comMapper.selectByPrimaryKey(commId);
+            Commoditys com = comMapper.selectByKey(commId);
             List<String> integers = luckUserList(accountId, com.getId());
             map.put("id", com.getId());//添加商品ID
             map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次

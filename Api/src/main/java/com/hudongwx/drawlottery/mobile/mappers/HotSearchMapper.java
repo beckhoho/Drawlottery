@@ -25,9 +25,9 @@ import java.util.List;
  */
 public interface HotSearchMapper extends BaseMapper<HotSearch> {
 
-    @Select("select name from t_hot_search order by frequency desc limit 0, 10")
+    //查询热门搜索关键词
     List<String> selectRecommend();
 
-    @Update("update t_hot_search set frequency = #{frequency} where id = #{id}")
+    //更新热门搜索关键词
     int updateRecommend(@Param("id") Long id, @Param("frequency") Long frequency);
 }

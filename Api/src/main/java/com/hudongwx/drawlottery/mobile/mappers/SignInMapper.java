@@ -26,12 +26,6 @@ import java.util.List;
  */
 public interface SignInMapper extends BaseMapper<SignIn> {
 
-    @Select("select * from t_sign_in where user_account_id = #{accountId} order by new_sign_date desc")
-    @Results({
-            @Result(column = "id", property = "id"),
-            @Result(column = "user_account_id", property = "userAccountId"),
-            @Result(column = "sign_in_day", property = "signInDay"),
-            @Result(column = "new_sign_date", property = "newSignInDate"),
-    })
+    //查询用户签到
     List<SignIn> selectSignByAccountId(@Param("accountId") Long accountId);
 }

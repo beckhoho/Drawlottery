@@ -35,7 +35,7 @@ public class CommodityImgServiceImlplTest extends TestBaseMapper {
         Date  date = new Date();
         CommodityImg ci = new CommodityImg();
         ci.setUrl("de.com");
-        ci.setAddTime(date);
+        ci.setAddTime(date.getTime());
         ci.setState(1);
         boolean b = commodImg.addImage(ci);
         Assert.assertTrue(b);

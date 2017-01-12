@@ -31,7 +31,7 @@ public class Orders {
      * 订单提交时间
      */
     @Column(name = "submit_date")
-    private Date submitDate;
+    private Long submitDate;
 
     /**
      * 点击使用的红包ID
@@ -111,7 +111,7 @@ public class Orders {
      *
      * @return submit_date - 订单提交时间
      */
-    public Date getSubmitDate() {
+    public Long getSubmitDate() {
         return submitDate;
     }
 
@@ -120,7 +120,7 @@ public class Orders {
      *
      * @param submitDate 订单提交时间
      */
-    public void setSubmitDate(Date submitDate) {
+    public void setSubmitDate(Long submitDate) {
         this.submitDate = submitDate;
     }
 }

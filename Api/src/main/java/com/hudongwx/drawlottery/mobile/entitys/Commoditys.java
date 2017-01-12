@@ -41,7 +41,7 @@ public class Commoditys {
      * 开抢时间
      */
     @Column(name = "ground_time")
-    private Date groundTime;
+    private Long groundTime;
 
     /**
      * 中奖幸运码id
@@ -289,7 +289,7 @@ public class Commoditys {
      *
      * @return startTime - 开抢时间
      */
-    public Date getGroundTime() {
+    public Long getGroundTime() {
         return groundTime;
     }
 
@@ -298,7 +298,7 @@ public class Commoditys {
      *
      * @param groundTime 开抢时间
      */
-    public void setGroundTime(Date groundTime) {
+    public void setGroundTime(Long groundTime) {
         this.groundTime = groundTime;
     }
 

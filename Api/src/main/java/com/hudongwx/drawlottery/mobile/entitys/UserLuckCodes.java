@@ -31,7 +31,7 @@ public class UserLuckCodes {
      * 购买时间
      */
     @Column(name = "buy_date")
-    private Date buyDate;
+    private Long buyDate;
 
     /**
      * 订单ID
@@ -61,11 +61,11 @@ public class UserLuckCodes {
         this.ordersId = ordersId;
     }
 
-    public Date getBuyDate() {
+    public Long getBuyDate() {
         return buyDate;
     }
 
-    public void setBuyDate(Date buyDate) {
+    public void setBuyDate(Long buyDate) {
         this.buyDate = buyDate;
     }
 

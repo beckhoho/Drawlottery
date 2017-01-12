@@ -26,13 +26,13 @@ public class RedPackets {
      * 生效日期
      */
     @Column(name = "valid_date")
-    private Date validDate;
+    private Long validDate;
 
     /**
      * 失效日期
      */
     @Column(name = "overdue_date")
-    private Date overdueDate;
+    private Long overdueDate;
 
     /**
      * 红包名字
@@ -95,7 +95,7 @@ public class RedPackets {
      *
      * @return valid_date - 生效日期
      */
-    public Date getValidDate() {
+    public Long getValidDate() {
         return validDate;
     }
 
@@ -104,7 +104,7 @@ public class RedPackets {
      *
      * @param validDate 生效日期
      */
-    public void setValidDate(Date validDate) {
+    public void setValidDate(Long validDate) {
         this.validDate = validDate;
     }
 
@@ -113,7 +113,7 @@ public class RedPackets {
      *
      * @return overdue_date - 失效日期
      */
-    public Date getOverdueDate() {
+    public Long getOverdueDate() {
         return overdueDate;
     }
 
@@ -122,7 +122,7 @@ public class RedPackets {
      *
      * @param overdueDate 失效日期
      */
-    public void setOverdueDate(Date overdueDate) {
+    public void setOverdueDate(Long overdueDate) {
         this.overdueDate = overdueDate;
     }
 

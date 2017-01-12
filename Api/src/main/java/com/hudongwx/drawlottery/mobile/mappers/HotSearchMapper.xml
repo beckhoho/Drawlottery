@@ -10,4 +10,14 @@
         <result column="frequency" jdbcType="BIGINT" property="frequency"/>
 
     </resultMap>
+
+
+    <select id="selectRecommend" resultType="java.lang.String">
+         select name from t_hot_search order by frequency desc limit 0, 10
+    </select>
+
+    <update id="updateRecommend" parameterType="java.lang.Integer">
+        update t_hot_search set frequency = #{frequency} where id = #{id}
+    </update>
+
 </mapper>

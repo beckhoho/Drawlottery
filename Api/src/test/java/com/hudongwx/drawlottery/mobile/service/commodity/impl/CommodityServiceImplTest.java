@@ -30,10 +30,9 @@ public class CommodityServiceImplTest extends TestBaseMapper {
     ICommodityService service;
     @Test
     public void testSelectPaging() throws Exception {
-        List<Map<String, Object>> list = service.selectPaging(1, null, 1);
+        List<Map<String, Object>> list = service.selectPaging(1, "布加迪", 1);
         for (Map<String,Object> map : list){
             System.out.println(map.get("commodityName"));
-            System.out.println(map.get("buyTotalNumber"+"德玛西亚"));
         }
     }
 
