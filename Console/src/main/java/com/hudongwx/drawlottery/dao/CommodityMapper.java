@@ -29,7 +29,9 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
      * @param underTime  下架时间
      * @return 更新结果
      */
-    int updateState(@Param("ids") List<Integer> ids, @Param("state") int state, @Param("groundTime") Date groundTime, @Param("underTime") Date underTime);
+    public int updateState(@Param("ids") List<Integer> ids, @Param("state") int state, @Param("groundTime") Date groundTime, @Param("underTime") Date underTime);
 
-    List<String> selectNames(@Param("name") String name);
+    public List<String> selectNames(@Param("name") String name);
+
+    public long selectMaxRoundTime();
 }

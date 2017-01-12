@@ -9,10 +9,10 @@ public class LuckCodes {
     private Long id;
 
     /**
-     * 幸运号
+     * 幸运号对应模板id
      */
-    @Column(name = "lock_code")
-    private Integer lockCode;
+    @Column(name = "lock_code_id")
+    private Long lockCodeId;
 
     /**
      * 商品ID
@@ -39,17 +39,17 @@ public class LuckCodes {
      *
      * @return lock_code - 幸运号
      */
-    public Integer getLockCode() {
-        return lockCode;
+    public Long getLockCodeId() {
+        return lockCodeId;
     }
 
     /**
      * 设置幸运号
      *
-     * @param lockCode 幸运号
+     * @param lockCodeId 幸运号
      */
-    public void setLockCode(Integer lockCode) {
-        this.lockCode = lockCode;
+    public void setLockCodeId(Long lockCodeId) {
+        this.lockCodeId = lockCodeId;
     }
 
     /**

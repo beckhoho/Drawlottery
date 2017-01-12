@@ -8,14 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 商品相关 service 接口.
- * Date: 2017/1/4 0004
- * Time: 16:57
+ * Drawlottery.
+ * Date: 2017/1/12 0012
+ * Time: 16:47
  *
  * @author <a href="http://userwu.github.io">wuhongxu</a>.
  * @version 1.0.0
  */
-public interface ICommodityService {
+public interface CommodityService {
     /**
      * 获取商品列表.
      *
@@ -49,57 +49,32 @@ public interface ICommodityService {
                                               final int valid);
 
     /**
-     * 根据商品 id 得到商品.
+     * 批量上架商品
      *
-     * @param id 商品id
-     * @return 商品
+     * @param commodities 商品模板
      */
-    public CommodityTemplate getCommodityById(final int id);
+    public void groundCommodities(final List<CommodityTemplate> commodities);
 
     /**
-     * 添加商品.
+     * 上架单个商品
      *
-     * @param commodityTemplate 商品实体类
+     * @param tempId        模板id
+     * @param luckCodeCount 幸运码总量
+     */
+    public void groundCommodity(final long tempId, final long luckCodeCount);
+
+    /**
+     * 得到最大期数
+     *
+     * @return 期数
+     */
+    public long selectMaxRoundTime();
+
+    /**
+     * 添加商品
+     *
+     * @param commodity 商品
      * @return 状态
      */
-    public int addCommodityTemplate(final CommodityTemplate commodityTemplate);
-
-    /**
-     * 修改商品信息.
-     *
-     * @param commodityTemplate 修改实体类
-     * @return 状态
-     */
-    public int updateCommodity(final CommodityTemplate commodityTemplate);
-
-    /**
-     * 批量删除商品.
-     *
-     * @param commodityId 删除商品的id集合
-     * @return 状态
-     */
-    public int deleteCommodity(final List<Integer> commodityId);
-
-    /**
-     * 批量上架商品.
-     *
-     * @param commodityIds 商品id集合
-     * @return 状态
-     */
-    public int ground(final List<Integer> commodityIds);
-
-    /**
-     * 批量下架商品.
-     *
-     * @param commodityIds 商品id集合
-     * @return 状态
-     */
-    public int undercarriage(final List<Integer> commodityIds);
-
-    /**
-     * 通过模糊搜索得到字段结果（限制了结果条数）
-     * @param name 商品名
-     * @return 匹配集合
-     */
-    public List<String> getNames(String name);
+    public int addCommodity(Commodity commodity);
 }

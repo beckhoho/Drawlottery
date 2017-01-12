@@ -18,7 +18,7 @@
         FROM t_commoditys AS commodity
         LEFT JOIN t_commodity_template as temp on commodity.id = temp.id
           LEFT JOIN t_commodity_type AS type ON temp.commodity_type_id = type.id
-          LEFT JOIN t_commodity_states AS state ON temp.state_id = state.id
+          LEFT JOIN t_commodity_states AS state ON commodity.state_id = state.id
     </sql>
     <update id="updateState">
         update draw_lottery.t_commoditys SET state_id = #{state},
@@ -108,5 +108,8 @@
     <select id="selectNames" resultType="java.lang.String">
         <bind name="pattern" value="'%' + name + '%'"/>
         select DISTINCT name from t_commoditys where name like #{pattern} LIMIT 0,10
+    </select>
+    <select id="selectMaxRoundTime" resultType="java.lang.Long">
+select max(round_time * 1) from t_commoditys
     </select>
 </mapper>

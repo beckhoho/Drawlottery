@@ -12,10 +12,7 @@ import com.hudongwx.drawlottery.pojo.Commodity;
 import com.hudongwx.drawlottery.pojo.CommodityState;
 import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 import com.hudongwx.drawlottery.pojo.CommodityType;
-import com.hudongwx.drawlottery.service.commodity.ICommodityService;
-import com.hudongwx.drawlottery.service.commodity.IFileService;
-import com.hudongwx.drawlottery.service.commodity.IStateService;
-import com.hudongwx.drawlottery.service.commodity.ITypeService;
+import com.hudongwx.drawlottery.service.commodity.*;
 import com.hudongwx.drawlottery.service.user.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,11 +46,13 @@ public class CommodityController extends BaseController {
     private IUserService userService;
     @Resource
     private IFileService fileService;
+    @Resource
+    private CommodityService commodityService;
 
     @Resource
     private ITypeService typeService;
     @Resource
-    private ICommodityService commodityService;
+    private ITempService tempService;
 
     @Resource
     private IStateService stateService;
@@ -76,7 +75,7 @@ public class CommodityController extends BaseController {
     public AjaxResult deleteCommodities(@ApiParam @RequestBody List<Integer> ids) {
         if (ids.size() == 0)
             return fail("删除失败！未选择任何商品！");
-        commodityService.deleteCommodity(ids);
+        tempService.deleteCommodity(ids);
         return success(langConstants.getLang(langConstants.DELETE_COMMODITY_SUCCESS));
     }
 
@@ -85,24 +84,24 @@ public class CommodityController extends BaseController {
     public AjaxResult addCommodity(@ApiParam("有id则为修改，无id则为删除") @RequestBody TempBody body) {
         final CommodityTemplate commodityTemplate = body.packingMe();
         if (commodityTemplate.getId() == null) {
-            commodityService.addCommodityTemplate(commodityTemplate);
+            tempService.addCommodityTemplate(commodityTemplate);
             return success(langConstants.getLang(langConstants.ADD_COMMODITY_SUCCESS));
         }
-        commodityService.updateCommodity(commodityTemplate);
+        tempService.updateCommodity(commodityTemplate);
         return success(langConstants.getLang(langConstants.UPDATE_COMMODITY_SUCCESS));
     }
 
     @ApiOperation("批量上架")
     @RequestMapping(value = "/ground", method = RequestMethod.POST)
     public AjaxResult groundCommodities(@ApiParam @RequestBody List<Integer> list) {
-        commodityService.ground(list);
+        tempService.ground(list);
         return success(langConstants.getLang(langConstants.GROUND_COMMODITY_SUCCESS));
     }
 
     @ApiOperation("批量下架")
     @RequestMapping(value = "/under", method = RequestMethod.POST)
     public AjaxResult underCommodities(@ApiParam @RequestBody List<Integer> list) {
-        commodityService.undercarriage(list);
+        tempService.undercarriage(list);
         return success(langConstants.getLang(langConstants.UNDERCARRIAGE_COMMODITY_SUCCESS));
     }
 
@@ -130,7 +129,7 @@ public class CommodityController extends BaseController {
     @ApiOperation("关键字搜索自动完成数据源")
     @RequestMapping(value = "/keys", method = RequestMethod.POST)
     public List<String> getKeys(@ApiParam @RequestParam("key") String name) {
-        return commodityService.getNames(name);
+        return tempService.getNames(name);
     }
 
     @ApiOperation("图片上传地址")

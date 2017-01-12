@@ -14,6 +14,9 @@ import java.util.Date;
  * @version 1.0.0
  */
 public class Commodity {
+    public static final int ON_SALE = 3;
+    public static final int WILL_SALE = 4;
+    public static final int DID_SALE = 5;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,11 +32,6 @@ public class Commodity {
      */
     @Column(name = "buy_current_number")
     private Integer buyCurrentNumber;
-    /**
-     * 中奖幸运码id
-     */
-    @Column(name = "luck_code_id")
-    private Long luckCodeId;
 
     /**
      * 浏览量（商品点击量）
@@ -53,7 +51,11 @@ public class Commodity {
      * 售罄时间
      */
     @Column(name = "sell_out_time")
-    private Date sellOutTime;
+    private Long sellOutTime;
+    /**
+     * 上一次期数
+     */
+    private Long lastRoundTime;
 
 
 //----------------------------------------------------------//
@@ -119,11 +121,11 @@ public class Commodity {
     /**
      * 上架时间
      */
-    private Date groundTime;
+    private Long groundTime;
     /**
      * 下架时间
      */
-    private Date undercarriageTime;
+    private Long undercarriageTime;
     /**
      * 剩余购买人次
      */
@@ -135,7 +137,7 @@ public class Commodity {
     /**
      * 开抢时间
      */
-    private Date startTime;
+    private Long startTime;
     /**
      * 商品状态id
      */
@@ -156,6 +158,7 @@ public class Commodity {
      * 商品详情URL
      */
     private String commodityDescUrl;
+
     private String content;
 
     public String getContent() {
@@ -167,24 +170,24 @@ public class Commodity {
     }
 
 
-    public Date getGroundTime() {
+    public Long getGroundTime() {
         return groundTime;
     }
 
-    public void setGroundTime(Date groundTime) {
+    public void setGroundTime(Long groundTime) {
         this.groundTime = groundTime;
         if (groundTime == null) this.setGroundTimeLabel("");
-        else this.setGroundTimeLabel(DateUtils.format(groundTime));
+        else this.setGroundTimeLabel(DateUtils.format(new Date(groundTime)));
     }
 
-    public Date getUndercarriageTime() {
+    public Long getUndercarriageTime() {
         return undercarriageTime;
     }
 
-    public void setUndercarriageTime(Date undercarriageTime) {
+    public void setUndercarriageTime(Long undercarriageTime) {
         this.undercarriageTime = undercarriageTime;
         if (undercarriageTime == null) this.setUndercarriageTimeLabel("");
-        else this.setGroundTimeLabel(DateUtils.format(undercarriageTime));
+        else this.setGroundTimeLabel(DateUtils.format(new Date(undercarriageTime)));
     }
 
     public String getGroundTimeLabel() {
@@ -298,23 +301,13 @@ public class Commodity {
     }
 
 
-    public Date getStartTime() {
+    public Long getStartTime() {
         return startTime;
     }
 
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Long startTime) {
         this.startTime = startTime;
-    }
-
-
-    public Long getLuckCodeId() {
-        return luckCodeId;
-    }
-
-
-    public void setLuckCodeId(Long luckCodeId) {
-        this.luckCodeId = luckCodeId;
     }
 
 
@@ -358,12 +351,12 @@ public class Commodity {
     }
 
 
-    public Date getSellOutTime() {
+    public Long getSellOutTime() {
         return sellOutTime;
     }
 
 
-    public void setSellOutTime(Date sellOutTime) {
+    public void setSellOutTime(Long sellOutTime) {
         this.sellOutTime = sellOutTime;
     }
 
@@ -437,5 +430,21 @@ public class Commodity {
 
     public void setCardMoney(Integer cardMoney) {
         this.cardMoney = cardMoney;
+    }
+
+    public Long getTempId() {
+        return tempId;
+    }
+
+    public void setTempId(Long tempId) {
+        this.tempId = tempId;
+    }
+
+    public Long getLastRoundTime() {
+        return lastRoundTime;
+    }
+
+    public void setLastRoundTime(Long lastRoundTime) {
+        this.lastRoundTime = lastRoundTime;
     }
 }
