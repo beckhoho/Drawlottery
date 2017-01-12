@@ -5,6 +5,8 @@ import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
+import com.qq.connect.QQConnectException;
+import com.qq.connect.api.OpenID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -202,4 +204,59 @@ public class UserServiceImpl implements IUserService {
         }
         return list;
     }
+
+    /**
+     * 第三方账号绑定注册
+     * @param openId
+     * @param password
+     * @param header_url
+     * @param nickname
+     * @param platform
+     * @return
+     */
+    @Override
+    public User registerByOpenId(String openId, String password,String header_url, String nickname, String platform) {
+        User user = new User();
+        user.setPassword(password);
+        user.setHeaderUrl(header_url);
+        if(platform.equals("wx")){
+            user.setWeixinOpenId(openId);
+        }else{
+            user.setQqOpenId(openId);
+        }
+        user.setNickname(nickname);
+        mapper.insert(user);
+        return queryByOpenId(openId,platform);
+    }
+
+    /**
+     * 校验openId是否合法
+     * @return
+     */
+    @Override
+    public boolean checkOpenId(String token,String openId) {
+        try {
+            //通过token获取openId
+            return new OpenID(token).getUserOpenID().equals(openId);
+        } catch (QQConnectException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 分平台查询用户信息
+     *
+     * @param openId
+     * @param platform
+     * @return
+     */
+    @Override
+    public User queryByOpenId(String openId, String platform) {
+        if (platform.equals("wx")) {
+            return mapper.selectByWxOpenId(openId);
+        }
+        return mapper.selectByQQOpenId(openId);
+    }
+
 }
