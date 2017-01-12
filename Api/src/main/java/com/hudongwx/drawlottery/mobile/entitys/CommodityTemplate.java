@@ -49,11 +49,7 @@ public class CommodityTemplate {
     @Column(name = "ground_time")
     private Long groundTime;
 
-    /**
-     * 商品状态ID
-     */
-    @Column(name = "state_id")
-    private Integer stateId;
+
 
     /**
      * 封面图片id
@@ -245,23 +241,7 @@ public class CommodityTemplate {
         this.groundTime = groundTime;
     }
 
-    /**
-     * 获取商品状态ID
-     *
-     * @return state_id - 商品状态ID
-     */
-    public Integer getStateId() {
-        return stateId;
-    }
 
-    /**
-     * 设置商品状态ID
-     *
-     * @param stateId 商品状态ID
-     */
-    public void setStateId(Integer stateId) {
-        this.stateId = stateId;
-    }
 
     /**
      * 获取封面图片id

@@ -12,7 +12,6 @@
     <result column="genre" jdbcType="INTEGER" property="genre" />
     <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber" />
     <result column="ground_time" jdbcType="BIGINT" property="groundTime" />
-    <result column="state_id" jdbcType="INTEGER" property="stateId" />
     <result column="cover_img_url" jdbcType="VARCHAR" property="coverImgUrl" />
     <result column="auto_round" jdbcType="INTEGER" property="autoRound" />
     <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl" />

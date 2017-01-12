@@ -187,7 +187,6 @@ public class CommodityServiceImpl implements ICommodityService {
      * 查看商品详情
      *
      * @return 返回一个map集合
-     *
      */
     @Override
     public Map<String, Object> selectCommodity(Long commodId) {
@@ -445,9 +444,9 @@ public class CommodityServiceImpl implements ICommodityService {
     /**
      * 商品开奖之后需要改变的数据
      *
-     * @param luckCode  幸运号（不是ID）
-     * @param commodityId   商品ID
-     * @return  返回改变结果
+     * @param luckCode    幸运号（不是ID）
+     * @param commodityId 商品ID
+     * @return 返回改变结果
      */
     @Override
     public boolean reviseInfo(String luckCode, Long commodityId) {

@@ -92,6 +92,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         exCash.setState(0);//添加处理状态（1：已处理，0：未处理）
         exCash.setTerraceAccount(terraceAccount);//添加第三方提现账号
         exCash.setUserRealName(realName);//添加用户真实姓名
+
         return cashMapper.insert(exCash) > 0;
     }
 

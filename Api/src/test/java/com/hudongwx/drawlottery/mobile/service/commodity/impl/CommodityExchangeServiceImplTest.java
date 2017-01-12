@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityExchangeService;
 import com.hudongwx.drawlottery.mobile.service.commodity.IExchangeWayService;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
@@ -33,8 +34,13 @@ public class CommodityExchangeServiceImplTest extends TestBaseMapper {
     IExchangeWayService exService;
     @Test
     public void testSelectByCommodityId() throws Exception {
-        List<Map<String, Object>> list = service.selectByCommodityId(23l);
-        System.out.println(list.size());
+        List<Map<String, Object>> list = service.selectByCommodityId(26l);
+        for(Map<String, Object> map : list){
+            System.out.println(map.get("id"));
+            System.out.println(map.get("exchangeWay"));
+            System.out.println(map.get("url"));
+            System.out.println(map.get("quota"));
+        }
     }
 
 }

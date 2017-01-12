@@ -45,6 +45,8 @@ public class UserServiceImpl implements IUserService {
     CommoditysMapper comMapper;
     @Autowired
     LuckCodesMapper codesMapper;
+    @Autowired
+    CommodityExchangeMapper exchangeMapper;
 
     @Override
     public boolean register(String phone, String password, String verifyCode, String code) {
@@ -102,13 +104,25 @@ public class UserServiceImpl implements IUserService {
             map.put("roundTime", com.getRoundTime());//添加期数
             map.put("endTime", com.getEndTime());//揭晓时间
             map.put("buyNumber", com.getBuyNumber());//购买人次
+            map.put("luckCode",com.getLuckCode());//添加幸运码
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
             map.put("shareState", 0);//是否晒单（0、未晒单；1、已晒单）
             map.put("state", 0);//中奖确认流程（0、中奖--->1、确认手机号--->2、已充值）
+            map.put("exchangeId",selectExchange(com.getCommodityId()));//添加兑换方式ID
             mapList.add(map);
         }
         return mapList;
     }
+
+    public List<Integer> selectExchange(Long commodityId){
+        List<Integer> list = new ArrayList<>();
+        List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commodityId);
+        for (CommodityExchange ex : exchanges){
+            list.add(ex.getExchangeWayId());
+        }
+        return list;
+    }
+
 
     /**
      * 查看购买记录

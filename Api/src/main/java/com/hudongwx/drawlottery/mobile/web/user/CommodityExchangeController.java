@@ -48,6 +48,7 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/commexchways", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommExchangeWays(@RequestParam("commId") Long commId) {
+
         return success(ceService.selectByCommodityId(commId));
     }
 

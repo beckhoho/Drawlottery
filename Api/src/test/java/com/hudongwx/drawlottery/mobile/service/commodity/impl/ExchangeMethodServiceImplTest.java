@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.testng.Assert.*;
 
 /**
@@ -25,21 +28,25 @@ import static org.testng.Assert.*;
  * @email 346905702@qq.com
  */
 public class ExchangeMethodServiceImplTest extends TestBaseMapper {
+
     @Autowired
     IExchangeMethodService service;
     @Test
     public void testExchangeToGold() throws Exception {
-
+        boolean b = service.exchangeToGold(26l, 10000l);
+        Assert.assertTrue(b,"成功");
     }
 
     @Test
     public void testExchangeToCash() throws Exception {
-
+        boolean b = service.exchangeToCash("微信", "15289898", 26l, 10000L);
+        Assert.assertTrue(b);
     }
 
     @Test
     public void testExchangeToExpress() throws Exception {
-
+        Map<String, Object> map = service.exchangeToExpress(26l, 10000l);
+        System.out.println(map.get("name"));
     }
 
     @Test
@@ -50,12 +57,16 @@ public class ExchangeMethodServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectUserRechargeCardPrize() throws Exception {
-
+        List<Map<String, Object>> list = service.selectUserRechargeCardPrize(10000l, 5l);
+        for (Map<String, Object> map : list){
+            System.out.println(map.get("commodityName"));
+        }
     }
 
     @Test
     public void testSelectUserRechargeCardExchangeProcess() throws Exception {
-
+        Map<String, Object> map = service.selectUserRechargeCardExchangeProcess(10000l, 9l);
+        System.out.println(map.get("commodityName"));
     }
 
     @Test

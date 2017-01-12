@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
+import javax.persistence.*;
+
 @Table(name = "t_commoditys_imags")
 public class CommodityImg {
     @Id
