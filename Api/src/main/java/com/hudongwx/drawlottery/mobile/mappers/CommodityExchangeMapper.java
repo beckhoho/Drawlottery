@@ -3,9 +3,6 @@ package com.hudongwx.drawlottery.mobile.mappers;
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityExchange;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -29,4 +26,5 @@ public interface CommodityExchangeMapper extends BaseMapper<CommodityExchange> {
     //通过商品ID查询商品兑换方式
     List<CommodityExchange> selectByCommodityId(@Param("commodityId") Long commodityId);
 
+    List<CommodityExchange> selectByIdList(@Param("idList")List<Long> idList);
 }

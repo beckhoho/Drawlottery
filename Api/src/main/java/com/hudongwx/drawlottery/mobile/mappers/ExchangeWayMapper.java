@@ -2,6 +2,9 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.ExchangeWay;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -18,5 +21,9 @@ import com.hudongwx.drawlottery.mobile.entitys.ExchangeWay;
  * <p>
  * @email 346905702@qq.com
  */
-public interface ExchangeWayMapper extends BaseMapper<ExchangeWay>{
+public interface ExchangeWayMapper extends BaseMapper<ExchangeWay> {
+
+    List<ExchangeWay> selectByIdList(@Param("idList") List<Integer> idList);
+
+    ExchangeWay selectById(@Param("ewId") Integer ewId);
 }

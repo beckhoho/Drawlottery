@@ -27,6 +27,7 @@ import static org.testng.Assert.*;
  * @email 346905702@qq.com
  */
 public class CommodityExchangeServiceImplTest extends TestBaseMapper {
+
     @Autowired
     ICommodityExchangeService service;
     @Autowired

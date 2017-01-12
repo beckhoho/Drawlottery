@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
-import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
 import org.testng.annotations.Test;
 
@@ -22,11 +21,14 @@ import javax.annotation.Resource;
  * @email 294786949@qq.com
  */
 public class CommodityExchangeControllerTest extends TestBaseWeb {
+
+    @Resource
+    CommodityExchangeController exchangeController;
     @Test
     public void testQueryCommExchangeWays() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("commId", 1L);
-        post("/api/v1/user/commodity/commexchways", jsonObject.toJSONString());
+        //JSONObject jsonObject = new JSONObject();
+        //jsonObject.put("commId", 23L);
+        post("/api/v1/user/commodity/commexchways?commId=23", "commId="+23);
     }
 
     @Test
@@ -62,9 +64,6 @@ public class CommodityExchangeControllerTest extends TestBaseWeb {
     public void testExchangeToLocale() throws Exception {
 
     }
-
-    @Resource
-    CommodityExchangeController exchangeController;
 
     @Override
     public Object getController() {

@@ -7,6 +7,7 @@ import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     @Autowired
     ExchangeWayMapper ewMapper;
-    @Autowired
+    @Resource
     CommodityHistoryMapper chMapper;
     @Autowired
     VirtualCommodityMapper vcMapper;
@@ -175,7 +176,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         ch.setCommodityId(commodityId);
         ch.setLuckUserAccountId(accountId);
         List<CommodityHistory> list = chMapper.select(ch);
-        ExchangeWay way = ewMapper.selectByPrimaryKey(1);
+        ExchangeWay way = ewMapper.selectById(1);
         CommodityHistory history = list.get(0);
         map.put("commodityName", history.getCommodityName());//商品名
         map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图

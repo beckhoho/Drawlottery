@@ -47,7 +47,7 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
     public CommodityHistory selectHistoryCommod() {
         /*CommodityHistory history = new CommodityHistory();
         history.setLuckUserAccountId(10);
-        mapper.selectByPrimaryKey(history);*/
+        ceMapper.selectByPrimaryKey(history);*/
         return null;
     }
 
