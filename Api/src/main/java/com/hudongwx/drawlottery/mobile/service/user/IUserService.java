@@ -17,7 +17,7 @@ public interface IUserService {
      * @param password
      * @return
      */
-    boolean register(String phone, String password,String verifyCode,String code);
+    boolean register(String phone, String password);
 
     /**
      * 手机号查询用户
@@ -29,10 +29,31 @@ public interface IUserService {
 
     Map<String,Object> getUserInfo(User user);
 
+    /**
+     * 查询用户中奖历史
+     *
+     * @param accountId
+     * @return
+     */
     List<Map<String,Object>> selectHistoryLottery(Long accountId);
 
-    //购买历史
+    /**
+     * 用户购买历史(夺宝历史)
+     *
+     * @param accountId
+     * @param item
+     * @return
+     */
     List<Map<String,Object>> selectHistoryPay(Long accountId,Integer item);
+
+    /**
+     * 添加推广Id
+     *
+     * @param accountId 当前用户Id
+     * @param promId 推广Id
+     * @return
+     */
+    boolean addPromoterId(Long accountId, Long promId);
 
 
     /**

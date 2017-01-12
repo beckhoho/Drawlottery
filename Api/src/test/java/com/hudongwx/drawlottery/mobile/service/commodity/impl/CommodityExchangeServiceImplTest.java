@@ -3,7 +3,6 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityExchangeService;
 import com.hudongwx.drawlottery.mobile.service.commodity.IExchangeWayService;
-import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 

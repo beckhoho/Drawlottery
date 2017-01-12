@@ -58,8 +58,9 @@ public class CommodityExchangeServiceImpl implements ICommodityExchangeService {
         List<CommodityExchange> exchangeList = mapper.selectByCommodityId(commId);
         for (CommodityExchange ce : exchangeList) {
             Map<String, Object> map = new HashMap<>();
-            ExchangeWay exchangeWay = ewMapper.selectByPrimaryKey(ce.getExchangeWayId());
-            map.put("id", ce.getExchangeWayId());
+            int wayId = ce.getExchangeWayId().intValue();
+            ExchangeWay exchangeWay = ewMapper.selectByPrimaryKey(wayId);
+            map.put("id", wayId);
             map.put("exchangeWay", exchangeWay.getName());
             map.put("url", Settings.SERVER_URL_PATH + exchangeWay.getUrl());
             map.put("quota", 0);
