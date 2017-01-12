@@ -6,25 +6,9 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
+    <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
     <result column="issue_date" jdbcType="TIMESTAMP" property="issueDate" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
     <result column="particulars" jdbcType="VARCHAR" property="particulars" />
   </resultMap>
-  <select id="selectPageShareInfo" resultType="com.hudongwx.drawlottery.mobile.entitys.Share">
-    SELECT * FROM t_share
-    <where>
-      <choose>
-        <when test="tag==0">
-          user_account_id=#{accountid}
-        </when>
-        <when test="tag==1">
-          user_account_id=#{accountid} limit(#{lastshareid})
-        </when>
-        <when test="tag==2">
-          id=#{id} or user_id = #{userId}
-        </when>
-      </choose>
-    </where>
-  </select>
 </mapper>

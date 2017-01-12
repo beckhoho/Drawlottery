@@ -1,12 +1,22 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
+import com.alibaba.fastjson.JSON;
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
+import com.hudongwx.drawlottery.mobile.entitys.ShareFormData;
+import com.hudongwx.drawlottery.mobile.entitys.Share;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.mock.web.MockMultipartHttpServletRequest;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.multipart.MultipartFile;
 import org.testng.annotations.Test;
 
 import javax.annotation.Resource;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -25,35 +35,48 @@ import java.io.FileInputStream;
  */
 public class ShareControllerTest extends TestBaseWeb {
     @Test
-    public void testAddShareInfo() throws Exception {
-//        Share share = new Share();
-//        share.setIssueDate(new Date());
-//        share.setCommodityId(1l);
-//        share.setParticulars("这是我写的晒单详情！！！！");
-//        share.setCommodityId(10l);
+    public void testShareInfo() throws Exception {
+//        String url = "/api/v1/user/share/upload/test";
 //        FileInputStream fis = new FileInputStream("C:\\Users\\Public\\Pictures\\Sample Pictures\\Tulips.jpg");
-//        File f = new File("C:\\Users\\Public\\Pictures\\Sample Pictures\\Tulips.jpg");
+//        Share share = new Share();
+//        share.setCommodityId(4L);
+//        share.setParticulars("aefawe");
+//        List<MultipartFile> list = new ArrayList<>();
 //        MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
-//        String url = "/api/v1/user/share/add";
-//        JSONObject json = new JSONObject();
-//        json.put("share", share);
-//        json.put("multipartFile", multipartFile);
-//        /*mvc.perform(MockMvcRequestBuilders.fileUpload(url)
-//                .file(multipartFile)).andExpect(status().isOk());*/
-//        mvc.perform(MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON)
-//                .content(json.toJSONString())).andExpect(status().isOk());
+//        list.add(multipartFile);
+//        ShareFormData sfd = new ShareFormData();
+//        sfd.setShare(share);
+//        sfd.setImgFileList(list);
+//        post(url, JSON.toJSONString(sfd));
 
-        MockMultipartHttpServletRequest request = new MockMultipartHttpServletRequest() ;
-        String strTEAMPHOTOCLASSID = "strTEAMPHOTOCLASSID";
-        String strSPECIFICATIONID = "SPECIFICATIONID";
-        final FileInputStream fis = new FileInputStream("C:\\Users\\Public\\Pictures\\Sample Pictures\\Tulips.jpg");
-        MockMultipartFile multipartFile = new MockMultipartFile("photopath","Tulips.jpg","image/jpeg",fis);
-        request.addFile(multipartFile);
-        request.setMethod("POST");
-        request.setContentType("multipart/form-data");
-        request.addHeader("Content-type", "multipart/form-data");
-        request.setRequestURI("http://192.168.6.199:8080/api/v1/user/share/uploadTest");
-        request.addParameter( "share", "lzj update" ) ;
+        /***************************************************************/
+        String url = "/api/v1/user/share/upload/test";
+        FileInputStream fis = new FileInputStream("C:\\Users\\Public\\Pictures\\Sample Pictures\\Tulips.jpg");
+        MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
+        Share share = new Share();
+        share.setParticulars("awerWAef");
+        post(url,"");
+    }
+
+    @Test
+    public void testAddShareInfo() throws Exception {
+        String url = "/api/v1/user/share/upload.do";
+        ShareFormData fd = new ShareFormData();
+        Share share = new Share();
+        share.setIssueDate(new Date());
+        share.setCommodityId(1l);
+        share.setParticulars("这是我写的晒单详情！！！！");
+        List<MultipartFile> list = new ArrayList<>();
+        FileInputStream fis = new FileInputStream("C:\\Users\\Public\\Pictures\\Sample Pictures\\Tulips.jpg");
+        MockMultipartFile multipartFile = new MockMultipartFile("file", fis);
+        System.out.println("multipartFile---------->"+multipartFile.getOriginalFilename());
+        list.add(multipartFile);
+        fd.setShare(share);
+        fd.setImgFileList(list);
+        /*mvc.perform(MockMvcRequestBuilders.fileUpload(url)
+                .file(multipartFile)).andExpect(status().isOk());*/
+        mvc.perform(MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON)
+                .content(JSON.toJSONString(fd))).andExpect(status().isOk());
     }
 
     @Test

@@ -81,7 +81,7 @@ public class DeliveryAddressController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAddress() {
-        List<Map<String, Object>> mapList = addressService.selectByUser(10000L);
+        List<Map<String, Object>> mapList = addressService.selectByAccountId(10000L);
         return success(mapList);
     }
 }

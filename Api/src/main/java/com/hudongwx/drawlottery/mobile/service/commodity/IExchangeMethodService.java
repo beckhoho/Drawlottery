@@ -1,7 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
-import com.alibaba.fastjson.JSONObject;
-
 import java.util.List;
 import java.util.Map;
 

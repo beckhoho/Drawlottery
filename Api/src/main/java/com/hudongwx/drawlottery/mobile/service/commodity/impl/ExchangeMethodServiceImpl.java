@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.IExchangeMethodService;
@@ -50,12 +49,13 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     /**
      * 兑换闪币
+     *
      * @param commodityId   商品ID
      * @param userAccountId 用户ID
      * @return
      */
     @Override
-    public boolean exchangeToGold(Long commodityId,Long userAccountId) {
+    public boolean exchangeToGold(Long commodityId, Long userAccountId) {
         User key = userMapper.selectByPrimaryKey(userAccountId);
         Integer number = key.getGoldNumber();//获得用户当前闪币数量
         Commoditys com = comMapper.selectByKey(commodityId);
@@ -63,20 +63,21 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         Integer money = template.getExchangeMoney();//获得折换闪币金额
         User user = new User();
         user.setAccountId(userAccountId);
-        user.setGoldNumber(number+money);//修改用户闪币数额
-        return userMapper.updateByPrimaryKeySelective(user)>0;
+        user.setGoldNumber(number + money);//修改用户闪币数额
+        return userMapper.updateByPrimaryKeySelective(user) > 0;
     }
 
     /**
      * 兑换现金
-     * @param exchangeTerraceName   第三方提现账号
-     * @param terraceAccount    平台区分（微信，银联，支付宝）
-     * @param commodityId       商品ID
-     * @param accountId         用户ID
+     *
+     * @param exchangeTerraceName 第三方提现账号
+     * @param terraceAccount      平台区分（微信，银联，支付宝）
+     * @param commodityId         商品ID
+     * @param accountId           用户ID
      * @return
      */
     @Override
-    public boolean exchangeToCash(String exchangeTerraceName, String terraceAccount, Long commodityId,Long accountId) {
+    public boolean exchangeToCash(String exchangeTerraceName, String terraceAccount, Long commodityId, Long accountId) {
 
         Commoditys com = comMapper.selectByKey(commodityId);
         CommodityTemplate template = templateMapper.selectByPrimaryKey(com.getTempId());
@@ -91,43 +92,45 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         exCash.setState(0);//添加处理状态（1：已处理，0：未处理）
         exCash.setTerraceAccount(terraceAccount);//添加第三方提现账号
         exCash.setUserRealName(realName);//添加用户真实姓名
-        return cashMapper.insert(exCash)>0;
+        return cashMapper.insert(exCash) > 0;
     }
 
     /**
      * 到店领取
+     *
      * @param commodityId   商品ID
      * @param userAccountId 用户ID
      * @return
      */
     @Override
-    public Map<String,Object> exchangeToExpress(Long commodityId,Long userAccountId) {
-        Map<String,Object> map = new HashMap<>();
+    public Map<String, Object> exchangeToExpress(Long commodityId, Long userAccountId) {
+        Map<String, Object> map = new HashMap<>();
         Commoditys com = comMapper.selectByKey(commodityId);
         CommodityTemplate template = templateMapper.selectByPrimaryKey(com.getTempId());
         String name = template.getContactName();//获取领奖人联系人
         String phone = template.getContactPhone();//获取领奖人联系人电话
         String address = template.getContactAddress();//添加领奖联系地址
-        map.put("name",name);
-        map.put("phone",phone);
-        map.put("address",address);
+        map.put("name", name);
+        map.put("phone", phone);
+        map.put("address", address);
         return map;
     }
 
     /**
      * 快递领取
+     *
      * @param commodityId   商品ID
      * @param userAccountId 用户ID
      * @return
      */
     @Override
-    public boolean exchangeToLocale(Long commodityId,Long userAccountId,Long addressId) {
+    public boolean exchangeToLocale(Long commodityId, Long userAccountId, Long addressId) {
         ExpressDelivery ex = new ExpressDelivery();//添加到快递表中待处理
         ex.setUserAccountId(userAccountId);//添加用户ID
         ex.setState(0);//添加快递进度状态
         ex.setAddressId(addressId);//添加收货地址ID
         ex.setCommodityId(commodityId);//添加商品ID
-        return expressMapper.insert(ex)>0;
+        return expressMapper.insert(ex) > 0;
     }
 
     /**

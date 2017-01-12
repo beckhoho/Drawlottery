@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_share")
 public class Share {
@@ -28,7 +28,7 @@ public class Share {
     private Long commodityId;
 
     /**
-     * 晒单详情（url）
+     * 晒单文段
      */
     private String particulars;
 

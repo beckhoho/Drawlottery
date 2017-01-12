@@ -34,7 +34,6 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
             @Result(column = "sell_out_time", property = "sellOutTime"),
             @Result(column = "state_id", property = "stateId"),
             @Result(column = "view_num",property = "viewNum")
-
     })
     Commoditys selectByKey(@Param("commodityId") Long commodityId);
 

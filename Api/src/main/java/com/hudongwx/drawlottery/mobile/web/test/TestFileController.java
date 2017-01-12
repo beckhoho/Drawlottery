@@ -2,12 +2,11 @@ package com.hudongwx.drawlottery.mobile.web.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,6 +35,7 @@ public class TestFileController extends BaseController {
             System.out.println(name);
 
         System.out.println(f.size());
+//        f.get(0).transferTo(new File(""));
 
        /* System.out.println(file1.size());
         if(file1 !=  null){

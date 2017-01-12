@@ -27,4 +27,11 @@
         <result column="temp_id" jdbcType="BIGINT" property="tempId"/>
         <result column="view_num" jdbcType="BIGINT" property="viewNum"/>
     </resultMap>
+
+
+
+
+
+
+
 </mapper>

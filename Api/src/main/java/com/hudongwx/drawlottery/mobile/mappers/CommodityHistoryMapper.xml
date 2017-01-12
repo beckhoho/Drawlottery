@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hudongwx.drawlottery.mobile.mappers.CommodityHistoryMapper">
+
     <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.CommodityHistory">
         <!--
           WARNING - @mbg.generated
@@ -18,4 +19,14 @@
         <result column="exchange_state" jdbcType="INTEGER" property="exchangeState"/>
         <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
     </resultMap>
+
+
+    <select id="selectHistoryLottery">
+        select ID,NAME from t_commodity_history where luck_user_account_id = #{accountId}
+    </select>
+
+    <select id="selectHistoryPay">
+
+    </select>
+
 </mapper>

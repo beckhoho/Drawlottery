@@ -95,13 +95,10 @@ public class UserServiceImpl implements IUserService {
         List<CommodityHistory> histories = comHistoryMapper.selectHistoryLottery(accountId);
         for (CommodityHistory com : histories) {
             Map<String, Object> map = new HashMap<>();
-            map.put("genre", com.getGenre());//添加商品类型
+            map.put("id", com.getId());//添加商品id
             map.put("commodityName", com.getCommodityName());//添加商品名
-            map.put("luckCode", com.getLuckCode());//添加当期中奖码
             map.put("roundTime", com.getRoundTime());//添加期数
             map.put("endTime", com.getEndTime());//揭晓时间
-            map.put("luckCode", com.getLuckCode());//添加历史商品ID
-            map.put("buyNumber", com.getBuyNumber());//购买人次
             map.put("buyNumber", com.getBuyNumber());//购买人次
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
             map.put("shareState", 0);//是否晒单（0、未晒单；1、已晒单）

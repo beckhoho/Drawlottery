@@ -8,13 +8,14 @@ import com.hudongwx.drawlottery.mobile.mappers.ShareMapper;
 import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
 import com.hudongwx.drawlottery.mobile.service.user.IShareService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -35,20 +36,46 @@ import java.util.Map;
 public class ShareServiceImpl implements IShareService {
 
     @Autowired
-    ShareMapper mapper;
+    ShareMapper shareMapper;
     @Autowired
     UserMapper userMapper;
     @Autowired
     ShareImgMapper shareImgMapper;
+
     /**
      * 添加用户晒单
      *
-     * @param share 晒单对象
      * @return 返回添加用户晒单
      */
     @Override
-    public boolean addShare(Share share) {
-        return mapper.insert(share) > 0;
+    public boolean addShare(Long accountId, Long commId, String desc, List<MultipartFile> imgs) {
+        if (!shareMapper.selectByCommId(commId).isEmpty()) {
+            return false;
+        }
+        Date date = new Date();
+        Share share = new Share();
+        share.setCommodityId(commId);
+        share.setParticulars(desc);
+        share.setUserAccountId(accountId);
+        share.setIssueDate(date);
+        if (shareMapper.insert(share) <= 0)
+            return false;
+        String fileSavePath = "C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\shareimg";
+        for (MultipartFile multipartFile : imgs) {
+            try {
+                String filename = multipartFile.getOriginalFilename();
+                ShareImg shareImg = new ShareImg();
+                shareImg.setShareId(shareMapper.selectByIssueDate(date).get(0).getId());
+                shareImg.setShareImgUrl("imgs/shareimg" + filename);
+                if (shareImgMapper.insert(shareImg) > 0)
+                    return false;
+                FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(fileSavePath, filename));
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -61,7 +88,7 @@ public class ShareServiceImpl implements IShareService {
     public boolean deleteShare(Long shareid) {
         Share share = new Share();
         share.setId(shareid);
-        return mapper.delete(share) > 0;
+        return shareMapper.delete(share) > 0;
     }
 
     /**
@@ -77,7 +104,7 @@ public class ShareServiceImpl implements IShareService {
         Share share = new Share();
         if (tag == Settings.INITIALIZE_ENTER_STATUS) {
             share.setUserAccountId(accountid);
-            return mapper.select(share);
+            return shareMapper.select(share);
         } else if (tag == Settings.DROP_DOWN_REFRESH) {//下拉刷新
 
             return null;
@@ -94,6 +121,7 @@ public class ShareServiceImpl implements IShareService {
 
     /**
      * 用户晒单列表
+     *
      * @param account
      * @return
      */
@@ -103,23 +131,23 @@ public class ShareServiceImpl implements IShareService {
         User user1 = userMapper.selectByPrimaryKey(account);
         Share s = new Share();
         s.setUserAccountId(account);
-        List<Share> shares = mapper.select(s);
-        for(Share share : shares){
+        List<Share> shares = shareMapper.select(s);
+        for (Share share : shares) {
             ShareImg shareImg = new ShareImg();
             shareImg.setShareId(share.getId());
             List<ShareImg> imgList = shareImgMapper.select(shareImg);
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             List<String> list = new ArrayList<>();
-            map.put("userHeaderUrl",user1.getHeaderUrl());//添加用户头像
-            map.put("userAccountId",account);//添加用户id
-            map.put("userName",user1.getNickname());//添加用户昵称
-            map.put("shareTime",share.getIssueDate());//添加分享时间
-            map.put("context",share.getParticulars());//添加用户分享内容
-            map.put("commodityId",share.getCommodityId());//添加商品id
-            for(ShareImg sh : imgList){
+            map.put("userHeaderUrl", user1.getHeaderUrl());//添加用户头像
+            map.put("userAccountId", account);//添加用户id
+            map.put("userName", user1.getNickname());//添加用户昵称
+            map.put("shareTime", share.getIssueDate());//添加分享时间
+            map.put("context", share.getParticulars());//添加用户分享内容
+            map.put("commodityId", share.getCommodityId());//添加商品id
+            for (ShareImg sh : imgList) {
                 list.add(sh.getShareImgUrl());
             }
-            map.put("shareImgUrl",list);//添加用户晒单照片
+            map.put("shareImgUrl", list);//添加用户晒单照片
             listMap.add(map);
         }
 
@@ -128,32 +156,33 @@ public class ShareServiceImpl implements IShareService {
 
     /**
      * 首页晒单
+     *
      * @return
      */
     @Override
     public List<Map<String, Object>> selectAll() {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        List<Share> list = mapper.selectAll();
-        for (Share s : list){
-            Map<String,Object> map = new HashMap<>();
-            map.put("id",s.getId());//获取晒单ID
-            map.put("accountId",s.getUserAccountId());//获取用户ID
-            map.put("particulars",s.getParticulars());//获取晒单分享内容
-            map.put("commodityId",s.getCommodityId());//添加商品ID
-            map.put("date",s.getIssueDate());//添加晒单时间
-            map.put("imgUrl",imgUrl(s));//添加晒单图片List
+        List<Share> list = shareMapper.selectAll();
+        for (Share s : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", s.getId());//获取晒单ID
+            map.put("accountId", s.getUserAccountId());//获取用户ID
+            map.put("particulars", s.getParticulars());//获取晒单分享内容
+            map.put("commodityId", s.getCommodityId());//添加商品ID
+            map.put("date", s.getIssueDate());//添加晒单时间
+            map.put("imgUrl", imgUrl(s));//添加晒单图片List
             mapList.add(map);
         }
 
         return mapList;
     }
 
-    public List<String> imgUrl(Share s){
+    public List<String> imgUrl(Share s) {
         List<String> list = new ArrayList<>();
         ShareImg i = new ShareImg();
         i.setShareId(s.getId());
         List<ShareImg> imgs = shareImgMapper.select(i);
-        for (ShareImg img : imgs){
+        for (ShareImg img : imgs) {
             list.add(img.getShareImgUrl());
         }
         return list;

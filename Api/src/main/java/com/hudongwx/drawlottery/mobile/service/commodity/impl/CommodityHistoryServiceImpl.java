@@ -43,6 +43,9 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
 
     @Override
     public CommodityHistory selectHistoryCommod() {
+        /*CommodityHistory history = new CommodityHistory();
+        history.setLuckUserAccountId(10);
+        mapper.selectByPrimaryKey(history);*/
         return null;
     }
 

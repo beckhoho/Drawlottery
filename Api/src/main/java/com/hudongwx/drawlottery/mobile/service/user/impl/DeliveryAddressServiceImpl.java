@@ -91,7 +91,7 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectByUser(Long accountId) {
+    public List<Map<String, Object>> selectByAccountId(Long accountId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
         DeliveryAddress da = new DeliveryAddress();
         da.setUserId(accountId);
