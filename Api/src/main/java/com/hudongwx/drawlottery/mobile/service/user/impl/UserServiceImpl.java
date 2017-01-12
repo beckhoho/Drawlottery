@@ -47,7 +47,7 @@ public class UserServiceImpl implements IUserService {
     LuckCodesMapper codesMapper;
 
     @Override
-    public boolean register(String phone, String password, String verifyCode, String code) {
+    public boolean register(String phone, String password) {
         if (null != mapper.selectByPhoneNumber(phone))
             return false;
 //        if (!verifyCode.toUpperCase().equals(code.toUpperCase()))
@@ -131,6 +131,22 @@ public class UserServiceImpl implements IUserService {
         return mapList;
     }
 
+    /**
+     * 添加推广Id
+     *
+     * @param accountId 当前用户Id
+     * @param promId    推广Id
+     * @return
+     */
+    @Override
+    public boolean addPromoterId(Long accountId, Long promId) {
+        User user = new User();
+        user.setAccountId(accountId);
+//        user.setPromoterId(promId);//
+        // TODO: 2017/1/12 查询当前用户之前有没有填写推广id,无则保存当前推广id
+        return false;
+    }
+
     //添加历史购买商品
     public List<Map<String, Object>> selectToHistory(Long accountId) {
         //添加已开奖的商品
@@ -207,6 +223,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 第三方账号绑定注册
+     *
      * @param openId
      * @param password
      * @param header_url
@@ -215,26 +232,27 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public User registerByOpenId(String openId, String password,String header_url, String nickname, String platform) {
+    public User registerByOpenId(String openId, String password, String header_url, String nickname, String platform) {
         User user = new User();
         user.setPassword(password);
         user.setHeaderUrl(header_url);
-        if(platform.equals("wx")){
+        if (platform.equals("wx")) {
             user.setWeixinOpenId(openId);
-        }else{
+        } else {
             user.setQqOpenId(openId);
         }
         user.setNickname(nickname);
         mapper.insert(user);
-        return queryByOpenId(openId,platform);
+        return queryByOpenId(openId, platform);
     }
 
     /**
      * 校验openId是否合法
+     *
      * @return
      */
     @Override
-    public boolean checkOpenId(String token,String openId) {
+    public boolean checkOpenId(String token, String openId) {
         try {
             //通过token获取openId
             return new OpenID(token).getUserOpenID().equals(openId);

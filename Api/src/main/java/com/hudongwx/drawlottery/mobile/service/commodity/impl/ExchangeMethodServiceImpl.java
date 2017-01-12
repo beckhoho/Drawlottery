@@ -103,7 +103,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
      * @return
      */
     @Override
-    public Map<String, Object> exchangeToExpress(Long commodityId, Long userAccountId) {
+    public Map<String, Object> exchangeToLocale(Long commodityId, Long userAccountId) {
         Map<String, Object> map = new HashMap<>();
         Commoditys com = comMapper.selectByKey(commodityId);
         CommodityTemplate template = templateMapper.selectByPrimaryKey(com.getTempId());
@@ -124,7 +124,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
      * @return
      */
     @Override
-    public boolean exchangeToLocale(Long commodityId, Long userAccountId, Long addressId) {
+    public boolean exchangeToExpress(Long commodityId, Long userAccountId, Long addressId) {
         ExpressDelivery ex = new ExpressDelivery();//添加到快递表中待处理
         ex.setUserAccountId(userAccountId);//添加用户ID
         ex.setState(0);//添加快递进度状态
