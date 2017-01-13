@@ -89,15 +89,15 @@ public class AuthorController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/auth/register", method = RequestMethod.POST)
     public JSONObject register(@RequestParam("phone") String phone, @RequestParam("password") String
-            password, @RequestParam("code") String code) {
+            password, @RequestParam("SMSCode") String SMSCode) {
         Session session = getSession();
-        System.out.println("phone-->" + phone + "password-->" + password);
+        System.out.println("SMSCode-->" + SMSCode);
         Object attribute = session.getAttribute(session.getId().toString());
         String verifyCode = null;
         if (null != attribute)
             verifyCode = attribute.toString();
         System.out.println("verifyCode-->" + verifyCode);
-        boolean register = usersService.register(phone, password, verifyCode, code);
+        boolean register = usersService.register(phone, password);
         return response(register, "注册成功!", "注册失败!");
     }
 }

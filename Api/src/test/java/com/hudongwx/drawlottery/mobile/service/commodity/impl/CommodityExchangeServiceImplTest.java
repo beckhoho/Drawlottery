@@ -27,14 +27,20 @@ import static org.testng.Assert.*;
  * @email 346905702@qq.com
  */
 public class CommodityExchangeServiceImplTest extends TestBaseMapper {
+
     @Autowired
     ICommodityExchangeService service;
     @Autowired
     IExchangeWayService exService;
     @Test
     public void testSelectByCommodityId() throws Exception {
-        List<Map<String, Object>> list = service.selectByCommodityId(23l);
-        System.out.println(list.size());
+        List<Map<String, Object>> list = service.selectByCommodityId(26l);
+        for(Map<String, Object> map : list){
+            System.out.println(map.get("id"));
+            System.out.println(map.get("exchangeWay"));
+            System.out.println(map.get("url"));
+            System.out.println(map.get("quota"));
+        }
     }
 
 }

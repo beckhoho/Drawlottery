@@ -7,6 +7,7 @@ import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     @Autowired
     ExchangeWayMapper ewMapper;
-    @Autowired
+    @Resource
     CommodityHistoryMapper chMapper;
     @Autowired
     VirtualCommodityMapper vcMapper;
@@ -92,6 +93,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         exCash.setState(0);//添加处理状态（1：已处理，0：未处理）
         exCash.setTerraceAccount(terraceAccount);//添加第三方提现账号
         exCash.setUserRealName(realName);//添加用户真实姓名
+
         return cashMapper.insert(exCash) > 0;
     }
 
@@ -103,7 +105,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
      * @return
      */
     @Override
-    public Map<String, Object> exchangeToExpress(Long commodityId, Long userAccountId) {
+    public Map<String, Object> exchangeToLocale(Long commodityId, Long userAccountId) {
         Map<String, Object> map = new HashMap<>();
         Commoditys com = comMapper.selectByKey(commodityId);
         CommodityTemplate template = templateMapper.selectByPrimaryKey(com.getTempId());
@@ -124,7 +126,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
      * @return
      */
     @Override
-    public boolean exchangeToLocale(Long commodityId, Long userAccountId, Long addressId) {
+    public boolean exchangeToExpress(Long commodityId, Long userAccountId, Long addressId) {
         ExpressDelivery ex = new ExpressDelivery();//添加到快递表中待处理
         ex.setUserAccountId(userAccountId);//添加用户ID
         ex.setState(0);//添加快递进度状态
@@ -174,7 +176,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         ch.setCommodityId(commodityId);
         ch.setLuckUserAccountId(accountId);
         List<CommodityHistory> list = chMapper.select(ch);
-        ExchangeWay way = ewMapper.selectByPrimaryKey(1);
+        ExchangeWay way = ewMapper.selectById(1);
         CommodityHistory history = list.get(0);
         map.put("commodityName", history.getCommodityName());//商品名
         map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图

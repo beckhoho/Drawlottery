@@ -48,6 +48,7 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/commexchways", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommExchangeWays(@RequestParam("commId") Long commId) {
+
         return success(ceService.selectByCommodityId(commId));
     }
 
@@ -59,8 +60,8 @@ public class CommodityExchangeController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/cash", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToCash(@RequestParam("commId") Long commId) {
-        return success();
+    public JSONObject exchangeToCash(@RequestParam("commId") Long commId, @RequestParam("TPName") String TPName, @RequestParam("TPAccount") String TPAccount) {
+        return success(emService.exchangeToCash(TPName, TPAccount, commId, 10000L));
     }
 
     /**
@@ -72,7 +73,7 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/gold", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToGold(@RequestParam("commId") Long commId) {
-        return success(ceService.selectByCommodityId(commId));
+        return success(emService.exchangeToGold(commId, 10000L));
     }
 
     /**
@@ -96,7 +97,6 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCard(@RequestParam("commId") Long commId) {
-        // TODO: 2017/1/10 更换用户Id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return success(emService.selectUserRechargeCardPrize(10000L, commId));
     }
 
@@ -109,7 +109,6 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCardInfo(@RequestParam("commId") Long commId) {
-        // TODO: 2017/1/10 更换用户Id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return success(emService.selectUserRechargeCardExchangeProcess(10000L, commId));
     }
 
@@ -121,8 +120,8 @@ public class CommodityExchangeController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/express", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToExpress(@RequestParam("commId") Long commId, @RequestParam("addressId") Integer addressId) {
-        return success();
+    public JSONObject exchangeToExpress(@RequestParam("commId") Long commId, @RequestParam("addressId") Long addressId) {
+        return success(emService.exchangeToExpress(commId, 10000L, addressId));
     }
 
     /**
@@ -134,6 +133,6 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/locale", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToLocale(@RequestParam("commId") Long commId) {
-        return success(ceService.selectByCommodityId(commId));
+        return success(emService.exchangeToLocale(commId, 10000L));
     }
 }

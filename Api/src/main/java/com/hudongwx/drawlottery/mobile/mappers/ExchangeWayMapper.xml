@@ -10,4 +10,18 @@
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
     </resultMap>
+
+    <select id="selectByIdList" resultMap="BaseResultMap">
+        select * from t_exchange_way
+        <where>
+            id IN
+            <foreach collection="idList" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select * from t_exchange_way WHERE id = #{ewId}
+    </select>
 </mapper>

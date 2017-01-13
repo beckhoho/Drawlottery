@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Table(name = "t_users")
-public class User implements Serializable{
+public class User implements Serializable {
     /**
      * 用户账号,ID号
      */

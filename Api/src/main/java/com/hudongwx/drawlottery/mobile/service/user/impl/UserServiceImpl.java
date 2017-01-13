@@ -45,9 +45,13 @@ public class UserServiceImpl implements IUserService {
     CommoditysMapper comMapper;
     @Autowired
     LuckCodesMapper codesMapper;
+    @Autowired
+    CommodityExchangeMapper exchangeMapper;
+    @Autowired
+    ExchangeWayMapper wayMapper;
 
     @Override
-    public boolean register(String phone, String password, String verifyCode, String code) {
+    public boolean register(String phone, String password) {
         if (null != mapper.selectByPhoneNumber(phone))
             return false;
 //        if (!verifyCode.toUpperCase().equals(code.toUpperCase()))
@@ -96,19 +100,37 @@ public class UserServiceImpl implements IUserService {
         List<Map<String, Object>> mapList = new ArrayList<>();
         List<CommodityHistory> histories = comHistoryMapper.selectHistoryLottery(accountId);
         for (CommodityHistory com : histories) {
+            Commoditys byKey = comMapper.selectByKey(com.getCommodityId());
             Map<String, Object> map = new HashMap<>();
             map.put("id", com.getId());//添加商品id
             map.put("commodityName", com.getCommodityName());//添加商品名
             map.put("roundTime", com.getRoundTime());//添加期数
             map.put("endTime", com.getEndTime());//揭晓时间
             map.put("buyNumber", com.getBuyNumber());//购买人次
+            map.put("luckCode",com.getLuckCode());//添加幸运码
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
             map.put("shareState", 0);//是否晒单（0、未晒单；1、已晒单）
             map.put("state", 0);//中奖确认流程（0、中奖--->1、确认手机号--->2、已充值）
+            map.put("exchangeId",selectExchange(com.getCommodityId()));//添加兑换方式
+            map.put("withdrawalsMoney",byKey.getWithdrawalsMoney());//折换现金金额
+            map.put("exchangeMoney",byKey.getExchangeMoney());//折换闪币
             mapList.add(map);
         }
         return mapList;
     }
+
+    public List<Map<String,Object>> selectExchange(Long commodityId){
+        List<Map<String,Object>> list = new ArrayList<>();
+        List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commodityId);
+        for (CommodityExchange ex : exchanges){
+            Map<String,Object> map = new HashMap<>();
+            ExchangeWay way = wayMapper.selectByPrimaryKey(ex.getExchangeWayId());
+            map.put("1",way.getName());
+            list.add(map);
+        }
+        return list;
+    }
+
 
     /**
      * 查看购买记录
@@ -129,6 +151,22 @@ public class UserServiceImpl implements IUserService {
             mapList.addAll(selectToNew(accountId));
         }
         return mapList;
+    }
+
+    /**
+     * 添加推广Id
+     *
+     * @param accountId 当前用户Id
+     * @param promId    推广Id
+     * @return
+     */
+    @Override
+    public boolean addPromoterId(Long accountId, Long promId) {
+        User user = new User();
+        user.setAccountId(accountId);
+//        user.setPromoterId(promId);//
+        // TODO: 2017/1/12 查询当前用户之前有没有填写推广id,无则保存当前推广id
+        return false;
     }
 
     //添加历史购买商品
@@ -207,6 +245,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 第三方账号绑定注册
+     *
      * @param openId
      * @param password
      * @param header_url
@@ -215,26 +254,27 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public User registerByOpenId(String openId, String password,String header_url, String nickname, String platform) {
+    public User registerByOpenId(String openId, String password, String header_url, String nickname, String platform) {
         User user = new User();
         user.setPassword(password);
         user.setHeaderUrl(header_url);
-        if(platform.equals("wx")){
+        if (platform.equals("wx")) {
             user.setWeixinOpenId(openId);
-        }else{
+        } else {
             user.setQqOpenId(openId);
         }
         user.setNickname(nickname);
         mapper.insert(user);
-        return queryByOpenId(openId,platform);
+        return queryByOpenId(openId, platform);
     }
 
     /**
      * 校验openId是否合法
+     *
      * @return
      */
     @Override
-    public boolean checkOpenId(String token,String openId) {
+    public boolean checkOpenId(String token, String openId) {
         try {
             //通过token获取openId
             return new OpenID(token).getUserOpenID().equals(openId);

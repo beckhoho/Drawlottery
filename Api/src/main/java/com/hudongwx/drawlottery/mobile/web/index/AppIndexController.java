@@ -29,7 +29,7 @@ import java.util.Map;
  * @email 294786949@qq.com
  */
 @RestController
-@Api(value = "AppIndexController", description = "客户端首页信息管理")
+@Api(value = "AppIndexController", description = "android APP 首页信息")
 public class AppIndexController extends BaseController {
 
     @Autowired

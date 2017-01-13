@@ -5,8 +5,8 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
         <result column="exchange_way_id" jdbcType="INTEGER" property="exchangeWayId"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
 
@@ -14,4 +14,15 @@
     <select id="selectByCommodityId" resultMap="BaseResultMap">
         select * from t_commodity_exchange where commodity_id = #{commodityId}
     </select>
+
+    <select id="selectByIdList" resultMap="BaseResultMap">
+        select * from t_commodity_exchange
+        <where>
+            id IN
+            <foreach collection="idList" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
 </mapper>

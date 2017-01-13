@@ -43,13 +43,14 @@ public interface IExchangeMethodService {
      * 快递领取
      * @return
      */
-    boolean exchangeToLocale(Long commodityId,Long userAccountId,Long addressId);
+    boolean exchangeToExpress(Long commodityId, Long userAccountId, Long addressId);
 
     /**
+     *
      * 到店领取
      * @return
      */
-    Map<String,Object> exchangeToExpress(Long commodityId,Long userAccountId);
+    Map<String,Object> exchangeToLocale(Long commodityId, Long userAccountId);
 
     /**
      * 查看user抽中的充值卡

@@ -33,33 +33,38 @@ import java.util.Map;
 public class CommodityExchangeServiceImpl implements ICommodityExchangeService {
 
     @Autowired
-    CommodityExchangeMapper mapper;
+    CommodityExchangeMapper ceMapper;
     @Autowired
     ExchangeWayMapper ewMapper;
 
     @Override
     public boolean addExchange(CommodityExchange exchange) {
-        return mapper.insert(exchange) > 0;
+        return ceMapper.insert(exchange) > 0;
     }
 
     @Override
     public boolean deleteExchange(CommodityExchange exchange) {
-        return mapper.delete(exchange) > 0;
+        return ceMapper.delete(exchange) > 0;
     }
 
     @Override
     public boolean updateExchange(CommodityExchange exchange) {
-        return mapper.updateByPrimaryKeySelective(exchange) > 0;
+        return ceMapper.updateByPrimaryKeySelective(exchange) > 0;
     }
 
     @Override
     public List<Map<String, Object>> selectByCommodityId(Long commId) {
-        List<Map<String, Object>> mapList = new ArrayList<>();
-        List<CommodityExchange> exchangeList = mapper.selectByCommodityId(commId);
+        List<Map<String, Object>> mapList = null;
+        List<CommodityExchange> exchangeList = ceMapper.selectByCommodityId(commId);
+        List<Integer> ewIdList = new ArrayList<>();
         for (CommodityExchange ce : exchangeList) {
+            ewIdList.add(ce.getExchangeWayId());
+        }
+        List<ExchangeWay> ewList = ewMapper.selectByIdList(ewIdList);
+        mapList = new ArrayList<>();
+        for (ExchangeWay exchangeWay : ewList) {
             Map<String, Object> map = new HashMap<>();
-            ExchangeWay exchangeWay = ewMapper.selectByPrimaryKey(ce.getExchangeWayId());
-            map.put("id", ce.getExchangeWayId());
+            map.put("id", exchangeWay.getId());
             map.put("exchangeWay", exchangeWay.getName());
             map.put("url", Settings.SERVER_URL_PATH + exchangeWay.getUrl());
             map.put("quota", 0);

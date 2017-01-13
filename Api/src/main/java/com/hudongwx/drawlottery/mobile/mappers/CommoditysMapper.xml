@@ -26,13 +26,10 @@
         <result column="minimum" jdbcType="INTEGER" property="minimum"/>
         <result column="temp_id" jdbcType="BIGINT" property="tempId"/>
         <result column="view_num" jdbcType="BIGINT" property="viewNum"/>
+        <result column="withdrawals_money" jdbcType="INTEGER" property="withdrawalsMoney"/>
+        <result column="exchange_money" jdbcType="INTEGER" property="exchangeMoney"/>
     </resultMap>
 
-    <!-- 根据商品主键ID查询商品 -->
-    <select id="selectByKey" resultMap="BaseResultMap">
-        <include refid="selectSql"></include>
-        WHERE commodity.id = #{commodityId}
-    </select>
 
     <!-- 根据商品类型ID分页查询商品 -->
     <select id="selectPaging" resultMap="BaseResultMap">
@@ -128,6 +125,9 @@
     <!-- 商品通用查询语句 -->
     <sql id="selectSql">
         SELECT commodity.id,template.name,
+        template.withdrawals_money,
+        template.exchange_money,
+        commodity.temp_id,
         commodity.view_num,template.commodity_desc,
         template.commodity_type_id,commodity.buy_current_number,
         template.buy_total_number,template.ground_time,
@@ -142,6 +142,9 @@
     <!-- 商品通用查询语句2（少字段） -->
     <sql id="selectSql2">
         SELECT commodity.id,template.name,
+        commodity.temp_id,
+        template.withdrawals_money,
+        template.exchange_money,
         commodity.view_num,template.commodity_type_id,
         commodity.buy_current_number,
         template.buy_total_number,
