@@ -146,10 +146,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     @Override
     public List<Map<String, Object>> selectUserRechargeCardPrize(Long accountId, Long commodityId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        CommodityHistory ch = new CommodityHistory();
-        ch.setLuckUserAccountId(accountId);
-        ch.setCommodityId(commodityId);
-        List<CommodityHistory> list = chMapper.select(ch);
+        List<CommodityHistory> list = chMapper.selectComIdAndUser(accountId,commodityId);
         for (CommodityHistory comHis : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("commodityName", comHis.getCommodityName());//添加商品名

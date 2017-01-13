@@ -40,4 +40,9 @@
         <!-- &lt; 小于     &jt; 大于 -->
     </select>
 
+    <select id="selectComIdAndUser" resultMap="BaseResultMap">
+        SELECT * FROM t_commodity_history
+        WHERE commodity_id = #{commodityId} AND luck_user_account_id = #{accountId}
+    </select>
+
 </mapper>

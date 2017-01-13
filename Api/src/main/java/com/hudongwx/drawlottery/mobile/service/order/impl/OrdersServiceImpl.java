@@ -54,8 +54,9 @@ public class OrdersServiceImpl implements IOrdersService {
     public boolean addOder(Long accountId, JSONObject jsonObject) {
         boolean b = true;
         Orders orders = JSONObject.toJavaObject(jsonObject.getJSONObject("order"), Orders.class);
+        long time = new Date().getTime();
         orders.setUserAccountId(accountId);
-        orders.setSubmitDate(new Date().getTime());//修改订单提交时间
+        orders.setSubmitDate(time);//修改订单提交时间
         JSONArray ca = jsonObject.getJSONArray("ca");
         List<CommodityAmount> caList = new ArrayList<>();
         for (int i = 0; i < ca.size(); i++) {
@@ -67,13 +68,15 @@ public class OrdersServiceImpl implements IOrdersService {
                 red.setId(orders.getRedPacketId());
                 red.setUseState(1);
                 redMapper.updateByPrimaryKeySelective(red);
-
                 List<Orders> list = mapper.select(orders);
                 for (int s = 0; s < caList.size(); s++) {
                     Long commodityId = caList.get(s).getCommodityId();
                     Integer amount = caList.get(s).getAmount();
                     OrdersCommoditys oc = new OrdersCommoditys();
-                    oc.setOrdersId(list.get(0).getId());//添加订单ID
+                    System.out.println(">>>>>>>>>>>>>>>>>>"+list.get(0));
+                    Long id = list.get(0).getId();
+
+                    oc.setOrdersId(id);//添加订单ID
                     oc.setCommodityId(commodityId);//添加商品ID
                     oc.setAmount(amount);//添加购买人次；
                     ordersCommoditysService.addOrdersCommodity(oc);
@@ -123,7 +126,7 @@ public class OrdersServiceImpl implements IOrdersService {
     public boolean updateCommodity(List<CommodityAmount> list, Long accountId) {
         for (CommodityAmount ca : list) {
             //提交订单前先进行查询，
-            Commoditys commodity = comMapper.selectByPrimaryKey(ca.getCommodityId());
+            Commoditys commodity = comMapper.selectByKey(ca.getCommodityId());
             //如果商品当前购买人次加用户购买人次大于总购买人次
             if (commodity.getBuyCurrentNumber() + ca.getAmount() > commodity.getBuyTotalNumber()) {
                 int i = commodity.getBuyCurrentNumber() + ca.getAmount() - commodity.getBuyTotalNumber();
@@ -234,7 +237,7 @@ public class OrdersServiceImpl implements IOrdersService {
         for (CommodityAmount ca : commodityAmounts) {
             Map<String, Object> map = new HashMap<>();
             map.put("amount", ca.getAmount());//参与人次
-            Commoditys commoditys = comMapper.selectByPrimaryKey(ca.getCommodityId());
+            Commoditys commoditys = comMapper.selectByKey(ca.getCommodityId());
             map.put("commodityName", commoditys.getName());//商品名
             map.put("roundTime", commoditys.getRoundTime());//期数
             map.put("luckCodes", luckCodes(accountId, ca.getCommodityId()));//用户参与商品的幸运码
