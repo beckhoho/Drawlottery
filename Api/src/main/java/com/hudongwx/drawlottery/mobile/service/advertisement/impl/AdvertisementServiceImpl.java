@@ -35,9 +35,7 @@ public class AdvertisementServiceImpl implements IAdvertisementService {
 
     @Override
     public List<Map<String, Object>> selectAdvertisement() {
-        Advertisement ad = new Advertisement();
-        ad.setState(1);
-        List<Advertisement> adList = adMapper.select(ad);
+        List<Advertisement> adList = adMapper.selectAdByState(1);
         return dealImgInfo(adList);
     }
 

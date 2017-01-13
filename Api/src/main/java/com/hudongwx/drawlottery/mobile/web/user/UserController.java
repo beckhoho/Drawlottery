@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.ISignInService;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
@@ -70,7 +69,6 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/win", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserWinningHistory(@RequestParam("page") int page) {
-        User user = getUser();//获取当前用户信息
         List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(10000L);
         return success(historyLottery);
     }

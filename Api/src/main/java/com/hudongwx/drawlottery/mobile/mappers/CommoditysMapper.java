@@ -157,5 +157,5 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      */
     List<Commoditys> selectHasTheLotteryComm();
 
-    int updateCommState(@Param("commId") Long commId,@Param("stateId") Integer stateId);
+    int updateCommState(@Param("commId") Long commId, @Param("stateId") Integer stateId);
 }

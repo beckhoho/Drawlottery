@@ -33,31 +33,13 @@ public class UserLuckCodesController extends BaseController {
     IUserLuckCodesService ulcService;
 
     /**
-     * 用户选的一组幸运码
-     *
-     * @param ulclist 幸运码集合
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "/api/v1/user/luckcode/add", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject addUserLuckCodes(@RequestBody List<UserLuckCodes> ulclist) {
-        boolean status = true;
-        for (UserLuckCodes userLuckCodes : ulclist) {
-            if(!ulcService.addNewLockCodes(userLuckCodes)){
-                status=false;
-            }
-        }
-        return response(status);
-    }
-
-    /**
      * 用户查看个人幸运码
      *
      * @param accountid 用户账号
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/luckcode/show", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/luckcode/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserLuckCodes(@RequestParam("acc") Long accountid) {
         List<UserLuckCodes> ulclist = ulcService.selectByUserId(accountid);
         return success(ulclist);

@@ -67,10 +67,7 @@ public class ImagesServiceImpl implements ImagesService {
      */
     @Override
     public List<Map<String, Object>> selectIcon() {
-        Images i = new Images();
-        i.setImgGenre(1);
-        i.setState(1);
-        List<Images> imagesList = mapper.select(i);
+        List<Images> imagesList = mapper.selectUsingImgs(1,1);
         return dealImgInfo(imagesList);
     }
 

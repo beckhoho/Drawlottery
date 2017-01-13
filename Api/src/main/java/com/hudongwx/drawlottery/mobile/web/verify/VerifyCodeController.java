@@ -59,9 +59,9 @@ public class VerifyCodeController extends BaseController {
     public JSONObject judgeVerifyCode(@RequestParam("imgCode") String imgCode) {
         if (null == imgCode || imgCode.equals(""))
             return fail("验证码格式不正确！");
-        Session session = getSession();
-        String sessionIdStr = session.getId().toString();
-        String code = session.getAttribute(sessionIdStr).toString();
+//        Session session = getSession();
+//        String sessionIdStr = session.getId().toString();
+//        String code = session.getAttribute(sessionIdStr).toString();
         return response(imgCode.equals(imgCode));
     }
 }

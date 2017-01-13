@@ -122,7 +122,7 @@ public class UserServiceImpl implements IUserService {
         Map<String, Object> map = new HashMap<>();
         List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commodityId);
         for (CommodityExchange ex : exchanges) {
-            ExchangeWay way = wayMapper.selectByPrimaryKey(ex.getExchangeWayId());
+            ExchangeWay way = wayMapper.selectById(ex.getExchangeWayId());
             map.put(way.getId() + "", way.getName());
         }
         return map;
