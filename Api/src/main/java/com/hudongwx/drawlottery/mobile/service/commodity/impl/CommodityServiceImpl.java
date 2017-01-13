@@ -411,14 +411,14 @@ public class CommodityServiceImpl implements ICommodityService {
                 UserLuckCodes ulc = new UserLuckCodes();
                 ulc.setLockCodeId(comm.getLuckCodeId());
                 ulc.setCommodityId(comm.getId());
-                UserLuckCodes userLuckCodes = userluckMapper.selectOne(ulc);
+                UserLuckCodes userLuckCodes = userluckMapper.selectByOne(comm.getId(),comm.getLuckCodeId());
                 if (null != userLuckCodes) {
                     Long acc = userLuckCodes.getUserAccountId();
-                    insertHistory(comm,acc,userLuckCodes.getLockCodeId());
+                    //insertHistory(comm,acc,userLuckCodes.getLockCodeId());
                     ulc.setLockCodeId(null);
                     ulc.setUserAccountId(acc);
                     userPayNum = userluckMapper.selectCount(ulc);
-                    User user = userMapper.selectByPrimaryKey(acc);
+                    User user = userMapper.selectById(acc);
                     userNickName = user.getNickname();
                     userHeadImgUrl = user.getHeaderUrl();
                 }
@@ -451,7 +451,7 @@ public class CommodityServiceImpl implements ICommodityService {
         UserLuckCodes luckCodes = new UserLuckCodes();
         luckCodes.setUserAccountId(accountId);
         List<UserLuckCodes> select = userluckMapper.select(luckCodes);
-        String s = luckCodeMapper.selectLuckCode(luckCodeId);
+        //String s = luckCodeMapper.selectLuckCode(luckCodeId);
         CommodityHistory history = new CommodityHistory();
         history.setCommodityId(com.getId());
         history.setBuyNumber(select.size());
@@ -464,7 +464,7 @@ public class CommodityServiceImpl implements ICommodityService {
         history.setExchangeWay(null);
         history.setGenre(com.getGenre());
         history.setRoundTime(com.getRoundTime());
-        history.setLuckCode(s);
+        //history.setLuckCode(s);
         return historyMapper.insert(history)>0;
     }
 

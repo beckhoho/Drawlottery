@@ -28,4 +28,6 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     User selectByQQOpenId(@Param("openId") String openId);
+
+    User selectById(@Param("accountId")Long accountId);
 }

@@ -45,6 +45,7 @@ public class UserLuckCodes {
     @Column(name = "address_ip")
     private String addressIp;
 
+
     public String getAddressIp() {
         return addressIp;
     }

@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -60,9 +61,11 @@ public class CommodityServiceImplTest extends TestBaseMapper {
     @Test
     public void testForPut() throws Exception {
         List<Map<String, Object>> list = service.selectOnLottery(1);
-        for (Map<String,Object> map : list){
-            System.out.println(map.get("userHeadImgUrl"));
+        System.out.println(list.size());
+        for (Map<String, Object> map : list){
+            System.out.println(map.get("roundTime"));
         }
+        Assert.assertNotNull(list);
     }
 
 }

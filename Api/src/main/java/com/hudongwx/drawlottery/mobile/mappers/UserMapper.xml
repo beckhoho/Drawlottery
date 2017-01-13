@@ -35,4 +35,9 @@
     <select id="selectByQQOpenId" resultMap="BaseResultMap">
         select * from t_users where qq_open_id = #{openId}
     </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM t_users WHERE account_id = #{accountId}
+    </select>
+
 </mapper>
