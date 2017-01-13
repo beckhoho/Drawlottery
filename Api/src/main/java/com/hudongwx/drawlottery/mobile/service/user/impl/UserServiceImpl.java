@@ -110,10 +110,11 @@ public class UserServiceImpl implements IUserService {
             map.put("luckCode", com.getLuckCode());//添加幸运码
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
             map.put("shareState", 0);//是否晒单（0、未晒单；1、已晒单）
-            map.put("state", 0);//中奖确认流程（0、中奖--->1、确认手机号--->2、已充值）
-            map.put("exchangeId", selectExchange(com.getCommodityId()));//添加兑换方式
-            map.put("withdrawalsMoney", byKey.getWithdrawalsMoney());//折换现金金额
-            map.put("exchangeMoney", byKey.getExchangeMoney());//折换闪币
+            map.put("exchangeId",selectExchange(com.getCommodityId()));//添加兑换方式
+            map.put("withdrawalsMoney",byKey.getWithdrawalsMoney());//折换现金金额
+            map.put("exchangeMoney",byKey.getExchangeMoney());//折换闪币
+            map.put("state",com.getExchangeState());//添加兑换状态
+            map.put("exchangeWay",com.getExchangeWay());//添加已选择兑奖方式
             mapList.add(map);
         }
         return mapList;

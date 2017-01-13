@@ -70,6 +70,20 @@ public class CommodityHistory {
     @Column(name = "exchange_state")
     private Integer exchangeState;
 
+    /**
+     * 已选择兑奖方式id
+     */
+    @Column(name = "exchange_way")
+    private Integer exchangeWay;
+
+    public Integer getExchangeWay() {
+        return exchangeWay;
+    }
+
+    public void setExchangeWay(Integer exchangeWay) {
+        this.exchangeWay = exchangeWay;
+    }
+
     public Integer getExchangeState() {
         return exchangeState;
     }
@@ -77,6 +91,8 @@ public class CommodityHistory {
     public void setExchangeState(Integer exchangeState) {
         this.exchangeState = exchangeState;
     }
+
+
 
     /**
      * 本期总需人数

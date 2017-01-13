@@ -71,4 +71,7 @@ public interface IExchangeMethodService {
     Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId);
 
 
+    //兑换充值卡是否成功
+    boolean orTrue(Long accountId, Long commodityId);
+
 }

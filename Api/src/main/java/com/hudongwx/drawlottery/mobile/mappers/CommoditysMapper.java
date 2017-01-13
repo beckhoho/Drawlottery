@@ -19,6 +19,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      */
     @Select("SELECT commodity.id,template.name,\n" +
             "   commodity.temp_id,"+
+            "genre,"+
             "template.withdrawals_money,"+"template.exchange_money,"+
             "        commodity.view_num,template.commodity_desc,\n" +
             "        template.commodity_type_id,commodity.buy_current_number,\n" +

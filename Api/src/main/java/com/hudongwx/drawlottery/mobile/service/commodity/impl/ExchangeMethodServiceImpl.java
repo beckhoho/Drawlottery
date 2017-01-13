@@ -164,6 +164,22 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     }
 
     /**
+     * 是否派发充值卡
+     *
+     * @param accountId
+     * @param commodityId
+     * @return
+     */
+    @Override
+    public boolean orTrue(Long accountId, Long commodityId) {
+        List<Map<String, Object>> maps = selectUserRechargeCardPrize(accountId, commodityId);
+        if (maps != null && maps.size() != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 查看充值卡兑奖流程进度
      *
      * @param commodityId 商品ID
