@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -71,13 +72,9 @@ public class OdersServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testUpdate() throws Exception {
-        Orders oders = new Orders();
-        oders.setId(1l);
-        oders.setSubmitDate(new Date().getTime());
-        oders.setUserAccountId(3l);
-        boolean update = odersSer.update(oders);
-        Assert.assertTrue(update);
-
+        Map<String, Object> map = odersSer.selectOrders(10000l, 1000);
+        System.out.println(map.get("remainder"));
+        System.out.println(map.get("useRedPackets"));
         //测试成功  可用
     }
 

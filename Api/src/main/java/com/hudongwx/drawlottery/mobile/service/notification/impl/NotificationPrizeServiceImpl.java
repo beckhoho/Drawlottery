@@ -93,14 +93,10 @@ public class NotificationPrizeServiceImpl implements INotificationPrizeService {
         List<String> noti = new ArrayList<>();
         int s = Settings.NOTIFY_SHOW_MAX>=no.size()?no.size():Settings.NOTIFY_SHOW_MAX;
         for(int i=0;i<s;i++){
-            User user = new User();
-            Commoditys com = new Commoditys();
             NotificationPrize notifi = no.get(i);
-            user.setAccountId(notifi.getAccountId());
-            com.setId(notifi.getCommodityId());
-            List<User> select = userMapper.select(user);
-            List<Commoditys> select1 = commodMapper.select(com);
-            noti.add("恭喜："+select.get(0).getNickname()+"获得"+select1.get(0).getName());
+            User select = userMapper.selectById(notifi.getAccountId());
+            Commoditys select1 = commodMapper.selectByKey(notifi.getCommodityId());
+            noti.add("恭喜："+select.getNickname()+"获得"+select1.getName());
         }
         return noti;
     }
