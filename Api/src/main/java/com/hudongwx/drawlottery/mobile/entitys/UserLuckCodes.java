@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Table(name = "t_user_luck_codes")
 public class UserLuckCodes {
@@ -89,7 +88,7 @@ public class UserLuckCodes {
      *
      * @return lock_code_id - 幸运号id
      */
-    public Long getLockCodeId() {
+    public Long getLuckCodeId() {
         return luckCodeId;
     }
 
@@ -98,7 +97,7 @@ public class UserLuckCodes {
      *
      * @param lockCodeId 幸运号id
      */
-    public void setLockCodeId(Long lockCodeId) {
+    public void setLuckCodeId(Long lockCodeId) {
         this.luckCodeId = lockCodeId;
     }
 

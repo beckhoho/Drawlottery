@@ -402,13 +402,13 @@ public class CommodityServiceImpl implements ICommodityService {
             } else {
                 commMapper.updateCommState(comm.getId(), Settings.COMMODITY_STATE_HAS_LOTTERY);
                 UserLuckCodes ulc = new UserLuckCodes();
-                ulc.setLockCodeId(comm.getLuckCodeId());
+                ulc.setLuckCodeId(comm.getLuckCodeId());
                 ulc.setCommodityId(comm.getId());
                 UserLuckCodes userLuckCodes = userluckMapper.selectByOne(comm.getId(), comm.getLuckCodeId());
                 if (null != userLuckCodes) {
                     Long acc = userLuckCodes.getUserAccountId();
-                    //insertHistory(comm,acc,userLuckCodes.getLockCodeId());
-                    ulc.setLockCodeId(null);
+                    //insertHistory(comm,acc,userLuckCodes.getLuckCodeId());
+                    ulc.setLuckCodeId(null);
                     ulc.setUserAccountId(acc);
                     userPayNum = userluckMapper.selectCount(ulc);
                     User user = userMapper.selectById(acc);
@@ -428,6 +428,8 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("state", comm.getStateId());//上商状态
             map.put("totalNumber", comm.getBuyTotalNumber());//所需总人次
             map.put("roundTime", comm.getRoundTime());//期数
+            map.put("desc", comm.getName());//期数
+
             infoList.add(map);
         }
         return infoList;
@@ -478,7 +480,7 @@ public class CommodityServiceImpl implements ICommodityService {
         List<LuckCodes> codes = luckCodeMapper.select(luckCodes);
         Long codeId = codes.get(0).getId();
         UserLuckCodes userLuckCodes = new UserLuckCodes();
-        userLuckCodes.setLockCodeId(codeId);
+        userLuckCodes.setLuckCodeId(codeId);
         List<UserLuckCodes> select = userluckMapper.select(userLuckCodes);
 
         //将商品表中的商品改变状态

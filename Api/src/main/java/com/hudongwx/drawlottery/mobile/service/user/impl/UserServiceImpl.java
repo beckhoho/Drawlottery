@@ -172,11 +172,11 @@ public class UserServiceImpl implements IUserService {
         List<Map<String, Object>> list = new ArrayList<>();
         UserCodesHistory userHistory = new UserCodesHistory();
         userHistory.setUserAccountId(accountId);
-        List<UserCodesHistory> s1 = userCodeHistMapper.select(userHistory);
+        List<UserCodesHistory> s1 = userCodeHistMapper.selectByUserAccountId(accountId);
         for (UserCodesHistory u : s1) {
             Map<String, Object> map = new HashMap<>();
             CommodityHistory history = comHistoryMapper.selectBycommId(u.getCommodityId());
-            User user1 = userMapper.selectByPrimaryKey(history.getLuckUserAccountId());
+            User user1 = userMapper.selectById(history.getLuckUserAccountId());
             List<String> integers = luckUserList(accountId, history.getCommodityId());
             map.put("id", history.getCommodityId());//商品ID
             map.put("buyTotalNumber", history.getBuyTotalNumber());//添加当期总需人次
@@ -213,7 +213,7 @@ public class UserServiceImpl implements IUserService {
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
             map.put("commState", com.getStateId());//商品状态
             map.put("roundTime", com.getRoundTime());//添加期数
-            map.put("coverImgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//添加封面图URL
+            map.put("coverImgUrl", com.getCoverImgUrl());//添加封面图URL
             map.put("commName", com.getName());//添加商品名
             map.put("userAccountId", accountId);//添加用户ID
             map.put("userCodesList", integers);//添加用户参与购买的幸运码集合
@@ -229,12 +229,9 @@ public class UserServiceImpl implements IUserService {
     //查询用户参与商品购买人次和幸运码
     public List<String> luckUserList(Long accountId, Long commodityId) {
         List<String> list = new ArrayList<>();
-        UserLuckCodes luckCodes = new UserLuckCodes();
-        luckCodes.setCommodityId(commodityId);
-        luckCodes.setUserAccountId(accountId);
-        List<UserLuckCodes> codes = luckCodesMapper.select(luckCodes);
+        List<UserLuckCodes> codes = luckCodesMapper.selectByAccAndCommId(accountId,commodityId);
         for (UserLuckCodes code : codes) {
-            LuckCodes key = codesMapper.selectByPrimaryKey(code.getLockCodeId());
+            LuckCodes key = codesMapper.selectById(code.getLuckCodeId());
             list.add(key.getLockCode());
         }
         return list;
@@ -285,7 +282,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Map<String, Object> queryPersonalInfo(Long accountId) {
-        User user = userMapper.selectByPrimaryKey(accountId);
+        User user = userMapper.selectById(accountId);
         Map<String, Object> map = new HashMap<>();
         map.put("imgUrl", user.getHeaderUrl());
         map.put("nickname", user.getNickname());

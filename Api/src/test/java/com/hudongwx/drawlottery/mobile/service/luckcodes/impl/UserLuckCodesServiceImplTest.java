@@ -9,8 +9,6 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static org.testng.Assert.*;
-
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -34,7 +32,7 @@ public class UserLuckCodesServiceImplTest extends TestBaseMapper {
     public void testAddNewLockCodes() throws Exception {
         UserLuckCodes userL = new UserLuckCodes();
         userL.setCommodityId(1l);
-        userL.setLockCodeId(2l);
+        userL.setLuckCodeId(2l);
         userL.setUserAccountId(1l);
         boolean b = userLuckService.addNewLockCodes(userL);
         Assert.assertTrue(b);

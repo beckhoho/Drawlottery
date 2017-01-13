@@ -85,7 +85,7 @@ public class OrdersServiceImpl implements IOrdersService {
                         UserLuckCodes luckCodes = new UserLuckCodes();
                         luckCodes.setUserAccountId(accountId);
                         luckCodes.setCommodityId(commodityId);
-                        luckCodes.setLockCodeId(code.getId());
+                        luckCodes.setLuckCodeId(code.getId());
                         luckCodes.setBuyDate(date.getTime());
                         luckCodes.setOrdersId(list.get(0).getId());
                         luckMapper.insert(luckCodes);
@@ -258,7 +258,7 @@ public class OrdersServiceImpl implements IOrdersService {
         user.setCommodityId(commodityId);
         List<UserLuckCodes> codes = luckMapper.select(user);
         for (UserLuckCodes luckCodes : codes) {
-            LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLockCodeId());
+            LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLuckCodeId());
             list.add(codes1.getLockCode());
         }
         return list;
