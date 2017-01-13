@@ -3,7 +3,6 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -50,7 +49,9 @@ public class CommodityServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testType4() throws Exception {
-
+        Map<String, Object> map = service.selectCommodity(45l);
+        List<String> urls = (List<String>) map.get("imgUrls");
+        System.out.println(urls.size());
     }
 
     @Test

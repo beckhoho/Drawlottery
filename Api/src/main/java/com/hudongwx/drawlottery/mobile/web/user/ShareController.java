@@ -47,8 +47,8 @@ public class ShareController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/token", method = RequestMethod.POST)
-    public JSONObject uploadShareInfo( @RequestParam("suffix") String suffix) {
-        Properties p=new Properties();
+    public JSONObject uploadShareInfo(@RequestParam("suffix") String suffix) {
+        Properties p = new Properties();
 
         //设置好账号的ACCESS_KEY和SECRET_KEY
         String ACCESS_KEY = "F5kk6Wp3aSKV5ViXVd-hH0YZvoEeYrI_3dLx4SbQ";
@@ -100,9 +100,33 @@ public class ShareController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
+    @RequestMapping(value = "/api/v1/user/share/info/user", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryShareInfoByAccount(@RequestParam("accountId") Long accountId) {
+        List<Map<String, Object>> shareAll = shareService.selectByUserAccountId(10000L);
+        return success(shareAll);
+    }
+
+    /**
+     * 获取用户晒单列表信息
+     *
+     * @return JSONObject
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/share/info/comm", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryShareInfoByCommId(@RequestParam("commId") Long commId) {
+        List<Map<String, Object>> shareAll = shareService.selectByCommId(commId);
+        return success(shareAll);
+    }
+
+    /**
+     * 获取用户晒单列表信息
+     *
+     * @return JSONObject
+     */
+    @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryShareInfo(@RequestParam("page") int page) {
-        List<Map<String, Object>> shareAll = shareService.selectUserAll(2L);
+    public JSONObject queryAllShareInfo(@RequestParam("page") int page) {
+        List<Map<String, Object>> shareAll = shareService.selectAll(page);
         return success(shareAll);
     }
 

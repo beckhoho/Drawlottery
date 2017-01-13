@@ -19,6 +19,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      */
     @Select("SELECT commodity.id,template.name,\n" +
             "   commodity.temp_id,"+
+            "template.withdrawals_money,"+"template.exchange_money,"+
             "        commodity.view_num,template.commodity_desc,\n" +
             "        template.commodity_type_id,commodity.buy_current_number,\n" +
             "        template.buy_total_number,template.ground_time,\n" +
@@ -32,6 +33,8 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     @Results({
             @Result(id = true , column = "id",property = "id"),
             @Result(column = "view_num",property = "viewNum"),
+            @Result(column = "withdrawals_money",property = "withdrawalsMoney"),
+            @Result(column = "exchange_money",property = "exchangeMoney"),
             @Result(column = "commodity_desc",property = "commodityDesc"),
             @Result(column = "commodity_type_id",property = "commodityTypeId"),
             @Result(column = "buy_current_number",property = "buyCurrentNumber"),

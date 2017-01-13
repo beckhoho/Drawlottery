@@ -172,12 +172,11 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     @Override
     public Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId) {
         Map<String, Object> map = new HashMap<>();
-        CommodityHistory ch = new CommodityHistory();
-        ch.setCommodityId(commodityId);
-        ch.setLuckUserAccountId(accountId);
-        List<CommodityHistory> list = chMapper.select(ch);
-        ExchangeWay way = ewMapper.selectById(1);
-        CommodityHistory history = list.get(0);
+        CommodityHistory commHis = new CommodityHistory();
+        commHis.setCommodityId(commodityId);
+        commHis.setLuckUserAccountId(accountId);
+        CommodityHistory history = chMapper.selectOne(commHis);
+        ExchangeWay way = ewMapper.selectById(Settings.EXCHANGE_METHOD_RECHARGE_CARD);
         map.put("commodityName", history.getCommodityName());//商品名
         map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图
         map.put("exchangeState", history.getExchangeState());//兑奖流程进度状态

@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Table(name = "t_users")
 public class User implements Serializable {
@@ -64,11 +65,41 @@ public class User implements Serializable {
     /**
      * QQ——openID
      */
+    @Column(name = "qq_number")
+    private String qqNumber;
+
+    /**
+     * QQ——openID
+     */
     @Column(name = "qq_open_id")
     private String qqOpenId;
 
     @Column(name = "weixin_open_id")
     private String weixinOpenId;
+
+    /**
+     * 推广员Id
+     */
+    @Column(name = "promoter_id")
+    private Long promoterId;
+
+    /**
+     * 推广员收益余额
+     */
+    private BigDecimal balance;
+
+    /**
+     * 推广员等级
+     */
+    private Long lv;
+
+    public String getQqNumber() {
+        return qqNumber;
+    }
+
+    public void setQqNumber(String qqNumber) {
+        this.qqNumber = qqNumber;
+    }
 
     public String getQqOpenId() {
         return qqOpenId;
@@ -257,8 +288,33 @@ public class User implements Serializable {
     public void setGoldNumber(Integer goldNumber) {
         this.goldNumber = goldNumber;
 
-    } //获取公盐+私盐
+    }
 
+    public Long getPromoterId() {
+        return promoterId;
+    }
+
+    public void setPromoterId(Long promoterId) {
+        this.promoterId = promoterId;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public Long getLv() {
+        return lv;
+    }
+
+    public void setLv(Long lv) {
+        this.lv = lv;
+    }
+
+    //获取公盐+私盐
     public String getCredentialsSalt() {
         return this.salt + "294786949@qq.com";
     }

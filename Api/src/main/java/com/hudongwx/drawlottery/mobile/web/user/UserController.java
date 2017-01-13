@@ -4,18 +4,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.ISignInService;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
-import com.hudongwx.drawlottery.mobile.utils.TestHttp;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -48,7 +47,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/center", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserCenter() {
-        Map<String, Object> userInfo = userService.getUserInfo(userService.queryUserByPhoneNum("13990949387"));
+        Map<String, Object> userInfo = userService.queryPersonalInfo(10000L);
         return success(userInfo);
     }
 
@@ -99,8 +98,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/sign/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addUserSign() {
-        User user = getUser();//获取当前用户信息
-        return success(signInService.selectUserSign(user.getAccountId()));
+        return success(signInService.selectUserSign(getUserId()));
     }
 
     /**
@@ -111,8 +109,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/sign/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserSign() {
-        User user = getUser();//获取当前用户信息
-        return success(signInService.selectUserSign(user.getAccountId()));
+        return success(signInService.selectUserSign(getUserId()));
     }
 
     /**
@@ -122,28 +119,18 @@ public class UserController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/upload/headimg.do", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject uploadUserImg(HttpServletRequest request) throws IOException {
-        BufferedInputStream bis = new BufferedInputStream(request.getInputStream());
-        byte[] bytes = TestHttp.readInputStream(bis);
-        String path = "C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\userportrait";
-        File file = new File(path, new Date().getTime() + ".jpg");
-        if (!file.exists())
-            file.getParentFile().createNewFile();
-        FileOutputStream fos = new FileOutputStream(file);
-        fos.write(bytes);
-        fos.close();
-        return success();
+    public JSONObject uploadUserImg(@RequestParam("accountId") Long accountId, @RequestParam("photo") MultipartFile imgFile) {
+        return response(true);
     }
 
     /**
      * 修改昵称
      *
-     * @param userNickName
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/update/nickname", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject updateUserNickName(@RequestParam("nickname") String userNickName) {
+    public JSONObject updateUserNickName(@RequestParam("nickname") String nickname) {
 
         return response(true);
     }
@@ -157,7 +144,6 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/update/phone", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updatePhone(@RequestParam("phone") String phone, @RequestParam("imgCode") String imgCode, @RequestParam("SMSCode") String SMSCode) {
-
         return response(true);
     }
 
@@ -169,9 +155,8 @@ public class UserController extends BaseController {
      * @throws IOException
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/update/QQ", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject updateQQNumber(@RequestParam("QQ") String QQ) {
-
+    @RequestMapping(value = "/api/v1/user/update/qq", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject updateQQNumber(@RequestParam("qq") String QQ) {
         return response(true);
     }
 
@@ -214,18 +199,4 @@ public class UserController extends BaseController {
         return response(true);
     }
 
-    /**
-     * 测试缓存
-     *
-     * @param userNickName
-     * @return
-     * @throws IOException
-     */
-    @ResponseBody
-    @RequestMapping(value = "/cache/test", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject updateCache(@RequestParam("nickname") String userNickName) throws IOException {
-        // TODO: 2017/1/12  测试缓存
-        System.out.println();
-        return response(true);
-    }
 }

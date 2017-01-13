@@ -131,7 +131,7 @@ public class OrdersServiceImpl implements IOrdersService {
                 int goldNumber = user.getGoldNumber();
                 commodity.setBuyCurrentNumber(commodity.getBuyTotalNumber());
                 commodity.setStateId(2);//进入待揭晓状态
-                commodity.setSellOutTime(new Date());//添加售罄时间
+                commodity.setSellOutTime(new Date().getTime());//添加售罄时间
                 int i1 = comMapper.updateByPrimaryKeySelective(commodity);//根据主键修改商品状态
                 user.setGoldNumber(i + goldNumber);//将多购买的数量以闪币退还给用户
                 return userMapper.updateByPrimaryKeySelective(user) > 0 && i1 > 0;

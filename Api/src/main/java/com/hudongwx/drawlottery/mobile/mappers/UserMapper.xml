@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hudongwx.drawlottery.mobile.mappers.UserMapper">
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.User">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <result column="account_id" jdbcType="BIGINT" property="accountId" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="real_name" jdbcType="VARCHAR" property="realName" />
-    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
-    <result column="salt" jdbcType="VARCHAR" property="salt" />
-    <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
-    <result column="current_state" jdbcType="INTEGER" property="currentState" />
-    <result column="header_url" jdbcType="INTEGER" property="headerUrl" />
-    <result column="gold_number" jdbcType="INTEGER" property="goldNumber" />
-    <result column="qq_open_id" jdbcType="VARCHAR" property="qqOpenId"/>
-    <result column="weixin_open_id" jdbcType="VARCHAR" property="weixinOpenId"/>
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="account_id" jdbcType="BIGINT" property="accountId"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="user_integral" jdbcType="INTEGER" property="userIntegral"/>
+        <result column="current_state" jdbcType="INTEGER" property="currentState"/>
+        <result column="header_url" jdbcType="INTEGER" property="headerUrl"/>
+        <result column="gold_number" jdbcType="INTEGER" property="goldNumber"/>
+        <result column="qq_number" jdbcType="VARCHAR" property="qqNumber"/>
+        <result column="qq_open_id" jdbcType="VARCHAR" property="qqOpenId"/>
+        <result column="weixin_open_id" jdbcType="VARCHAR" property="weixinOpenId"/>
+        <result column="promoter_id" jdbcType="BIGINT" property="promoterId"/>
+        <result column="balance" jdbcType="DECIMAL" property="balance"/>
+        <result column="lv" jdbcType="INTEGER" property="lv"/>
+
+    </resultMap>
+
+    <select id="selectByPhoneNumber" resultMap="BaseResultMap">
+        select * from t_users where phone_number = #{phone}
+    </select>
+
+    <select id="selectByWxOpenId" resultMap="BaseResultMap">
+        select * from t_users where weixin_open_id = #{openId}
+    </select>
+
+    <select id="selectByQQOpenId" resultMap="BaseResultMap">
+        select * from t_users where qq_open_id = #{openId}
+    </select>
 </mapper>

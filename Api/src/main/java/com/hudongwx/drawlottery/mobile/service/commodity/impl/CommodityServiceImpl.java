@@ -398,7 +398,7 @@ public class CommodityServiceImpl implements ICommodityService {
         for (int i = 0; i < onLotteryList.size(); i++) {
             Commoditys comm = onLotteryList.get(i);
             Map<String, Object> map = new HashMap<>();
-            long sellOutTime = null == comm.getSellOutTime() ? 0 : comm.getSellOutTime().getTime();
+            long sellOutTime = null == comm.getSellOutTime() ? 0 : comm.getSellOutTime();
             long endTime = sellOutTime + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
             int residualMinutes = 0;//开奖剩余秒数
             String userHeadImgUrl = null;

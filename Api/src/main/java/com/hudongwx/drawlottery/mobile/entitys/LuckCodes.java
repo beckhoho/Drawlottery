@@ -25,6 +25,12 @@ public class LuckCodes {
      */
     private Integer state;
 
+    /**
+     * 商品ID
+     */
+    @Column(name = "luck_code_template_id")
+    private Long luckCodeTemplateId;
+
     public Integer getState() {
         return state;
     }
@@ -81,5 +87,13 @@ public class LuckCodes {
      */
     public void setCommodityId(Long commodityId) {
         this.commodityId = commodityId;
+    }
+
+    public Long getLuckCodeTemplateId() {
+        return luckCodeTemplateId;
+    }
+
+    public void setLuckCodeTemplateId(Long luckCodeTemplateId) {
+        this.luckCodeTemplateId = luckCodeTemplateId;
     }
 }

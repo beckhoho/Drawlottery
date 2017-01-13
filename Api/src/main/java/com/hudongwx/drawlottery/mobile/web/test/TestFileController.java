@@ -2,11 +2,10 @@ package com.hudongwx.drawlottery.mobile.web.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -48,4 +47,20 @@ public class TestFileController extends BaseController {
         return null;
     }
 
+
+
+    /**
+     * 测试缓存
+     *
+     * @param userNickName
+     * @return
+     * @throws IOException
+     */
+    @ResponseBody
+    @RequestMapping(value = "/cache/test", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject updateCache(@RequestParam("nickname") String userNickName) {
+        // TODO: 2017/1/12  测试缓存
+        System.out.println();
+        return response(true);
+    }
 }

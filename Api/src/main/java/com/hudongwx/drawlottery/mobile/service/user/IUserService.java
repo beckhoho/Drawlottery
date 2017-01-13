@@ -80,5 +80,7 @@ public interface IUserService {
      * @return
      */
     boolean checkOpenId(String token,String openId);
+
+    Map<String,Object> queryPersonalInfo(Long accountId);
 }
 

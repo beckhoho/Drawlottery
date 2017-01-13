@@ -7,18 +7,17 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.Date;
 import java.util.List;
 
 public interface ShareMapper extends BaseMapper<Share> {
 
-    @Select("select * from t_share where commodity_id = #{accountId}")
+    @Select("select * from t_share where commodity_id = #{commId}")
     @Results({
             @Result(column = "user_account_id", property = "userAccountId"),
             @Result(column = "issue_date", property = "issueDate"),
             @Result(column = "commodity_id", property = "commodityId")
     })
-    List<Share> selectByCommId(@Param("commId") Long accountId);
+    List<Share> selectByCommId(@Param("commId") Long commId);
 
     @Select("select * from t_share where issue_date = #{issueDate}")
     @Results({
@@ -26,5 +25,13 @@ public interface ShareMapper extends BaseMapper<Share> {
             @Result(column = "issue_date", property = "issueDate"),
             @Result(column = "commodity_id", property = "commodityId")
     })
-    List<Share> selectByIssueDate(@Param("issueDate") Date issueDate);
+    List<Share> selectByIssueDate(@Param("issueDate") Long issueDate);
+
+    @Select("select * from t_share where user_account_id = #{accountId}")
+    @Results({
+            @Result(column = "user_account_id", property = "userAccountId"),
+            @Result(column = "issue_date", property = "issueDate"),
+            @Result(column = "commodity_id", property = "commodityId")
+    })
+    List<Share> selectByUserAccountId(@Param("accountId") Long accountId);
 }
