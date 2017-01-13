@@ -1,8 +1,10 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
+import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.Share;
 import com.hudongwx.drawlottery.mobile.entitys.ShareImg;
 import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.mappers.ShareImgMapper;
 import com.hudongwx.drawlottery.mobile.mappers.ShareMapper;
 import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
@@ -41,6 +43,8 @@ public class ShareServiceImpl implements IShareService {
     UserMapper userMapper;
     @Autowired
     ShareImgMapper shareImgMapper;
+    @Autowired
+    CommoditysMapper commMapper;
 
     /**
      * 添加用户晒单
@@ -189,16 +193,19 @@ public class ShareServiceImpl implements IShareService {
             ShareImg shareImg = new ShareImg();
             shareImg.setShareId(share.getId());
             List<ShareImg> imgList = shareImgMapper.select(shareImg);
+            Commoditys comm = commMapper.selectByKey(share.getCommodityId());
             Map<String, Object> map = new HashMap<>();
             List<String> list = new ArrayList<>();
             if (null == account)
                 user1 = userMapper.selectByPrimaryKey(share.getUserAccountId());
-            map.put("userHeaderUrl", user1.getHeaderUrl());//添加用户头像
+            map.put("id", share.getId());//添加用户头像
+            map.put("headImgUrl", user1.getHeaderUrl());//添加用户头像
             map.put("userName", user1.getNickname());//添加用户昵称
-            map.put("shareTime", share.getIssueDate());//添加分享时间
+            map.put("shareDate", share.getIssueDate());//添加分享时间
+            map.put("commName", comm.getName());//添加商品id
+            map.put("commRoundTime", comm.getRoundTime());//添加商品id
             map.put("context", share.getParticulars());//添加用户分享内容
-            map.put("commodityId", share.getCommodityId());//添加商品id
-            map.put("commodityId", share.getCommodityId());//添加商品id
+            map.put("commId", share.getCommodityId());//添加商品id
             for (ShareImg sh : imgList)
                 list.add(sh.getShareImgUrl());
             map.put("shareImgUrl", list);//添加用户晒单照片

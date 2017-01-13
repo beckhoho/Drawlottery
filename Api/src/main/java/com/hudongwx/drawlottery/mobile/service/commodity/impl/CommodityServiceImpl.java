@@ -29,7 +29,7 @@ import java.util.*;
 public class CommodityServiceImpl implements ICommodityService {
 
     @Autowired
-    CommoditysMapper mapper;
+    CommoditysMapper commMapper;
     @Autowired
     CommodityImgMapper imgMapper;
     @Autowired
@@ -53,7 +53,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean addCommodity(Commoditys commod) {
-        return mapper.insert(commod) > 0;
+        return commMapper.insert(commod) > 0;
     }
 
     /**
@@ -64,7 +64,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean delete(Long id) {
-        return mapper.deleteByPrimaryKey(id) > 0;
+        return commMapper.deleteByPrimaryKey(id) > 0;
     }
 
     /**
@@ -75,7 +75,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public Commoditys selectByid(Long id) {
-        return mapper.selectByPrimaryKey(id);
+        return commMapper.selectByPrimaryKey(id);
 
     }
 
@@ -87,10 +87,10 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Commoditys> selectTypeAll(String commodType) {
-        Long i = mapper.selectType(commodType);
+        Long i = commMapper.selectType(commodType);
         Commoditys com = new Commoditys();
         com.setCommodityTypeId(i);
-        return mapper.select(com);
+        return commMapper.select(com);
     }
 
     /**
@@ -101,7 +101,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean update(Commoditys commod) {
-        int i = mapper.updateByPrimaryKeySelective(commod);
+        int i = commMapper.updateByPrimaryKeySelective(commod);
         if (i > 0)
             return true;
         return false;
@@ -115,7 +115,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public int selectCount(Integer commodityTypeId) {
-        return mapper.selectTypeCount(commodityTypeId);
+        return commMapper.selectTypeCount(commodityTypeId);
     }
 
 
@@ -126,7 +126,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Commoditys> selectAll() {
-        return mapper.selectAll();
+        return commMapper.selectAll();
     }
 
     /**
@@ -140,15 +140,15 @@ public class CommodityServiceImpl implements ICommodityService {
         List<Commoditys> cList;
         List<Map<String, Object>> infoList = new ArrayList<>();
         if (type.intValue() == Settings.COMMODITY_ORDER_POPULARITY) {
-            cList = ServiceUtils.getPageList(mapper.selectByTemp1(), page);
+            cList = ServiceUtils.getPageList(commMapper.selectByTemp1(), page);
         } else if (type == Settings.COMMODITY_ORDER_FASTEST) {
-            cList = ServiceUtils.getPageList(mapper.selectByTemp2(), page);
+            cList = ServiceUtils.getPageList(commMapper.selectByTemp2(), page);
         } else if (type == Settings.COMMODITY_ORDER_NEWEST) {
-            cList = ServiceUtils.getPageList(mapper.selectByTemp3(), page);
+            cList = ServiceUtils.getPageList(commMapper.selectByTemp3(), page);
         } else if (type == Settings.COMMODITY_ORDER_HIGHT_RATE) {
-            cList = ServiceUtils.getPageList(mapper.selectHeight(100), page);
+            cList = ServiceUtils.getPageList(commMapper.selectHeight(100), page);
         } else {
-            cList = ServiceUtils.getPageList(mapper.selectByTemp4(), page);
+            cList = ServiceUtils.getPageList(commMapper.selectByTemp4(), page);
         }
         for (Commoditys commoditys : cList) {
             infoList.add(dealCommSelectByStyle(commoditys));
@@ -161,7 +161,7 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("id", comm.getId());
         map.put("state", comm.getStateId());
         map.put("name", comm.getName());
-        map.put("imgUrl", Settings.SERVER_URL_PATH + comm.getCoverImgUrl());
+        map.put("imgUrl", comm.getCoverImgUrl());
         map.put("currentNumber", comm.getBuyTotalNumber() - comm.getBuyCurrentNumber());
         map.put("totalNumber", comm.getBuyTotalNumber());
         map.put("detailUrl", comm.getCommodityDescUrl());
@@ -190,7 +190,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public Map<String, Object> selectCommodity(Long commodId) {
-        Commoditys com = mapper.selectByKey(commodId);
+        Commoditys com = commMapper.selectByKey(commodId);
         Map<String, Object> map = new HashMap<>();
         if (com.getStateId() == 3) {//如果未开奖
             CommodityHistory comh = historyMapper.selectBycommodName(com.getName(), com.getRoundTime());
@@ -218,7 +218,7 @@ public class CommodityServiceImpl implements ICommodityService {
     public List<Map<String, Object>> listMap3() {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        List<Commoditys> coms = mapper.selectByGuess();
+        List<Commoditys> coms = commMapper.selectByGuess();
         int i = Settings.PAGE_LOAD_SIZE <= coms.size() ? Settings.PAGE_LOAD_SIZE : coms.size();
         for (int s = 0; s < i; s++) {
             Commoditys com = coms.get(s);
@@ -333,24 +333,24 @@ public class CommodityServiceImpl implements ICommodityService {
         } else if (null == categoryId && null != commName) {
             return type4(commName, page);
         }
-        return new ArrayList<>();
+        return null;
     }
 
     //已分类的商品名搜索
     public List<Map<String, Object>> type1(Integer categoryId, String commName, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByTypeAndName("%" + commName + "%", categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
+        List<Commoditys> list = ServiceUtils.getPageList(commMapper.selectByTypeAndName("%" + commName + "%", categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
         return forPut(list);
     }
 
     //已分类商品搜索
     public List<Map<String, Object>> byType(Integer categoryId, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByType(categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
+        List<Commoditys> list = ServiceUtils.getPageList(commMapper.selectByType(categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
         return forPut(list);
     }
 
     //未分类的商品名搜索
     public List<Map<String, Object>> type4(String commName, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(mapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE), page);
+        List<Commoditys> list = ServiceUtils.getPageList(commMapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE), page);
         return forPut(list);
     }
 
@@ -363,7 +363,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("commodityName", com.getName());//添加商品名
             map.put("totalNumber", com.getBuyTotalNumber());//添加商品总购买人次
             map.put("currentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//商品剩余
-            map.put("headerImg", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//商品封面图URL
+            map.put("headerImg", com.getCoverImgUrl());//商品封面图URL
             map.put("state", com.getStateId());//添加商品状态
             listMap.add(map);
         }
@@ -379,7 +379,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Map<String, Object>> selectHeight(Integer number) {
-        List<Commoditys> list = mapper.selectHeight(number);
+        List<Commoditys> list = commMapper.selectHeight(number);
         return forPut(list);
     }
 
@@ -387,12 +387,12 @@ public class CommodityServiceImpl implements ICommodityService {
         List<Map<String, Object>> infoList = new ArrayList<>();
         List<Commoditys> onLotteryList = null;
         if (null == commId && null != page) {
-            List<Commoditys> list = mapper.selectOnLottery(Settings.MAX_INFO_SIZE);
-            list.addAll(mapper.selectHasTheLotteryComm());
+            List<Commoditys> list = commMapper.selectOnLottery(Settings.MAX_INFO_SIZE);
+            list.addAll(commMapper.selectHasTheLotteryComm());
             onLotteryList = ServiceUtils.getPageList(list, page);
         } else if (null != commId && null == page) {
             onLotteryList = new ArrayList<>();
-            onLotteryList.add(mapper.selectByPrimaryKey(commId));
+            onLotteryList.add(commMapper.selectByKey(commId));
         }
         long nowTime = new Date().getTime();
         for (int i = 0; i < onLotteryList.size(); i++) {
@@ -407,15 +407,14 @@ public class CommodityServiceImpl implements ICommodityService {
             if (nowTime < endTime) {
                 residualMinutes = (int) ((endTime - nowTime) / 1000);
             } else {
-                comm.setStateId(Settings.COMMODITY_STATE_HAS_LOTTERY);
-                mapper.updateByPrimaryKeySelective(comm);
+                commMapper.updateCommState(comm.getId(), Settings.COMMODITY_STATE_HAS_LOTTERY);
                 UserLuckCodes ulc = new UserLuckCodes();
                 ulc.setLockCodeId(comm.getLuckCodeId());
                 ulc.setCommodityId(comm.getId());
                 UserLuckCodes userLuckCodes = userluckMapper.selectOne(ulc);
                 if (null != userLuckCodes) {
                     Long acc = userLuckCodes.getUserAccountId();
-                    ulc.setLockCodeId(null);
+                    ulc.setLockCodeId(userLuckCodes.getLockCodeId());
                     ulc.setUserAccountId(acc);
                     userPayNum = userluckMapper.selectCount(ulc);
                     User user = userMapper.selectByPrimaryKey(acc);
@@ -428,7 +427,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("userNickName", userNickName);//
             map.put("userPayNum", userPayNum);//
             map.put("id", comm.getId());//商品id
-            map.put("imgUrl", Settings.SERVER_URL_PATH + comm.getCoverImgUrl());//封面图片url
+            map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
             map.put("currentTime", nowTime);//当前时间
             map.put("detailUrl", comm.getCommodityDescUrl());//详情url
             map.put("desc", comm.getCommodityDesc());//商品描述
@@ -450,7 +449,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean reviseInfo(String luckCode, Long commodityId) {
-        Commoditys com = mapper.selectByKey(commodityId);
+        Commoditys com = commMapper.selectByKey(commodityId);
         LuckCodes luckCodes = new LuckCodes();
         luckCodes.setLockCode(luckCode);
         luckCodes.setCommodityId(commodityId);
@@ -464,7 +463,7 @@ public class CommodityServiceImpl implements ICommodityService {
         Commoditys commodity = new Commoditys();
         commodity.setId(commodityId);
         commodity.setStateId(1);
-        int i = mapper.updateByPrimaryKeySelective(commodity);
+        int i = commMapper.updateByPrimaryKeySelective(commodity);
 
         //将用户幸运码添加到历史
         Long accountId = select.get(0).getUserAccountId();

@@ -95,36 +95,36 @@ public class ShareController extends BaseController {
     }
 
     /**
-     * 获取用户晒单列表信息
+     * 获取用户晒单信息
      *
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/share/info/user", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryShareInfoByAccount(@RequestParam("accountId") Long accountId) {
+    @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryShareInfoByAccount(@RequestParam("page") int page) {
         List<Map<String, Object>> shareAll = shareService.selectByUserAccountId(10000L);
         return success(shareAll);
     }
 
     /**
-     * 获取用户晒单列表信息
+     * 获取单件晒单信息
      *
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/share/info/comm", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/pub/share/comm", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryShareInfoByCommId(@RequestParam("commId") Long commId) {
         List<Map<String, Object>> shareAll = shareService.selectByCommId(commId);
         return success(shareAll);
     }
 
     /**
-     * 获取用户晒单列表信息
+     * 获取所有用户晒单信息
      *
      * @return JSONObject
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/pub/share/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAllShareInfo(@RequestParam("page") int page) {
         List<Map<String, Object>> shareAll = shareService.selectAll(page);
         return success(shareAll);
