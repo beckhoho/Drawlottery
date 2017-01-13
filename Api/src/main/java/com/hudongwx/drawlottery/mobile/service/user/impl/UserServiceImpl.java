@@ -5,8 +5,6 @@ import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
-import com.qq.connect.QQConnectException;
-import com.qq.connect.api.OpenID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -274,12 +272,14 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public boolean checkOpenId(String token, String openId) {
-        try {
+        //// TODO: 2017/1/13 0013 qq登录校验
+
+       /* try {
             //通过token获取openId
             return new OpenID(token).getUserOpenID().equals(openId);
         } catch (QQConnectException e) {
             e.printStackTrace();
-        }
+        }*/
         return false;
     }
 

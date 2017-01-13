@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web.test;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import org.springframework.web.bind.annotation.*;
@@ -62,5 +64,21 @@ public class TestFileController extends BaseController {
         // TODO: 2017/1/12  测试缓存
         System.out.println();
         return response(true);
+    }
+    @RequestMapping("/html5.do")
+    public JSONObject html5(){
+        JSONArray array = new JSONArray();
+        for(int i=0;i<300;i++){
+            JSONObject object = new JSONObject();
+            object.put("id",i);
+            object.put("name","消息通知"+i);
+            array.add(object);
+        }
+        JSONObject object = new JSONObject();
+        object.put("code",200);
+        object.put("msg","成功");
+        object.put("data",array);
+        System.out.println(object);
+        return object;
     }
 }
