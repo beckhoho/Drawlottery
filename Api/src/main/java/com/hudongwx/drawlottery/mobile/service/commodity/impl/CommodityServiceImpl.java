@@ -235,9 +235,7 @@ public class CommodityServiceImpl implements ICommodityService {
 
     public List<String> listUrl(Long commodId) {
         List<String> listImg = new ArrayList<>();
-        CommodityImg img = new CommodityImg();
-        img.setCommodityId(commodId);
-        List<CommodityImg> select = imgMapper.select(img);
+        List<CommodityImg> select = imgMapper.selectByCommId(commodId);
         for (CommodityImg imgs : select) {
             listImg.add(Settings.SERVER_URL_PATH + imgs.getUrl());
         }
@@ -249,7 +247,7 @@ public class CommodityServiceImpl implements ICommodityService {
         if (comh == null) {
             return historyMap;
         }
-        User user1 = userMapper.selectByPrimaryKey(comh.getLuckUserAccountId());
+        User user1 = userMapper.selectById(comh.getLuckUserAccountId());
         historyMap.put("userName", user1.getNickname());//添加用户昵称
         historyMap.put("userHeaderImg", user1.getHeaderUrl());//添加用户头像
         historyMap.put("roundTime", comh.getRoundTime());//添加期数
@@ -263,9 +261,9 @@ public class CommodityServiceImpl implements ICommodityService {
 
     public List<Map<String, Object>> listPartake(Long commodId) {
         List<Map<String, Object>> listMap = new ArrayList<>();
-        List<UserLuckCodes> codes = userluckMapper.selectCountByCommodity(commodId);
-        for (UserLuckCodes userLuckCodes : codes) {
-            Long userAccountId = userLuckCodes.getUserAccountId();
+        List<Long> codes = userluckMapper.selectCountByCommodity(commodId);
+        for (Long userLuckCodes : codes) {
+            Long userAccountId = userLuckCodes;
             Map<String, Object> map = map1(userAccountId);
             Map<String, Object> map1 = map2(commodId, userAccountId);
             Map<String, Object> listMapMin = new HashMap<>();
@@ -278,11 +276,9 @@ public class CommodityServiceImpl implements ICommodityService {
 
     public Map<String, Object> map1(Long userAccountId) {
         Map<String, Object> map = new HashMap<>();
-        User user = new User();
-        user.setAccountId(userAccountId);
-        List<User> select1 = userMapper.select(user);
-        String name = select1.get(0).getNickname();
-        String headerUrl = select1.get(0).getHeaderUrl();
+        User user = userMapper.selectById(userAccountId);
+        String name = user.getNickname();
+        String headerUrl = user.getHeaderUrl();
         map.put("userName", name);//用户名
         map.put("headerUrl", Settings.SERVER_URL_PATH + headerUrl);//头像地址
 
@@ -290,11 +286,8 @@ public class CommodityServiceImpl implements ICommodityService {
     }
 
     public Map<String, Object> map2(Long commodId, Long userAccountId) {
-        UserLuckCodes userLuck = new UserLuckCodes();
         Map<String, Object> map = new HashMap<>();
-        userLuck.setCommodityId(commodId);
-        userLuck.setUserAccountId(userAccountId);
-        List<UserLuckCodes> select = userluckMapper.select(userLuck);
+        List<UserLuckCodes> select = userluckMapper.selectByAccAndCommId(userAccountId, commodId);
         Long buyDate = null;
         int size = 0;
         if (!select.isEmpty()) {
@@ -411,7 +404,7 @@ public class CommodityServiceImpl implements ICommodityService {
                 UserLuckCodes ulc = new UserLuckCodes();
                 ulc.setLockCodeId(comm.getLuckCodeId());
                 ulc.setCommodityId(comm.getId());
-                UserLuckCodes userLuckCodes = userluckMapper.selectByOne(comm.getId(),comm.getLuckCodeId());
+                UserLuckCodes userLuckCodes = userluckMapper.selectByOne(comm.getId(), comm.getLuckCodeId());
                 if (null != userLuckCodes) {
                     Long acc = userLuckCodes.getUserAccountId();
                     //insertHistory(comm,acc,userLuckCodes.getLockCodeId());
@@ -440,14 +433,14 @@ public class CommodityServiceImpl implements ICommodityService {
         return infoList;
     }
 
-    public Long produceLuckCodes(Long commodityId){
-        List<UserLuckCodes> codes = userluckMapper.selectCountByCommodity(commodityId);
+    public Long produceLuckCodes(Long commodityId) {
+        List<Long> codes = userluckMapper.selectCountByCommodity(commodityId);
         int v = (int) (Math.random() * codes.size());
-        Long codeId = codes.get(v).getLockCodeId();
+        Long codeId = codes.get(v);
         return codeId;
     }
 
-    public boolean insertHistory(Commoditys com,Long accountId,Long luckCodeId){
+    public boolean insertHistory(Commoditys com, Long accountId, Long luckCodeId) {
         UserLuckCodes luckCodes = new UserLuckCodes();
         luckCodes.setUserAccountId(accountId);
         List<UserLuckCodes> select = userluckMapper.select(luckCodes);
@@ -465,7 +458,7 @@ public class CommodityServiceImpl implements ICommodityService {
         history.setGenre(com.getGenre());
         history.setRoundTime(com.getRoundTime());
         //history.setLuckCode(s);
-        return historyMapper.insert(history)>0;
+        return historyMapper.insert(history) > 0;
     }
 
 

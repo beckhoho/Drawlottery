@@ -2,7 +2,6 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -26,6 +25,10 @@ import java.util.Map;
  * @email 294786949@qq.com
  */
 public class CommodityServiceImplTest extends TestBaseMapper {
+    @Test
+    public void testSelectCommodity() throws Exception {
+        service.selectCommodity(46L);
+    }
 
     @Autowired
     ICommodityService service;

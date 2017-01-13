@@ -29,15 +29,21 @@ public class OrdersControllerTest extends TestBaseWeb {
     @Test
     public void testQueryOrderSuccess() throws Exception {
         Map<String, Object> map = new HashMap<>();
+        Orders orders = new Orders();
+        orders.setPayModeId(1);
+        orders.setPrice(10);
+        orders.setSubmitDate(new Date().getTime());
+        map.put("order", orders);
         List<CommodityAmount> list = new ArrayList<>();
 //        for (int i = 0; i < 3; i++) {
         CommodityAmount ca = new CommodityAmount();
-        ca.setCommodityId(1L);
+        ca.setCommodityId(46L);
         ca.setAmount(1);
         list.add(ca);
 //        }
         map.put("ca", list);
         String s = "{\"ca\":\"[{\"commodityId\":4,\"amount\":1},{\"commodityId\":8,\"amount\":2}]}";
+        System.out.println(JSON.toJSONString(map));
         post("/api/v1/user/orders/suc", JSON.toJSONString(map));
     }
 

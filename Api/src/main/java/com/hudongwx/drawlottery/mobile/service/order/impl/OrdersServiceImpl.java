@@ -96,7 +96,7 @@ public class OrdersServiceImpl implements IOrdersService {
                     }
                 }
                 if (orders.getPayModeId() == 1) {//如果支付方式为余额支付
-                    User u = userMapper.selectByPrimaryKey(accountId);
+                    User u = userMapper.selectById(accountId);
                     Integer number = orders.getPrice();
                     User user = new User();
                     user.setAccountId(accountId);
@@ -127,7 +127,7 @@ public class OrdersServiceImpl implements IOrdersService {
             //如果商品当前购买人次加用户购买人次大于总购买人次
             if (commodity.getBuyCurrentNumber() + ca.getAmount() > commodity.getBuyTotalNumber()) {
                 int i = commodity.getBuyCurrentNumber() + ca.getAmount() - commodity.getBuyTotalNumber();
-                User user = userMapper.selectByPrimaryKey(accountId);
+                User user = userMapper.selectById(accountId);
                 int goldNumber = user.getGoldNumber();
                 commodity.setBuyCurrentNumber(commodity.getBuyTotalNumber());
                 commodity.setStateId(2);//进入待揭晓状态
@@ -200,7 +200,7 @@ public class OrdersServiceImpl implements IOrdersService {
     public Map<String, Object> selectOrders(Long accountId, Integer sum) {
         Map<String, Object> m = new HashMap<>();
         List<Long> idList = new ArrayList<>();
-        User user = userMapper.selectByPrimaryKey(accountId);
+        User user = userMapper.selectById(accountId);
         m.put("remainder", user.getGoldNumber());//获得用户账户余额
         RedPackets red = new RedPackets();
         red.setUserAccountId(accountId);

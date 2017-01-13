@@ -14,7 +14,7 @@
         <result column="address_ip" jdbcType="VARCHAR" property="addressIp"/>
     </resultMap>
 
-    <select id="selectCountByCommodity" resultMap="BaseResultMap">
+    <select id="selectCountByCommodity" resultType="java.lang.Long">
         select distinct user_account_id from t_user_luck_codes
     </select>
 
@@ -25,6 +25,12 @@
 
     <select id="selectByOne" resultMap="BaseResultMap">
         select * from t_user_luck_codes WHERE commodity_id = #{commodityId} AND luck_code_id = #{luckCoudId}
+    </select>
+    <select id="selectByUserAccountId" resultMap="BaseResultMap">
+      SELECT * FROM t_user_luck_codes WHERE user_account_id = #{userAccountId}
+    </select>
+    <select id="selectByAccAndCommId" resultMap="BaseResultMap">
+        SELECT * FROM t_user_luck_codes WHERE user_account_id = #{userAccountId} and commodity_id =#{commId}
     </select>
 
 </mapper>
