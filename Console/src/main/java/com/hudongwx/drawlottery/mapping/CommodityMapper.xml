@@ -16,10 +16,15 @@
           commodity.buy_current_number                              AS buyCurrentNumber,
           temp.buy_total_number - commodity.buy_current_number AS buyNowNumber
         FROM t_commoditys AS commodity
-        LEFT JOIN t_commodity_template as temp on commodity.id = temp.id
+        LEFT JOIN t_commodity_template as temp on commodity.temp_id = temp.id
           LEFT JOIN t_commodity_type AS type ON temp.commodity_type_id = type.id
           LEFT JOIN t_commodity_states AS state ON commodity.state_id = state.id
     </sql>
+    <insert id="insertCommodity" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.hudongwx.drawlottery.pojo.Commodity">
+        insert into t_commoditys (buy_last_number,buy_current_number,round_time,view_num,temp_id,state_id) VALUES
+        (#{buyLastNumber},#{buyCurrentNumber},#{roundTime},#{viewNum},#{tempId},#{stateId})
+    </insert>
     <update id="updateState">
         update draw_lottery.t_commoditys SET state_id = #{state},
         <if test="groundTime != null">
@@ -36,6 +41,7 @@
         <foreach collection="list" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
+
     </delete>
     <select id="selectCommodities" resultType="com.hudongwx.drawlottery.pojo.Commodity">
         <include refid="LessColumn"/>
@@ -81,16 +87,16 @@
                 temp.undercarriage_date
             </when>
             <when test="order == 3">
-                temp.buyTotalNumber
+                temp.buy_total_number
             </when>
             <when test="order == 4">
-                commodity.buyCurrentNumber
+                commodity.buy_current_number
             </when>
             <when test="order == 5">
                 buyNowNumber
             </when>
             <when test="order == 6">
-                viewNum
+                view_num
             </when>
             <otherwise>
                 commodity.id
@@ -110,6 +116,6 @@
         select DISTINCT name from t_commoditys where name like #{pattern} LIMIT 0,10
     </select>
     <select id="selectMaxRoundTime" resultType="java.lang.Long">
-select max(round_time * 1) from t_commoditys
+select IFNULL(max(round_time * 1),100000000) from t_commoditys
     </select>
 </mapper>

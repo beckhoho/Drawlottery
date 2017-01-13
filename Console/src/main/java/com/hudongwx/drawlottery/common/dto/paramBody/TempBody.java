@@ -3,6 +3,8 @@ package com.hudongwx.drawlottery.common.dto.paramBody;
 import com.hudongwx.drawlottery.common.base.PoParamBase;
 import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 
+import java.util.Date;
+
 /**
  * Drawlottery.
  * Date: 2017/1/10 0010
@@ -35,7 +37,7 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
     private Integer buyTotalNumber;
     private Integer minimum;
     private Integer openTime;
-    private Long groundTime;
+    private Date groundTime;
 
     /**
      * 作为实体类的po参数包，需要有打包自己的成为一个实体类的能力.
@@ -71,8 +73,8 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
         c.setMinimum(minimum);
 
         c.setOpenTime(openTime);
-
-        c.setGroundTime(groundTime);
+        if (groundTime != null)
+            c.setGroundTime(groundTime.getTime());
 
         c.setAutoRound(autoRound ? 1 : 0);
         c.setEasyWinning(easyWinning ? 1 : 0);
@@ -240,11 +242,11 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
         this.openTime = openTime;
     }
 
-    public Long getGroundTime() {
+    public Date getGroundTime() {
         return groundTime;
     }
 
-    public void setGroundTime(Long groundTime) {
+    public void setGroundTime(Date groundTime) {
         this.groundTime = groundTime;
     }
 

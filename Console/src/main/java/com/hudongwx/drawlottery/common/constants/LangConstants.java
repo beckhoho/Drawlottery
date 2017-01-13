@@ -182,6 +182,18 @@ public class LangConstants {
      * 常量字段 必须选择至少一种分配方式 .
      */
     public final String MUST_CHOOSE_WAY = "MUST_CHOOSE_WAY";
+    /**
+     * 常量字段 未做出任何选择 .
+     */
+    public final String NOT_CHOOSE_ANY_ONE = "NOT_CHOOSE_ANY_ONE";
+    /**
+     * 常量字段 上传失败 .
+     */
+    public final String UPLOAD_FAIL = "UPLOAD_FAIL";
+    /**
+     * 常量字段 上传成功 .
+     */
+    public final String UPLOAD_SUCCESS = "UPLOAD_SUCCESS";
 
 }
 

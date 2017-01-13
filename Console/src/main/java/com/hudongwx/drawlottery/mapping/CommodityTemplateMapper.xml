@@ -1,31 +1,180 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hudongwx.drawlottery.dao.CommodityTemplateMapper">
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.pojo.CommodityTemplate">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="commodity_desc" jdbcType="VARCHAR" property="commodityDesc" />
-    <result column="commodity_type_id" jdbcType="BIGINT" property="commodityTypeId" />
-    <result column="genre" jdbcType="INTEGER" property="genre" />
-    <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber" />
-    <result column="ground_time" jdbcType="TIMESTAMP" property="groundTime" />
-    <result column="state_id" jdbcType="INTEGER" property="stateId" />
-    <result column="cover_img_url" jdbcType="VARCHAR" property="coverImgUrl" />
-    <result column="auto_round" jdbcType="INTEGER" property="autoRound" />
-    <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl" />
-    <result column="valid" jdbcType="INTEGER" property="valid" />
-    <result column="minimum" jdbcType="INTEGER" property="minimum" />
-    <result column="undercarriage_time" jdbcType="TIMESTAMP" property="undercarriageTime" />
-    <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
-    <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
-    <result column="contact_address" jdbcType="VARCHAR" property="contactAddress" />
-    <result column="cart_type" jdbcType="INTEGER" property="cardType" />
-    <result column="card_num" jdbcType="INTEGER" property="cardNum" />
-    <result column="card_money" jdbcType="INTEGER" property="cardMoney" />
-    <result column="easyWinning" jdbcType="INTEGER" property="easyWinning" />
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.pojo.CommodityTemplate">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="commodity_desc" jdbcType="VARCHAR" property="commodityDesc"/>
+        <result column="commodity_type_id" jdbcType="BIGINT" property="commodityTypeId"/>
+        <result column="genre" jdbcType="INTEGER" property="genre"/>
+        <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
+        <result column="ground_time" jdbcType="BIGINT" property="groundTime"/>
+        <result column="cover_img_url" jdbcType="VARCHAR" property="coverImgUrl"/>
+        <result column="auto_round" jdbcType="INTEGER" property="autoRound"/>
+        <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl"/>
+        <result column="valid" jdbcType="INTEGER" property="valid"/>
+        <result column="minimum" jdbcType="INTEGER" property="minimum"/>
+        <result column="undercarriage_time" jdbcType="BIGINT" property="undercarriageTime"/>
+        <result column="contact_name" jdbcType="VARCHAR" property="contactName"/>
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="contact_address" jdbcType="VARCHAR" property="contactAddress"/>
+        <result column="card_type" jdbcType="INTEGER" property="cardType"/>
+        <result column="card_num" jdbcType="INTEGER" property="cardNum"/>
+        <result column="card_money" jdbcType="INTEGER" property="cardMoney"/>
+        <result column="easyWinning" jdbcType="INTEGER" property="easyWinning"/>
+        <result column="exchange_money" jdbcType="INTEGER" property="exchangeMoney"/>
+        <result column="withdrawals_money" jdbcType="INTEGER" property="withdrawalsMoney"/>
+        <result column="open_time" jdbcType="INTEGER" property="openTime"/>
+    </resultMap>
+    <insert id="insertAuto" parameterType="com.hudongwx.drawlottery.pojo.CommodityTemplate">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_commodity_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="commodityDesc != null">
+                commodity_desc,
+            </if>
+            <if test="commodityTypeId != null">
+                commodity_type_id,
+            </if>
+            <if test="genre != null">
+                genre,
+            </if>
+            <if test="buyTotalNumber != null">
+                buy_total_number,
+            </if>
+            <if test="groundTime != null">
+                ground_time,
+            </if>
+            <if test="coverImgUrl != null">
+                cover_img_url,
+            </if>
+            <if test="autoRound != null">
+                auto_round,
+            </if>
+            <if test="commodityDescUrl != null">
+                commodity_desc_url,
+            </if>
+            <if test="valid != null">
+                valid,
+            </if>
+            <if test="minimum != null">
+                minimum,
+            </if>
+            <if test="undercarriageTime != null">
+                undercarriage_time,
+            </if>
+            <if test="contactName != null">
+                contact_name,
+            </if>
+            <if test="contactPhone != null">
+                contact_phone,
+            </if>
+            <if test="contactAddress != null">
+                contact_address,
+            </if>
+            <if test="cardType != null">
+                card_type,
+            </if>
+            <if test="cardNum != null">
+                card_num,
+            </if>
+            <if test="cardMoney != null">
+                card_money,
+            </if>
+            <if test="easyWinning != null">
+                easyWinning,
+            </if>
+            <if test="exchangeMoney != null">
+                exchange_money,
+            </if>
+            <if test="withdrawalsMoney != null">
+                withdrawals_money,
+            </if>
+            <if test="openTime != null">
+                open_time,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityDesc != null">
+                #{commodityDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="commodityTypeId != null">
+                #{commodityTypeId,jdbcType=BIGINT},
+            </if>
+            <if test="genre != null">
+                #{genre,jdbcType=INTEGER},
+            </if>
+            <if test="buyTotalNumber != null">
+                #{buyTotalNumber,jdbcType=INTEGER},
+            </if>
+            <if test="groundTime != null">
+                #{groundTime,jdbcType=BIGINT},
+            </if>
+            <if test="coverImgUrl != null">
+                #{coverImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="autoRound != null">
+                #{autoRound,jdbcType=INTEGER},
+            </if>
+            <if test="commodityDescUrl != null">
+                #{commodityDescUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="valid != null">
+                #{valid,jdbcType=INTEGER},
+            </if>
+            <if test="minimum != null">
+                #{minimum,jdbcType=INTEGER},
+            </if>
+            <if test="undercarriageTime != null">
+                #{undercarriageTime,jdbcType=BIGINT},
+            </if>
+            <if test="contactName != null">
+                #{contactName,jdbcType=VARCHAR},
+            </if>
+            <if test="contactPhone != null">
+                #{contactPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="contactAddress != null">
+                #{contactAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="cardType != null">
+                #{cardType,jdbcType=INTEGER},
+            </if>
+            <if test="cardNum != null">
+                #{cardNum,jdbcType=INTEGER},
+            </if>
+            <if test="cardMoney != null">
+                #{cardMoney,jdbcType=INTEGER},
+            </if>
+            <if test="easyWinning != null">
+                #{easyWinning,jdbcType=INTEGER},
+            </if>
+            <if test="exchangeMoney != null">
+                #{exchangeMoney,jdbcType=INTEGER},
+            </if>
+            <if test="withdrawalsMoney != null">
+                #{withdrawalsMoney,jdbcType=INTEGER},
+            </if>
+            <if test="openTime != null">
+                #{openTime,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
 </mapper>

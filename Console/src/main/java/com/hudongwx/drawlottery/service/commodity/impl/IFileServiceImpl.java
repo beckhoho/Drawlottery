@@ -4,6 +4,7 @@ import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.exceptions.ServiceException;
 import com.hudongwx.drawlottery.service.commodity.IFileService;
+import com.hudongwx.drawlottery.service.conf.QiniuService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,15 +29,19 @@ public class IFileServiceImpl implements IFileService {
     private ConfigConstants configConstants;
     @Resource
     private LangConstants langConstants;
+    @Resource
+    private QiniuService qiniuService;
 
     /**
      * 文件上传功能
      *
      * @param file 上传文件
-     * @return 文件名
+     * @return 远程url
      */
     @Override
     public String fileUpload(MultipartFile file) {
+        if (qiniuService.isReady())
+            return configConstants.getQiniuhost() + qiniuService.uploadToQiniu(file);
         try {
             byte[] bytes = file.getBytes();
             final String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
@@ -71,7 +76,7 @@ public class IFileServiceImpl implements IFileService {
         }
     }
 
-    public String qiniuFileUpload(MultipartFile file){
+    public String qiniuFileUpload(MultipartFile file) {
         return null;
     }
 }

@@ -124,6 +124,6 @@ public class CommodityServiceImpl implements CommodityService {
      */
     @Override
     public int addCommodity(Commodity commodity) {
-        return commodityMapper.insertSelective(commodity);
+        return commodityMapper.insertCommodity(commodity);
     }
 }

@@ -34,4 +34,6 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
     public List<String> selectNames(@Param("name") String name);
 
     public long selectMaxRoundTime();
+
+    public int insertCommodity(Commodity commodity);
 }

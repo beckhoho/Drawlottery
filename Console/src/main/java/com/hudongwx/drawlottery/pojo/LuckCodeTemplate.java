@@ -2,7 +2,7 @@ package com.hudongwx.drawlottery.pojo;
 
 import javax.persistence.*;
 
-@Table(name = "luck_code_template")
+@Table(name = "t_luck_code_template")
 public class LuckCodeTemplate {
     /**
      * 注意主键不自增，序列排序

@@ -74,12 +74,12 @@ public class CommodityController extends BaseController {
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     public AjaxResult deleteCommodities(@ApiParam @RequestBody List<Integer> ids) {
         if (ids.size() == 0)
-            return fail("删除失败！未选择任何商品！");
+            return fail(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
         tempService.deleteCommodity(ids);
         return success(langConstants.getLang(langConstants.DELETE_COMMODITY_SUCCESS));
     }
 
-    @ApiOperation("添加/修改商品")
+    @ApiOperation("添加/修改商品模板")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public AjaxResult addCommodity(@ApiParam("有id则为修改，无id则为删除") @RequestBody TempBody body) {
         final CommodityTemplate commodityTemplate = body.packingMe();
@@ -136,7 +136,12 @@ public class CommodityController extends BaseController {
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     public AjaxResult uploadImage(@RequestParam MultipartFile file) {
         final String s = fileService.fileUpload(file);
-        return success("上传成功", s);
+        if (s == null) {
+            return fail(langConstants.getLang(langConstants.UPLOAD_FAIL));
+        }
+
+        return success(langConstants.getLang(langConstants.UPLOAD_SUCCESS), s);
     }
+
 }
 

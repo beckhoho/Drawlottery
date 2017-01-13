@@ -38,7 +38,12 @@
             <version>3.14</version>
         </dependency>-->
 
-
+        <!--配置热加载-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>1.4.3.RELEASE</version>
+        </dependency>
 
     </dependencies>
     <build>

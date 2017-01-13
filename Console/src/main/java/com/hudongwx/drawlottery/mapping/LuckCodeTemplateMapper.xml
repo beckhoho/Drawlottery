@@ -9,6 +9,6 @@
         <result column="luck_code" jdbcType="VARCHAR" property="luckCode"/>
     </resultMap>
     <select id="getCount" resultType="java.lang.Long">
-    SELECT count(*) from luck_code_template
+    SELECT count(*) from t_luck_code_template
   </select>
 </mapper>

@@ -5,6 +5,7 @@ import com.hudongwx.drawlottery.common.exceptions.ServiceException;
 import com.hudongwx.drawlottery.common.utils.TimerUtil;
 import com.hudongwx.drawlottery.dao.CommodityMapper;
 import com.hudongwx.drawlottery.dao.CommodityTemplateMapper;
+import com.hudongwx.drawlottery.pojo.Commodity;
 import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 import com.hudongwx.drawlottery.service.commodity.CommodityService;
 import com.hudongwx.drawlottery.service.commodity.ITempService;
@@ -69,15 +70,18 @@ public class ITempServiceImpl implements ITempService {
         //字段补充
         if (null == temp.getGroundTime())
             temp.setGroundTime(System.currentTimeMillis());
+
+        temp.setValid(1);
+        final int result = tempMapper.insertAuto(temp);
         //定时上架
         TimerUtil.registry(() -> {
             commodityService.groundCommodity(temp.getId(), temp.getBuyTotalNumber());
             return false;
         }, temp.getGroundTime() - System.currentTimeMillis());
 
-        temp.setValid(1);
+        return result;
         //temp.setCoverImgUrl("http://pic93.nipic.com/file/20160318/20584984_105122996275_2.jpg");
-        return tempMapper.insert(temp);
+
     }
 
     /**
@@ -110,7 +114,7 @@ public class ITempServiceImpl implements ITempService {
      */
     @Override
     public int ground(List<Integer> commodityIds) {
-        return commodityMapper.updateState(commodityIds, CommodityTemplate.ON_SALE, new Date(), null);
+        return commodityMapper.updateState(commodityIds, Commodity.ON_SALE, new Date(), null);
     }
 
     /**
@@ -121,7 +125,7 @@ public class ITempServiceImpl implements ITempService {
      */
     @Override
     public int undercarriage(List<Integer> commodityIds) {
-        return commodityMapper.updateState(commodityIds, CommodityTemplate.DID_SALE, null, new Date());
+        return commodityMapper.updateState(commodityIds, Commodity.DID_SALE, null, new Date());
     }
 
     /**

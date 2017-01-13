@@ -6,13 +6,13 @@
 
     <properties resource="generator/generator.properties"/>
 
-    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
 
-        <plugin type="${mapper.plugin}">
+        <!--<plugin type="${mapper.plugin}">
             <property name="mappers" value="com.hudongwx.drawlottery.common.base.BaseMapper"/>
-            <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+            &lt;!&ndash; caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true &ndash;&gt;
             <property name="caseSensitive" value="true"/>
-        </plugin>
+        </plugin>-->
 
         <commentGenerator>
             <property name="suppressAllComments" value="false"/>
@@ -45,7 +45,7 @@
         <javaClientGenerator targetPackage="com.hudongwx.drawlottery.dao"
                              targetProject="src\main\java" type="XMLMAPPER"/>
 
-        <table tableName="luck_code_template" modelType="flat" domainObjectName="LuckCodeTemplate">
+        <table tableName="t_commodity_template" modelType="flat" domainObjectName="OOX">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>

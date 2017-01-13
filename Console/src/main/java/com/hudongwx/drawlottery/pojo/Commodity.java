@@ -56,6 +56,11 @@ public class Commodity {
      * 上一次期数
      */
     private Long lastRoundTime;
+    /**
+     * 商品状态id
+     */
+    @Column(name = "state_id")
+    private Integer stateId;
 
 
 //----------------------------------------------------------//
@@ -138,10 +143,7 @@ public class Commodity {
      * 开抢时间
      */
     private Long startTime;
-    /**
-     * 商品状态id
-     */
-    private Integer stateId;
+
     /**
      * 状态名
      */

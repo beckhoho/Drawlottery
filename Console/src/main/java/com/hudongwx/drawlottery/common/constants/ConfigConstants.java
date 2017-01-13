@@ -42,6 +42,10 @@ public class ConfigConstants {
      * token有效时间
      */
     private Long expries;
+    /**
+     * 七牛远程显示地址 注意要在最后加/
+     */
+    private String qiniuhost;
 
     /**
      * 文件上传路径
@@ -103,5 +107,13 @@ public class ConfigConstants {
 
     public void setExpries(Long expries) {
         this.expries = expries;
+    }
+
+    public String getQiniuhost() {
+        return qiniuhost;
+    }
+
+    public void setQiniuhost(String qiniuhost) {
+        this.qiniuhost = qiniuhost;
     }
 }

@@ -2,7 +2,6 @@ package com.hudongwx.drawlottery.mobile.conf.rmi;
 
 import com.hudongwx.drawlottery.mobile.service.rmi.GoodsService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 
 /**
@@ -13,7 +12,6 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
  * @author <a href="http://userwu.github.io">wuhongxu</a>.
  * @version 1.0.0
  */
-@Configuration
 public class RmiClientConfig {
     /**
      * //TODO  客户端RMI配置
