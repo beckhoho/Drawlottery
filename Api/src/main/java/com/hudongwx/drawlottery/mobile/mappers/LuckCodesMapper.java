@@ -12,4 +12,5 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
     //通过商品名查询luckCode
     List<LuckCodes> selectByUsable(@Param("commodityId") Long commodityId);
 
+    String selectLuckCode(@Param("luckCodeId") Long luckCodeId);
 }

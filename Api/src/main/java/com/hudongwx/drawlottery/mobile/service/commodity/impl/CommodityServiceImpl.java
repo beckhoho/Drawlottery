@@ -414,7 +414,8 @@ public class CommodityServiceImpl implements ICommodityService {
                 UserLuckCodes userLuckCodes = userluckMapper.selectOne(ulc);
                 if (null != userLuckCodes) {
                     Long acc = userLuckCodes.getUserAccountId();
-                    ulc.setLockCodeId(userLuckCodes.getLockCodeId());
+                    insertHistory(comm,acc,userLuckCodes.getLockCodeId());
+                    ulc.setLockCodeId(null);
                     ulc.setUserAccountId(acc);
                     userPayNum = userluckMapper.selectCount(ulc);
                     User user = userMapper.selectByPrimaryKey(acc);
@@ -439,13 +440,41 @@ public class CommodityServiceImpl implements ICommodityService {
         return infoList;
     }
 
+    public Long produceLuckCodes(Long commodityId){
+        List<UserLuckCodes> codes = userluckMapper.selectCountByCommodity(commodityId);
+        int v = (int) (Math.random() * codes.size());
+        Long codeId = codes.get(v).getLockCodeId();
+        return codeId;
+    }
+
+    public boolean insertHistory(Commoditys com,Long accountId,Long luckCodeId){
+        UserLuckCodes luckCodes = new UserLuckCodes();
+        luckCodes.setUserAccountId(accountId);
+        List<UserLuckCodes> select = userluckMapper.select(luckCodes);
+        String s = luckCodeMapper.selectLuckCode(luckCodeId);
+        CommodityHistory history = new CommodityHistory();
+        history.setCommodityId(com.getId());
+        history.setBuyNumber(select.size());
+        history.setLuckUserAccountId(accountId);
+        history.setBuyTotalNumber(com.getBuyTotalNumber());
+        history.setCommodityName(com.getName());
+        history.setCoverImgUrl(com.getCoverImgUrl());
+        history.setEndTime(new Date().getTime());
+        history.setExchangeState(0);
+        history.setExchangeWay(null);
+        history.setGenre(com.getGenre());
+        history.setRoundTime(com.getRoundTime());
+        history.setLuckCode(s);
+        return historyMapper.insert(history)>0;
+    }
+
 
     /**
      * 商品开奖之后需要改变的数据
      *
      * @param luckCode    幸运号（不是ID）
      * @param commodityId 商品ID
-     * @return 返回改变结果
+     * @return 回改变结果
      */
     @Override
     public boolean reviseInfo(String luckCode, Long commodityId) {

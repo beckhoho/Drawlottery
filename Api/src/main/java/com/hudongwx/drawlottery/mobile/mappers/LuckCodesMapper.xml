@@ -16,4 +16,7 @@
     select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
   </select>
 
+  <select id="selectLuckCode" resultType="java.lang.String">
+    SELECT luck_code FROM t_luck_code_template WHERE id = #{luckCodeId}
+  </select>
 </mapper>

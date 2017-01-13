@@ -50,7 +50,7 @@ public class CommodityServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testType4() throws Exception {
-        Map<String, Object> map = service.selectCommodity(45l);
+        Map<String, Object> map = service.selectCommodity(54l);
         List<String> list = (List<String>) map.get("imgUrls");
         for (String s : list) {
             System.out.println(s);
@@ -59,7 +59,10 @@ public class CommodityServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testForPut() throws Exception {
-
+        List<Map<String, Object>> list = service.selectOnLottery(1);
+        for (Map<String,Object> map : list){
+            System.out.println(map.get("userHeadImgUrl"));
+        }
     }
 
 }
