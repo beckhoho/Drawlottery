@@ -238,6 +238,18 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             map.put("ContactPhone",template.getContactPhone());//添加领奖联系人电话
             map.put("ContactAddress",template.getContactAddress());//添加领奖地址
         }
+        else if(exchangeWayId == 0){
+            map.put("size",null);//几张充值卡
+            map.put("cardNumberList",null);//充值卡卡号集合
+            map.put("worth",null);//充值卡面额
+            map.put("prizeState","未选择兑换方式");
+            map.put("expressNumber",null);//快递单号
+            map.put("expressName",null);//获取快递名
+            map.put("expressState",null);//添加快递状态
+            map.put("ContactName",null);//添加领奖联系人姓名
+            map.put("ContactPhone",null);//添加领奖联系人电话
+            map.put("ContactAddress",null);//添加领奖地址
+        }
         return map;
     }
 

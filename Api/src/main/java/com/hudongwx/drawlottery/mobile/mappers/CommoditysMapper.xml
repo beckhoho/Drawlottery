@@ -30,6 +30,18 @@
         <result column="exchange_money" jdbcType="INTEGER" property="exchangeMoney"/>
     </resultMap>
 
+
+
+    <select id="selectByKey" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity.id = #{commodityId}
+    </select>
+
+    <update id="updateById" parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">
+        UPDATE t_commoditys SET buy_current_number = #{buyCurrentNumber}
+        WHERE id = #{commodityId}
+    </update>
+
     <!-- 根据商品类型ID分页查询商品 -->
     <select id="selectPaging" resultMap="BaseResultMap">
         <include refid="selectSql"></include>

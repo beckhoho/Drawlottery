@@ -18,41 +18,15 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @param commodityId 商品ID
      * @return
      */
-    @Select("SELECT commodity.id,template.name,\n" +
-            "   commodity.temp_id," +
-            "genre," +
-            "template.withdrawals_money," + "template.exchange_money," +
-            "        commodity.view_num,template.commodity_desc,\n" +
-            "        template.commodity_type_id,commodity.buy_current_number,\n" +
-            "        template.buy_total_number,template.ground_time,\n" +
-            "        commodity.luck_code_id,commodity.round_time,\n" +
-            "        template.cover_img_url,template.auto_round,\n" +
-            "        template.commodity_desc_url,commodity.buy_last_number,\n" +
-            "        commodity.sell_out_time,commodity.state_id FROM t_commoditys\n" +
-            "         as commodity LEFT JOIN t_commodity_template\n" +
-            "          as template ON commodity.temp_id = template.id" +
-            "   WHERE commodity.id = #{commodityId}")
-    @Results({
-            @Result(id = true, column = "id", property = "id"),
-            @Result(column = "view_num", property = "viewNum"),
-            @Result(column = "withdrawals_money", property = "withdrawalsMoney"),
-            @Result(column = "exchange_money", property = "exchangeMoney"),
-            @Result(column = "commodity_desc", property = "commodityDesc"),
-            @Result(column = "commodity_type_id", property = "commodityTypeId"),
-            @Result(column = "buy_current_number", property = "buyCurrentNumber"),
-            @Result(column = "buy_total_number", property = "buyTotalNumber"),
-            @Result(column = "ground_time", property = "groundTime"),
-            @Result(column = "luck_code_id", property = "luckCodeId"),
-            @Result(column = "round_time", property = "roundTime"),
-            @Result(column = "cover_img_url", property = "coverImgUrl"),
-            @Result(column = "auto_round", property = "autoRound"),
-            @Result(column = "commodity_desc_url", property = "commodityDescUrl"),
-            @Result(column = "buy_last_number", property = "byLastNumber"),
-            @Result(column = "sell_out_time", property = "sellOutTime"),
-            @Result(column = "state_id", property = "stateId"),
-            @Result(column = "temp_id", property = "tempId")
-    })
     Commoditys selectByKey(@Param("commodityId") Long commodityId);
+
+    /**
+     * 更新商品购买数量
+     * @param commodityId   商品ID
+     * @param buyCurrentNumber  商品当前购买量
+     * @return
+     */
+    int updateById(@Param("commodityId")Long commodityId,@Param("buyCurrentNumber")Integer buyCurrentNumber);
 
     /**
      * 根据商品类型ID查询指定区域的商品信息

@@ -101,7 +101,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean update(Commoditys commod) {
-        int i = commMapper.updateByPrimaryKeySelective(commod);
+        int i = commMapper.updateById(commod.getId(),commod.getBuyCurrentNumber());
         if (i > 0)
             return true;
         return false;

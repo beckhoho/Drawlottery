@@ -30,6 +30,10 @@ public class Commoditys {
     @Column(name = "buy_current_number")
     private Integer buyCurrentNumber;
 
+
+
+
+
     /**
      * 总购买次数
      */
