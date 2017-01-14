@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.oder.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
@@ -33,7 +34,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
     IOrdersService odersSer;
     @Test
     public void testAddOder() throws Exception {
-        JSONObject object = new JSONObject();
+
 
         //测试完成    可用
 

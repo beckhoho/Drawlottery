@@ -93,19 +93,6 @@ public class CommodityServiceImpl implements ICommodityService {
         return commMapper.select(com);
     }
 
-    /**
-     * 更新修改商品信息
-     *
-     * @param commod 商品对象
-     * @return 返回修改结果
-     */
-    @Override
-    public boolean update(Commoditys commod) {
-        int i = commMapper.updateById(commod.getId(),commod.getBuyCurrentNumber());
-        if (i > 0)
-            return true;
-        return false;
-    }
 
     /**
      * 查询当前类型商品的总数
@@ -484,10 +471,10 @@ public class CommodityServiceImpl implements ICommodityService {
         List<UserLuckCodes> select = userluckMapper.select(userLuckCodes);
 
         //将商品表中的商品改变状态
-        Commoditys commodity = new Commoditys();
-        commodity.setId(commodityId);
-        commodity.setStateId(1);
-        int i = commMapper.updateByPrimaryKeySelective(commodity);
+
+        com.setStateId(1);
+        com.setId(commodityId);
+        int i = commMapper.updateByPrimaryKeySelective(com);
 
         //将用户幸运码添加到历史
         Long accountId = select.get(0).getUserAccountId();

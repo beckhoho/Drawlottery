@@ -1,7 +1,9 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
+import com.hudongwx.drawlottery.mobile.entitys.Commodity;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
+import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -49,11 +51,7 @@ public class CommodityServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testByType() throws Exception {
-        Commoditys com = new Commoditys();
-        com.setId(43l);
-        com.setBuyCurrentNumber(4445);
-        boolean update = service.update(com);
-        Assert.assertTrue(update);
+
     }
 
     @Test
@@ -74,5 +72,18 @@ public class CommodityServiceImplTest extends TestBaseMapper {
         }
         Assert.assertNotNull(list);
     }
+
+    @Autowired
+    CommoditysMapper mapper;
+    
+    @Test
+    public void test5(){
+        Commodity commoditys = new Commodity();
+        commoditys.setId(45l);
+        commoditys.setBuyCurrentNumber(255);
+        int i = mapper.updateById(commoditys);
+        System.out.println("---"+i);
+    }
+
 
 }

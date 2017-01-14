@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
+import com.hudongwx.drawlottery.mobile.entitys.Commodity;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
@@ -21,14 +22,6 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     Commoditys selectByKey(@Param("commodityId") Long commodityId);
 
     /**
-     * 更新商品购买数量
-     * @param commodityId   商品ID
-     * @param buyCurrentNumber  商品当前购买量
-     * @return
-     */
-    int updateById(@Param("commodityId")Long commodityId,@Param("buyCurrentNumber")Integer buyCurrentNumber);
-
-    /**
      * 根据商品类型ID查询指定区域的商品信息
      *
      * @param commodTypeId 商品类型ID
@@ -37,7 +30,6 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @return
      */
     List<Commoditys> selectPaging(@Param("commodTypeId") Integer commodTypeId, @Param("startNum") Integer startNum, @Param("endNum") Integer endNum);
-
 
     /**
      * 查询当前商品类型商品总量
@@ -132,4 +124,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     List<Commoditys> selectHasTheLotteryComm();
 
     int updateCommState(@Param("commId") Long commId, @Param("stateId") Integer stateId);
+
+    int updateById(Commodity commodity);
+
 }

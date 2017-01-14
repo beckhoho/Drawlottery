@@ -31,6 +31,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
     @Autowired
     OrdersMapper mapper;
+
     @Autowired
     UserMapper userMapper;
     @Autowired
@@ -132,7 +133,8 @@ public class OrdersServiceImpl implements IOrdersService {
                 int i = commodity.getBuyCurrentNumber() + ca.getAmount() - commodity.getBuyTotalNumber();
                 User user = userMapper.selectById(accountId);
                 int goldNumber = user.getGoldNumber();
-                commodity.setBuyCurrentNumber(commodity.getBuyTotalNumber());
+
+
                 commodity.setStateId(2);//进入待揭晓状态
                 commodity.setSellOutTime(new Date().getTime());//添加售罄时间
                 int i1 = comMapper.updateByPrimaryKeySelective(commodity);//根据主键修改商品状态
@@ -141,17 +143,17 @@ public class OrdersServiceImpl implements IOrdersService {
                 //如果当前购买量已经超过了商品的总量，那么将多余的购买余额转为闪币存入用户账户
             } else if (commodity.getBuyCurrentNumber() + ca.getAmount() == commodity.getBuyTotalNumber()) {
                 int i = ca.getAmount();
-                Commoditys com = new Commoditys();
+                Commodity com = new Commodity();
                 com.setId(ca.getCommodityId());
                 com.setBuyCurrentNumber(commodity.getBuyCurrentNumber() + i);
                 com.setStateId(2);
-                return comMapper.updateByPrimaryKeySelective(com) > 0;
+                return comMapper.updateById(com) > 0;
             } else {
                 int i = ca.getAmount();
-                Commoditys com = new Commoditys();
+                Commodity com = new Commodity();
                 com.setId(ca.getCommodityId());
                 com.setBuyCurrentNumber(commodity.getBuyCurrentNumber() + i);
-                return comMapper.updateByPrimaryKeySelective(com) > 0;
+                return comMapper.updateById(com) > 0;
             }
         }
         return false;
