@@ -1,8 +1,10 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
+import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.Share;
 import com.hudongwx.drawlottery.mobile.entitys.ShareImg;
 import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.mappers.ShareImgMapper;
 import com.hudongwx.drawlottery.mobile.mappers.ShareMapper;
 import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
@@ -41,6 +43,8 @@ public class ShareServiceImpl implements IShareService {
     UserMapper userMapper;
     @Autowired
     ShareImgMapper shareImgMapper;
+    @Autowired
+    CommoditysMapper commMapper;
 
     /**
      * 添加用户晒单
@@ -52,12 +56,12 @@ public class ShareServiceImpl implements IShareService {
         if (!shareMapper.selectByCommId(commId).isEmpty()) {
             return false;
         }
-        Date date = new Date();
+        long date = new Date().getTime();
         Share share = new Share();
         share.setCommodityId(commId);
         share.setParticulars(desc);
         share.setUserAccountId(accountId);
-        share.setIssueDate(date.getTime());
+        share.setIssueDate(date);
         if (shareMapper.insert(share) <= 0)
             return false;
         String fileSavePath = "C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\shareimg";
@@ -126,56 +130,48 @@ public class ShareServiceImpl implements IShareService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectUserAll(Long account) {
-        List<Map<String, Object>> listMap = new ArrayList<>();
-        User user1 = userMapper.selectByPrimaryKey(account);
-        Share s = new Share();
-        s.setUserAccountId(account);
-        List<Share> shares = shareMapper.select(s);
-        for (Share share : shares) {
-            ShareImg shareImg = new ShareImg();
-            shareImg.setShareId(share.getId());
-            List<ShareImg> imgList = shareImgMapper.select(shareImg);
-            Map<String, Object> map = new HashMap<>();
-            List<String> list = new ArrayList<>();
-            map.put("userHeaderUrl", user1.getHeaderUrl());//添加用户头像
-            map.put("userAccountId", account);//添加用户id
-            map.put("userName", user1.getNickname());//添加用户昵称
-            map.put("shareTime", share.getIssueDate());//添加分享时间
-            map.put("context", share.getParticulars());//添加用户分享内容
-            map.put("commodityId", share.getCommodityId());//添加商品id
-            for (ShareImg sh : imgList) {
-                list.add(sh.getShareImgUrl());
-            }
-            map.put("shareImgUrl", list);//添加用户晒单照片
-            listMap.add(map);
-        }
-
-        return listMap;
-    }
-
-    /**
-     * 首页晒单
-     *
-     * @return
-     */
-    @Override
-    public List<Map<String, Object>> selectAll() {
-        List<Map<String, Object>> mapList = new ArrayList<>();
-        List<Share> list = shareMapper.selectAll();
-        for (Share s : list) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", s.getId());//获取晒单ID
-            map.put("accountId", s.getUserAccountId());//获取用户ID
-            map.put("particulars", s.getParticulars());//获取晒单分享内容
-            map.put("commodityId", s.getCommodityId());//添加商品ID
-            map.put("date", s.getIssueDate());//添加晒单时间
-            map.put("imgUrl", imgUrl(s));//添加晒单图片List
-            mapList.add(map);
-        }
-
+    public List<Map<String, Object>> selectByUserAccountId(Long account) {
+        List<Share> shareList = shareMapper.selectByUserAccountId(account);
+        List<Map<String, Object>> mapList = createShareMapList(account, shareList);
         return mapList;
     }
+
+    @Override
+    public List<Map<String, Object>> selectAll(Integer page) {
+        List<Share> shareList = shareMapper.selectAll();
+        List<Map<String, Object>> mapList = createShareMapList(null, shareList);
+        return mapList;
+    }
+
+    @Override
+    public List<Map<String, Object>> selectByCommId(Long commId) {
+        List<Share> shareList = shareMapper.selectByCommId(commId);
+        List<Map<String, Object>> mapList = createShareMapList(null, shareList);
+        return mapList;
+    }
+
+//    /**
+//     * 首页晒单
+//     *
+//     * @return
+//     */
+//    @Override
+//    public List<Map<String, Object>> selectAll() {
+//        List<Map<String, Object>> mapList = new ArrayList<>();
+//        List<Share> list = shareMapper.selectAll();
+//        for (Share s : list) {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("id", s.getId());//获取晒单ID
+//            map.put("accountId", s.getUserAccountId());//获取用户ID
+//            map.put("particulars", s.getParticulars());//获取晒单分享内容
+//            map.put("commodityId", s.getCommodityId());//添加商品ID
+//            map.put("date", s.getIssueDate());//添加晒单时间
+//            map.put("imgUrl", imgUrl(s));//添加晒单图片List
+//            mapList.add(map);
+//        }
+//
+//        return mapList;
+//    }
 
     public List<String> imgUrl(Share s) {
         List<String> list = new ArrayList<>();
@@ -186,6 +182,36 @@ public class ShareServiceImpl implements IShareService {
             list.add(img.getShareImgUrl());
         }
         return list;
+    }
+
+    private List<Map<String, Object>> createShareMapList(Long account, List<Share> shares) {
+        User user1 = null;
+        if (null != account)
+            user1 = userMapper.selectByPrimaryKey(account);
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        for (Share share : shares) {
+            ShareImg shareImg = new ShareImg();
+            shareImg.setShareId(share.getId());
+            List<ShareImg> imgList = shareImgMapper.select(shareImg);
+            Commoditys comm = commMapper.selectByKey(share.getCommodityId());
+            Map<String, Object> map = new HashMap<>();
+            List<String> list = new ArrayList<>();
+            if (null == account)
+                user1 = userMapper.selectByPrimaryKey(share.getUserAccountId());
+            map.put("id", share.getId());//添加用户头像
+            map.put("headImgUrl", user1.getHeaderUrl());//添加用户头像
+            map.put("userName", user1.getNickname());//添加用户昵称
+            map.put("shareDate", share.getIssueDate());//添加分享时间
+            map.put("commName", comm.getName());//添加商品id
+            map.put("commRoundTime", comm.getRoundTime());//添加商品id
+            map.put("context", share.getParticulars());//添加用户分享内容
+            map.put("commId", share.getCommodityId());//添加商品id
+            for (ShareImg sh : imgList)
+                list.add(sh.getShareImgUrl());
+            map.put("shareImgUrl", list);//添加用户晒单照片
+            mapList.add(map);
+        }
+        return mapList;
     }
 
 }

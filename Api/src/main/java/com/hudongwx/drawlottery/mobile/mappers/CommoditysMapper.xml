@@ -31,6 +31,29 @@
     </resultMap>
 
 
+
+    <select id="selectByKey" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity.id = #{commodityId}
+    </select>
+
+    <update id="updateById" parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">
+      UPDATE  t_commoditys
+      <trim prefix="set" suffixOverrides=",">
+          <if test="buyLastNumber != null">buy_last_number = #{buyLastNumber}</if>
+          <if test="buyCurrentNumber != null">buy_current_number = #{buyCurrentNumber}</if>
+          <if test="luckCodeId != null">luck_code_id = #{buyCurrentNumber}</if>
+          <if test="roundTime != null">round_time = #{roundTime}</if>
+          <if test="sellOutTime !=null">sell_out_time = #{sellOutTime}</if>
+          <if test="viewNum !=null">view_num = #{viewNum}</if>
+          <if test="tempId !=null">temp_id = #{tempId}</if>
+          <if test="stateId !=null">state_id = #{stateId}</if>
+          <if test="undercarriageTime != null">undercarriage_time =#{undercarriageTime}</if>
+      </trim>
+        WHERE id = #{id}
+    </update>
+
+
     <!-- 根据商品类型ID分页查询商品 -->
     <select id="selectPaging" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
@@ -121,6 +144,10 @@
         WHERE template.commodity_type_id = #{typeId}
         and commodity.state_id = #{stateId}
     </select>
+
+    <update id="updateCommState">
+        UPDATE t_commoditys SET state_id = #{stateId} where id = #{commId}
+    </update>
 
     <!-- 商品通用查询语句 -->
     <sql id="selectSql">

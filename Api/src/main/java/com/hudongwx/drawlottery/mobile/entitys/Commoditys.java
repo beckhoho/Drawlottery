@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Table(name = "t_commoditys")
 public class Commoditys {
@@ -30,6 +29,10 @@ public class Commoditys {
      */
     @Column(name = "buy_current_number")
     private Integer buyCurrentNumber;
+
+
+
+
 
     /**
      * 总购买次数
@@ -96,13 +99,13 @@ public class Commoditys {
      * 售罄时间
      */
     @Column(name = "sell_out_time")
-    private Date sellOutTime;
+    private Long sellOutTime;
 
     /**
      * 下架时间
      */
     @Column(name = "undercarriage_time")
-    private Date undercarriageTime;
+    private Long undercarriageTime;
 
     /**
      * 点击量
@@ -192,11 +195,11 @@ public class Commoditys {
 
 
 
-    public Date getUndercarriageTime() {
+    public Long getUndercarriageTime() {
         return undercarriageTime;
     }
 
-    public void setUndercarriageTime(Date undercarriageTime) {
+    public void setUndercarriageTime(Long undercarriageTime) {
         this.undercarriageTime = undercarriageTime;
     }
 
@@ -464,11 +467,11 @@ public class Commoditys {
         this.commodityDesc = commodityDesc;
     }
 
-    public Date getSellOutTime() {
+    public Long getSellOutTime() {
         return sellOutTime;
     }
 
-    public void setSellOutTime(Date sellOutTime) {
+    public void setSellOutTime(Long sellOutTime) {
         this.sellOutTime = sellOutTime;
     }
 

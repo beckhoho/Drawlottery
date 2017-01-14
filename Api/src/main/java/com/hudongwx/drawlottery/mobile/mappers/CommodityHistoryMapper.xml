@@ -17,6 +17,8 @@
         <result column="genre" jdbcType="INTEGER" property="genre"/>
         <result column="exchange_state" jdbcType="INTEGER" property="exchangeState"/>
         <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
+        <result column="exchange_way" jdbcType="INTEGER" property="exchangeWay"/>
+        <result column="temp_id" jdbcType="BIGINT" property="tempId"/>
     </resultMap>
 
     <!-- 查询中奖历史-->
@@ -37,6 +39,11 @@
             and round_time &lt; #{roundTime}
         </where>
         <!-- &lt; 小于     &jt; 大于 -->
+    </select>
+
+    <select id="selectComIdAndUser" resultMap="BaseResultMap">
+        SELECT * FROM t_commodity_history
+        WHERE commodity_id = #{commodityId} AND luck_user_account_id = #{accountId}
     </select>
 
 </mapper>

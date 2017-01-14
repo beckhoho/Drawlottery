@@ -11,4 +11,16 @@
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
     <result column="particulars" jdbcType="VARCHAR" property="particulars" />
   </resultMap>
+
+  <select id="selectByUserAccountId" resultMap="BaseResultMap">
+    select * from t_share where user_account_id = #{accountId}
+  </select>
+
+  <select id="selectByCommId" resultMap="BaseResultMap">
+    select * from t_share where commodity_id = #{commId}
+  </select>
+
+  <select id="selectByIssueDate" resultMap="BaseResultMap">
+   select * from t_share where issue_date = #{issueDate}
+  </select>
 </mapper>

@@ -50,8 +50,11 @@ public interface IShareService {
     boolean friendsShare(Long account);
 
     //查看用户晒单
-    List<Map<String, Object>> selectUserAll(Long account);
+    List<Map<String, Object>> selectByUserAccountId(Long account);
 
     //首页全部晒单
-    List<Map<String, Object>> selectAll();
+    List<Map<String, Object>> selectAll(Integer page);
+
+    //首页全部晒单
+    List<Map<String, Object>> selectByCommId(Long commId);
 }

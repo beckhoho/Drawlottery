@@ -262,5 +262,33 @@ public class Settings {
      */
     public static final int PASSWORD_NOT_VIEWED = 0;
 
+    /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*兑换方式*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
+
+    /**
+     * 商品兑换充值卡
+     */
+    public static final int EXCHANGE_METHOD_RECHARGE_CARD = 1;
+
+    /**
+     * 商品快递接收
+     */
+    public static final int EXCHANGE_METHOD_EXPRESS = 2;
+
+    /**
+     * 商品兑换现金
+     */
+    public static final int EXCHANGE_METHOD_CASH = 3;
+
+    /**
+     * 商品兑换金币
+     */
+    public static final int EXCHANGE_METHOD_GOLD = 4;
+
+    /**
+     * 商品兑换金币
+     */
+    public static final int EXCHANGE_METHOD_LOCALE = 5;
+
+    /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*兑换方式*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
 
 }

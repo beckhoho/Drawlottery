@@ -5,8 +5,6 @@ import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
-import com.qq.connect.QQConnectException;
-import com.qq.connect.api.OpenID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +32,7 @@ import java.util.Map;
 public class UserServiceImpl implements IUserService {
 
     @Autowired
-    UserMapper mapper;
+    UserMapper userMapper;
     @Autowired
     CommodityHistoryMapper comHistoryMapper;
     @Autowired
@@ -49,10 +47,12 @@ public class UserServiceImpl implements IUserService {
     CommodityExchangeMapper exchangeMapper;
     @Autowired
     ExchangeWayMapper wayMapper;
+    @Autowired
+    CommodityTemplateMapper tempMapper;
 
     @Override
     public boolean register(String phone, String password) {
-        if (null != mapper.selectByPhoneNumber(phone))
+        if (null != userMapper.selectByPhoneNumber(phone))
             return false;
 //        if (!verifyCode.toUpperCase().equals(code.toUpperCase()))
 //            return false;
@@ -71,12 +71,12 @@ public class UserServiceImpl implements IUserService {
         user.setGoldNumber(0);
         user.setCurrentState(Settings.USER_STATE_NORMAL);
         PasswordUtils.encryptPassword(user);//加密用户密码
-        return mapper.insert(user) > 0;
+        return userMapper.insert(user) > 0;
     }
 
     @Override
     public User queryUserByPhoneNum(String phone) {
-        return mapper.selectByPhoneNumber(phone);
+        return userMapper.selectByPhoneNumber(phone);
     }
 
     @Override
@@ -100,35 +100,34 @@ public class UserServiceImpl implements IUserService {
         List<Map<String, Object>> mapList = new ArrayList<>();
         List<CommodityHistory> histories = comHistoryMapper.selectHistoryLottery(accountId);
         for (CommodityHistory com : histories) {
-            Commoditys byKey = comMapper.selectByKey(com.getCommodityId());
+            CommodityTemplate template = tempMapper.selectById(com.getTempId());
             Map<String, Object> map = new HashMap<>();
             map.put("id", com.getId());//添加商品id
             map.put("commodityName", com.getCommodityName());//添加商品名
             map.put("roundTime", com.getRoundTime());//添加期数
             map.put("endTime", com.getEndTime());//揭晓时间
             map.put("buyNumber", com.getBuyNumber());//购买人次
-            map.put("luckCode",com.getLuckCode());//添加幸运码
+            map.put("luckCode", com.getLuckCode());//添加幸运码
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
             map.put("shareState", 0);//是否晒单（0、未晒单；1、已晒单）
-            map.put("state", 0);//中奖确认流程（0、中奖--->1、确认手机号--->2、已充值）
             map.put("exchangeId",selectExchange(com.getCommodityId()));//添加兑换方式
-            map.put("withdrawalsMoney",byKey.getWithdrawalsMoney());//折换现金金额
-            map.put("exchangeMoney",byKey.getExchangeMoney());//折换闪币
+            map.put("withdrawalsMoney",template.getWithdrawalsMoney());//折换现金金额
+            map.put("exchangeMoney",template.getExchangeMoney());//折换闪币
+            map.put("state",com.getExchangeState());//添加兑换状态
+            map.put("exchangeWay",com.getExchangeWay());//添加已选择兑奖方式
             mapList.add(map);
         }
         return mapList;
     }
 
-    public List<Map<String,Object>> selectExchange(Long commodityId){
-        List<Map<String,Object>> list = new ArrayList<>();
+    public Map<String, Object> selectExchange(Long commodityId) {
+        Map<String, Object> map = new HashMap<>();
         List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commodityId);
-        for (CommodityExchange ex : exchanges){
-            Map<String,Object> map = new HashMap<>();
-            ExchangeWay way = wayMapper.selectByPrimaryKey(ex.getExchangeWayId());
-            map.put("1",way.getName());
-            list.add(map);
+        for (CommodityExchange ex : exchanges) {
+            ExchangeWay way = wayMapper.selectById(ex.getExchangeWayId());
+            map.put(way.getId() + "", way.getName());
         }
-        return list;
+        return map;
     }
 
 
@@ -141,7 +140,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<Map<String, Object>> selectHistoryPay(Long accountId, Integer item) {
 
-        List<Map<String, Object>> mapList =new ArrayList<>();
+        List<Map<String, Object>> mapList = new ArrayList<>();
         if (item == 1) {
             mapList = selectToNew(accountId);
         } else if (item == 2) {
@@ -175,11 +174,11 @@ public class UserServiceImpl implements IUserService {
         List<Map<String, Object>> list = new ArrayList<>();
         UserCodesHistory userHistory = new UserCodesHistory();
         userHistory.setUserAccountId(accountId);
-        List<UserCodesHistory> s1 = userCodeHistMapper.select(userHistory);
+        List<UserCodesHistory> s1 = userCodeHistMapper.selectByUserAccountId(accountId);
         for (UserCodesHistory u : s1) {
             Map<String, Object> map = new HashMap<>();
             CommodityHistory history = comHistoryMapper.selectBycommId(u.getCommodityId());
-            User user1 = mapper.selectByPrimaryKey(history.getLuckUserAccountId());
+            User user1 = userMapper.selectById(history.getLuckUserAccountId());
             List<String> integers = luckUserList(accountId, history.getCommodityId());
             map.put("id", history.getCommodityId());//商品ID
             map.put("buyTotalNumber", history.getBuyTotalNumber());//添加当期总需人次
@@ -216,7 +215,7 @@ public class UserServiceImpl implements IUserService {
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
             map.put("commState", com.getStateId());//商品状态
             map.put("roundTime", com.getRoundTime());//添加期数
-            map.put("coverImgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//添加封面图URL
+            map.put("coverImgUrl", com.getCoverImgUrl());//添加封面图URL
             map.put("commName", com.getName());//添加商品名
             map.put("userAccountId", accountId);//添加用户ID
             map.put("userCodesList", integers);//添加用户参与购买的幸运码集合
@@ -232,12 +231,9 @@ public class UserServiceImpl implements IUserService {
     //查询用户参与商品购买人次和幸运码
     public List<String> luckUserList(Long accountId, Long commodityId) {
         List<String> list = new ArrayList<>();
-        UserLuckCodes luckCodes = new UserLuckCodes();
-        luckCodes.setCommodityId(commodityId);
-        luckCodes.setUserAccountId(accountId);
-        List<UserLuckCodes> codes = luckCodesMapper.select(luckCodes);
+        List<UserLuckCodes> codes = luckCodesMapper.selectByAccAndCommId(accountId,commodityId);
         for (UserLuckCodes code : codes) {
-            LuckCodes key = codesMapper.selectByPrimaryKey(code.getLockCodeId());
+            LuckCodes key = codesMapper.selectById(code.getLuckCodeId());
             list.add(key.getLockCode());
         }
         return list;
@@ -264,7 +260,7 @@ public class UserServiceImpl implements IUserService {
             user.setQqOpenId(openId);
         }
         user.setNickname(nickname);
-        mapper.insert(user);
+        userMapper.insert(user);
         return queryByOpenId(openId, platform);
     }
 
@@ -275,13 +271,30 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public boolean checkOpenId(String token, String openId) {
-        try {
+        //// TODO: 2017/1/13 0013 qq登录校验
+
+       /* try {
             //通过token获取openId
             return new OpenID(token).getUserOpenID().equals(openId);
         } catch (QQConnectException e) {
             e.printStackTrace();
-        }
+        }*/
         return false;
+    }
+
+    @Override
+    public Map<String, Object> queryPersonalInfo(Long accountId) {
+        User user = userMapper.selectById(accountId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("imgUrl", user.getHeaderUrl());
+        map.put("nickname", user.getNickname());
+        map.put("phone", user.getPhoneNumber());
+        map.put("qq", user.getQqNumber());
+        map.put("id", user.getAccountId());
+        map.put("codePicture", null);
+        map.put("promId", user.getPromoterId());
+        map.put("promProf", 0);
+        return map;
     }
 
     /**
@@ -294,9 +307,9 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User queryByOpenId(String openId, String platform) {
         if (platform.equals("wx")) {
-            return mapper.selectByWxOpenId(openId);
+            return userMapper.selectByWxOpenId(openId);
         }
-        return mapper.selectByQQOpenId(openId);
+        return userMapper.selectByQQOpenId(openId);
     }
 
 }

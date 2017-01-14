@@ -5,12 +5,15 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
-        <result column="depict" jdbcType="VARCHAR" property="depict" />
-        <result column="skip_url" jdbcType="VARCHAR" property="skipUrl" />
-        <result column="img_genre" jdbcType="INTEGER" property="imgGenre" />
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
+        <result column="depict" jdbcType="VARCHAR" property="depict"/>
+        <result column="skip_url" jdbcType="VARCHAR" property="skipUrl"/>
+        <result column="img_genre" jdbcType="INTEGER" property="imgGenre"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
 
     </resultMap>
+    <select id="selectUsingImgs" resultMap="BaseResultMap">
+        SELECT * FROM t_images WHERE state=#{sta} and img_genre=#{genre}
+    </select>
 </mapper>

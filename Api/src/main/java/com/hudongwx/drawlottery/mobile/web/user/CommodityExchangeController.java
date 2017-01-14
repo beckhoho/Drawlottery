@@ -108,8 +108,8 @@ public class CommodityExchangeController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/info", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryExchangeToRechargeCardInfo(@RequestParam("commId") Long commId) {
-        return success(emService.selectUserRechargeCardExchangeProcess(10000L, commId));
+    public JSONObject queryExchangeToRechargeCardInfo(@RequestParam("commId") Long commId,@RequestParam("exchangeWayId")Integer exchangeWayId) {
+        return success(emService.selectUserRechargeCardExchangeProcess(10000L, commId,exchangeWayId));
     }
 
     /**

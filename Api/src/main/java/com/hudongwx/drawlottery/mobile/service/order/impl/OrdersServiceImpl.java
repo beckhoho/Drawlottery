@@ -31,6 +31,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
     @Autowired
     OrdersMapper mapper;
+
     @Autowired
     UserMapper userMapper;
     @Autowired
@@ -54,8 +55,9 @@ public class OrdersServiceImpl implements IOrdersService {
     public boolean addOder(Long accountId, JSONObject jsonObject) {
         boolean b = true;
         Orders orders = JSONObject.toJavaObject(jsonObject.getJSONObject("order"), Orders.class);
+        long time = new Date().getTime();
         orders.setUserAccountId(accountId);
-        orders.setSubmitDate(new Date().getTime());//修改订单提交时间
+        orders.setSubmitDate(time);//修改订单提交时间
         JSONArray ca = jsonObject.getJSONArray("ca");
         List<CommodityAmount> caList = new ArrayList<>();
         for (int i = 0; i < ca.size(); i++) {
@@ -67,13 +69,15 @@ public class OrdersServiceImpl implements IOrdersService {
                 red.setId(orders.getRedPacketId());
                 red.setUseState(1);
                 redMapper.updateByPrimaryKeySelective(red);
-
                 List<Orders> list = mapper.select(orders);
                 for (int s = 0; s < caList.size(); s++) {
                     Long commodityId = caList.get(s).getCommodityId();
                     Integer amount = caList.get(s).getAmount();
                     OrdersCommoditys oc = new OrdersCommoditys();
-                    oc.setOrdersId(list.get(0).getId());//添加订单ID
+                    System.out.println(">>>>>>>>>>>>>>>>>>"+list.get(0));
+                    Long id = list.get(0).getId();
+
+                    oc.setOrdersId(id);//添加订单ID
                     oc.setCommodityId(commodityId);//添加商品ID
                     oc.setAmount(amount);//添加购买人次；
                     ordersCommoditysService.addOrdersCommodity(oc);
@@ -85,7 +89,7 @@ public class OrdersServiceImpl implements IOrdersService {
                         UserLuckCodes luckCodes = new UserLuckCodes();
                         luckCodes.setUserAccountId(accountId);
                         luckCodes.setCommodityId(commodityId);
-                        luckCodes.setLockCodeId(code.getId());
+                        luckCodes.setLuckCodeId(code.getId());
                         luckCodes.setBuyDate(date.getTime());
                         luckCodes.setOrdersId(list.get(0).getId());
                         luckMapper.insert(luckCodes);
@@ -96,7 +100,7 @@ public class OrdersServiceImpl implements IOrdersService {
                     }
                 }
                 if (orders.getPayModeId() == 1) {//如果支付方式为余额支付
-                    User u = userMapper.selectByPrimaryKey(accountId);
+                    User u = userMapper.selectById(accountId);
                     Integer number = orders.getPrice();
                     User user = new User();
                     user.setAccountId(accountId);
@@ -123,32 +127,33 @@ public class OrdersServiceImpl implements IOrdersService {
     public boolean updateCommodity(List<CommodityAmount> list, Long accountId) {
         for (CommodityAmount ca : list) {
             //提交订单前先进行查询，
-            Commoditys commodity = comMapper.selectByPrimaryKey(ca.getCommodityId());
+            Commoditys commodity = comMapper.selectByKey(ca.getCommodityId());
             //如果商品当前购买人次加用户购买人次大于总购买人次
             if (commodity.getBuyCurrentNumber() + ca.getAmount() > commodity.getBuyTotalNumber()) {
                 int i = commodity.getBuyCurrentNumber() + ca.getAmount() - commodity.getBuyTotalNumber();
-                User user = userMapper.selectByPrimaryKey(accountId);
+                User user = userMapper.selectById(accountId);
                 int goldNumber = user.getGoldNumber();
-                commodity.setBuyCurrentNumber(commodity.getBuyTotalNumber());
+
+
                 commodity.setStateId(2);//进入待揭晓状态
-                commodity.setSellOutTime(new Date());//添加售罄时间
+                commodity.setSellOutTime(new Date().getTime());//添加售罄时间
                 int i1 = comMapper.updateByPrimaryKeySelective(commodity);//根据主键修改商品状态
                 user.setGoldNumber(i + goldNumber);//将多购买的数量以闪币退还给用户
                 return userMapper.updateByPrimaryKeySelective(user) > 0 && i1 > 0;
                 //如果当前购买量已经超过了商品的总量，那么将多余的购买余额转为闪币存入用户账户
             } else if (commodity.getBuyCurrentNumber() + ca.getAmount() == commodity.getBuyTotalNumber()) {
                 int i = ca.getAmount();
-                Commoditys com = new Commoditys();
+                Commodity com = new Commodity();
                 com.setId(ca.getCommodityId());
                 com.setBuyCurrentNumber(commodity.getBuyCurrentNumber() + i);
                 com.setStateId(2);
-                return comMapper.updateByPrimaryKeySelective(com) > 0;
+                return comMapper.updateById(com) > 0;
             } else {
                 int i = ca.getAmount();
-                Commoditys com = new Commoditys();
+                Commodity com = new Commodity();
                 com.setId(ca.getCommodityId());
                 com.setBuyCurrentNumber(commodity.getBuyCurrentNumber() + i);
-                return comMapper.updateByPrimaryKeySelective(com) > 0;
+                return comMapper.updateById(com) > 0;
             }
         }
         return false;
@@ -200,7 +205,7 @@ public class OrdersServiceImpl implements IOrdersService {
     public Map<String, Object> selectOrders(Long accountId, Integer sum) {
         Map<String, Object> m = new HashMap<>();
         List<Long> idList = new ArrayList<>();
-        User user = userMapper.selectByPrimaryKey(accountId);
+        User user = userMapper.selectById(accountId);
         m.put("remainder", user.getGoldNumber());//获得用户账户余额
         RedPackets red = new RedPackets();
         red.setUserAccountId(accountId);
@@ -234,7 +239,7 @@ public class OrdersServiceImpl implements IOrdersService {
         for (CommodityAmount ca : commodityAmounts) {
             Map<String, Object> map = new HashMap<>();
             map.put("amount", ca.getAmount());//参与人次
-            Commoditys commoditys = comMapper.selectByPrimaryKey(ca.getCommodityId());
+            Commoditys commoditys = comMapper.selectByKey(ca.getCommodityId());
             map.put("commodityName", commoditys.getName());//商品名
             map.put("roundTime", commoditys.getRoundTime());//期数
             map.put("luckCodes", luckCodes(accountId, ca.getCommodityId()));//用户参与商品的幸运码
@@ -258,7 +263,7 @@ public class OrdersServiceImpl implements IOrdersService {
         user.setCommodityId(commodityId);
         List<UserLuckCodes> codes = luckMapper.select(user);
         for (UserLuckCodes luckCodes : codes) {
-            LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLockCodeId());
+            LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLuckCodeId());
             list.add(codes1.getLockCode());
         }
         return list;

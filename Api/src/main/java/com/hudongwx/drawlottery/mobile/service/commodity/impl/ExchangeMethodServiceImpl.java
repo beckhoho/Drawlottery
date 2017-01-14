@@ -47,6 +47,9 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     UserMapper userMapper;
     @Autowired
     ExpressDeliveryMapper expressMapper;
+    @Autowired
+    ExpressDeliveryMapper exDeMapper;
+
 
     /**
      * 兑换闪币
@@ -136,19 +139,17 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     }
 
     /**
-     * 查看user抽中的充值卡
+     * 领奖过程
      *
      * @param accountId   用户ID
      * @param commodityId 商品ID
      * @return 返回接口
+     *
      */
     @Override
     public List<Map<String, Object>> selectUserRechargeCardPrize(Long accountId, Long commodityId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        CommodityHistory ch = new CommodityHistory();
-        ch.setLuckUserAccountId(accountId);
-        ch.setCommodityId(commodityId);
-        List<CommodityHistory> list = chMapper.select(ch);
+        List<CommodityHistory> list = chMapper.selectComIdAndUser(accountId,commodityId);
         for (CommodityHistory comHis : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("commodityName", comHis.getCommodityName());//添加商品名
@@ -164,52 +165,104 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     }
 
     /**
+     * 是否派发充值卡
+     *
+     * @param accountId
+     * @param commodityId
+     * @return
+     */
+    @Override
+    public boolean orTrue(Long accountId, Long commodityId) {
+        List<Map<String, Object>> maps = selectUserRechargeCardPrize(accountId, commodityId);
+        if (maps != null && maps.size() != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 查看充值卡兑奖流程进度
      *
      * @param commodityId 商品ID
      * @return
      */
     @Override
-    public Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId) {
+    public Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId,Integer exchangeWayId) {
         Map<String, Object> map = new HashMap<>();
-        CommodityHistory ch = new CommodityHistory();
-        ch.setCommodityId(commodityId);
-        ch.setLuckUserAccountId(accountId);
-        List<CommodityHistory> list = chMapper.select(ch);
-        ExchangeWay way = ewMapper.selectById(1);
-        CommodityHistory history = list.get(0);
+        CommodityHistory history = chMapper.selectBycommId(commodityId);
+        ExchangeWay way = ewMapper.selectById(history.getExchangeWay());
+        ExpressDelivery delivery = exDeMapper.selectByAccountAndCommodity(accountId, commodityId);
+        CommodityTemplate template = templateMapper.selectById(history.getTempId());
         map.put("commodityName", history.getCommodityName());//商品名
         map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图
         map.put("exchangeState", history.getExchangeState());//兑奖流程进度状态
-        map.put("exchangeName", way.getName());//兑换方式名
-        map.put("userBuyNumber", history.getBuyNumber());
-        map.putAll(demo2(commodityId, map));
+        map.put("userBuyNumber", history.getBuyNumber());//添加用户购买人次
+        map.put("genre",history.getGenre());//添加商品实体虚拟
+        if(way!=null){
+            map.put("exchangeName", way.getName());//兑换方式名
+        }
+        else {
+            map.put("exchangeName","未选择兑换方式");//如果未选择兑换方式
+        }
+        if(exchangeWayId==2){//快递领取
+            map.put("size",null);//几张充值卡
+            map.put("cardNumberList",null);//充值卡卡号集合
+            map.put("worth",null);//充值卡面额
+            map.put("prizeState","正在兑奖中");//奖品状态
+            map.put("expressNumber",delivery.getDeliveryNumber());//快递单号
+            map.put("expressName",delivery.getDeliveryName());//获取快递名
+            map.put("expressState",delivery.getState());//添加快递状态
+            map.put("ContactName",null);//添加领奖联系人姓名
+            map.put("ContactPhone",null);//添加领奖联系人电话
+            map.put("ContactAddress",null);//添加领奖地址
+        }
+        else if(exchangeWayId==1){//兑换充值卡
+            map.putAll(demo2(commodityId));
+            map.put("prizeState","卡密已派发");
+            map.put("expressNumber",null);//快递单号
+            map.put("expressName",null);//获取快递名
+            map.put("expressState",null);//添加快递状态
+            map.put("ContactName",null);//添加领奖联系人姓名
+            map.put("ContactPhone",null);//添加领奖联系人电话
+            map.put("ContactAddress",null);//添加领奖地址
+        }
+        else if(exchangeWayId ==5){//到店领取
+            map.put("size",null);
+            map.put("cardNumberList",null);
+            map.put("worth",null);
+            map.put("prizeState","正在兑奖中");
+            map.put("expressNumber",null);//快递单号
+            map.put("expressName",null);//获取快递名
+            map.put("expressState",null);//添加快递状态
+            map.put("ContactName",template.getContactName());//添加领奖联系人姓名
+            map.put("ContactPhone",template.getContactPhone());//添加领奖联系人电话
+            map.put("ContactAddress",template.getContactAddress());//添加领奖地址
+        }
+        else if(exchangeWayId == 0){
+            map.put("size",null);//几张充值卡
+            map.put("cardNumberList",null);//充值卡卡号集合
+            map.put("worth",null);//充值卡面额
+            map.put("prizeState","未选择兑换方式");
+            map.put("expressNumber",null);//快递单号
+            map.put("expressName",null);//获取快递名
+            map.put("expressState",null);//添加快递状态
+            map.put("ContactName",null);//添加领奖联系人姓名
+            map.put("ContactPhone",null);//添加领奖联系人电话
+            map.put("ContactAddress",null);//添加领奖地址
+        }
         return map;
     }
 
-    public Map<String, Object> demo2(Long commodityId, Map<String, Object> map) {
-        VirtualCommodity v = new VirtualCommodity();
-        v.setCommodityId(commodityId);
-        List<VirtualCommodity> vc = vcMapper.select(v);
+    public Map<String, Object> demo2(Long commodityId) {
+        Map<String,Object> map = new HashMap<>();
+        List<VirtualCommodity> vc = vcMapper.selectByCommId(commodityId);
         map.put("size", vc.size());//添加有几张充值卡
-        int worth = 0;
-        List<Map<String, Object>> list = new ArrayList<>();
+        List<String> number = new ArrayList<>();
         for (VirtualCommodity vir : vc) {
-            String pwd;
-            worth += vir.getWorth();
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("cardNumber", vir.getCardNumber());
-            if (vir.getState().intValue() == Settings.PASSWORD_VIEWED) {
-                pwd = vir.getPassword();
-            } else {
-                pwd = null;
-            }
-            map1.put("password", pwd);
-            map1.put("state", vir.getState());
-            list.add(map1);
+            number.add(vir.getCardNumber());
         }
-        map.put("worth", worth);//添加面额
-        map.put("cardList", list);
+        map.put("cardNumberList",number);//添加卡号
+        map.put("worth", vc.get(0).getWorth());//添加面额
         return map;
     }
 }

@@ -29,6 +29,7 @@ import static org.testng.Assert.*;
  */
 public class NotificationPrizeServiceImplTest extends TestBaseMapper {
 
+
     @Autowired
     INotificationPrizeService service;
 
@@ -64,6 +65,7 @@ public class NotificationPrizeServiceImplTest extends TestBaseMapper {
     @Test
     public void testSelectByNew() throws  Exception{
         List<String> no = service.selectByNew();
+        System.out.println(no.size());
     }
 
 }

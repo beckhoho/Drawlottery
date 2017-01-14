@@ -14,4 +14,8 @@
         <result column="delivery_number" jdbcType="VARCHAR" property="deliveryNumber"/>
 
     </resultMap>
+    <select id="selectByAccountAndCommodity" resultMap="BaseResultMap">
+        SELECT * FROM t_express_delivery WHERE user_account_id = #{accountId}
+        AND commodity_id = #{commodityId}
+    </select>
 </mapper>

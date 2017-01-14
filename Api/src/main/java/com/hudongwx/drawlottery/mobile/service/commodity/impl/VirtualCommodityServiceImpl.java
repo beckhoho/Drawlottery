@@ -1,8 +1,12 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityTemplate;
+import com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes;
 import com.hudongwx.drawlottery.mobile.entitys.VirtualCommodity;
 import com.hudongwx.drawlottery.mobile.mappers.CommodityHistoryMapper;
+import com.hudongwx.drawlottery.mobile.mappers.CommodityTemplateMapper;
+import com.hudongwx.drawlottery.mobile.mappers.UserLuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.mappers.VirtualCommodityMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.IVirtualCommodityService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
@@ -36,6 +40,10 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
     VirtualCommodityMapper vcMapper;
     @Autowired
     CommodityHistoryMapper chMapper;
+    @Autowired
+    CommodityTemplateMapper tempMapper;
+    @Autowired
+    UserLuckCodesMapper codesMapper;
 
     @Override
     public boolean addCard(VirtualCommodity card) {
@@ -48,7 +56,7 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
     }
 
     @Override
-    public List<Map<String, Object>> selectUserCard(Long accountId) {
+    public List<Map<String, Object>> selectUserCard(Long accountId,Long commodityId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
         VirtualCommodity card = new VirtualCommodity();
         card.setCommodityId(accountId);
@@ -66,6 +74,8 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
         }
         return mapList;
     }
+
+
 
     @Override
     public String updateCardStateByCardNumber(String cardNumber, int state) {

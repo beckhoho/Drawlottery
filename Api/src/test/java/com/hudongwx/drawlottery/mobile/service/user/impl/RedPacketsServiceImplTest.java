@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -25,9 +27,24 @@ import java.util.Date;
  * @email 346905702@qq.com
  */
 public class RedPacketsServiceImplTest extends TestBaseMapper {
-
     @Autowired
     IRedPacketsService ird;
+
+    @Test
+    public void testSelectAllByUserAccountId() throws Exception {
+        List<Map<String, Object>> list = ird.selectAllByUserAccountId(10000l);
+        System.out.println(list.size());
+    }
+
+    @Test
+    public void testUseRedPacket() throws Exception {
+
+    }
+
+    @Test
+    public void testOverdue() throws Exception {
+
+    }
     @Test
     public void testAddRP() throws Exception {
 

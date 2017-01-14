@@ -29,4 +29,6 @@ public interface VirtualCommodityMapper extends BaseMapper<VirtualCommodity> {
 
     //通过商品Id查询虚拟商品
     List<VirtualCommodity> selectByCommId(@Param("commId") Long commId);
+
+
 }

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper">
-  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.LuckCodes">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="lock_code" jdbcType="VARCHAR" property="luckCodeTemplateId" />
-    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
-    <result column="state" jdbcType="INTEGER" property="state"/>
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.LuckCodes">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="lock_code" jdbcType="VARCHAR" property="lockCode"/>
+        <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="luck_code_template_id" jdbcType="INTEGER" property="luckCodeTemplateId"/>
+    </resultMap>
 
   <select id="selectByUsable" resultMap="BaseResultMap">
     select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
   </select>
 
+    <select id="selectById" resultMap="BaseResultMap">
+    SELECT * FROM t_luck_codes WHERE id = #{lcId}
+  </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
+import com.hudongwx.drawlottery.mobile.entitys.Commodity;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 
 import java.util.List;
@@ -35,8 +36,6 @@ public interface ICommodityService {
     //查看全部商品
     List<Commoditys> selectTypeAll(String commodType);
 
-    //修改商品信息
-    boolean update(Commoditys commod);
 
     //获取当前类型商品的总数（分页使用）
     int selectCount(Integer commodTypeId);
