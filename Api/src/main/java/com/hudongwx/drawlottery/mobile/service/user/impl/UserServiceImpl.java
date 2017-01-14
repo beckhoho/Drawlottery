@@ -47,6 +47,8 @@ public class UserServiceImpl implements IUserService {
     CommodityExchangeMapper exchangeMapper;
     @Autowired
     ExchangeWayMapper wayMapper;
+    @Autowired
+    CommodityTemplateMapper tempMapper;
 
     @Override
     public boolean register(String phone, String password) {
@@ -98,7 +100,7 @@ public class UserServiceImpl implements IUserService {
         List<Map<String, Object>> mapList = new ArrayList<>();
         List<CommodityHistory> histories = comHistoryMapper.selectHistoryLottery(accountId);
         for (CommodityHistory com : histories) {
-            Commoditys byKey = comMapper.selectByKey(com.getCommodityId());
+            CommodityTemplate template = tempMapper.selectById(com.getTempId());
             Map<String, Object> map = new HashMap<>();
             map.put("id", com.getId());//添加商品id
             map.put("commodityName", com.getCommodityName());//添加商品名
@@ -109,8 +111,8 @@ public class UserServiceImpl implements IUserService {
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
             map.put("shareState", 0);//是否晒单（0、未晒单；1、已晒单）
             map.put("exchangeId",selectExchange(com.getCommodityId()));//添加兑换方式
-            map.put("withdrawalsMoney",byKey.getWithdrawalsMoney());//折换现金金额
-            map.put("exchangeMoney",byKey.getExchangeMoney());//折换闪币
+            map.put("withdrawalsMoney",template.getWithdrawalsMoney());//折换现金金额
+            map.put("exchangeMoney",template.getExchangeMoney());//折换闪币
             map.put("state",com.getExchangeState());//添加兑换状态
             map.put("exchangeWay",com.getExchangeWay());//添加已选择兑奖方式
             mapList.add(map);

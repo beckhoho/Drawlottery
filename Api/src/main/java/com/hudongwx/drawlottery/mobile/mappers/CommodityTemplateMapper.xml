@@ -27,4 +27,8 @@
     <result column="easyWinning" jdbcType="INTEGER" property="easyWinning" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
+
+  <select id="selectById" resultMap="BaseResultMap">
+    SELECT * FROM t_commodity_template WHERE id = #{tempId}
+  </select>
 </mapper>
