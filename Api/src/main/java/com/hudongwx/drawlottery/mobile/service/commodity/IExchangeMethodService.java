@@ -68,7 +68,7 @@ public interface IExchangeMethodService {
      * @param commodityId
      * @return
      */
-    Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId);
+    Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId,Integer exchangeWayId);
 
 
     //兑换充值卡是否成功

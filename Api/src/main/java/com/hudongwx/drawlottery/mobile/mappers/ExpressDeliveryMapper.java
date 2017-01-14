@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.ExpressDelivery;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -19,5 +20,7 @@ import com.hudongwx.drawlottery.mobile.entitys.ExpressDelivery;
  * @email 346905702@qq.com
  */
 public interface ExpressDeliveryMapper extends BaseMapper<ExpressDelivery>{
+
+    ExpressDelivery selectByAccountAndCommodity(@Param("accountId")Long accountId,@Param("commodityId")Long commodityId);
 
 }

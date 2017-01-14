@@ -26,6 +26,8 @@
     <result column="card_money" jdbcType="INTEGER" property="cardMoney" />
     <result column="easyWinning" jdbcType="INTEGER" property="easyWinning" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="exchange_money" jdbcType="INTEGER" property="exchangeMoney"/>
+    <result column="withdrawals_money" jdbcType="INTEGER" property="withdrawalsMoney"/>
   </resultMap>
 
   <select id="selectById" resultMap="BaseResultMap">
