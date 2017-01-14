@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserLuckCodesService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
@@ -40,14 +41,14 @@ public class OrdersController extends BaseController {
     /**
      * 用户添加订单信息
      *
-     * @param jsonObject
+     * @param orders
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/sub", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject addOrders(@RequestBody JSONObject jsonObject) {
-        System.out.println("jsonObject----------->" + jsonObject.toString());
-        return response(ordersService.addOder(10000L, jsonObject));
+    public JSONObject addOrders(@RequestBody Orders orders, List<CommodityAmount> commodityAmounts) {
+//        System.out.println("jsonObject----------->" + jsonObject.toString());
+        return response(ordersService.pay(10000L, orders,commodityAmounts));
     }
 
     /**

@@ -21,4 +21,7 @@ public interface UserLuckCodesMapper extends BaseMapper<UserLuckCodes> {
     List<UserLuckCodes> selectByUserAccountId(@Param("userAccountId")Long userAccountId);
 
     List<UserLuckCodes> selectByAccAndCommId(@Param("userAccountId")Long userAccountId,@Param("commId")Long commId);
+
+    //查看最后购买商品的五十条信息
+    List<UserLuckCodes> selectByBuyDateDesc();
 }

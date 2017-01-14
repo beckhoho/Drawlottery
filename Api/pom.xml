@@ -39,6 +39,11 @@
             <artifactId>spring-boot-devtools</artifactId>
             <version>1.4.3.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
     </dependencies>
     <build>

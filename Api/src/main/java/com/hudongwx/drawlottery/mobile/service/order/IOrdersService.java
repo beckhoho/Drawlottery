@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.order;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.Map;
 public interface IOrdersService {
 
     //创建订单
-    boolean addOder(Long accountId,JSONObject jsonObject);
+    boolean pay(Long accountId, Orders orders, List<CommodityAmount> commodityAmounts);
 
     //查看订单详情
     List<Orders> selectByUserAccount(Long userAccount);
@@ -33,11 +34,11 @@ public interface IOrdersService {
     boolean deleteOder(Long id);
 
     //修改订单
-    boolean update(Orders  oders);
+    boolean update(Orders oders);
 
     //订单界面需要的数据
-    Map<String,Object> selectOrders(Long accountId,Integer sum);
+    Map<String,Object> selectOrders(Long accountId, Integer sum);
 
     //支付成功界面数据
-    Map<String,Object> selectPaySuccess(Long accountId,JSONObject jsonObject);
+    Map<String,Object> selectPaySuccess(Long accountId, JSONObject jsonObject);
 }
