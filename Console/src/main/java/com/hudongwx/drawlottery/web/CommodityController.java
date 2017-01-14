@@ -6,6 +6,7 @@ import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.dto.paramBody.AllParamList;
 import com.hudongwx.drawlottery.common.dto.paramBody.TempBody;
+import com.hudongwx.drawlottery.common.dto.paramBody.TempParam;
 import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.response.CommodityFiltersResult;
 import com.hudongwx.drawlottery.pojo.Commodity;
@@ -70,6 +71,13 @@ public class CommodityController extends BaseController {
                 condition.getOrder(), condition.getDirection(), commonConstants.getVALID());
     }
 
+    @ApiOperation("获取商品模板列表")
+    @RequestMapping(value = "/temps",method = RequestMethod.POST)
+    public PageInfo<CommodityTemplate> getTemplates(@ApiParam(name = "p",defaultValue = "1") @RequestParam(defaultValue = "1") final Integer p,
+                                                    @ApiParam @RequestBody TempParam tempParam){
+        return tempService.getTemplates(p,commonConstants.getMaxPageSize(),tempParam.getType(),tempParam.getGenre(),tempParam.getOrder(),tempParam.getDirection());
+    }
+
     @ApiOperation("批量删除商品")
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     public AjaxResult deleteCommodities(@ApiParam @RequestBody List<Integer> ids) {
@@ -81,7 +89,7 @@ public class CommodityController extends BaseController {
 
     @ApiOperation("添加/修改商品模板")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public AjaxResult addCommodity(@ApiParam("有id则为修改，无id则为删除") @RequestBody TempBody body) {
+    public AjaxResult addCommodityTemplate(@ApiParam("有id则为修改，无id则为删除") @RequestBody TempBody body) {
         final CommodityTemplate commodityTemplate = body.packingMe();
         if (commodityTemplate.getId() == null) {
             tempService.addCommodityTemplate(commodityTemplate);
@@ -94,13 +102,25 @@ public class CommodityController extends BaseController {
     @ApiOperation("批量上架")
     @RequestMapping(value = "/ground", method = RequestMethod.POST)
     public AjaxResult groundCommodities(@ApiParam @RequestBody List<Integer> list) {
+        if(list.size() == 0)
+            return fail(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
         tempService.ground(list);
         return success(langConstants.getLang(langConstants.GROUND_COMMODITY_SUCCESS));
     }
 
+    @ApiOperation("批量上架模板")
+    @RequestMapping(value = "/groundTemp",method = RequestMethod.POST)
+    public AjaxResult groundCommodityTemplates(@ApiParam @RequestBody List<Integer> list){
+        if(list.size() == 0)
+            return fail(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
+        tempService.groundNew(list);
+        return success(langConstants.getLang(langConstants.GROUND_COMMODITY_SUCCESS));
+    }
     @ApiOperation("批量下架")
     @RequestMapping(value = "/under", method = RequestMethod.POST)
     public AjaxResult underCommodities(@ApiParam @RequestBody List<Integer> list) {
+        if(list.size() == 0)
+            return fail(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
         tempService.undercarriage(list);
         return success(langConstants.getLang(langConstants.UNDERCARRIAGE_COMMODITY_SUCCESS));
     }

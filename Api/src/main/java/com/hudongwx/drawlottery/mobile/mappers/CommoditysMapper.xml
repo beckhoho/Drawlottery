@@ -13,7 +13,7 @@
         <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber"/>
         <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
         <result column="ground_time" jdbcType="BIGINT" property="groundTime"/>
-        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
+        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeTemplateId"/>
         <result column="state_id" jdbcType="INTEGER" property="stateId"/>
         <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
         <result column="cover_img_url" jdbcType="BIGINT" property="coverImgUrl"/>

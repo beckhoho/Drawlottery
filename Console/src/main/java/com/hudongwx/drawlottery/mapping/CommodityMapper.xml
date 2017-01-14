@@ -10,7 +10,7 @@
           IFNULL(type.name,'未知类型')                                                AS typeName,
           IFNULL(state.name, '未知状态')                        AS stateName,
           temp.ground_time                                     AS groundTime,
-          temp.undercarriage_time                              AS undercarriageTime,
+          commodity.undercarriage_time                              AS undercarriageTime,
           commodity.view_num                                        AS viewNum,
           temp.buy_total_number                                AS buyTotalNumber,
           commodity.buy_current_number                              AS buyCurrentNumber,
@@ -117,5 +117,11 @@
     </select>
     <select id="selectMaxRoundTime" resultType="java.lang.Long">
 select IFNULL(max(round_time * 1),100000000) from t_commoditys
+    </select>
+    <select id="checkState" resultType="java.lang.Integer">
+        select count(*) from t_commoditys WHERE t_commoditys.state_id = #{state} and id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
     </select>
 </mapper>

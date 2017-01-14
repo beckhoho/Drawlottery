@@ -65,7 +65,7 @@ public class LCServiceImpl implements LuckCodeService {
         final LuckCodes code = new LuckCodes();
         for (long i = 0; i < count; i++) {
             code.setCommodityId(commodityId);
-            code.setLuckCodeId(i + 1);
+            code.setLuckCodeTemplateId(i + 1);
             luckMapper.insertAuto(code);
         }
     }

@@ -15,7 +15,7 @@ import java.util.List;
  * @author <a href="http://userwu.github.io">wuhongxu</a>.
  * @version 1.0.0
  */
-@ApiModel("筛选条件类")
+@ApiModel("商品管理筛选条件类")
 public class AllParamList implements Serializable {
     public static Long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class AllParamList implements Serializable {
     private List<Integer> genre;
     @ApiModelProperty("商品类型")
     private List<Integer> type;
-    @ApiModelProperty("商品属性")
+    @ApiModelProperty("商品状态")
     private List<Integer> state;
     @ApiModelProperty("最早上架时间")
     private Date groundTimeFront;

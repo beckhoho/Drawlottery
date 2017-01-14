@@ -6,11 +6,11 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="lock_code" jdbcType="INTEGER" property="luckCodeId"/>
+        <result column="lock_code" jdbcType="INTEGER" property="luckCodeTemplateId"/>
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
     </resultMap>
     <insert id="insertAuto" parameterType="com.hudongwx.drawlottery.pojo.LuckCodes" useGeneratedKeys="true"
             keyProperty="id">
-      insert into t_luck_codes (luck_code_id,commodity_id) values (#{luckCodeId},#{commodityId})
+      insert into t_luck_codes (luck_code_template_id,commodity_id) values (#{luckCodeTemplateId},#{commodityId})
     </insert>
 </mapper>

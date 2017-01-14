@@ -130,6 +130,7 @@ public class Commodity {
     /**
      * 下架时间
      */
+    @Column(name = "undercarriage_time")
     private Long undercarriageTime;
     /**
      * 剩余购买人次
@@ -189,7 +190,7 @@ public class Commodity {
     public void setUndercarriageTime(Long undercarriageTime) {
         this.undercarriageTime = undercarriageTime;
         if (undercarriageTime == null) this.setUndercarriageTimeLabel("");
-        else this.setGroundTimeLabel(DateUtils.format(new Date(undercarriageTime)));
+        else this.setUndercarriageTimeLabel(DateUtils.format(new Date(undercarriageTime)));
     }
 
     public String getGroundTimeLabel() {
