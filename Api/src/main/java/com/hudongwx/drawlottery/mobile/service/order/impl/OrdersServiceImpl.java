@@ -60,6 +60,7 @@ public class OrdersServiceImpl implements IOrdersService {
             这是我自己添加的订单添加方法》》》》》
          */
         Long date = new Date().getTime();
+        orders.setUserAccountId(accountId);
         orders.setSubmitDate(date);
         int i = mapper.insert(orders);//生成订单
         List<Orders> orderses = mapper.selectByUserDate(orders.getUserAccountId(), date);
@@ -126,6 +127,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
         //商品实际可购买总量
         int TotalNum = 0;
+
         //客户实际可购买单个商品数量
         int buyNum = 0;
 
@@ -147,6 +149,15 @@ public class OrdersServiceImpl implements IOrdersService {
                 comm.setViewNum(0l);
                 comm.setLastRoundTime(aLong+"");
                 commMapper.insert(comm);
+
+                //复用商品幸运码
+                Commodity commod = commMapper.selectOne(comm);
+                List<LuckCodes> codes = codesMapper.selectByUsable(ca.getCommodityId());
+                for (LuckCodes luck : codes){
+                    luck.setState(0);
+                    luck.setCommodityId(commod.getId());
+                }
+
                 continue;
             }
             //生成商品订单
@@ -263,9 +274,7 @@ public class OrdersServiceImpl implements IOrdersService {
         List<Long> idList = new ArrayList<>();
         User user = userMapper.selectById(accountId);
         m.put("remainder", user.getGoldNumber());//获得用户账户余额
-        RedPackets red = new RedPackets();
-        red.setUserAccountId(accountId);
-        List<RedPackets> list = redMapper.select(red);
+        List<RedPackets> list = redMapper.selectByAccount(accountId);
         for (RedPackets r : list) {
             if (r.getUsePrice() < sum) {
                 idList.add(r.getId());//红包ID
