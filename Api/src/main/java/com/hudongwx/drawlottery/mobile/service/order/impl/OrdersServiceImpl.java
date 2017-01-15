@@ -296,7 +296,6 @@ public class OrdersServiceImpl implements IOrdersService {
             commodityAmounts.add(JSONObject.toJavaObject(caJArray.getJSONObject(i), CommodityAmount.class));
         }
         List<Map<String, Object>> mapList = new ArrayList<>();
-        Map<String, Object> mapInfo = new HashMap<>();
         Integer number = 0;
         for (CommodityAmount ca : commodityAmounts) {
             Map<String, Object> map = new HashMap<>();
@@ -312,8 +311,7 @@ public class OrdersServiceImpl implements IOrdersService {
         map.put("overallNumber", number);//添加总购买人次
         map.put("overallCommodity", commodityAmounts.size());//添加购买商品总数
         map.put("list",mapList);
-        mapInfo.put("data", map);
-        return mapInfo;
+        return map;
 
     }
 
