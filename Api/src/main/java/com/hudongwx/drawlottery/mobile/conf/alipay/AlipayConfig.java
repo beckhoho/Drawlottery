@@ -55,7 +55,7 @@ public class AlipayConfig {
     public static String service = "http://192.168.6.199:8080/api/v1/pub/orders/callbacks.do";
 
     // 调用的接口名，无需修改
-    public static String app_id = "refund_fastpay_by_platform_pwd";
+    public static String app_id = "2016120703992842";
 
 //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 

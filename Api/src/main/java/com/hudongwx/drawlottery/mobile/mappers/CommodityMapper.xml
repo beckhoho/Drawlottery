@@ -10,7 +10,7 @@
         <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
         <result column="state_id" jdbcType="INTEGER" property="stateId"/>
         <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
-        <result column="buy_last_number" jdbcType="INTEGER" property="byLastNumber"/>
+        <result column="buy_last_number" jdbcType="INTEGER" property="buyLastNumber"/>
         <result column="sell_out_time" jdbcType="BIGINT" property="sellOutTime"/>
         <result column="undercarriage_time" jdbcType="BIGINT" property="undercarriageTime"/>
         <result column="temp_id" jdbcType="BIGINT" property="tempId"/>

@@ -1,23 +1,21 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alipay.api.internal.util.AlipaySignature;
-import com.hudongwx.drawlottery.mobile.conf.alipay.AlipayConfig;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
+import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
 import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserLuckCodesService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
-import com.hudongwx.drawlottery.mobile.utils.AlipayCore;
-import com.hudongwx.drawlottery.mobile.utils.UtilDate;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,18 +42,28 @@ public class OrdersController extends BaseController {
     IOrdersService ordersService;
     @Autowired
     IUserLuckCodesService ulcService;
+    @Autowired
+    IAliPayService aliPayService;
 
     /**
      * 用户添加订单信息
      *
-     * @param orders
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/sub", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject addOrders(@RequestBody Orders orders, List<CommodityAmount> commodityAmounts) {
-//        System.out.println("jsonObject----------->" + jsonObject.toString());
-        return response(ordersService.pay(10000L, orders, commodityAmounts));
+    public JSONObject addOrders(@RequestBody JSONObject jsonObject) {
+        System.out.println("orders.getPrice()----------->" + jsonObject.toString());
+        Orders orders = JSONObject.toJavaObject(jsonObject.getJSONObject("order"),Orders.class);
+        System.out.println("getPrice---------------->"+orders.getPrice());
+        JSONArray jsonArray = jsonObject.getJSONArray("ca");
+        List<CommodityAmount> caList=new ArrayList<>();
+        for (Object o : jsonArray) {
+            CommodityAmount commodityAmount = JSONObject.toJavaObject(JSONObject.parseObject(o.toString()),CommodityAmount.class);
+            System.out.println("getAmount------------->"+commodityAmount.getAmount());
+            caList.add(commodityAmount);
+        }
+        return response(ordersService.pay(10000L, orders, caList));
     }
 
     /**
@@ -114,77 +122,21 @@ public class OrdersController extends BaseController {
 
     /**
      * 支付宝APP支付–申请支付请求参数
-     *
-     * @param body
-     * @param subject
-     * @param out_trade_no
-     * @param total_amount
      * @return
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/orders/alipay.do", produces = "text/html;charset=UTF-8", method = {RequestMethod.GET})
-    public JSONObject alipay(String body, String subject, String out_trade_no, String total_amount) throws Exception {
-
-        //公共参数
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("app_id", AlipayConfig.app_id);
-        map.put("method", "alipay.trade.app.pay");
-        map.put("format", "json");
-        map.put("charset", "utf-8");
-        map.put("sign_type", "RSA");
-        map.put("timestamp", UtilDate.getDateFormatter());
-        map.put("version", "1.0");
-        map.put("notify_url", AlipayConfig.service);
-
-        Map<String, String> m = new HashMap<String, String>();
-
-        m.put("body", body);
-        m.put("subject", subject);
-        m.put("out_trade_no", out_trade_no);
-        m.put("timeout_express", "30m");
-        m.put("total_amount", total_amount);
-        m.put("seller_id", AlipayConfig.partner);
-        m.put("product_code", "QUICK_MSECURITY_PAY");
-
-        JSONObject bizcontentJson = JSON.parseObject(JSON.toJSONString(m));
-
-        map.put("biz_content", bizcontentJson.toString());
-        //对未签名原始字符串进行签名
-        String rsaSign = AlipaySignature.rsaSign(map, AlipayConfig.private_key, "utf-8");
-
-        Map<String, String> map4 = new HashMap<String, String>();
-
-        map4.put("app_id", AlipayConfig.app_id);
-        map4.put("method", "alipay.trade.app.pay");
-        map4.put("format", "json");
-        map4.put("charset", "utf-8");
-        map4.put("sign_type", "RSA");
-        map4.put("timestamp", URLEncoder.encode(UtilDate.getDateFormatter(), "UTF-8"));
-        map4.put("version", "1.0");
-        map4.put("notify_url", URLEncoder.encode(AlipayConfig.service, "UTF-8"));
-        //最后对请求字符串的所有一级value（biz_content作为一个value）进行encode，编码格式按请求串中的charset为准，没传charset按UTF-8处理
-        map4.put("biz_content", URLEncoder.encode(bizcontentJson.toString(), "UTF-8"));
-
-        Map par = AlipayCore.paraFilter(map4); //除去数组中的空值和签名参数
-        String json4 = AlipayCore.createLinkString(par);   //拼接后的字符串
-
-        json4 = json4 + "&sign=" + URLEncoder.encode(rsaSign, "UTF-8");
-
-        System.out.println(json4.toString());
-
-//        AliPayMsg apm = new AliPayMsg();
-//        apm.setCode("1");
-//        apm.setMsg("支付成功");
-//        apm.setData(json4.toString());
-//
-//        JSONObject json = JSONObject.fromObject(apm);
-
-
-//        System.out.println(json.toString());
-
-        return success(json4);
-
+    @RequestMapping(value = "/api/v1/user/orders/alipay.do", method = {RequestMethod.GET})
+    public JSONObject alipay(@ApiParam(value = "购买商品总金额") @RequestParam(name = "price")String price) throws Exception {
+//        @ApiParam(value = "商品描述") @RequestParam(name = "body")
+        String body=null;
+//        @ApiParam(value = "订单标题") @RequestParam(name = "subject")
+        String subject=null;
+//        @ApiParam(value = "商品唯一订单号") @RequestParam(name = "out_trade_no")
+        String out_trade_no=null;
+//        @ApiParam(value = "订单总金额") @RequestParam(name = "total_amount")
+        String total_amount=price;
+        return success("操作成功", aliPayService.createSign(body, subject, out_trade_no, total_amount));
     }
 
     /**

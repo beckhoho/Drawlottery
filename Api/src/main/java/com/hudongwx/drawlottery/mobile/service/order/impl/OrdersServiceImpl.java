@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
-import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersCommoditysService;
+import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,7 +80,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
         int tempNum = 0;
         //红包
-        if(orders.getRedPacketId()!=null){ // 如果红包ID不为空
+        if(orders.getRedPacketId()!=0){ // 如果红包ID不为空
             RedPackets red = new RedPackets();
             red.setId(orders.getRedPacketId());
             //查询红包面值
@@ -99,17 +99,14 @@ public class OrdersServiceImpl implements IOrdersService {
             }
         }
 
-
         if (orders.getPayModeId() == 1) {//使用余额付款方式
             changeNum = -TotalNum;
         } else {
             changeNum = price - TotalNum - tempNum;
         }
-        User u = userMapper.selectByPrimaryKey(accountId);
-        User user = new User();
-        user.setAccountId(accountId);
-        user.setGoldNumber(u.getGoldNumber() + changeNum);
-        return userMapper.updateByPrimaryKeySelective(user) > 0 && i>0;
+        User u = userMapper.selectById(accountId);
+        u.setGoldNumber(u.getGoldNumber()+changeNum);
+        return userMapper.updateByPrimaryKeySelective(u) > 0 && i>0;
     }
 
     /**
@@ -137,29 +134,29 @@ public class OrdersServiceImpl implements IOrdersService {
             Commodity com = new Commodity();//**
             Amount = ca.getAmount();
             remainingNum = commodity.getBuyTotalNumber() - commodity.getBuyCurrentNumber();
-            if (remainingNum == 0) {
-                //如果商品卖光，自动生成下一期
-                Long aLong = Long.valueOf(commodity.getRoundTime());
-                Commodity comm = new Commodity();
-                comm.setBuyCurrentNumber(0);
-                comm.setStateId(3);
-                comm.setBuyLastNumber(0);
-                comm.setTempId(commodity.getTempId());
-                comm.setRoundTime(aLong+1+"");
-                comm.setViewNum(0l);
-                comm.setLastRoundTime(aLong+"");
-                commMapper.insert(comm);
-
-                //复用商品幸运码
-                Commodity commod = commMapper.selectOne(comm);
-                List<LuckCodes> codes = codesMapper.selectByUsable(ca.getCommodityId());
-                for (LuckCodes luck : codes){
-                    luck.setState(0);
-                    luck.setCommodityId(commod.getId());
-                }
-
-                continue;
-            }
+//            if (remainingNum == 0) {
+//                //如果商品卖光，自动生成下一期
+//                Long aLong = Long.valueOf(commodity.getRoundTime());
+//                Commodity comm = new Commodity();
+//                comm.setBuyCurrentNumber(0);
+//                comm.setStateId(3);
+//                comm.setBuyLastNumber(0);
+//                comm.setTempId(commodity.getTempId());
+//                comm.setRoundTime(aLong+1+"");
+//                comm.setViewNum(0l);
+//                comm.setLastRoundTime(aLong+"");
+//                commMapper.insert(comm);
+//
+//                //复用商品幸运码
+//                Commodity commod = commMapper.selectOne(comm);
+//                List<LuckCodes> codes = codesMapper.selectByUsable(ca.getCommodityId());
+//                for (LuckCodes luck : codes){
+//                    luck.setState(0);
+//                    luck.setCommodityId(commod.getId());
+//                }
+//
+//                continue;
+//            }
             //生成商品订单
             OrdersCommoditys ordersCommoditys = new OrdersCommoditys();
             ordersCommoditys.setCommodityId(commodity.getId());

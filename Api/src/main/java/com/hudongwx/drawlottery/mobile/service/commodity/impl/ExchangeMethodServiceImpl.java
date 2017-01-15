@@ -49,6 +49,8 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     ExpressDeliveryMapper expressMapper;
     @Autowired
     ExpressDeliveryMapper exDeMapper;
+    @Autowired
+    ShareMapper shareMapper;
 
 
     /**
@@ -193,11 +195,23 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         ExchangeWay way = ewMapper.selectById(history.getExchangeWay());
         ExpressDelivery delivery = exDeMapper.selectByAccountAndCommodity(accountId, commodityId);
         CommodityTemplate template = templateMapper.selectById(history.getTempId());
+        Share s = new Share();
+        s.setUserAccountId(accountId);
+        s.setCommodityId(commodityId);
+        List<Share> select = shareMapper.select(s);
+        if(select.size()>0){
+            map.put("shareState",1);
+        }
+        else{
+            map.put("shareState",0);
+        }
+
         map.put("commodityName", history.getCommodityName());//商品名
         map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图
         map.put("exchangeState", history.getExchangeState());//兑奖流程进度状态
         map.put("userBuyNumber", history.getBuyNumber());//添加用户购买人次
         map.put("genre",history.getGenre());//添加商品实体虚拟
+        map.put("commodityId",commodityId);//添加商品ID
         if(way!=null){
             map.put("exchangeName", way.getName());//兑换方式名
         }
@@ -215,6 +229,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             map.put("ContactName",null);//添加领奖联系人姓名
             map.put("ContactPhone",null);//添加领奖联系人电话
             map.put("ContactAddress",null);//添加领奖地址
+            map.put("state",3);//添加兑换流程状态
         }
         else if(exchangeWayId==1){//兑换充值卡
             map.putAll(demo2(commodityId));
@@ -225,6 +240,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             map.put("ContactName",null);//添加领奖联系人姓名
             map.put("ContactPhone",null);//添加领奖联系人电话
             map.put("ContactAddress",null);//添加领奖地址
+            map.put("state",3);//添加兑换流程状态
         }
         else if(exchangeWayId ==5){//到店领取
             map.put("size",null);
@@ -237,6 +253,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             map.put("ContactName",template.getContactName());//添加领奖联系人姓名
             map.put("ContactPhone",template.getContactPhone());//添加领奖联系人电话
             map.put("ContactAddress",template.getContactAddress());//添加领奖地址
+            map.put("state",3);//添加兑换流程状态
         }
         else if(exchangeWayId == 0){
             map.put("size",null);//几张充值卡
@@ -249,6 +266,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             map.put("ContactName",null);//添加领奖联系人姓名
             map.put("ContactPhone",null);//添加领奖联系人电话
             map.put("ContactAddress",null);//添加领奖地址
+            map.put("state",2);//添加兑换流程状态
         }
         return map;
     }

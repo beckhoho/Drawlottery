@@ -19,4 +19,9 @@
         SELECT * from t_orders where user_account_id = #{userAccount}
         AND submit_date = #{dateTime}
     </select>
+
+    <select id="selectOneByUserDate" resultMap="BaseResultMap">
+        SELECT * from t_orders where user_account_id = #{userAccount}
+        AND submit_date = #{dateTime}
+    </select>
 </mapper>
