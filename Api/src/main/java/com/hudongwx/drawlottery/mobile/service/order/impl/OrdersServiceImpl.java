@@ -60,7 +60,7 @@ public class OrdersServiceImpl implements IOrdersService {
          */
         Long date = new Date().getTime();
         orders.setSubmitDate(date);
-        int i = mapper.insert(orders);
+        int i = mapper.insert(orders);//生成订单
         List<Orders> orderses = mapper.selectByUserDate(orders.getUserAccountId(), date);
         Orders orders1 = orderses.get(0);
 
@@ -107,7 +107,7 @@ public class OrdersServiceImpl implements IOrdersService {
         User user = new User();
         user.setAccountId(accountId);
         user.setGoldNumber(u.getGoldNumber() + changeNum);
-        return userMapper.updateByPrimaryKeySelective(user) > 0;
+        return userMapper.updateByPrimaryKeySelective(user) > 0 && i>0;
     }
 
     /**
