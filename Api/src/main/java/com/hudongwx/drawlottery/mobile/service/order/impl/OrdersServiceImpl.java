@@ -325,7 +325,8 @@ public class OrdersServiceImpl implements IOrdersService {
         user.setCommodityId(commodityId);
         List<UserLuckCodes> codes = luckMapper.select(user);
         for (UserLuckCodes luckCodes : codes) {
-            LuckCodes codes1 = codesMapper.selectByPrimaryKey(luckCodes.getLuckCodeId());
+            Long codeId = luckCodes.getLuckCodeId();
+            LuckCodes codes1 = codesMapper.selectById(codeId);
             list.add(codes1.getLockCode());
         }
         return list;

@@ -15,6 +15,7 @@ public interface UserLuckCodesMapper extends BaseMapper<UserLuckCodes> {
     //查看用户幸运码
     List<Long> selectDistinctGroupByCommId(@Param("accountId") Long accountId);
 
+   // List<User>
 
     UserLuckCodes selectByOne(@Param("commodityId")Long commodityId,@Param("luckCoudId")Long luckCoudId);
 

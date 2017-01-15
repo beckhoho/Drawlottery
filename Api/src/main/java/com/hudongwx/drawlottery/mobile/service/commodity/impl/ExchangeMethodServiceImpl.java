@@ -190,21 +190,18 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
      */
     @Override
     public Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId,Integer exchangeWayId) {
+
         Map<String, Object> map = new HashMap<>();
+
         CommodityHistory history = chMapper.selectBycommId(commodityId);
         ExchangeWay way = ewMapper.selectById(history.getExchangeWay());
         ExpressDelivery delivery = exDeMapper.selectByAccountAndCommodity(accountId, commodityId);
         CommodityTemplate template = templateMapper.selectById(history.getTempId());
+
         Share s = new Share();
         s.setUserAccountId(accountId);
         s.setCommodityId(commodityId);
         List<Share> select = shareMapper.select(s);
-        if(select.size()>0){
-            map.put("shareState",1);
-        }
-        else{
-            map.put("shareState",0);
-        }
 
         map.put("commodityName", history.getCommodityName());//商品名
         map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图
@@ -212,13 +209,45 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         map.put("userBuyNumber", history.getBuyNumber());//添加用户购买人次
         map.put("genre",history.getGenre());//添加商品实体虚拟
         map.put("commodityId",commodityId);//添加商品ID
+        if(select.size()>0){//晒单状态
+            map.put("shareState",1);
+        }
+        else{
+            map.put("shareState",0);
+        }
         if(way!=null){
             map.put("exchangeName", way.getName());//兑换方式名
         }
         else {
             map.put("exchangeName","未选择兑换方式");//如果未选择兑换方式
         }
+
+
+        /**
+         * map.put("size",null);//几张充值卡
+         map.put("cardNumberList",null);//充值卡卡号集合
+         map.put("worth",null);//充值卡面额
+         map.put("prizeState","正在兑奖中");//奖品状态
+         map.put("expressNumber",delivery.getDeliveryNumber());//快递单号
+         map.put("expressName",delivery.getDeliveryName());//获取快递名
+         map.put("expressState",delivery.getState());//添加快递状态
+         map.put("ContactName",null);//添加领奖联系人姓名
+         map.put("ContactPhone",null);//添加领奖联系人电话
+         map.put("ContactAddress",null);//添加领奖地址
+         map.put("state",3);//添加兑换流程状态
+         */
+
+
+
+
+
+
+
         if(exchangeWayId==2){//快递领取
+            history.setExchangeState(1);
+            history.setExchangeWay(2);
+            chMapper.updateByPrimaryKeySelective(history);
+
             map.put("size",null);//几张充值卡
             map.put("cardNumberList",null);//充值卡卡号集合
             map.put("worth",null);//充值卡面额
@@ -232,6 +261,12 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             map.put("state",3);//添加兑换流程状态
         }
         else if(exchangeWayId==1){//兑换充值卡
+            history.setExchangeState(1);
+            history.setExchangeWay(1);
+            chMapper.updateByPrimaryKeySelective(history);
+
+
+
             map.putAll(demo2(commodityId));
             map.put("prizeState","卡密已派发");
             map.put("expressNumber",null);//快递单号
@@ -243,6 +278,11 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             map.put("state",3);//添加兑换流程状态
         }
         else if(exchangeWayId ==5){//到店领取
+            history.setExchangeState(1);
+            history.setExchangeWay(5);
+            chMapper.updateByPrimaryKeySelective(history);
+
+
             map.put("size",null);
             map.put("cardNumberList",null);
             map.put("worth",null);
@@ -256,6 +296,10 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             map.put("state",3);//添加兑换流程状态
         }
         else if(exchangeWayId == 0){
+
+
+
+
             map.put("size",null);//几张充值卡
             map.put("cardNumberList",null);//充值卡卡号集合
             map.put("worth",null);//充值卡面额
@@ -283,4 +327,6 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         map.put("worth", vc.get(0).getWorth());//添加面额
         return map;
     }
+
+
 }

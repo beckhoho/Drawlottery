@@ -33,17 +33,17 @@
         </dependency>
 
 
-        <!--配置热加载-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <version>1.4.3.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-        </dependency>
+        <!--&lt;!&ndash;配置热加载&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--<version>1.4.3.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.jetbrains</groupId>-->
+            <!--<artifactId>annotations</artifactId>-->
+            <!--<version>RELEASE</version>-->
+        <!--</dependency>-->
 
     </dependencies>
     <build>
