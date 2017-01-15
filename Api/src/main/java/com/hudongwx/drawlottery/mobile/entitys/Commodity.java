@@ -50,6 +50,17 @@ public class Commodity {
     @Column(name = "undercarriage_time")
     private Long undercarriageTime;
 
+    @Column(name = "last_round_time")
+    private String lastRoundTime;
+
+    public String getLastRoundTime() {
+        return lastRoundTime;
+    }
+
+    public void setLastRoundTime(String lastRoundTime) {
+        this.lastRoundTime = lastRoundTime;
+    }
+
     public Long getId() {
         return id;
     }

@@ -43,7 +43,8 @@ public class OrdersServiceImpl implements IOrdersService {
     UserLuckCodesMapper luckMapper;
     @Autowired
     LuckCodesMapper codesMapper;
-
+    @Autowired
+    CommodityMapper commMapper;
 
     /**
      * 计算扣款
@@ -135,9 +136,17 @@ public class OrdersServiceImpl implements IOrdersService {
             Amount = ca.getAmount();
             remainingNum = commodity.getBuyTotalNumber() - commodity.getBuyCurrentNumber();
             if (remainingNum == 0) {
-                /*
-                    下期请求
-                 */
+                //如果商品卖光，自动生成下一期
+                Long aLong = Long.valueOf(commodity.getRoundTime());
+                Commodity comm = new Commodity();
+                comm.setBuyCurrentNumber(0);
+                comm.setStateId(3);
+                comm.setBuyLastNumber(0);
+                comm.setTempId(commodity.getTempId());
+                comm.setRoundTime(aLong+1+"");
+                comm.setViewNum(0l);
+                comm.setLastRoundTime(aLong+"");
+                commMapper.insert(comm);
                 continue;
             }
             //生成商品订单
