@@ -127,7 +127,7 @@ public class OrdersController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/alipay.do", method = {RequestMethod.GET})
-    public JSONObject alipay(@ApiParam(value = "购买商品总金额") @RequestParam(name = "price")String price) throws Exception {
+    public JSONObject alipay(@ApiParam(value = "订单详情") @RequestBody JSONObject jsonObject) throws Exception {
 //        @ApiParam(value = "商品描述") @RequestParam(name = "body")
         String body=null;
 //        @ApiParam(value = "订单标题") @RequestParam(name = "subject")
@@ -135,7 +135,7 @@ public class OrdersController extends BaseController {
 //        @ApiParam(value = "商品唯一订单号") @RequestParam(name = "out_trade_no")
         String out_trade_no=null;
 //        @ApiParam(value = "订单总金额") @RequestParam(name = "total_amount")
-        String total_amount=price;
+        String total_amount=null;
         return success("操作成功", aliPayService.createSign(body, subject, out_trade_no, total_amount));
     }
 

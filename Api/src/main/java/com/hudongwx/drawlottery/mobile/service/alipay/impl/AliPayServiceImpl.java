@@ -7,8 +7,8 @@ import com.hudongwx.drawlottery.mobile.conf.alipay.AlipayConfig;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.mappers.OrdersMapper;
 import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
-import com.hudongwx.drawlottery.mobile.utils.AlipayCore;
-import com.hudongwx.drawlottery.mobile.utils.UtilDate;
+import com.hudongwx.drawlottery.mobile.utils.payutils.AlipayCore;
+import com.hudongwx.drawlottery.mobile.utils.payutils.UtilDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

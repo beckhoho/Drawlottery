@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.mobile.utils;
+package com.hudongwx.drawlottery.mobile.utils.payutils;
 
 import com.hudongwx.drawlottery.mobile.conf.alipay.AlipayConfig;
 

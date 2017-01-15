@@ -10,7 +10,7 @@ package com.hudongwx.drawlottery.mobile.conf.alipay;
  *该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
  */
 
-import com.hudongwx.drawlottery.mobile.utils.UtilDate;
+import com.hudongwx.drawlottery.mobile.utils.payutils.UtilDate;
 
 public class AlipayConfig {
 
