@@ -209,6 +209,18 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         map.put("userBuyNumber", history.getBuyNumber());//添加用户购买人次
         map.put("genre",history.getGenre());//添加商品实体虚拟
         map.put("commodityId",commodityId);//添加商品ID
+        map.put("prizeState","正在兑奖中");//奖品状态
+        map.put("size",null);//几张充值卡
+        map.put("cardNumberList",null);//充值卡卡号集合
+        map.put("worth",null);//充值卡面额
+        map.put("expressNumber",null);//快递单号
+        map.put("expressName",null);//获取快递名
+        map.put("expressState",null);//添加快递状态
+        map.put("ContactName",null);//添加领奖联系人姓名
+        map.put("ContactPhone",null);//添加领奖联系人电话
+        map.put("ContactAddress",null);//添加领奖地址
+        map.put("state",null);//添加兑换流程状态
+
         if(select.size()>0){//晒单状态
             map.put("shareState",1);
         }
@@ -223,18 +235,9 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         }
 
 
+
         /**
-         * map.put("size",null);//几张充值卡
-         map.put("cardNumberList",null);//充值卡卡号集合
-         map.put("worth",null);//充值卡面额
-         map.put("prizeState","正在兑奖中");//奖品状态
-         map.put("expressNumber",delivery.getDeliveryNumber());//快递单号
-         map.put("expressName",delivery.getDeliveryName());//获取快递名
-         map.put("expressState",delivery.getState());//添加快递状态
-         map.put("ContactName",null);//添加领奖联系人姓名
-         map.put("ContactPhone",null);//添加领奖联系人电话
-         map.put("ContactAddress",null);//添加领奖地址
-         map.put("state",3);//添加兑换流程状态
+         *
          */
 
 
@@ -297,7 +300,10 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         }
         else if(exchangeWayId == 0){
 
+            Integer exchangeWay = history.getExchangeWay();//获取支付方式
+            if(exchangeWay==1){
 
+            }
 
 
             map.put("size",null);//几张充值卡
