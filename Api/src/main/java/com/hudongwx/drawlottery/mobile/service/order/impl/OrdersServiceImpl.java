@@ -145,7 +145,7 @@ public class OrdersServiceImpl implements IOrdersService {
             Commodity com = new Commodity();//**
             Amount = ca.getAmount();
             remainingNum = commodity.getBuyTotalNumber() - commodity.getBuyCurrentNumber();
-            if (remainingNum == 0) {
+            if (remainingNum == 0 && commodity.getAutoRound() == 1) {
                 //如果商品卖光，自动生成下一期
 
                 Long aLong = Long.valueOf(commodity.getRoundTime());
