@@ -21,14 +21,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Author: origin
  * DESC:用户认证,3次登陆失败就出现图片验证码
  * */
-@Component
 public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher {
 
     @Autowired
     private CacheManager cache;
-
+    //缓存的名称
     private final String cacheName;
     private int limitRetry = 10;//重试次数
+
 
     public AuthorRetryLimitCredentialsMatcher(String cacheName) {
         super();

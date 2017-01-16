@@ -69,7 +69,9 @@ public class AuthorUserRealm extends AuthorizingRealm {
         String username = passwordToken.getUsername();
         //查询用户
         User user = userService.queryUserByPhoneNum(username);
+
         if (user == null) throw new UnknownAccountException("用户名或密码错误");
+
         //非法账户会被锁定
         if (user.isLocked()) throw new LockedAccountException("账户被锁定");
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(

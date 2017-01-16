@@ -11,6 +11,8 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.spring.web.json.Json;
 
@@ -28,7 +30,6 @@ public class AuthorController extends BaseController {
         return fail(403,"当前没有登录");
     }
 
-
     /**
      * 用户第三方登录,post
      * @return
@@ -37,11 +38,10 @@ public class AuthorController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/party/login", method = RequestMethod.POST)
     public JSONObject partyLogin(@RequestBody(required = true) CaptchaUsernamePasswordToken token) {
-
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
 
         return success();
     }
-
 
 
     /**
