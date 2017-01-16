@@ -17,6 +17,14 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!--文件上传jar-->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -38,9 +46,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <version>1.4.3.RELEASE</version>
+            <optional>true</optional>
         </dependency>
 
     </dependencies>
+
     <build>
         <!--编译mapper的xml文件-->
         <resources>
@@ -52,4 +62,5 @@
             </resource>
         </resources>
     </build>
+
 </project>

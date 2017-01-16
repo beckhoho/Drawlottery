@@ -49,6 +49,10 @@ public abstract class BaseController {
         return getSubject().getSession();
     }
 
+    public String getSessionId(){
+        return (String) getSession().getId();
+    }
+
     /**
      * 获取当前用户的的Subject对象
      * @return
@@ -170,7 +174,7 @@ public abstract class BaseController {
      * @return
      */
     public JSONObject fail(int code,String msg){
-        return response(code,msg,null);
+        return response(code,msg,"");
     }
 
     /**
@@ -194,6 +198,7 @@ public abstract class BaseController {
      * 登出
      */
     public void logout(){
+        getSubject().logout();
 //        ShutdownListener
 //        DiskStoreBootstrapCacheLoaderFactory
         /*RealmSecurityManager securityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();

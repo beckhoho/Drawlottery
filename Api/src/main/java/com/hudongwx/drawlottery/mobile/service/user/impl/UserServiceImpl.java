@@ -312,5 +312,4 @@ public class UserServiceImpl implements IUserService {
         }
         return userMapper.selectByQQOpenId(openId);
     }
-
 }

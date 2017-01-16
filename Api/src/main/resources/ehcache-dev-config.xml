@@ -1,15 +1,16 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
-         >
+>
     <!--
         系统临时目录
         users.dir  : 用户当前工作目录
         users.home : 用户主目录
         java.io.tmpdir : 系统临时目录
-
         磁盘缓存使用的文件后缀名是*.data和*.index
     -->
+
     <diskStore path="users.home"/>
+
     <!--
         name：缓存名称
         maxElementsInMemory：内存中最大缓存对象数,当不需保存数据在内存中时为1
@@ -25,6 +26,7 @@
         memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。可选策略有：LRU（最近最少使用，默认策略）、FIFO（先进先出）、LFU（最少访问次数）
         clearOnFlush:当flush()在缓存中被调用时，MemoryStore是否被清除。默认是true
     -->
+
     <!--默认缓存配置-->
     <defaultCache
             maxElementsInMemory="1"
@@ -35,37 +37,71 @@
             maxElementsOnDisk="10000000"
             diskPersistent="true"
             diskExpiryThreadIntervalSeconds="120"
-            memoryStoreEvictionPolicy="LRU"
-    >
+            memoryStoreEvictionPolicy="LRU">
         <!-- 初始化操作 -->
-        <bootstrapCacheLoaderFactory class="net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=true"/>
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.store.DiskStoreBootstrapCacheLoaderFactory"
+                                     properties="bootstrapAsynchronously=true"/>
     </defaultCache>
 
-
     <cache
-           name="login_cache"
-           maxElementsInMemory="1"
-           eternal="false"
-           timeToIdleSeconds="120"
-           timeToLiveSeconds="120"
-           overflowToDisk="true"
-           maxElementsOnDisk="10000000"
-           diskPersistent="true"
-           diskExpiryThreadIntervalSeconds="120"
-           memoryStoreEvictionPolicy="LRU"></cache>
+            name="login_cache"
+            maxElementsInMemory="1"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"/>
 
+    <!--图片验证码缓存-->
+    <!-- <cache
+             name="img_captcha_cache"
+             maxElementsInMemory="1"
+             eternal="false"
+             timeToLiveSeconds="120"
+             overflowToDisk="true"
+             maxElementsOnDisk="10000000"
+             diskPersistent="true"
+             diskExpiryThreadIntervalSeconds="120"
+             memoryStoreEvictionPolicy="LRU"/>-->
+
+
+    <!--手机验证码缓存-->
+    <cache
+            name="phone_captcha_cache"
+            maxElementsInMemory="1"
+            eternal="false"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"/>
 
     <!--权限信息-->
     <cache
             name="Login_AuthorizationCacheName"
-            maxElementsInMemory="1"
-    />
+            maxElementsInMemory="1"/>
+
     <!--登录认证信息-->
     <cache
             name="Login_AuthenticationCacheName"
             maxElementsInMemory="1"
-            timeToIdleSeconds="60000"
-    />
+            timeToIdleSeconds="60000"/>
+
+    <!--登录错误次数记录-->
+    <cache
+            name="login_limitretry_cache"
+            maxElementsInMemory="1"
+            eternal="false"
+            timeToLiveSeconds="180"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"/>
 
     <!--
         添加缓存时得到监听
@@ -76,9 +112,6 @@
         在进行分布式缓存的应用时需要指定
          *class ：CacheManagerPeerProviderFactory的一个实现类。
         *properties ：CacheManagerPeerProviderFactory的属性值，以逗号(,)分割多个属性
-
         <cacheManagerPeerListenerFactory class="" />
     -->
-
-
 </ehcache>

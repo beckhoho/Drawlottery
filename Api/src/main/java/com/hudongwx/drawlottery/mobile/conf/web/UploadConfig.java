@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.mobile.conf.upload;
+package com.hudongwx.drawlottery.mobile.conf.web;
 
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +23,7 @@ import javax.servlet.MultipartConfigElement;
  */
 @Configuration
 public class UploadConfig {
+
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
@@ -34,4 +35,5 @@ public class UploadConfig {
         //factory.setLocation("路径地址");
         return factory.createMultipartConfig();
     }
+
 }
