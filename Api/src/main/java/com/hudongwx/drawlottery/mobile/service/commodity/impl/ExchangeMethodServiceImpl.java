@@ -332,6 +332,6 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
 
 
-        return null;
+        return map;
     }
 }
