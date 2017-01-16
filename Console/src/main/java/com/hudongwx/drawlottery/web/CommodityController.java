@@ -25,7 +25,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * Drawlottery.
+ * 商品相关 controller 类.
  * Date: 2017/1/4 0004
  * Time: 14:45
  *
@@ -84,7 +84,7 @@ public class CommodityController extends BaseController {
         if (ids.size() == 0)
             return fail(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
         tempService.deleteCommodity(ids);
-        return success(langConstants.getLang(langConstants.DELETE_COMMODITY_SUCCESS));
+        return success(langConstants.getLang(langConstants.DELETE_SUCCESS));
     }
 
     @ApiOperation("添加/修改商品模板")
@@ -93,10 +93,12 @@ public class CommodityController extends BaseController {
         final CommodityTemplate commodityTemplate = body.packingMe();
         if (commodityTemplate.getId() == null) {
             tempService.addCommodityTemplate(commodityTemplate);
-            return success(langConstants.getLang(langConstants.ADD_COMMODITY_SUCCESS));
+            tempService.connectImgs(commodityTemplate.getId(), body.getImages());
+            return success(langConstants.getLang(langConstants.ADD_SUCCESS));
         }
         tempService.updateCommodity(commodityTemplate);
-        return success(langConstants.getLang(langConstants.UPDATE_COMMODITY_SUCCESS));
+        tempService.connectImgs(commodityTemplate.getId(), body.getImages());
+        return success(langConstants.getLang(langConstants.UPDATE_SUCCESS));
     }
 
     @ApiOperation("批量上架商品（仅限已下架的）")
@@ -173,15 +175,18 @@ public class CommodityController extends BaseController {
     @ApiOperation("添加卡密")
     @RequestMapping(value = "/addCard", method = RequestMethod.POST)
     public AjaxResult addCard(@RequestBody Card card) {
-        cardService.insertCard(card);
-        return success("添加卡密记录成功");
+        if (null == card.getId())
+            cardService.insertCard(card);
+        else
+            cardService.updateCard(card);
+        return success(langConstants.getLang(langConstants.ADD_SUCCESS));
     }
 
     @ApiOperation("删除卡密")
     @RequestMapping(value = "/deleteCards", method = RequestMethod.POST)
     public AjaxResult deleteCards(@RequestBody List<Integer> cardIds) {
         cardService.deleteCard(cardIds);
-        return success();
+        return success(langConstants.getLang(langConstants.DELETE_SUCCESS));
     }
 }
 

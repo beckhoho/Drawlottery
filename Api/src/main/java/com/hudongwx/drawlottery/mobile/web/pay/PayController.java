@@ -13,7 +13,7 @@ import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.hudongwx.drawlottery.mobile.conf.alipay.AlipayConfig;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
-import com.hudongwx.drawlottery.mobile.utils.payutils.AlipayUtil;
+import com.hudongwx.drawlottery.mobile.utils.payutils.AliPayUtil;
 import com.hudongwx.drawlottery.mobile.utils.payutils.PayUtil;
 import com.hudongwx.drawlottery.mobile.utils.payutils.UtilDate;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
@@ -21,7 +21,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
-import tk.mybatis.mapper.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -89,7 +88,7 @@ public class PayController extends BaseController {
         param.put("biz_content", JSON.toJSONString(pcont)); // 业务请求参数  不需要对json字符串转义
         Map<String, String> payMap = new HashMap<>();
         try {
-            param.put("sign", PayUtil.getSign(param, AlipayUtil.APP_PRIVATE_KEY)); // 业务请求参数
+            param.put("sign", PayUtil.getSign(param, AliPayUtil.APP_PRIVATE_KEY)); // 业务请求参数
             payMap.put("orderStr", PayUtil.getSignEncodeUrl(param, true));
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,7 +125,7 @@ public class PayController extends BaseController {
         Map<String, String> restmap = new HashMap<String, String>();// 返回提交支付宝订单交易查询信息
         boolean flag = false; // 查询状态
         try {
-            AlipayTradeQueryResponse alipayResponse = AlipayUtil.getAlipayClient().execute(alipayRequest);
+            AlipayTradeQueryResponse alipayResponse = AliPayUtil.getAlipayClient().execute(alipayRequest);
             if (alipayResponse.isSuccess()) {
                 // 调用成功，则处理业务逻辑
                 if ("10000".equals(alipayResponse.getCode())) {
@@ -180,7 +179,7 @@ public class PayController extends BaseController {
                     param.put(pName, request.getParameter(pName));
                 }
 
-                boolean signVerified = AlipaySignature.rsaCheckV1(param, AlipayUtil.ALIPAY_PUBLIC_KEY,
+                boolean signVerified = AlipaySignature.rsaCheckV1(param, AliPayUtil.ALIPAY_PUBLIC_KEY,
                         AlipayConstants.CHARSET_UTF8); // 校验签名是否正确
                 if (signVerified) {
                     // TODO 验签成功后
@@ -226,7 +225,7 @@ public class PayController extends BaseController {
         Map<String, Object> restmap = new HashMap<>();// 返回支付宝退款信息
         boolean flag = false; // 查询状态
         try {
-            AlipayTradeRefundResponse alipayResponse = AlipayUtil.getAlipayClient().execute(alipayRequest);
+            AlipayTradeRefundResponse alipayResponse = AliPayUtil.getAlipayClient().execute(alipayRequest);
             if (alipayResponse.isSuccess()) {
                 // 调用成功，则处理业务逻辑
                 if ("10000".equals(alipayResponse.getCode())) {
@@ -287,7 +286,7 @@ public class PayController extends BaseController {
         Map<String, Object> restmap = new HashMap<>();// 返回支付宝退款信息
         boolean flag = false; // 查询状态
         try {
-            AlipayTradeFastpayRefundQueryResponse alipayResponse = AlipayUtil.getAlipayClient().execute(alipayRequest);
+            AlipayTradeFastpayRefundQueryResponse alipayResponse = AliPayUtil.getAlipayClient().execute(alipayRequest);
             if (alipayResponse.isSuccess()) {
                 // 调用成功，则处理业务逻辑
                 if ("10000".equals(alipayResponse.getCode())) {

@@ -22,7 +22,7 @@ import com.alipay.api.DefaultAlipayClient;
  * <p>
  * @email 346905702@qq.com
  */
-public class AlipayUtil {
+public class AliPayUtil {
 
     public static final String ALIPAY_APPID = null;/*ConfigUtil.getProperty("alipay.appid"); */// appid
 
@@ -46,7 +46,7 @@ public class AlipayUtil {
 
     public static AlipayClient getAlipayClient() {
         if (alipayClient == null) {
-            synchronized (AlipayUtil.class) {
+            synchronized (AliPayUtil.class) {
                 if (null == alipayClient) {
                     alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", ALIPAY_APPID,
                             APP_PRIVATE_KEY, AlipayConstants.FORMAT_JSON, AlipayConstants.CHARSET_UTF8,

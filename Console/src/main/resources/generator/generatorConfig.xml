@@ -45,7 +45,7 @@
         <javaClientGenerator targetPackage="com.hudongwx.drawlottery.dao"
                              targetProject="src\main\java" type="XMLMAPPER"/>
 
-        <table tableName="t_card" modelType="flat" domainObjectName="Card">
+        <table tableName="t_commoditys_imags" modelType="flat" domainObjectName="CommodityImages">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
