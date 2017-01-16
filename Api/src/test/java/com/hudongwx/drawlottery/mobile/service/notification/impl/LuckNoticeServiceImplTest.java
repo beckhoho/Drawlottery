@@ -39,6 +39,7 @@ public class LuckNoticeServiceImplTest extends TestBaseMapper {
     @Test
     public void testAddHistory() throws Exception {
 
+        //
     }
 
     @Test
