@@ -43,7 +43,7 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
 
     @Override
     public boolean addCommodHistory(CommodityHistory commodityHistory) {
-        return false;
+        return chMapper.insert(commodityHistory)>0;
     }
 
     @Override
@@ -64,6 +64,7 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
         for (CommodityHistory history : chList) {
             User user = userMapper.selectById(history.getLuckUserAccountId());
             Map<String, Object> map=new HashMap<>();
+            map.put("commId",history.getCommodityId());//商品id
             map.put("roundTime",history.getRoundTime());//商品期数
             map.put("endTime",history.getEndTime());//揭晓时间
             map.put("UserImgUrl",user.getHeaderUrl());
