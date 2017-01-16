@@ -107,7 +107,7 @@ public class PayController extends BaseController {
             /**
              *支付失败后的业务处理
              */
-
+            LOG.info(new Date() + "[/api/v1/user/order/alipay/sub] :支付成功!商户的订单编号："+ out_trade_no);
             return "SUCCESS";
         }
     }

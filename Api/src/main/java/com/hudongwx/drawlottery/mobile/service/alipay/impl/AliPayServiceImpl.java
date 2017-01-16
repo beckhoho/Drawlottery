@@ -51,11 +51,9 @@ public class AliPayServiceImpl implements IAliPayService {
         Date date = new Date();
         Orders order = formData.getOrder();
         List<CommodityAmount> caList = formData.getCaList();
-
         //公共参数
         Long orderId = getRebuildOrderId(accountId, date, order);
-        String orderIdCode = "TNO" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + orderId;
-
+        String orderTradeNo = "TNO" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + orderId;
         Map<String, String> map = new HashMap<String, String>();
         map.put("app_id", AlipayConfig.app_id);
         map.put("method", "alipay.trade.app.pay");
@@ -70,7 +68,7 @@ public class AliPayServiceImpl implements IAliPayService {
 
         m.put("body", getBufferCommName(orderId, caList));//对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。
         m.put("subject", getBufferCommName(orderId, caList));// 商品的标题/交易标题/订单标题/订单关键字等。
-        m.put("out_trade_no", orderIdCode + "");//商户网站唯一订单号
+        m.put("out_trade_no", orderTradeNo + "");//商户网站唯一订单号
         m.put("timeout_express", "15m");//该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
         m.put("total_amount", order.getPrice() + "");//订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]
         m.put("seller_id", AlipayConfig.partner);//收款支付宝用户ID。 如果该值为空，则默认为商户签约账号对应的支付宝用户ID
