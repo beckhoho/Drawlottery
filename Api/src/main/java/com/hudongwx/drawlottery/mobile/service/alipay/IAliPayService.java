@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.alipay;
 
+import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -20,12 +22,9 @@ public interface IAliPayService {
     /**
      * 支付宝APP支付–申请支付请求参数
      *
-     * @param body         商品描述
-     * @param subject      订单标题
-     * @param out_trade_no 商品唯一订单号
-     * @param total_amount 订单总金额
+     * @param formData
      * @return
      * @throws Exception
      */
-    String createSign(String body, String subject, String out_trade_no, String total_amount) throws Exception;
+    String createSign(Long accountId, OrderFormData formData) throws Exception;
 }

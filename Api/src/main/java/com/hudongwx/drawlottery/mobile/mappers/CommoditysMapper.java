@@ -4,8 +4,6 @@ import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Commodity;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -20,6 +18,14 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @return
      */
     Commoditys selectByKey(@Param("commodityId") Long commodityId);
+
+    /**
+     * 根据主键ID查询商品信息
+     *
+     * @param commIdList 商品ID
+     * @return
+     */
+    List<String> selectCommNameByCommId(@Param("commIdList") List<Long> commIdList);
 
     /**
      * 根据商品类型ID查询指定区域的商品信息
