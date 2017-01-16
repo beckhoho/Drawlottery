@@ -33,7 +33,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     @Autowired
     ExchangeWayMapper ewMapper;
-    @Resource
+    @Autowired
     CommodityHistoryMapper chMapper;
     @Autowired
     VirtualCommodityMapper vcMapper;
@@ -147,7 +147,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         s.setCommodityId(commodityId);
         List<Share> select = shareMapper.select(s);
 
-        map.put("commodityName", history.getCommodityName());//商品名
+        map.put("commodityName", template.getName());//商品名
         map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图
         map.put("exchangeState", history.getExchangeState());//兑奖流程进度状态
         map.put("userBuyNumber", history.getBuyNumber());//添加用户购买人次
@@ -215,10 +215,12 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     public Map<String, Object> demo2(Long commodityId) {
 
         Map<String, Object> map = new HashMap<>();
-        Commoditys commoditys = comMapper.selectByKey(commodityId);
-        Integer num = commoditys.getCardNum();//卡数量
-        Integer money = commoditys.getCardMoney();//卡面额
-        Integer type = commoditys.getCardType();//运营商
+        CommodityHistory commoditys = chMapper.selectBycommId(commodityId);
+        Long tempId = commoditys.getTempId();
+        CommodityTemplate template = templateMapper.selectByPrimaryKey(tempId);
+        Integer num = template.getCardNum();//卡数量
+        Integer money = template.getCardMoney();//卡面额
+        Integer type = template.getCardType();//运营商
 
         Card card = new Card();
         card.setState(0);
@@ -227,15 +229,15 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         List<Card> cards = cardMapper.select(card);//查询未派发的充值卡
         List<String> list = new ArrayList<>();
-        if(cards.size()>num){
-
-            map.put("size",num);
-            for (int i=0;i<num;i++){
-                list.add(cards.get(i).getCardNum());//添加卡号
+        if(cards!=null && num!=null){
+            if(cards.size()>num) {
+                map.put("size", num);
+                for (int i = 0; i < num; i++) {
+                    list.add(cards.get(i).getCardNum());//添加卡号
+                }
+                map.put("cardNumberList", list);
+                map.put("worth", money);//添加面额
             }
-            map.put("cardNumberList",list);
-            map.put("worth",money);//添加面额
-
         }
         else {//如果充值卡不够，那么不发送
             map.put("size",0);

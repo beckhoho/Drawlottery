@@ -23,13 +23,13 @@ import java.util.Map;
 public interface ILuckNoticeService {
 
     //添加用户中奖通知
-    boolean addUserLuckNotice(LuckNotice notice);
+    boolean addUserLuckNotice(Long commodity);
 
     //删除用户中奖通知
     boolean deleteUserLuckNotice(LuckNotice notice);
 
     //查看用户中奖通知
-    List<Map<String,Object>> selectByAccount(Long accountId);
+    Map<String,Object> selectByCommodityId(Long commodityId);
 
     //修改用户中奖通知
     boolean updateUserLuckNotice(LuckNotice notice);

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Map;
+
 import static org.testng.Assert.*;
 
 /**
@@ -60,7 +62,8 @@ public class ExchangeMethodServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectUserRechargeCardExchangeProcess() throws Exception {
-
+        Map<String, Object> map = service.selectUserRechargeCardExchangeProcess(10000l, 45l);
+        System.out.println(map.get("commodityName"));
     }
 
     @Test

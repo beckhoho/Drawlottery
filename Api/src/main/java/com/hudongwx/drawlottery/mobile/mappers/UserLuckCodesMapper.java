@@ -25,4 +25,6 @@ public interface UserLuckCodesMapper extends BaseMapper<UserLuckCodes> {
 
     //查看最后购买商品的五十条信息
     List<UserLuckCodes> selectByBuyDateDesc();
+
+    UserLuckCodes selectByLuckId(Long luckId);
 }

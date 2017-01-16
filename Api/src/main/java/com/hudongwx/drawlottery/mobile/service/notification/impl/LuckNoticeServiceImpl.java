@@ -1,14 +1,14 @@
 package com.hudongwx.drawlottery.mobile.service.notification.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
-import com.hudongwx.drawlottery.mobile.entitys.LuckNotice;
-import com.hudongwx.drawlottery.mobile.mappers.LuckNoticeMapper;
+import com.hudongwx.drawlottery.mobile.entitys.*;
+import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.luckcodes.ILuckCodesService;
 import com.hudongwx.drawlottery.mobile.service.notification.ILuckNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,10 +33,29 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
 
     @Autowired
     LuckNoticeMapper mapper;
+    @Autowired
+    CommodityMapper comMapper;
+    @Autowired
+    LotteryInfoMapper lotteryMapper;
+    @Autowired
+    CommoditysMapper commMapper;
+    @Autowired
+    UserLuckCodesMapper userLuckMapper;
+    @Autowired
+    LuckCodesMapper luckMapper;
+    @Autowired
+    CommodityHistoryMapper historyMapper;
+    @Autowired
+    UserCodesHistoryMapper codesHistoryMapper;
 
     @Override
-    public boolean addUserLuckNotice(LuckNotice notice) {
-        return mapper.insert(notice)>0;
+    public boolean addUserLuckNotice(Long commodityId) {
+        Commodity com = new Commodity();
+        com.setId(commodityId);
+        com.setStateId(1);
+        int i = comMapper.updateByPrimaryKeySelective(com);
+        boolean b = addHistory(commodityId);
+        return i>0 && b;
     }
 
     @Override
@@ -45,8 +64,47 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
     }
 
     @Override
-    public List<Map<String, Object>> selectByAccount(Long accountId) {
+    public Map<String, Object> selectByCommodityId(Long commodityId) {
+
+
         return null;
+    }
+    public boolean addHistory(Long commodityId){
+
+        Commoditys key = commMapper.selectByKey(commodityId);
+        LotteryInfo lotteryInfo = lotteryMapper.selectByComId(commodityId);
+        Long lotteryId = lotteryInfo.getLotteryId();
+        LuckCodes codes = luckMapper.selectByCode(lotteryId + "");
+        UserLuckCodes luckCodes = userLuckMapper.selectByLuckId(codes.getId());
+        List<UserLuckCodes> id = userLuckMapper.selectByUserAccountId(luckCodes.getUserAccountId());
+
+        CommodityHistory com = new CommodityHistory();
+        com.setLuckCode(lotteryInfo.getLotteryId()+"");
+        com.setRoundTime(key.getRoundTime());
+        com.setGenre(key.getGenre());
+        com.setBuyNumber(id.size());
+        com.setBuyTotalNumber(key.getBuyTotalNumber());
+        com.setCommodityId(commodityId);
+        com.setCommodityName(key.getName());
+        com.setCoverImgUrl(key.getCoverImgUrl());
+        com.setEndTime(new Date().getTime());
+        com.setLuckUserAccountId(luckCodes.getUserAccountId());
+        com.setTempId(key.getTempId());
+        int insert = historyMapper.insert(com);
+
+        for (UserLuckCodes u : id){
+            UserCodesHistory userHistory = new UserCodesHistory();
+            userHistory.setRoundTime(key.getRoundTime());
+            userHistory.setUserLuckCodeId(u.getUserAccountId());
+            userHistory.setCommodityId(u.getCommodityId());
+            userHistory.setAddressIp(u.getAddressIp());
+            userHistory.setBuyDate(u.getBuyDate());
+            userHistory.setUserLuckCodeId(u.getLuckCodeId());
+            codesHistoryMapper.insert(userHistory);
+        }
+
+
+        return insert>0;
     }
 
     @Override

@@ -36,4 +36,8 @@
         SELECT * FROM t_user_luck_codes ORDER BY buy_date DESC
     </select>
 
+    <select id="selectByLuckId" resultMap="BaseResultMap">
+        SELECT * FROM t_user_luck_codes WHERE luck_code_id = #{luckId}
+    </select>
+
 </mapper>
