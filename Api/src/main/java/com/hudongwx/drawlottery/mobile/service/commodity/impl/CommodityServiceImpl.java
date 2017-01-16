@@ -188,6 +188,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("beforeLottery", mapBefore(comm));
         }
         map.put("commId", commodId);//商品ID
+        map.put("coverImg", com.getCoverImgUrl());
         map.put("imgUrls", listUrl(commodId));//添加图片url数组
         map.put("onState", com.getStateId());//添加是否已开奖状态
         map.put("commodityName", com.getName());//添加商品名

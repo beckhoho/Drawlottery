@@ -1,13 +1,12 @@
 package com.hudongwx.drawlottery.mobile.utils.payutils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.*;
+import tk.mybatis.mapper.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.alipay.api.AlipayConstants;
-import tk.mybatis.mapper.util.StringUtil;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -33,7 +32,8 @@ public class PayUtil {
     public static String getTradeNo() {
         // 自增8位数 00000001
 //        return "TNO" + DatetimeUtil.formatDate(new Date(), DatetimeUtil.TIME_STAMP_PATTERN) + "00000001";
-    return null;
+
+        return null;
     }
 
     /**

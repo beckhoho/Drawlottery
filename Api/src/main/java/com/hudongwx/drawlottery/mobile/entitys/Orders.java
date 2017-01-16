@@ -39,8 +39,6 @@ public class Orders {
     @Column(name = "red_packet_id")
     private Long redPacketId;
 
-
-
     public Long getRedPacketId() {
         return redPacketId;
     }
@@ -125,6 +123,5 @@ public class Orders {
     public void setSubmitDate(Long submitDate) {
         this.submitDate = submitDate;
     }
-
 
 }

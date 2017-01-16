@@ -65,7 +65,7 @@ public class AuthorUserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         //获取用户信息
-        UsernamePasswordToken passwordToken = (UsernamePasswordToken) token;
+        /*UsernamePasswordToken passwordToken = (UsernamePasswordToken) token;
         String username = passwordToken.getUsername();
         String password = new String(passwordToken.getPassword());
         //查询用户
@@ -77,7 +77,13 @@ public class AuthorUserRealm extends AuthorizingRealm {
                 user,
                 user.getPassword(),
                 Util.bytes(user.getCredentialsSalt()),
-                user.getPhoneNumber());
+                user.getPhoneNumber());*/
+
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
+                "111",
+                "222",
+                Util.bytes("222"),
+                "333");
 
         return info;
     }

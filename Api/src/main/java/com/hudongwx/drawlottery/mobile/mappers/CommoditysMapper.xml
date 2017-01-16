@@ -13,7 +13,7 @@
         <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber"/>
         <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
         <result column="ground_time" jdbcType="BIGINT" property="groundTime"/>
-        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeTemplateId"/>
+        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
         <result column="state_id" jdbcType="INTEGER" property="stateId"/>
         <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
         <result column="cover_img_url" jdbcType="BIGINT" property="coverImgUrl"/>
@@ -35,6 +35,16 @@
     <select id="selectByKey" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.id = #{commodityId}
+    </select>
+
+    <select id="selectCommNameByCommId" resultType="java.lang.String">
+        SELECT template.name FROM t_commoditys as commodity
+        LEFT JOIN t_commodity_template as template ON
+        commodity.temp_id = template.id
+        WHERE commodity.id IN
+        <foreach collection="commIdList" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
     </select>
 
     <update id="updateById" parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">
