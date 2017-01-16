@@ -15,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class Swagger2 {
+
 /*
 @Api：用在类上，说明该类的作用
 @ApiParam 用在参数上
@@ -62,7 +63,7 @@ public class Swagger2 {
                 .title("DrawLottery Mobile Api接口平台")
                 .description("所有api数据接口")
                 .contact("origin")
-                .version("1.0.0")
+                .version("1.1.0")
                 .build();
     }
 }

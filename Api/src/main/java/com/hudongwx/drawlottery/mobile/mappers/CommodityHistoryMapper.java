@@ -35,4 +35,8 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
     List<CommodityHistory> selectHistoryLottery(@Param("accountId") Long accountId);
 
     List<CommodityHistory> selectComIdAndUser(@Param("accountId")Long accountId,@Param("commodityId")Long commodityId);
+
+    List<CommodityHistory> selectByTempId(@Param("tempId")Long tempId);
+
+    int updateByCommodityIdSelective(@Param("commodityHistory") CommodityHistory commodityHistory);
 }

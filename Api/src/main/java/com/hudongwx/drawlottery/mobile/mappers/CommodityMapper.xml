@@ -17,4 +17,8 @@
         <result column="view_num" jdbcType="BIGINT" property="viewNum"/>
         <result column="last_round_time" jdbcType="VARCHAR" property="lastRoundTime"/>
     </resultMap>
+
+    <select id="selectTempIdByCommId" resultType="java.lang.Long">
+        SELECT temp_id FROM t_commoditys WHERE id = #{commId}
+    </select>
 </mapper>

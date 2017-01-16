@@ -11,21 +11,22 @@ import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeFastpayRefundQueryResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
-import com.hudongwx.drawlottery.mobile.conf.alipay.AlipayConfig;
-import com.hudongwx.drawlottery.mobile.entitys.Orders;
+import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
+import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
 import com.hudongwx.drawlottery.mobile.utils.payutils.AliPayUtil;
 import com.hudongwx.drawlottery.mobile.utils.payutils.PayUtil;
-import com.hudongwx.drawlottery.mobile.utils.payutils.UtilDate;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,55 +50,69 @@ import java.util.Map;
 @Api(value = "PayController", description = "第三方支付请求")
 public class PayController extends BaseController {
 
+    @Autowired
+    IAliPayService aliPayService;
 
     private static final Logger LOG = Logger.getLogger(PayController.class);
 
     /**
-     * 支付下订单
+     * 支付下订单 支付宝APP支付–申请支付请求参数
      *
      * @throws UnsupportedEncodingException
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/order/alipay/sub", method = RequestMethod.POST)
-    public JSONObject orderPay(@ApiParam("订单信息") @RequestBody Orders orders) throws UnsupportedEncodingException {
-        LOG.info("[/order/pay]");
-//        if (!"001".equals(mercid)) {
-//            WebUtil.response(response, WebUtil.packJsonp(callback, JSON
-//                    .toJSONString(new JsonResult(-1, "商品不存在", new ResponseData()), SerializerFeatureUtil.FEATURES)));
-//        }
-
-        Map<String, String> param = new HashMap<>();
-        // 公共请求参数
-        param.put("app_id", AlipayConfig.app_id);// 商户订单号
-        param.put("method", "alipay.trade.app.pay");// 交易金额
-        param.put("format", "json");
-        param.put("charset", "utf-8");
-        param.put("timestamp", URLEncoder.encode(UtilDate.getDateFormatter(), "UTF-8"));
-        param.put("version", "1.0");
-        param.put("notify_url", "https://www.andy.org/alipay/order/pay/notify.shtml"); // 支付宝服务器主动通知商户服务
-        param.put("sign_type", "RSA");
-
-        Map<String, Object> pcont = new HashMap<>();
-        // 支付业务请求参数
-        pcont.put("out_trade_no", ""); // 商户订单号
-        pcont.put("total_amount", String.valueOf(100));// 交易金额
-        pcont.put("subject", "测试支付"); // 订单标题
-        pcont.put("body", "Andy");// 对交易或商品的描述
-        pcont.put("product_code", "QUICK_MSECURITY_PAY");// 销售产品码
-
-        param.put("biz_content", JSON.toJSONString(pcont)); // 业务请求参数  不需要对json字符串转义
-        Map<String, String> payMap = new HashMap<>();
-        try {
-            param.put("sign", PayUtil.getSign(param, AliPayUtil.APP_PRIVATE_KEY)); // 业务请求参数
-            payMap.put("orderStr", PayUtil.getSignEncodeUrl(param, true));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-//        WebUtil.response(response, WebUtil.packJsonp(callback, JSON.toJSONString(
-//                new JsonResult(1, "订单获取成功", new ResponseData(null, payMap)), SerializerFeatureUtil.FEATURES)));
-        return success();
+    @ApiOperation(value = "支付宝APP支付–申请支付请求参数")
+    @RequestMapping(value = "/api/v1/user/order/alipay.do", method = RequestMethod.POST)
+    public JSONObject orderPay(@ApiParam("订单信息") @RequestBody OrderFormData orderFormData) throws Exception {
+        LOG.info(new Date() + "---[/api/v1/user/order/alipay/sub] orders.getPrice():" + orderFormData.getOrder().getPrice());
+        return success("操作成功",aliPayService.createSign(10000L, orderFormData));
     }
+
+    /**
+     * 支付宝支付结果异步通知业务处理
+     * 接收支付宝返回的请求参数
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @ApiOperation(value = "接收支付宝返回的请求参数")
+    @RequestMapping(value = "/api/v1/pub/orders/alipay/callbacks.do", produces = "text/html;charset=UTF-8", method = {RequestMethod.POST})
+    public String callbacks(HttpServletRequest request) throws Exception {
+        //接收支付宝返回的请求参数
+
+        Map requestParams = request.getParameterMap();
+
+        JSONObject json = JSON.parseObject(JSON.toJSONString(requestParams));
+
+        String trade_status = json.get("trade_status").toString().substring(2, json.get("trade_status").toString().length() - 2);
+        String out_trade_no = json.get("out_trade_no").toString().substring(2, json.get("out_trade_no").toString().length() - 2);
+        String notify_id = json.get("notify_id").toString().substring(2, json.get("notify_id").toString().length() - 2);
+
+        System.out.println("====================================================");
+        System.out.println(json.toString());
+        System.out.println("支付宝回调地址！");
+        System.out.println("商户的订单编号：" + out_trade_no);
+        System.out.println("支付的状态：" + trade_status);
+        System.out.println("支付的id：" + notify_id);
+        if (trade_status.equals("TRADE_SUCCESS")) {
+
+            /**
+             *支付成功之后的业务处理
+             */
+
+            return "SUCCESS";
+        } else {
+
+            /**
+             *支付失败后的业务处理
+             */
+
+            return "SUCCESS";
+        }
+    }
+
 
     /**
      * @param request
@@ -106,15 +121,10 @@ public class PayController extends BaseController {
      * @param orderno  商家交易编号
      * @param callback
      */
-    @RequestMapping(value = "/pay/query", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/order/alipay/query", method = RequestMethod.POST)
     public void orderPayQuery(HttpServletRequest request, HttpServletResponse response, String tradeno, String orderno,
                               String callback) throws AlipayApiException {
         LOG.info("[/order/pay/query]");
-//        if (StringUtil.isEmpty(tradeno) && StringUtil.isEmpty(orderno)) {
-//            WebUtil.response(response, WebUtil.packJsonp(callback, JSON
-//                    .toJSONString(new JsonResult(-1, "订单号不能为空", new ResponseData()), SerializerFeatureUtil.FEATURES)));
-//        }
-
         AlipayTradeQueryRequest alipayRequest = new AlipayTradeQueryRequest(); // 统一收单线下交易查询
         // 只需要传入业务参数
         Map<String, Object> param = new HashMap<>();
@@ -144,16 +154,6 @@ public class PayController extends BaseController {
             e.printStackTrace();
         }
 
-//        if (flag) {
-//            // 订单查询成功
-//            WebUtil.response(response,
-//                    WebUtil.packJsonp(callback,
-//                            JSON.toJSONString(new JsonResult(1, "订单查询成功", new ResponseData(null, restmap)),
-//                                    SerializerFeatureUtil.FEATURES)));
-//        } else { // 订单查询失败
-//            WebUtil.response(response, WebUtil.packJsonp(callback, JSON
-//                    .toJSONString(new JsonResult(-1, "订单查询失败", new ResponseData()), SerializerFeatureUtil.FEATURES)));
-//        }
     }
 
     /**
@@ -162,7 +162,7 @@ public class PayController extends BaseController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/pay/notify", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/order/wxpay/notify", method = RequestMethod.POST)
     public void orderPayNotify(HttpServletRequest request, HttpServletResponse response) {
         LOG.info("[/order/pay/notify]");
         // 获取到返回的所有参数 先判断是否交易成功trade_status 再做签名校验
@@ -203,7 +203,7 @@ public class PayController extends BaseController {
      * @param orderno  商家交易订单号
      * @param callback
      */
-    @RequestMapping(value = "/pay/refund", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/order/alipay/refund", method = RequestMethod.POST)
     public void orderPayRefund(HttpServletRequest request, HttpServletResponse response, String tradeno, String orderno,
                                String callback) {
         LOG.info("[/pay/refund]");
@@ -264,7 +264,7 @@ public class PayController extends BaseController {
      * @param tradeno  支付宝订单号
      * @param callback
      */
-    @RequestMapping(value = "/pay/refund/query", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/user/order/alipay/refund/query", method = RequestMethod.POST)
     public void orderPayRefundQuery(HttpServletRequest request, HttpServletResponse response, String orderno,
                                     String tradeno, String callback) {
         LOG.info("[/pay/refund/query]");

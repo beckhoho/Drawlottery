@@ -12,4 +12,6 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
     List<LuckCodes> selectByUsable(@Param("commodityId") Long commodityId);
 
     LuckCodes selectById(@Param("lcId") Long lcId);
+
+    LuckCodes selectByCode(@Param("code") String code);
 }

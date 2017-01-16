@@ -6,7 +6,6 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
         <result column="luck_code" jdbcType="VARCHAR" property="luckCode"/>
         <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
@@ -22,7 +21,7 @@
     </resultMap>
 
     <!-- 查询中奖历史-->
-    <select id="selectHistoryLottery" resultMap="BaseResultMap" >
+    <select id="selectHistoryLottery" resultMap="BaseResultMap">
         select *  from t_commodity_history WHERE luck_user_account_id = #{accountId}
     </select>
 
@@ -46,4 +45,26 @@
         WHERE commodity_id = #{commodityId} AND luck_user_account_id = #{accountId}
     </select>
 
+    <update id="updateByCommodityIdSelective" parameterType="com.hudongwx.drawlottery.mobile.entitys.CommodityHistory">
+        UPDATE t_commodity_history
+        <trim prefix="set" suffixOverrides=",">
+            <if test="id != null">id = #{id},</if>
+            <if test="luckCode != null">luck_code = #{luckCode},</if>
+            <if test="tempId != null">temp_id = #{tempId},</if>
+            <if test="commodityName != null">commodity_name = #{commodityName},</if>
+            <if test="roundTime !=null">round_time = #{roundTime},</if>
+            <if test="buyNumber !=null">buy_number = #{buyNumber},</if>
+            <if test="coverImgUrl !=null">cover_img_url = #{coverImgUrl},</if>
+            <if test="endTime !=null">end_time = #{endTime},</if>
+            <if test="luckUserAccountId != null">luck_user_account_id =#{luckUserAccountId},</if>
+            <if test="buyTotalNumber !=null">buy_total_number = #{buyTotalNumber},</if>
+            <if test="exchangeState !=null">exchange_state = #{exchangeState},</if>
+            <if test="exchangeWay !=null">exchange_way = #{exchangeWay},</if>
+        </trim>
+        WHERE commodity_id = #{commodityId}
+    </update>
+
+    <select id="selectByTempId" resultMap="BaseResultMap">
+      SELECT * FROM t_commodity_history WHERE temp_id = #{tempId}
+    </select>
 </mapper>

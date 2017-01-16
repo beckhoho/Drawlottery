@@ -59,7 +59,7 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/commodity/exchange/cash", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/commodity/exchange/temp3", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToCash(@RequestParam("commId") Long commId, @RequestParam("TPName") String TPName, @RequestParam("TPAccount") String TPAccount) {
         return success(emService.exchangeToCash(TPName, TPAccount, commId, 10000L));
     }
@@ -71,21 +71,21 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/commodity/exchange/gold", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/commodity/exchange/temp4", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToGold(@RequestParam("commId") Long commId) {
-        return success(emService.exchangeToGold(commId, 10000L));
+        return success(emService.temp4(10000L,commId));
     }
 
     /**
      * 兑换充值卡(查看卡密)
      *
-     * @param cardNumber
+     * @param commodityId
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/exc", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToRechargeCard(@RequestParam("cardNumber") String cardNumber) {
-        return success("操作成功！", vcService.updateCardStateByCardNumber(cardNumber, Settings.PASSWORD_VIEWED));
+    @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/temp1", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject exchangeToRechargeCard(@RequestParam("commodityId") Long commodityId) {
+        return success("操作成功！", emService.temp1(1000l,commodityId));
     }
 
     /**
@@ -101,7 +101,7 @@ public class CommodityExchangeController extends BaseController {
     }
 
     /**
-     * 可兑换充值卡方式详情
+     * 兑换流程详情
      *
      * @param commId
      * @return
@@ -119,9 +119,9 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/commodity/exchange/express", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/commodity/exchange/temp2", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToExpress(@RequestParam("commId") Long commId, @RequestParam("addressId") Long addressId) {
-        return success(emService.exchangeToExpress(commId, 10000L, addressId));
+        return success(emService.temp2( 10000L, commId, addressId));
     }
 
     /**
@@ -131,8 +131,8 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/commodity/exchange/locale", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/commodity/exchange/temp5", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToLocale(@RequestParam("commId") Long commId) {
-        return success(emService.exchangeToLocale(commId, 10000L));
+        return success(emService.temp5(10000L,commId));
     }
 }

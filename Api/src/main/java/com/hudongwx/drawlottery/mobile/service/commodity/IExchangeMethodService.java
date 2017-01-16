@@ -20,14 +20,6 @@ import java.util.Map;
  */
 public interface IExchangeMethodService {
 
-    /**
-     * 兑换成闪币
-     *
-     * @param commId
-     * @return
-     */
-    boolean exchangeToGold(Long commId,Long userAccountId);
-
 
     /**
      * 兑换现金
@@ -39,18 +31,6 @@ public interface IExchangeMethodService {
      */
     boolean exchangeToCash(String exchangeTerraceName, String TerraceAccount, Long commodity,Long accountID);
 
-    /**
-     * 快递领取
-     * @return
-     */
-    boolean exchangeToExpress(Long commodityId, Long userAccountId, Long addressId);
-
-    /**
-     *
-     * 到店领取
-     * @return
-     */
-    Map<String,Object> exchangeToLocale(Long commodityId, Long userAccountId);
 
     /**
      * 查看user抽中的充值卡
@@ -62,7 +42,7 @@ public interface IExchangeMethodService {
     List<Map<String, Object>> selectUserRechargeCardPrize(Long accountId, Long commodityId);
 
     /**
-     * 兑换充值卡流程
+     * 兑换流程进度
      *
      * @param accountId
      * @param commodityId
@@ -71,9 +51,21 @@ public interface IExchangeMethodService {
     Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId);
 
 
-    //兑换充值卡是否成功
+    //兑换充值卡
     boolean orTrue(Long accountId, Long commodityId);
+
+    //兑换充值卡
+    Map<String,Object> temp1(Long accountId,Long commodityId);
 
     //快递领取
     Map<String,Object> temp2(Long accountId,Long commodityId,Long addressId);
+
+    //兑换现金
+    Map<String,Object> temp3(Long accountId,Long commodityId);
+
+    //兑换闪币
+    boolean temp4(Long accountId,Long commodityId);
+
+    //到店领取
+    Map<String,Object> temp5(Long accountId,Long commodityId);
 }

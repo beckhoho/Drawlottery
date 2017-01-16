@@ -1,6 +1,8 @@
 package com.hudongwx.drawlottery.mobile.web;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.springframework.boot.autoconfigure.web.BasicErrorController;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -27,10 +29,32 @@ public class AppExceptionHandler extends BaseController {
     @ExceptionHandler(value = ServletException.class)
     @ResponseBody
     public JSONObject error404Handler(ServletException e){
+        e.printStackTrace();
         JSONObject object = new JSONObject();
         object.put("code",404);
-        object.put("msg",e.getClass().getName()+"------"+e.getMessage());
+        object.put("msg",e.getMessage());
         return  object;
+    }
+
+
+    /**
+     * 登录次数超过限制异常
+     * @return
+     */
+    @ExceptionHandler(value = ExcessiveAttemptsException.class)
+    @ResponseBody
+    public JSONObject errorLoginLimitHandler(ExcessiveAttemptsException e){
+        e.printStackTrace();
+        JSONObject object = new JSONObject();
+        object.put("code",-2);
+        object.put("msg",e.getMessage());
+        return object;
+    }
+
+//    @ExceptionHandler(value = CaptchaServiceException.class)
+    @ResponseBody
+    public JSONObject errorHandler(){
+        return null;
     }
 
     /**
@@ -45,5 +69,6 @@ public class AppExceptionHandler extends BaseController {
         object.put("msg",e.getMessage());
         return  object;
     }
+
 
 }

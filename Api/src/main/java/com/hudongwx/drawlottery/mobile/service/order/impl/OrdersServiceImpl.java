@@ -6,6 +6,7 @@ import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersCommoditysService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
+import com.hudongwx.drawlottery.mobile.utils.LotteryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,8 @@ public class OrdersServiceImpl implements IOrdersService {
     LuckCodesMapper codesMapper;
     @Autowired
     CommodityMapper commMapper;
+    @Autowired
+    LotteryInfoMapper lotteryInfoMapper;
 
     /**
      * 计算扣款
@@ -80,7 +83,9 @@ public class OrdersServiceImpl implements IOrdersService {
 
         int tempNum = 0;
         //红包
-        if(orders.getRedPacketId()!=0){ // 如果红包ID不为空
+        Long packetId = orders.getRedPacketId();
+
+        if(packetId != 0 && packetId!= null && !packetId.equals("0")){ // 如果红包ID不为空
             RedPackets red = new RedPackets();
             red.setId(orders.getRedPacketId());
             //查询红包面值
@@ -130,12 +135,14 @@ public class OrdersServiceImpl implements IOrdersService {
 
         for (CommodityAmount ca : commodityAmounts) {
             //获取商品信息
+
             Commoditys commodity = comMapper.selectByKey(ca.getCommodityId());
             Commodity com = new Commodity();//**
             Amount = ca.getAmount();
             remainingNum = commodity.getBuyTotalNumber() - commodity.getBuyCurrentNumber();
-//            if (remainingNum == 0) {
-//                //如果商品卖光，自动生成下一期
+            if (remainingNum == 0) {
+                //如果商品卖光，自动生成下一期
+//                int index=0;
 //                Long aLong = Long.valueOf(commodity.getRoundTime());
 //                Commodity comm = new Commodity();
 //                comm.setBuyCurrentNumber(0);
@@ -154,9 +161,22 @@ public class OrdersServiceImpl implements IOrdersService {
 //                    luck.setState(0);
 //                    luck.setCommodityId(commod.getId());
 //                }
-//
-//                continue;
-//            }
+//                for(int i=0;i<commodityAmounts.size();i++){
+//                    CommodityAmount ac = commodityAmounts.get(i);
+//                    if(ac.getCommodityId()==ca.getCommodityId()){
+//                        index = i;
+//                    }
+//                }
+//                Long commodityId = commodityAmounts.get(index).getCommodityId();
+//                int amount = commodityAmounts.get(index).getAmount();
+//                CommodityAmount commodityAmount = new CommodityAmount();
+//                commodityAmount.setAmount(amount);
+//                commodityAmount.setCommodityId(commodityId);
+//                commodityAmounts.remove(index);
+//                commodityAmounts.add(commodityAmount);
+                //下一期请求
+                continue;
+            }
             //生成商品订单
             OrdersCommoditys ordersCommoditys = new OrdersCommoditys();
             ordersCommoditys.setCommodityId(commodity.getId());
@@ -170,6 +190,13 @@ public class OrdersServiceImpl implements IOrdersService {
 
                 com.setStateId(2);//进入待揭晓状态
                 com.setSellOutTime(System.currentTimeMillis());//添加售罄时间
+                /*
+                    计算开奖幸运码
+                 */
+                LotteryInfo raffle = LotteryUtils.raffle(luckMapper, userMapper, com);
+                lotteryInfoMapper.insert(raffle);
+
+
 //                comMapper.;//根据主键修改商品状态
                 /*
                     下期请求

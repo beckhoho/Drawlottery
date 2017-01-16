@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.mobile.mappers.LotteryInfoMapper">
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.mobile.entitys.LotteryInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
+        <result column="lottery_id" jdbcType="BIGINT" property="lotteryId"/>
+        <result column="lottery_info" jdbcType="LONGVARCHAR" property="lotteryInfo"/>
+        <result column="sum_date" jdbcType="BIGINT" property="sumDate"/>
+        <result column="buy_num" jdbcType="INTEGER" property="buyNum"/>
+
+    </resultMap>
+
+    <select id="selectByComId" resultMap="BaseResultMap">
+        SELECT * FROM t_lottery_info WHERE commodity_id = #{commodityId}
+    </select>
+
+</mapper>

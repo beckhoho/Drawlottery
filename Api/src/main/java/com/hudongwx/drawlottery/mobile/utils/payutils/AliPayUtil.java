@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.utils.payutils;
 
+import com.hudongwx.drawlottery.mobile.conf.alipay.AlipayConfig;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -26,9 +27,9 @@ public class AliPayUtil {
 
     public static final String ALIPAY_APPID = null;/*ConfigUtil.getProperty("alipay.appid"); */// appid
 
-    public static String APP_PRIVATE_KEY = null; // app支付私钥
+    public static String APP_PRIVATE_KEY = AlipayConfig.private_key; // app支付私钥
 
-    public static String ALIPAY_PUBLIC_KEY = null; // 支付宝公钥
+    public static String ALIPAY_PUBLIC_KEY = AlipayConfig.alipay_public_key; // 支付宝公钥
 
     static {
         try {

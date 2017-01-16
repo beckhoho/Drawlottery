@@ -2,38 +2,46 @@ package com.hudongwx.drawlottery.mobile.entitys;
 
 import com.alibaba.fastjson.JSONObject;
 
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by 11 on 2017/1/14.
  */
+@Table(name = "t_lottery_info")
 public class LotteryInfo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
      * 商品id
      */
+    @Column(name = "commodity_id")
     private Long commodityId;
 
     /**
      * 中奖幸运码
      */
+    @Column(name = "lottery_id")
     private Long lotteryId;
 
     /**
-     * json：中奖者昵称，日期，毫秒数
+     * json：购买最后五十商品的用户昵称，日期，毫秒数
      */
+    @Column(name = "lottery_info")
     private String lotteryInfo;
 
     /**
      * 最后五十商品毫秒和
      */
+    @Column(name = "sum_date")
     private Long sumDate;
 
     /**
      * 商品购买总人次
      */
-    private Long buyNum;
+    @Column(name = "buy_num")
+    private int buyNum;
 
     public Long getId() {
         return id;
@@ -75,11 +83,11 @@ public class LotteryInfo {
         this.sumDate = sumDate;
     }
 
-    public Long getBuyNum() {
+    public int getBuyNum() {
         return buyNum;
     }
 
-    public void setBuyNum(Long buyNum) {
+    public void setBuyNum(int buyNum) {
         this.buyNum = buyNum;
     }
 }

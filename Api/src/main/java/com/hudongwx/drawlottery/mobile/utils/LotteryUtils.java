@@ -36,13 +36,13 @@ public class LotteryUtils {
             array.add(date+" "+buyDate+" : "+user.getNickname());
         }
         lotteryInfo.setCommodityId(commodity.getId());//商品id
-        lotteryInfo.setBuyNum((long)commodity.getBuyCurrentNumber());//总购买数
+        lotteryInfo.setBuyNum(commodity.getBuyCurrentNumber());//总购买数
         lotteryInfo.setLotteryInfo(array.toString());//具体每条信息json
         lotteryInfo.setSumDate(sumDate);//五十和
         /*
             计算中奖id
          */
-        long lotteryId = sumDate%commodity.getBuyCurrentNumber()+10000001;
+        long lotteryId = (sumDate%commodity.getBuyCurrentNumber())+100000001;
         lotteryInfo.setLotteryId(lotteryId);
         return lotteryInfo;
     }
