@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
+import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersCommoditysService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.utils.LotteryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -48,6 +50,9 @@ public class OrdersServiceImpl implements IOrdersService {
     CommodityMapper commMapper;
     @Autowired
     LotteryInfoMapper lotteryInfoMapper;
+
+    @Resource
+    ICommodityService commodityService;
 
     /**
      * 计算扣款
@@ -141,39 +146,41 @@ public class OrdersServiceImpl implements IOrdersService {
             Amount = ca.getAmount();
             remainingNum = commodity.getBuyTotalNumber() - commodity.getBuyCurrentNumber();
             if (remainingNum == 0) {
+
+
                 //如果商品卖光，自动生成下一期
-//                int index=0;
-//                Long aLong = Long.valueOf(commodity.getRoundTime());
-//                Commodity comm = new Commodity();
-//                comm.setBuyCurrentNumber(0);
-//                comm.setStateId(3);
-//                comm.setBuyLastNumber(0);
-//                comm.setTempId(commodity.getTempId());
-//                comm.setRoundTime(aLong+1+"");
-//                comm.setViewNum(0l);
-//                comm.setLastRoundTime(aLong+"");
-//                commMapper.insert(comm);
-//
-//                //复用商品幸运码
-//                Commodity commod = commMapper.selectOne(comm);
-//                List<LuckCodes> codes = codesMapper.selectByUsable(ca.getCommodityId());
-//                for (LuckCodes luck : codes){
-//                    luck.setState(0);
-//                    luck.setCommodityId(commod.getId());
-//                }
-//                for(int i=0;i<commodityAmounts.size();i++){
-//                    CommodityAmount ac = commodityAmounts.get(i);
-//                    if(ac.getCommodityId()==ca.getCommodityId()){
-//                        index = i;
-//                    }
-//                }
-//                Long commodityId = commodityAmounts.get(index).getCommodityId();
-//                int amount = commodityAmounts.get(index).getAmount();
-//                CommodityAmount commodityAmount = new CommodityAmount();
-//                commodityAmount.setAmount(amount);
-//                commodityAmount.setCommodityId(commodityId);
-//                commodityAmounts.remove(index);
-//                commodityAmounts.add(commodityAmount);
+                int index=0;
+                Long aLong = Long.valueOf(commodity.getRoundTime());
+                Commodity comm = new Commodity();
+                comm.setBuyCurrentNumber(0);
+                comm.setStateId(3);
+                comm.setBuyLastNumber(0);
+                comm.setTempId(commodity.getTempId());
+                comm.setRoundTime(commodityService.generateNewRoundTime()+"");
+                comm.setViewNum(0l);
+                comm.setLastRoundTime(aLong+"");
+                commMapper.insert(comm);
+
+                //复用商品幸运码
+                Commodity commod = commMapper.selectOne(comm);
+                List<LuckCodes> codes = codesMapper.selectByUsable(ca.getCommodityId());
+                for (LuckCodes luck : codes){
+                    luck.setState(0);
+                    luck.setCommodityId(commod.getId());
+                }
+                for(int i=0;i<commodityAmounts.size();i++){
+                    CommodityAmount ac = commodityAmounts.get(i);
+                    if(ac.getCommodityId()==ca.getCommodityId()){
+                        index = i;
+                    }
+                }
+                Long commodityId = commodityAmounts.get(index).getCommodityId();
+                int amount = commodityAmounts.get(index).getAmount();
+                CommodityAmount commodityAmount = new CommodityAmount();
+                commodityAmount.setAmount(amount);
+                commodityAmount.setCommodityId(commodityId);
+                commodityAmounts.remove(index);
+                commodityAmounts.add(commodityAmount);
                 //下一期请求
                 continue;
             }

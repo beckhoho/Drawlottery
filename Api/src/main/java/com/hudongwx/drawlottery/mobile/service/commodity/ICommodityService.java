@@ -76,4 +76,11 @@ public interface ICommodityService {
 
     //开奖之后改变信息
     boolean reviseInfo(String luckCode, Long commodityId);
+
+    /**
+     * 生成新的期数
+     *
+     * @return  期数
+     */
+    public Long generateNewRoundTime();
 }

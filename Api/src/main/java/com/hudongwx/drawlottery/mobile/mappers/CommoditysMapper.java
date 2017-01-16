@@ -133,4 +133,5 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
     int updateById(Commodity commodity);
 
+    Long selectMaxRoundTime();
 }
