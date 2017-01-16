@@ -130,12 +130,14 @@ public class OrdersServiceImpl implements IOrdersService {
 
         for (CommodityAmount ca : commodityAmounts) {
             //获取商品信息
+
             Commoditys commodity = comMapper.selectByKey(ca.getCommodityId());
             Commodity com = new Commodity();//**
             Amount = ca.getAmount();
             remainingNum = commodity.getBuyTotalNumber() - commodity.getBuyCurrentNumber();
-//            if (remainingNum == 0) {
-//                //如果商品卖光，自动生成下一期
+            if (remainingNum == 0) {
+                //如果商品卖光，自动生成下一期
+//                int index=0;
 //                Long aLong = Long.valueOf(commodity.getRoundTime());
 //                Commodity comm = new Commodity();
 //                comm.setBuyCurrentNumber(0);
@@ -154,9 +156,22 @@ public class OrdersServiceImpl implements IOrdersService {
 //                    luck.setState(0);
 //                    luck.setCommodityId(commod.getId());
 //                }
-//
-//                continue;
-//            }
+//                for(int i=0;i<commodityAmounts.size();i++){
+//                    CommodityAmount ac = commodityAmounts.get(i);
+//                    if(ac.getCommodityId()==ca.getCommodityId()){
+//                        index = i;
+//                    }
+//                }
+//                Long commodityId = commodityAmounts.get(index).getCommodityId();
+//                int amount = commodityAmounts.get(index).getAmount();
+//                CommodityAmount commodityAmount = new CommodityAmount();
+//                commodityAmount.setAmount(amount);
+//                commodityAmount.setCommodityId(commodityId);
+//                commodityAmounts.remove(index);
+//                commodityAmounts.add(commodityAmount);
+                //下一期请求
+                continue;
+            }
             //生成商品订单
             OrdersCommoditys ordersCommoditys = new OrdersCommoditys();
             ordersCommoditys.setCommodityId(commodity.getId());

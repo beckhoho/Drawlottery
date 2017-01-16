@@ -73,7 +73,7 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/gold", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToGold(@RequestParam("commId") Long commId) {
-        return success(emService.exchangeToGold(commId, 10000L));
+        return success(emService.temp4(10000L,commId));
     }
 
     /**
@@ -101,7 +101,7 @@ public class CommodityExchangeController extends BaseController {
     }
 
     /**
-     * 可兑换充值卡方式详情
+     * 兑换流程详情
      *
      * @param commId
      * @return
@@ -121,7 +121,7 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/express", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToExpress(@RequestParam("commId") Long commId, @RequestParam("addressId") Long addressId) {
-        return success(emService.exchangeToExpress(commId, 10000L, addressId));
+        return success(emService.temp2( 10000L, commId, addressId));
     }
 
     /**
@@ -133,6 +133,6 @@ public class CommodityExchangeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/commodity/exchange/locale", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToLocale(@RequestParam("commId") Long commId) {
-        return success(emService.exchangeToLocale(commId, 10000L));
+        return success(emService.temp5(10000L,commId));
     }
 }
