@@ -47,7 +47,7 @@ import java.util.Map;
  * @email 346905702@qq.com
  */
 @RestController
-@Api(value = "PayController", description = "第三方支付请求")
+@Api(value = "PayController", description = "支付管理")
 public class PayController extends BaseController {
 
     @Autowired
@@ -64,7 +64,7 @@ public class PayController extends BaseController {
     @ApiOperation(value = "支付宝APP支付–申请支付请求参数")
     @RequestMapping(value = "/api/v1/user/order/alipay.do", method = RequestMethod.POST)
     public JSONObject orderPay(@ApiParam("订单信息") @RequestBody OrderFormData orderFormData) throws Exception {
-        LOG.info(new Date() + "---[/api/v1/user/order/alipay/sub] orders.getPrice():" + orderFormData.getOrder().getPrice());
+        LOG.info(new Date() + "[/api/v1/user/order/alipay/sub] :" + JSONObject.toJSONString(orderFormData));
         return success("操作成功",aliPayService.createSign(10000L, orderFormData));
     }
 
@@ -97,11 +97,10 @@ public class PayController extends BaseController {
         System.out.println("支付的状态：" + trade_status);
         System.out.println("支付的id：" + notify_id);
         if (trade_status.equals("TRADE_SUCCESS")) {
-
             /**
              *支付成功之后的业务处理
              */
-
+            LOG.info(new Date() + "[/api/v1/user/order/alipay/sub] :支付成功!商户的订单编号："+ out_trade_no);
             return "SUCCESS";
         } else {
 

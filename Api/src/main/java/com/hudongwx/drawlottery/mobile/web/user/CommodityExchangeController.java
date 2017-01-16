@@ -5,9 +5,10 @@ import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityExchangeServi
 import com.hudongwx.drawlottery.mobile.service.commodity.IExchangeMethodService;
 import com.hudongwx.drawlottery.mobile.service.commodity.IVirtualCommodityService;
 import com.hudongwx.drawlottery.mobile.service.user.IDeliveryAddressService;
-import com.hudongwx.drawlottery.mobile.utils.Settings;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,9 +47,9 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("查询商品兑换方式")
     @RequestMapping(value = "/api/v1/user/commodity/commexchways", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryCommExchangeWays(@RequestParam("commId") Long commId) {
-
+    public JSONObject queryCommExchangeWays(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
         return success(ceService.selectByCommodityId(commId));
     }
 
@@ -59,8 +60,9 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("兑换现金")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp3", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToCash(@RequestParam("commId") Long commId, @RequestParam("TPName") String TPName, @RequestParam("TPAccount") String TPAccount) {
+    public JSONObject exchangeToCash(@ApiParam("商品Id") @RequestParam("commId") Long commId, @ApiParam("平台名称（例：支付宝平台）") @RequestParam("TPName") String TPName, @ApiParam("平台账号") @RequestParam("TPAccount") String TPAccount) {
         return success(emService.exchangeToCash(TPName, TPAccount, commId, 10000L));
     }
 
@@ -71,21 +73,23 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("兑换闪币")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp4", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToGold(@RequestParam("commId") Long commId) {
-        return success(emService.temp4(10000L,commId));
+    public JSONObject exchangeToGold(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
+        return success(emService.temp4(10000L, commId));
     }
 
     /**
      * 兑换充值卡(查看卡密)
      *
-     * @param commodityId
+     * @param commId
      * @return
      */
     @ResponseBody
+    @ApiOperation("兑换充值卡(查看卡密)")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/temp1", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToRechargeCard(@RequestParam("commodityId") Long commodityId) {
-        return success("操作成功！", emService.temp1(1000l,commodityId));
+    public JSONObject exchangeToRechargeCard(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
+        return success("操作成功！", emService.temp1(1000l, commId));
     }
 
     /**
@@ -95,8 +99,9 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("可兑换充值卡方式详情")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryExchangeToRechargeCard(@RequestParam("commId") Long commId) {
+    public JSONObject queryExchangeToRechargeCard(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
         return success(emService.selectUserRechargeCardPrize(10000L, commId));
     }
 
@@ -107,8 +112,9 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("充值卡兑换流程详情")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/info", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryExchangeToRechargeCardInfo(@RequestParam("commId") Long commId,@RequestParam("exchangeWayId")Integer exchangeWayId) {
+    public JSONObject queryExchangeToRechargeCardInfo(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
         return success(emService.selectUserRechargeCardExchangeProcess(10000L, commId));
     }
 
@@ -119,9 +125,10 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("快递收货")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp2", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToExpress(@RequestParam("commId") Long commId, @RequestParam("addressId") Long addressId) {
-        return success(emService.temp2( 10000L, commId, addressId));
+    public JSONObject exchangeToExpress(@ApiParam("商品Id") @RequestParam("commId") Long commId, @ApiParam("注册用户地址Id") @RequestParam("addressId") Long addressId) {
+        return success(emService.temp2(10000L, commId, addressId));
     }
 
     /**
@@ -131,8 +138,9 @@ public class CommodityExchangeController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("到店领取")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp5", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToLocale(@RequestParam("commId") Long commId) {
-        return success(emService.temp5(10000L,commId));
+    public JSONObject exchangeToLocale(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
+        return success(emService.temp5(10000L, commId));
     }
 }

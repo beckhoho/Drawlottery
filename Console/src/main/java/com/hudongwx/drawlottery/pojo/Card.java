@@ -9,6 +9,8 @@ public class Card {
 
     private Integer corporation;
 
+    private Integer money;
+
     public Integer getId() {
         return id;
     }
@@ -39,5 +41,13 @@ public class Card {
 
     public void setCorporation(Integer corporation) {
         this.corporation = corporation;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
     }
 }

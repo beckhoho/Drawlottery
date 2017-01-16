@@ -37,11 +37,11 @@ public class LCServiceImpl implements LuckCodeService {
             LuckCodeTemplate temp = new LuckCodeTemplate();
             for (long i = count + 1; i <= total; i++) {
                 temp.setId(i);
-                temp.setLuckCode(100000000 + i + "");
+                temp.setLuckCode(10000000 + i + "");
                 luckTempMapper.insert(temp);
             }
         }
-        return 100000000 + total + "";
+        return 10000000 + total + "";
     }
 
     /**

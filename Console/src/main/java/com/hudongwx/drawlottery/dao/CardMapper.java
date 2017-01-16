@@ -29,7 +29,7 @@ public interface CardMapper {
 
     int updateByPrimaryKey(Card record);
 
-    int delete(@Param("cards") List<Integer> cards);
+    void delete(List<Integer> cardIds);
 
     List<Card> selectAll(@Param("corporation") List<Integer> corporation, @Param("order") int order, @Param("direction") int direction);
 }

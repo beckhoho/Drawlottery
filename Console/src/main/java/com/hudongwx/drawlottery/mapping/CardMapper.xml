@@ -1,162 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hudongwx.drawlottery.dao.CardMapper">
-    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.pojo.Card">
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="card_num" jdbcType="VARCHAR" property="cardNum"/>
-        <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="corporation" jdbcType="INTEGER" property="corporation"/>
-    </resultMap>
-    <sql id="Example_Where_Clause">
-        <where>
-            <foreach collection="oredCriteria" item="criteria" separator="or">
-                <if test="criteria.valid">
-                    <trim prefix="(" prefixOverrides="and" suffix=")">
-                        <foreach collection="criteria.criteria" item="criterion">
-                            <choose>
-                                <when test="criterion.noValue">
-                                    and ${criterion.condition}
-                                </when>
-                                <when test="criterion.singleValue">
-                                    and ${criterion.condition} #{criterion.value}
-                                </when>
-                                <when test="criterion.betweenValue">
-                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                                </when>
-                                <when test="criterion.listValue">
-                                    and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
-                                        #{listItem}
-                                    </foreach>
-                                </when>
-                            </choose>
-                        </foreach>
-                    </trim>
-                </if>
+  <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.pojo.Card">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="card_num" jdbcType="VARCHAR" property="cardNum" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="corporation" jdbcType="INTEGER" property="corporation" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
             </foreach>
-        </where>
-    </sql>
-    <sql id="Update_By_Example_Where_Clause">
-        <where>
-            <foreach collection="example.oredCriteria" item="criteria" separator="or">
-                <if test="criteria.valid">
-                    <trim prefix="(" prefixOverrides="and" suffix=")">
-                        <foreach collection="criteria.criteria" item="criterion">
-                            <choose>
-                                <when test="criterion.noValue">
-                                    and ${criterion.condition}
-                                </when>
-                                <when test="criterion.singleValue">
-                                    and ${criterion.condition} #{criterion.value}
-                                </when>
-                                <when test="criterion.betweenValue">
-                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                                </when>
-                                <when test="criterion.listValue">
-                                    and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
-                                        #{listItem}
-                                    </foreach>
-                                </when>
-                            </choose>
-                        </foreach>
-                    </trim>
-                </if>
-            </foreach>
-        </where>
-    </sql>
-    <sql id="Base_Column_List">
-    id, card_num, password, corporation
+          </trim>
+        </if>
+      </foreach>
+    </where>
   </sql>
-    <select id="selectByExample" parameterType="com.hudongwx.drawlottery.pojo.CardExample" resultMap="BaseResultMap">
-        select
-        <if test="distinct">
-            distinct
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
         </if>
-        <include refid="Base_Column_List"/>
-        from t_card
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
-        </if>
-    </select>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_card
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_card
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-    <delete id="deleteByExample" parameterType="com.hudongwx.drawlottery.pojo.CardExample">
-        delete from t_card
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-    </delete>
-    <delete id="delete">
-        delete from t_card
-        where id in
-        <foreach collection="list" open="(" separator="," close=")" item="id">
-            #{id}
-        </foreach>
-    </delete>
-    <insert id="insert" parameterType="com.hudongwx.drawlottery.pojo.Card">
-        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        insert into t_card (card_num, password, corporation
-        )
-        values (#{cardNum,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{corporation,jdbcType=INTEGER}
-        )
-    </insert>
-    <insert id="insertSelective" parameterType="com.hudongwx.drawlottery.pojo.Card">
-        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        insert into t_card
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="cardNum != null">
-                card_num,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="corporation != null">
-                corporation,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="cardNum != null">
-                #{cardNum,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="corporation != null">
-                #{corporation,jdbcType=INTEGER},
-            </if>
-        </trim>
-    </insert>
-    <select id="countByExample" parameterType="com.hudongwx.drawlottery.pojo.CardExample"
-            resultType="java.lang.Integer">
-        select count(*) from t_card
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-    </select>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, card_num, password, corporation, money
+  </sql>
+  <select id="selectByExample" parameterType="com.hudongwx.drawlottery.pojo.CardExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_card
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select * from t_card
         <where>
-            <if test="corporation.size() > 0">
+            <if test="corporation != null and corporation.size() &gt; 0">
                 and corporation in
-                <foreach collection="corporation" open="(" separator="," close=")" item="cor">
+                <foreach close=")" collection="corporation" item="cor" open="(" separator=",">
                     #{cor}
                 </foreach>
             </if>
@@ -179,56 +111,136 @@
             </otherwise>
         </choose>
     </select>
-    <update id="updateByExampleSelective" parameterType="map">
-        update t_card
-        <set>
-            <if test="record.id != null">
-                id = #{record.id,jdbcType=INTEGER},
-            </if>
-            <if test="record.cardNum != null">
-                card_num = #{record.cardNum,jdbcType=VARCHAR},
-            </if>
-            <if test="record.password != null">
-                password = #{record.password,jdbcType=VARCHAR},
-            </if>
-            <if test="record.corporation != null">
-                corporation = #{record.corporation,jdbcType=INTEGER},
-            </if>
-        </set>
-        <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
-        </if>
-    </update>
-    <update id="updateByExample" parameterType="map">
-        update t_card
-        set id = #{record.id,jdbcType=INTEGER},
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hudongwx.drawlottery.pojo.CardExample">
+    delete from t_card
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hudongwx.drawlottery.pojo.Card">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_card (card_num, password, corporation,
+      money)
+    values (#{cardNum,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{corporation,jdbcType=INTEGER},
+      #{money,jdbcType=INTEGER})
+  </insert>
+    <delete id="delete">
+        delete from t_card
+        where id in
+        <foreach close=")" collection="list" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+  <insert id="insertSelective" parameterType="com.hudongwx.drawlottery.pojo.Card">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_card
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cardNum != null">
+        card_num,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="corporation != null">
+        corporation,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cardNum != null">
+        #{cardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="corporation != null">
+        #{corporation,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hudongwx.drawlottery.pojo.CardExample" resultType="java.lang.Integer">
+    select count(*) from t_card
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_card
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardNum != null">
         card_num = #{record.cardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
-        corporation = #{record.corporation,jdbcType=INTEGER}
-        <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
-        </if>
-    </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hudongwx.drawlottery.pojo.Card">
-        update t_card
-        <set>
-            <if test="cardNum != null">
-                card_num = #{cardNum,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="corporation != null">
-                corporation = #{corporation,jdbcType=INTEGER},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.hudongwx.drawlottery.pojo.Card">
+      </if>
+      <if test="record.corporation != null">
+        corporation = #{record.corporation,jdbcType=INTEGER},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_card
+    set id = #{record.id,jdbcType=INTEGER},
+      card_num = #{record.cardNum,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      corporation = #{record.corporation,jdbcType=INTEGER},
+      money = #{record.money,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hudongwx.drawlottery.pojo.Card">
+    update t_card
+    <set>
+      <if test="cardNum != null">
+        card_num = #{cardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="corporation != null">
+        corporation = #{corporation,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hudongwx.drawlottery.pojo.Card">
     update t_card
     set card_num = #{cardNum,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      corporation = #{corporation,jdbcType=INTEGER}
+      corporation = #{corporation,jdbcType=INTEGER},
+      money = #{money,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

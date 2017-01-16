@@ -137,18 +137,18 @@ public class LangConstants {
     public final String UNDERCARRIAGE = "UNDERCARRIAGE";
 
     /**
-     * 常量字段 添加商品成功 .
+     * 常量字段 添加成功 .
      */
-    public final String ADD_COMMODITY_SUCCESS = "ADD_COMMODITY_SUCCESS";
+    public final String ADD_SUCCESS = "ADD_SUCCESS";
 
     /**
-     * 常量字段 修改商品成功 .
+     * 常量字段 修改成功 .
      */
-    public final String UPDATE_COMMODITY_SUCCESS = "UPDATE_COMMODITY_SUCCESS";
+    public final String UPDATE_SUCCESS = "UPDATE_SUCCESS";
     /**
-     * 常量字段 删除商品成功 .
+     * 常量字段 删除成功 .
      */
-    public final String DELETE_COMMODITY_SUCCESS = "DELETE_COMMODITY_SUCCESS";
+    public final String DELETE_SUCCESS = "DELETE_SUCCESS";
 
     /**
      * 常量字段 上架商品成功 .

@@ -2,12 +2,14 @@ package com.hudongwx.drawlottery.service.commodity.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.exceptions.ServiceException;
 import com.hudongwx.drawlottery.dao.CardMapper;
 import com.hudongwx.drawlottery.pojo.Card;
 import com.hudongwx.drawlottery.service.commodity.CardService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +22,10 @@ import java.util.List;
  */
 @Service
 public class CardServiceImpl implements CardService {
+    @Resource
     private CardMapper cardMapper;
+    @Resource
+    private LangConstants langConstants;
 
     /**
      * 添加卡密
@@ -55,6 +60,8 @@ public class CardServiceImpl implements CardService {
      */
     @Override
     public void deleteCard(List<Integer> cardIds) {
+        if (cardIds.size() == 0)
+            throw new ServiceException(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
         cardMapper.delete(cardIds);
     }
 
@@ -71,7 +78,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public PageInfo<Card> getCards(int currentPage, int pageSize, List<Integer> corporation, int order, int direction) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Card> cards = cardMapper.selectAll(corporation,order,direction);
+        List<Card> cards = cardMapper.selectAll(corporation, order, direction);
         return new PageInfo<>(cards);
     }
 }
