@@ -166,6 +166,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         map.put("ContactAddress", null);//添加领奖地址
         map.put("state", 2);//添加兑换流程状态
 
+        //
         if (select.size() > 0) {//晒单状态
             map.put("shareState", 1);
         } else {
