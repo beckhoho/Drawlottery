@@ -206,7 +206,7 @@ public class Settings {
     /**
      * 用户正常状态
      */
-    public static final String USER_PORTRAIT_URL_DEFAULT = SERVER_URL_PATH + IMG_PATH_ICONS + "defaultheadportrait.png";
+    public static final String USER_PORTRAIT_URL_DEFAULT = SERVER_URL_PATH + IMG_PATH_ICONS + "me_pic_personal.png";
 
     /**
      * 图标图片路径

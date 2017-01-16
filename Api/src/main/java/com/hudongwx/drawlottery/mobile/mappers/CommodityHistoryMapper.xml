@@ -46,4 +46,7 @@
         WHERE commodity_id = #{commodityId} AND luck_user_account_id = #{accountId}
     </select>
 
+    <select id="selectByTempId" resultMap="BaseResultMap">
+      SELECT * FROM t_commodity_history WHERE temp_id = #{tempId}
+    </select>
 </mapper>

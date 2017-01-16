@@ -1,15 +1,16 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
-import com.hudongwx.drawlottery.mobile.mappers.CommodityHistoryMapper;
-import com.hudongwx.drawlottery.mobile.mappers.ExchangeWayMapper;
-import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
-import com.hudongwx.drawlottery.mobile.mappers.VirtualCommodityMapper;
+import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -30,13 +31,15 @@ import java.util.List;
 public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
 
     @Autowired
-    CommodityHistoryMapper mapper;
+    CommodityHistoryMapper chMapper;
     @Autowired
     ExchangeWayMapper exMapper;
     @Autowired
     VirtualCommodityMapper virtMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    CommodityMapper commodityMapper;
 
     @Override
     public boolean addCommodHistory(CommodityHistory commodityHistory) {
@@ -49,6 +52,28 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
         history.setLuckUserAccountId(10);
         ceMapper.selectByPrimaryKey(history);*/
         return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> selectThePastAnnouncedCommList(Long commId) {
+        List<Map<String, Object>> infoList=null;
+        Long aLong = commodityMapper.selectTempIdByCommId(commId);
+        List<CommodityHistory> chList = chMapper.selectByTempId(aLong);
+        if(!chList.isEmpty())
+            infoList=new ArrayList<>();
+        for (CommodityHistory history : chList) {
+            User user = userMapper.selectById(history.getLuckUserAccountId());
+            Map<String, Object> map=new HashMap<>();
+            map.put("roundTime",history.getRoundTime());//商品期数
+            map.put("endTime",history.getEndTime());//揭晓时间
+            map.put("UserImgUrl",user.getHeaderUrl());
+            map.put("luckUserName",user.getNickname());//用户昵称
+            map.put("ip","127.0.0.1");//用户IP // TODO: 2017/1/16 getUserIP？？？
+            map.put("luckCode",history.getLuckCode());//中奖码
+            map.put("userByNum",history.getBuyNumber());//用户当期参与购买量
+            infoList.add(map);
+        }
+        return infoList;
     }
 
 }

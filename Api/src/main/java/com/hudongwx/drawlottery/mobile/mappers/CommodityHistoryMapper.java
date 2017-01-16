@@ -3,9 +3,6 @@ package com.hudongwx.drawlottery.mobile.mappers;
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -35,4 +32,6 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
     List<CommodityHistory> selectHistoryLottery(@Param("accountId") Long accountId);
 
     List<CommodityHistory> selectComIdAndUser(@Param("accountId")Long accountId,@Param("commodityId")Long commodityId);
+
+    List<CommodityHistory> selectByTempId(@Param("tempId")Long tempId);
 }

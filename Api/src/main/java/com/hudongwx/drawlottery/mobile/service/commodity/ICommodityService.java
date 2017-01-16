@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commodity;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 
 import java.util.List;

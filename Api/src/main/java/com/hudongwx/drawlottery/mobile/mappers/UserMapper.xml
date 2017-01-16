@@ -40,4 +40,7 @@
         SELECT * FROM t_users WHERE account_id = #{accountId}
     </select>
 
+    <select id="selectUserNicknameById" resultType="java.lang.String">
+
+    </select>
 </mapper>
