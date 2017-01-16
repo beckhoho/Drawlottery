@@ -6,7 +6,7 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="user_account_id" jdbcType="BIGINT" property="commdityId"/>
+        <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
         <result column="pay_mode_id" jdbcType="INTEGER" property="payModeId"/>
         <result column="submit_date" jdbcType="BIGINT" property="submitDate"/>
         <result column="price" jdbcType="INTEGER" property="price"/>
@@ -16,6 +16,11 @@
         select * from t_orders where user_account_id = #{userAccount}
     </select>
     <select id="selectByUserDate" resultMap="BaseResultMap">
+        SELECT * from t_orders where user_account_id = #{userAccount}
+        AND submit_date = #{dateTime}
+    </select>
+
+    <select id="selectOneByUserDate" resultMap="BaseResultMap">
         SELECT * from t_orders where user_account_id = #{userAccount}
         AND submit_date = #{dateTime}
     </select>

@@ -18,7 +18,6 @@
         select distinct user_account_id from t_user_luck_codes
     </select>
 
-
     <select id="selectDistinctGroupByCommId" resultType="java.lang.Long">
         select distinct commodity_id from t_user_luck_codes WHERE user_account_id = #{accountId}
     </select>
@@ -33,4 +32,7 @@
         SELECT * FROM t_user_luck_codes WHERE user_account_id = #{userAccountId} and commodity_id =#{commId}
     </select>
 
+    <select id="selectByBuyDateDesc" resultMap="BaseResultMap">
+        SELECT * FROM t_user_luck_codes ORDER BY buy_date DESC
+    </select>
 </mapper>

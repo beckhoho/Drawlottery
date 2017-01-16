@@ -15,10 +15,14 @@ public interface UserLuckCodesMapper extends BaseMapper<UserLuckCodes> {
     //查看用户幸运码
     List<Long> selectDistinctGroupByCommId(@Param("accountId") Long accountId);
 
+   // List<User>
 
     UserLuckCodes selectByOne(@Param("commodityId")Long commodityId,@Param("luckCoudId")Long luckCoudId);
 
     List<UserLuckCodes> selectByUserAccountId(@Param("userAccountId")Long userAccountId);
 
     List<UserLuckCodes> selectByAccAndCommId(@Param("userAccountId")Long userAccountId,@Param("commId")Long commId);
+
+    //查看最后购买商品的五十条信息
+    List<UserLuckCodes> selectByBuyDateDesc();
 }
