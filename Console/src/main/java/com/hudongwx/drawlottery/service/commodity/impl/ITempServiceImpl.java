@@ -12,6 +12,8 @@ import com.hudongwx.drawlottery.pojo.Commodity;
 import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 import com.hudongwx.drawlottery.service.commodity.CommodityService;
 import com.hudongwx.drawlottery.service.commodity.ITempService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +30,8 @@ import java.util.List;
  */
 @Service
 public class ITempServiceImpl implements ITempService {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     private CommodityMapper commodityMapper;
@@ -124,14 +128,14 @@ public class ITempServiceImpl implements ITempService {
     }
 
     /**
-     * 批量上架商品模板.
+     * 批量上架商品.
      *
      * @param commodityIds 商品id集合
      * @return 状态
      */
     @Override
     public int ground(List<Integer> commodityIds) {
-        if (commodityMapper.checkState(commodityIds, Commodity.ON_SALE) < commodityIds.size()) {
+        if (commodityMapper.checkState(commodityIds, Commodity.ON_SALE) == 0) {
             commodityMapper.updateState(commodityIds, Commodity.ON_SALE, null, null);
             return tempMapper.updateState(commodityIds, Commodity.ON_SALE, new Date().getTime(), null);
         }
@@ -146,7 +150,7 @@ public class ITempServiceImpl implements ITempService {
      */
     @Override
     public int undercarriage(List<Integer> commodityIds) {
-        if (commodityMapper.checkState(commodityIds, Commodity.DID_SALE) < commodityIds.size())
+        if (commodityMapper.checkState(commodityIds, Commodity.DID_SALE) == 0)
             return commodityMapper.updateState(commodityIds, Commodity.DID_SALE, null, new Date().getTime());
         throw new ServiceException(langConstants.getLang(langConstants.ALREADY_UN_GROUND));
     }
@@ -187,10 +191,12 @@ public class ITempServiceImpl implements ITempService {
      */
     @Override
     public void groundNew(List<Integer> list) {
+        final long start = System.currentTimeMillis();
         final List<CommodityTemplate> temps = getCommodityById(list);
         for (CommodityTemplate temp : temps) {
-
+            commodityService.groundCommodity(temp.getId(), temp.getBuyTotalNumber());
         }
+        logger.error("消耗时长：" + (System.currentTimeMillis() - start));
     }
 
 }

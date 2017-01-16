@@ -230,9 +230,9 @@
             </otherwise>
         </choose>
     </select>
-    <select id="selectByIds" resultType="com.hudongwx.drawlottery.pojo.CommodityTemplate">
+    <select id="selectByIds" resultMap="BaseResultMap">
         select * from draw_lottery.t_commodity_template where id in
-        <foreach collection="ids" open="(" separator="," close=")" item="type">
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
             #{id}
         </foreach>
     </select>

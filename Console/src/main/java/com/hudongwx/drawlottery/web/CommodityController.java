@@ -5,14 +5,12 @@ import com.hudongwx.drawlottery.common.base.BaseController;
 import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.dto.paramBody.AllParamList;
+import com.hudongwx.drawlottery.common.dto.paramBody.CardParam;
 import com.hudongwx.drawlottery.common.dto.paramBody.TempBody;
 import com.hudongwx.drawlottery.common.dto.paramBody.TempParam;
 import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.response.CommodityFiltersResult;
-import com.hudongwx.drawlottery.pojo.Commodity;
-import com.hudongwx.drawlottery.pojo.CommodityState;
-import com.hudongwx.drawlottery.pojo.CommodityTemplate;
-import com.hudongwx.drawlottery.pojo.CommodityType;
+import com.hudongwx.drawlottery.pojo.*;
 import com.hudongwx.drawlottery.service.commodity.*;
 import com.hudongwx.drawlottery.service.user.IUserService;
 import io.swagger.annotations.Api;
@@ -57,6 +55,8 @@ public class CommodityController extends BaseController {
 
     @Resource
     private IStateService stateService;
+    @Resource
+    private CardService cardService;
 
     @ApiOperation("获取商品列表")
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -72,10 +72,10 @@ public class CommodityController extends BaseController {
     }
 
     @ApiOperation("获取商品模板列表")
-    @RequestMapping(value = "/temps",method = RequestMethod.POST)
-    public PageInfo<CommodityTemplate> getTemplates(@ApiParam(name = "p",defaultValue = "1") @RequestParam(defaultValue = "1") final Integer p,
-                                                    @ApiParam @RequestBody TempParam tempParam){
-        return tempService.getTemplates(p,commonConstants.getMaxPageSize(),tempParam.getType(),tempParam.getGenre(),tempParam.getOrder(),tempParam.getDirection());
+    @RequestMapping(value = "/temps", method = RequestMethod.POST)
+    public PageInfo<CommodityTemplate> getTemplates(@ApiParam(name = "p", defaultValue = "1") @RequestParam(defaultValue = "1") final Integer p,
+                                                    @ApiParam @RequestBody TempParam tempParam) {
+        return tempService.getTemplates(p, commonConstants.getMaxPageSize(), tempParam.getType(), tempParam.getGenre(), tempParam.getOrder(), tempParam.getDirection());
     }
 
     @ApiOperation("批量删除商品")
@@ -99,27 +99,28 @@ public class CommodityController extends BaseController {
         return success(langConstants.getLang(langConstants.UPDATE_COMMODITY_SUCCESS));
     }
 
-    @ApiOperation("批量上架")
+    @ApiOperation("批量上架商品（仅限已下架的）")
     @RequestMapping(value = "/ground", method = RequestMethod.POST)
     public AjaxResult groundCommodities(@ApiParam @RequestBody List<Integer> list) {
-        if(list.size() == 0)
+        if (list.size() == 0)
             return fail(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
         tempService.ground(list);
         return success(langConstants.getLang(langConstants.GROUND_COMMODITY_SUCCESS));
     }
 
-    @ApiOperation("批量上架模板")
-    @RequestMapping(value = "/groundTemp",method = RequestMethod.POST)
-    public AjaxResult groundCommodityTemplates(@ApiParam @RequestBody List<Integer> list){
-        if(list.size() == 0)
+    @ApiOperation("批量上架模板（新建一个新的商品）")
+    @RequestMapping(value = "/groundTemp", method = RequestMethod.POST)
+    public AjaxResult groundCommodityTemplates(@ApiParam @RequestBody List<Integer> list) {
+        if (list.size() == 0)
             return fail(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
         tempService.groundNew(list);
         return success(langConstants.getLang(langConstants.GROUND_COMMODITY_SUCCESS));
     }
+
     @ApiOperation("批量下架")
     @RequestMapping(value = "/under", method = RequestMethod.POST)
     public AjaxResult underCommodities(@ApiParam @RequestBody List<Integer> list) {
-        if(list.size() == 0)
+        if (list.size() == 0)
             return fail(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
         tempService.undercarriage(list);
         return success(langConstants.getLang(langConstants.UNDERCARRIAGE_COMMODITY_SUCCESS));
@@ -163,5 +164,24 @@ public class CommodityController extends BaseController {
         return success(langConstants.getLang(langConstants.UPLOAD_SUCCESS), s);
     }
 
+    @ApiOperation("获取卡密集合")
+    @RequestMapping(value = "/getCards", method = RequestMethod.POST)
+    public PageInfo<Card> getAllCards(@RequestParam(defaultValue = "1") Integer p, @RequestBody CardParam cardParam) {
+        return cardService.getCards(p, commonConstants.getMaxPageSize(), cardParam.getCorporation(), cardParam.getOrder(), cardParam.getDirection());
+    }
+
+    @ApiOperation("添加卡密")
+    @RequestMapping(value = "/addCard", method = RequestMethod.POST)
+    public AjaxResult addCard(@RequestBody Card card) {
+        cardService.insertCard(card);
+        return success("添加卡密记录成功");
+    }
+
+    @ApiOperation("删除卡密")
+    @RequestMapping(value = "/deleteCards", method = RequestMethod.POST)
+    public AjaxResult deleteCards(@RequestBody List<Integer> cardIds) {
+        cardService.deleteCard(cardIds);
+        return success();
+    }
 }
 

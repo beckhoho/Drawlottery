@@ -15,8 +15,8 @@
         </plugin>-->
 
         <commentGenerator>
-            <property name="suppressAllComments" value="false"/>
-            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="false"/>
         </commentGenerator>
 
         <jdbcConnection driverClass="${jdbc.driverClass}"
@@ -45,7 +45,7 @@
         <javaClientGenerator targetPackage="com.hudongwx.drawlottery.dao"
                              targetProject="src\main\java" type="XMLMAPPER"/>
 
-        <table tableName="t_commodity_template" modelType="flat" domainObjectName="OOX">
+        <table tableName="t_card" modelType="flat" domainObjectName="Card">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
