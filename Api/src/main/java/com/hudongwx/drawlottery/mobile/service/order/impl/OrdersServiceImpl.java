@@ -46,6 +46,8 @@ public class OrdersServiceImpl implements IOrdersService {
     LuckCodesMapper codesMapper;
     @Autowired
     CommodityMapper commMapper;
+    @Autowired
+    LotteryInfoMapper lotteryInfoMapper;
 
     /**
      * 计算扣款
@@ -191,7 +193,9 @@ public class OrdersServiceImpl implements IOrdersService {
                 /*
                     计算开奖幸运码
                  */
-                LotteryUtils.raffle(luckMapper,userMapper,com);
+                LotteryInfo raffle = LotteryUtils.raffle(luckMapper, userMapper, com);
+                lotteryInfoMapper.insert(raffle);
+
 
 //                comMapper.;//根据主键修改商品状态
                 /*

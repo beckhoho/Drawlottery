@@ -317,11 +317,13 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         com.setCommodityId(commodityId);
         com.setExchangeState(1);
         com.setExchangeWay(2);
-        chMapper.updateByPrimaryKeySelective(com);//更新历史商品兑换状态
+        int i = chMapper.updateByIdSelective(com);//更新历史商品兑换状态
 
-        //调用查询方法，去查询响应数据
-        Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
+        if(i>0){
+            //调用查询方法，去查询响应数据
+            Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
 
-        return map;
+        }
+        return null;
     }
 }

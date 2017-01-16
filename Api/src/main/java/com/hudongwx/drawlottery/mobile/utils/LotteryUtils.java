@@ -42,7 +42,7 @@ public class LotteryUtils {
         /*
             计算中奖id
          */
-        long lotteryId = sumDate%commodity.getBuyCurrentNumber()+10000001;
+        long lotteryId = (sumDate%commodity.getBuyCurrentNumber())+100000001;
         lotteryInfo.setLotteryId(lotteryId);
         return lotteryInfo;
     }

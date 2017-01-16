@@ -19,4 +19,8 @@
     <select id="selectById" resultMap="BaseResultMap">
     SELECT * FROM t_luck_codes WHERE id = #{lcId}
   </select>
+
+    <select id="selectByCode" resultMap="BaseResultMap">
+        SELECT * FROM t_luck_codes WHERE lock_code = #{code}
+    </select>
 </mapper>
