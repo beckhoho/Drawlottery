@@ -32,7 +32,6 @@ public class LotteryUtilsTest extends TestBaseMapper {
         commodity.setBuyCurrentNumber(1000);
         LotteryInfo lotteryInfo = LotteryUtils.raffle(luckCodesMapper,userMapper,commodity);
         Long lotteryId = lotteryInfo.getLotteryId();
-        System.out.println(lotteryId);
         LuckCodes luckCodes = CodesMapper.selectByCode(lotteryId+"");
         Assert.assertNotNull(luckCodes,"幸运号为空！！！");
     }

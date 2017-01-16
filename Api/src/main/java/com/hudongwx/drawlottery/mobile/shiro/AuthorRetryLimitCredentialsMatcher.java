@@ -21,12 +21,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Author: origin
  * DESC:用户认证,3次登陆失败就出现图片验证码
  * */
+@Component
 public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher {
 
     @Autowired
     private CacheManager cache;
+
     private final String cacheName;
-    private int limitRetry = 3;//重试次数
+    private int limitRetry = 10;//重试次数
 
     public AuthorRetryLimitCredentialsMatcher(String cacheName) {
         super();
@@ -45,10 +47,8 @@ public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher
             updateAtomicInteger(atomicInteger,id);
             throw new ExcessiveAttemptsException("登录错误次数太多,3分钟之后再登录");
         }else{
-
             //匹配验证
             match = super.doCredentialsMatch(token, info);
-
             //匹配数据
             if(match){
                 //删除缓存
@@ -60,6 +60,7 @@ public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher
         return match;
     }
 
+
     public AtomicInteger getAtomicInteger(String id){
         Cache cacheCache = getCache();
         AtomicInteger atomicInteger = cacheCache.get(id, AtomicInteger.class);
@@ -69,9 +70,12 @@ public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher
         return atomicInteger;
     }
 
+
+
     private Cache getCache(){
         return cache.getCache(cacheName);
     }
+
 
     /**
      * 更新数据
