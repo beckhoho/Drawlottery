@@ -21,7 +21,7 @@ public class LotteryInfo {
     private Long lotteryId;
 
     /**
-     * json：中奖者昵称，日期，毫秒数
+     * json：购买最后五十商品的用户昵称，日期，毫秒数
      */
     private String lotteryInfo;
 
@@ -33,7 +33,7 @@ public class LotteryInfo {
     /**
      * 商品购买总人次
      */
-    private Long buyNum;
+    private int buyNum;
 
     public Long getId() {
         return id;
@@ -75,11 +75,11 @@ public class LotteryInfo {
         this.sumDate = sumDate;
     }
 
-    public Long getBuyNum() {
+    public int getBuyNum() {
         return buyNum;
     }
 
-    public void setBuyNum(Long buyNum) {
+    public void setBuyNum(int buyNum) {
         this.buyNum = buyNum;
     }
 }

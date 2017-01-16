@@ -36,7 +36,7 @@ public class LotteryUtils {
             array.add(date+" "+buyDate+" : "+user.getNickname());
         }
         lotteryInfo.setCommodityId(commodity.getId());//商品id
-        lotteryInfo.setBuyNum((long)commodity.getBuyCurrentNumber());//总购买数
+        lotteryInfo.setBuyNum(commodity.getBuyCurrentNumber());//总购买数
         lotteryInfo.setLotteryInfo(array.toString());//具体每条信息json
         lotteryInfo.setSumDate(sumDate);//五十和
         /*

@@ -6,6 +6,7 @@ import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersCommoditysService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
+import com.hudongwx.drawlottery.mobile.utils.LotteryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -185,6 +186,11 @@ public class OrdersServiceImpl implements IOrdersService {
 
                 com.setStateId(2);//进入待揭晓状态
                 com.setSellOutTime(System.currentTimeMillis());//添加售罄时间
+                /*
+                    计算开奖幸运码
+                 */
+                LotteryUtils.raffle(luckMapper,userMapper,com);
+
 //                comMapper.;//根据主键修改商品状态
                 /*
                     下期请求
