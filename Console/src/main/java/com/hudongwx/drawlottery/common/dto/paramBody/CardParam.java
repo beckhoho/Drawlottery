@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.common.dto.paramBody;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,10 +11,11 @@ import java.util.List;
  * @author <a href="http://userwu.github.io">wuhongxu</a>.
  * @version 1.0.0
  */
-public class CardParam {
+public class CardParam implements Serializable {
+    public static Long serialVersionUID = 1L;
     private List<Integer> corporation;
-    private Integer order;
-    private Integer  direction;
+    private int order;
+    private int  direction;
 
     public List<Integer> getCorporation() {
         return corporation;
@@ -23,19 +25,19 @@ public class CardParam {
         this.corporation = corporation;
     }
 
-    public Integer getOrder() {
+    public int getOrder() {
         return order;
     }
 
-    public void setOrder(Integer order) {
+    public void setOrder(int order) {
         this.order = order;
     }
 
-    public Integer getDirection() {
+    public int getDirection() {
         return direction;
     }
 
-    public void setDirection(Integer direction) {
+    public void setDirection(int direction) {
         this.direction = direction;
     }
 }

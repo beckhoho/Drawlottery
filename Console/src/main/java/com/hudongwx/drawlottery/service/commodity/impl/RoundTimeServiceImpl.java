@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.service.commodity.impl;
 
-import com.hudongwx.drawlottery.dao.LuckCodeTemplateMapper;
 import com.hudongwx.drawlottery.service.commodity.CommodityService;
 import com.hudongwx.drawlottery.service.commodity.RoundTimeService;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,6 @@ import javax.annotation.Resource;
  */
 @Service
 public class RoundTimeServiceImpl implements RoundTimeService {
-    @Resource
-    private LuckCodeTemplateMapper codeTempMapper;
     @Resource
     private CommodityService commodityService;
 

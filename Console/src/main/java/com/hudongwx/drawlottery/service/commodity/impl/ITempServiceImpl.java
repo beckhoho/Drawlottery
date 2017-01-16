@@ -6,9 +6,11 @@ import com.hudongwx.drawlottery.common.constants.CommonConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.exceptions.ServiceException;
 import com.hudongwx.drawlottery.common.utils.TimerUtil;
+import com.hudongwx.drawlottery.dao.CommodityImagesMapper;
 import com.hudongwx.drawlottery.dao.CommodityMapper;
 import com.hudongwx.drawlottery.dao.CommodityTemplateMapper;
 import com.hudongwx.drawlottery.pojo.Commodity;
+import com.hudongwx.drawlottery.pojo.CommodityImages;
 import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 import com.hudongwx.drawlottery.service.commodity.CommodityService;
 import com.hudongwx.drawlottery.service.commodity.ITempService;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +50,9 @@ public class ITempServiceImpl implements ITempService {
 
     @Resource
     private CommonConstants commonConstants;
+
+    @Resource
+    private CommodityImagesMapper imgMapper;
 
 
     /**
@@ -197,6 +203,28 @@ public class ITempServiceImpl implements ITempService {
             commodityService.groundCommodity(temp.getId(), temp.getBuyTotalNumber());
         }
         logger.error("消耗时长：" + (System.currentTimeMillis() - start));
+    }
+
+    /**
+     * 为模板关联图片列表
+     *
+     * @param id     模板id
+     * @param images 图片url集合
+     */
+    @Override
+    public void connectImgs(long id, List<String> images) {
+        final List<CommodityImages> imgs = new ArrayList<>();
+        if (images.size() == 0)
+            return;
+        for (String image : images) {
+            CommodityImages img = new CommodityImages();
+            img.setCommodityId(id);
+            img.setAddTime(System.currentTimeMillis());
+            img.setState(commonConstants.getVALID());
+            img.setUrl(image);
+            imgs.add(img);
+        }
+        imgMapper.insertList(imgs);
     }
 
 }

@@ -505,4 +505,17 @@ public class CommodityServiceImpl implements ICommodityService {
         int insert = historyMapper.insert(history);
         return insert > 0 && insert1 > 0 && i > 0;
     }
+
+    /**
+     * 生成新的期数
+     *
+     * @return 期数
+     */
+    @Override
+    public Long generateNewRoundTime() {
+        synchronized (this) {
+            return commMapper.selectMaxRoundTime() + 1;
+        }
+    }
+
 }

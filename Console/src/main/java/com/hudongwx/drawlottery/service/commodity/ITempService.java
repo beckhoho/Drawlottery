@@ -96,4 +96,11 @@ public interface ITempService {
      * @param list 模板id
      */
     public void groundNew(List<Integer> list);
+
+    /**
+     * 为模板关联图片列表
+     * @param id 模板id
+     * @param images 图片url集合
+     */
+    public void connectImgs(long id, List<String> images);
 }
