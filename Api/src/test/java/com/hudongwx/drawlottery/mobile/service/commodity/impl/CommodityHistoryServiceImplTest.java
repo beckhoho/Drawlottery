@@ -4,11 +4,8 @@ import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -26,6 +23,10 @@ import static org.testng.Assert.*;
  * @email 346905702@qq.com
  */
 public class CommodityHistoryServiceImplTest extends TestBaseMapper {
+    @Test
+    public void testSelectThePastAnnouncedCommList() throws Exception {
+        service.selectThePastAnnouncedCommList(43L);
+    }
 
     @Autowired
     ICommodityHistoryService service;

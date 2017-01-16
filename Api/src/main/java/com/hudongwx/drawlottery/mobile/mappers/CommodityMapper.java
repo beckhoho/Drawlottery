@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Commodity;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -20,4 +21,5 @@ import com.hudongwx.drawlottery.mobile.entitys.Commodity;
  */
 public interface CommodityMapper  extends BaseMapper<Commodity>{
 
+    Long selectTempIdByCommId(@Param("commId")Long commId);
 }

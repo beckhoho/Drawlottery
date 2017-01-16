@@ -2,6 +2,9 @@ package com.hudongwx.drawlottery.mobile.service.commodity;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -25,5 +28,11 @@ public interface ICommodityHistoryService {
     //查看历史商品
     CommodityHistory selectHistoryCommod();
 
-
+    /**
+     * 查询指定商品的往期揭晓
+     *
+     * @param commId
+     * @return
+     */
+    List<Map<String,Object>> selectThePastAnnouncedCommList(Long commId);
 }

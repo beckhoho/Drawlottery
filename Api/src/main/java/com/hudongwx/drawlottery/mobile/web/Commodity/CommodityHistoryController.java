@@ -2,8 +2,12 @@ package com.hudongwx.drawlottery.mobile.web.commodity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
+import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,6 +32,9 @@ import java.util.List;
 @Api(value = "CommodityHistoryController", description = "商品历史信息管理")
 public class CommodityHistoryController extends BaseController {
 
+    @Autowired
+    ICommodityHistoryService chService;
+
     /**
      * 查看商品历史
      *
@@ -37,10 +44,23 @@ public class CommodityHistoryController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/commodityhistory/show", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/commhistory/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommodityHistoryInfo(@RequestParam("acc") Long accountid, @RequestParam("chid") Long lastcommid, @RequestParam("tag") int tag) {
         List<CommodityHistory> chlist = new ArrayList<>();// TODO: 2016/12/24 查询用户购买的商品 参数(Long accountid)
         return success(chlist);
+    }
+
+    /**
+     * 通过商品Id(commId)浏览往期揭晓
+     *
+     * @param commId
+     * @return
+     */
+    @ResponseBody
+    @ApiOperation("通过商品Id(commId)浏览往期揭晓")
+    @RequestMapping(value = "/api/v1/user/commhistory/announced/show", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryThePastAnnouncedCommList(@ApiParam("商品Id")@RequestParam("commId") Long commId) {
+        return success(chService.selectThePastAnnouncedCommList(commId));
     }
 
 }

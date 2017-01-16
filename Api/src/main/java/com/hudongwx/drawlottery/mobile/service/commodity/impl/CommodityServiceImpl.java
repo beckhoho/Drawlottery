@@ -505,5 +505,4 @@ public class CommodityServiceImpl implements ICommodityService {
         int insert = historyMapper.insert(history);
         return insert > 0 && insert1 > 0 && i > 0;
     }
-
 }

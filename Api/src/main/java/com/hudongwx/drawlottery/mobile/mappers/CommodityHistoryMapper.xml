@@ -64,4 +64,7 @@
         WHERE id = #{id}
     </update>
 
+    <select id="selectByTempId" resultMap="BaseResultMap">
+      SELECT * FROM t_commodity_history WHERE temp_id = #{tempId}
+    </select>
 </mapper>
