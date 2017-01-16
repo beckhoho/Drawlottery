@@ -53,8 +53,6 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     ShareMapper shareMapper;
 
 
-
-
     /**
      * 兑换现金
      *
@@ -83,7 +81,6 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         return cashMapper.insert(exCash) > 0;
     }
-
 
 
     /**
@@ -209,6 +206,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     /**
      * 查询对应商品的充值卡
+     *
      * @param commodityId
      * @return
      */
@@ -227,17 +225,17 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     /**
      * 选择兑换充值卡方式
+     *
      * @param accountId
      * @param commodityId
      * @return
      */
     @Override
-    public Map<String,Object> temp1(Long accountId,Long commodityId){
-        CommodityHistory com = new CommodityHistory();
-        com.setCommodityId(commodityId);
-        com.setExchangeState(1);
-        com.setExchangeWay(1);
-        chMapper.updateByPrimaryKeySelective(com);//更新历史商品兑换状态
+    public Map<String, Object> temp1(Long accountId, Long commodityId) {
+        CommodityHistory history = chMapper.selectBycommId(commodityId);
+        history.setExchangeState(1);
+        history.setExchangeWay(1);
+        chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
 
         //调用查询方法，去查询响应数据
         Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
@@ -247,13 +245,14 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     /**
      * 选择快递领取兑换
+     *
      * @param accountId
      * @param commodityId
      * @param addressId
      * @return
      */
     @Override
-    public Map<String,Object> temp2(Long accountId,Long commodityId,Long addressId){
+    public Map<String, Object> temp2(Long accountId, Long commodityId, Long addressId) {
 
         ExpressDelivery ex = new ExpressDelivery();
         ex.setCommodityId(commodityId);
@@ -262,11 +261,12 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         ex.setState(0);
         expressMapper.insert(ex);//添加快递对象
 
-        CommodityHistory com = new CommodityHistory();
-        com.setCommodityId(commodityId);
-        com.setExchangeState(1);
-        com.setExchangeWay(2);
-        chMapper.updateByPrimaryKeySelective(com);//更新历史商品兑换状态
+        CommodityHistory history = chMapper.selectBycommId(commodityId);
+
+        history.setCommodityId(commodityId);
+        history.setExchangeState(1);
+        history.setExchangeWay(2);
+        chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
 
         //调用查询方法，去查询响应数据
         Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
@@ -275,6 +275,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     /**
      * 兑换现金
+     *
      * @param accountId
      * @param commodityId
      * @return
@@ -287,25 +288,33 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     /**
      * 兑换闪币
+     *
      * @param accountId
      * @param commodityId
      * @return
      */
     @Override
     public boolean temp4(Long accountId, Long commodityId) {
-        User key = userMapper.selectByPrimaryKey(accountId);
-        Integer number = key.getGoldNumber();//获得用户当前闪币数量
-        Commoditys com = comMapper.selectByKey(commodityId);
-        CommodityTemplate template = templateMapper.selectByPrimaryKey(com.getTempId());
+        User user = userMapper.selectByPrimaryKey(accountId);
+        Integer number = user.getGoldNumber();//获得用户当前闪币数量
+
+        CommodityHistory history = chMapper.selectBycommId(commodityId);
+        history.setExchangeState(1);
+        history.setExchangeWay(2);
+        int i = chMapper.updateByPrimaryKeySelective(history);//更改商品状态
+
+        CommodityTemplate template = templateMapper.selectByPrimaryKey(history.getTempId());
         Integer money = template.getExchangeMoney();//获得折换闪币金额
-        User user = new User();
+
         user.setAccountId(accountId);
         user.setGoldNumber(number + money);//修改用户闪币数额
-        return userMapper.updateByPrimaryKeySelective(user) > 0;
+        int i1 = userMapper.updateByPrimaryKeySelective(user);
+        return  i1 > 0 && i>0;
     }
 
     /**
      * 到店领取
+     *
      * @param accountId
      * @param commodityId
      * @return
@@ -313,17 +322,16 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     @Override
     public Map<String, Object> temp5(Long accountId, Long commodityId) {
 
-        CommodityHistory com = new CommodityHistory();
-        com.setCommodityId(commodityId);
-        com.setExchangeState(1);
-        com.setExchangeWay(2);
-        int i = chMapper.updateByIdSelective(com);//更新历史商品兑换状态
+        CommodityHistory history = chMapper.selectBycommId(commodityId);
+        history.setExchangeState(1);
+        history.setExchangeWay(2);
+        int i = chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
 
-        if(i>0){
-            //调用查询方法，去查询响应数据
-            Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
 
-        }
+        //调用查询方法，去查询响应数据
+        Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
+
+
         return null;
     }
 }

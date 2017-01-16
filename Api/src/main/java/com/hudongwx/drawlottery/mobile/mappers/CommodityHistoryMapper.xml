@@ -21,7 +21,7 @@
     </resultMap>
 
     <!-- 查询中奖历史-->
-    <select id="selectHistoryLottery" resultMap="BaseResultMap" >
+    <select id="selectHistoryLottery" resultMap="BaseResultMap">
         select *  from t_commodity_history WHERE luck_user_account_id = #{accountId}
     </select>
 
@@ -45,10 +45,10 @@
         WHERE commodity_id = #{commodityId} AND luck_user_account_id = #{accountId}
     </select>
 
-    <update id="updateByIdSelective" parameterType="com.hudongwx.drawlottery.mobile.entitys.CommodityHistory">
-        UPDATE  t_commodity_history
+    <update id="updateByCommodityIdSelective" parameterType="com.hudongwx.drawlottery.mobile.entitys.CommodityHistory">
+        UPDATE t_commodity_history
         <trim prefix="set" suffixOverrides=",">
-            <if test="commodityId != null">commodity_id = #{commodityId},</if>
+            <if test="id != null">id = #{id},</if>
             <if test="luckCode != null">luck_code = #{luckCode},</if>
             <if test="tempId != null">temp_id = #{tempId},</if>
             <if test="commodityName != null">commodity_name = #{commodityName},</if>
@@ -61,7 +61,7 @@
             <if test="exchangeState !=null">exchange_state = #{exchangeState},</if>
             <if test="exchangeWay !=null">exchange_way = #{exchangeWay},</if>
         </trim>
-        WHERE id = #{id}
+        WHERE commodity_id = #{commodityId}
     </update>
 
     <select id="selectByTempId" resultMap="BaseResultMap">

@@ -38,5 +38,5 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
 
     List<CommodityHistory> selectByTempId(@Param("tempId")Long tempId);
 
-    int updateByIdSelective(@Param("commodityHistory") CommodityHistory commodityHistory);
+    int updateByCommodityIdSelective(@Param("commodityHistory") CommodityHistory commodityHistory);
 }
