@@ -39,17 +39,7 @@ public class Orders {
     @Column(name = "red_packet_id")
     private Long redPacketId;
 
-    /**
-     * 订单详情
-     */
-    @Column(name = "order_detail")
-    private String orderDetail;
 
-    /**
-     * 订单付款状态
-     */
-    @Column(name = "pay_state")
-    private Integer payState;
 
     public Long getRedPacketId() {
         return redPacketId;
@@ -136,19 +126,5 @@ public class Orders {
         this.submitDate = submitDate;
     }
 
-    public String getOrderDetail() {
-        return orderDetail;
-    }
 
-    public void setOrderDetail(String orderDetail) {
-        this.orderDetail = orderDetail;
-    }
-
-    public Integer getPayState() {
-        return payState;
-    }
-
-    public void setPayState(Integer payState) {
-        this.payState = payState;
-    }
 }
