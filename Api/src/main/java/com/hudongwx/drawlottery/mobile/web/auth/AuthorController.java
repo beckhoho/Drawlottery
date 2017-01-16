@@ -5,6 +5,7 @@ import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.shiro.CaptchaUsernamePasswordToken;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
+import com.sun.org.apache.regexp.internal.RE;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
@@ -27,6 +28,22 @@ public class AuthorController extends BaseController {
         return fail(403,"当前没有登录");
     }
 
+
+    /**
+     * 用户第三方登录,post
+     * @return
+     *
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/pub/party/login", method = RequestMethod.POST)
+    public JSONObject partyLogin(@RequestBody(required = true) CaptchaUsernamePasswordToken token) {
+
+
+        return success();
+    }
+
+
+
     /**
      * 用户登录,post
      * @return
@@ -34,7 +51,6 @@ public class AuthorController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/auth/login", method = RequestMethod.POST)
     public JSONObject login(@RequestBody(required = true) CaptchaUsernamePasswordToken token) {
-        
         //获取用户信息
         Subject subject = SecurityUtils.getSubject();
         if (!subject.isAuthenticated()) {//是否已经验证过
@@ -61,6 +77,7 @@ public class AuthorController extends BaseController {
         }
     }
 
+
     /**
      * 用户登出
      *
@@ -75,7 +92,6 @@ public class AuthorController extends BaseController {
 
     /**
      * 用户注册
-     *
      * @param phone    注册账号
      * @param password 注册密码
      * @return

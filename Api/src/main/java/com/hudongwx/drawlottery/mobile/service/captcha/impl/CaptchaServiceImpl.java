@@ -36,11 +36,11 @@ import java.security.SecureRandom;
 @CacheConfig(cacheNames="phone_captcha_cache")
 public class CaptchaServiceImpl implements ICaptchaService {
 
-    //随机验证码
+    //手机随机验证码
     final RandomWordGenerator randomWordGenerator = new RandomWordGenerator("0123456789");
 
-//    @Autowired
     final DefaultManageableImageCaptchaService captchaService = new DefaultManageableImageCaptchaService();
+
     /*
     获取验证图片信息
      */
@@ -74,7 +74,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
      * @return
      */
     public boolean validatorImageCode(String id,String code){
-       return captchaService.validateResponseForID(id,code);
+        return captchaService.validateResponseForID(id,code);
     }
 
 }
