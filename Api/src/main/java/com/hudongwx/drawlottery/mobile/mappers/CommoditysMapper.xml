@@ -28,6 +28,10 @@
         <result column="view_num" jdbcType="BIGINT" property="viewNum"/>
         <result column="withdrawals_money" jdbcType="INTEGER" property="withdrawalsMoney"/>
         <result column="exchange_money" jdbcType="INTEGER" property="exchangeMoney"/>
+        <result column="card_type" jdbcType="INTEGER" property="cardType"/>
+        <result column="card_num" jdbcType="INTEGER" property="cardNum"/>
+        <result column="card_money" jdbcType="INTEGER" property="cardMoney"/>
+
     </resultMap>
 
 
@@ -167,6 +171,9 @@
         template.withdrawals_money,
         template.exchange_money,
         commodity.temp_id,
+        template.card_type,
+        template.card_num,
+        template.card_money,
         commodity.view_num,template.commodity_desc,
         template.commodity_type_id,commodity.buy_current_number,
         template.buy_total_number,template.ground_time,
