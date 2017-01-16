@@ -47,26 +47,13 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     UserMapper userMapper;
     @Autowired
     ExpressDeliveryMapper expressMapper;
+    @Autowired
+    ExpressDeliveryMapper exDeMapper;
+    @Autowired
+    ShareMapper shareMapper;
 
-    /**
-     * 兑换闪币
-     *
-     * @param commodityId   商品ID
-     * @param userAccountId 用户ID
-     * @return
-     */
-    @Override
-    public boolean exchangeToGold(Long commodityId, Long userAccountId) {
-        User key = userMapper.selectByPrimaryKey(userAccountId);
-        Integer number = key.getGoldNumber();//获得用户当前闪币数量
-        Commoditys com = comMapper.selectByKey(commodityId);
-        CommodityTemplate template = templateMapper.selectByPrimaryKey(com.getTempId());
-        Integer money = template.getExchangeMoney();//获得折换闪币金额
-        User user = new User();
-        user.setAccountId(userAccountId);
-        user.setGoldNumber(number + money);//修改用户闪币数额
-        return userMapper.updateByPrimaryKeySelective(user) > 0;
-    }
+
+
 
     /**
      * 兑换现金
@@ -97,46 +84,10 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         return cashMapper.insert(exCash) > 0;
     }
 
-    /**
-     * 到店领取
-     *
-     * @param commodityId   商品ID
-     * @param userAccountId 用户ID
-     * @return
-     */
-    @Override
-    public Map<String, Object> exchangeToLocale(Long commodityId, Long userAccountId) {
-        Map<String, Object> map = new HashMap<>();
-        Commoditys com = comMapper.selectByKey(commodityId);
-        CommodityTemplate template = templateMapper.selectByPrimaryKey(com.getTempId());
-        String name = template.getContactName();//获取领奖人联系人
-        String phone = template.getContactPhone();//获取领奖人联系人电话
-        String address = template.getContactAddress();//添加领奖联系地址
-        map.put("name", name);
-        map.put("phone", phone);
-        map.put("address", address);
-        return map;
-    }
+
 
     /**
-     * 快递领取
-     *
-     * @param commodityId   商品ID
-     * @param userAccountId 用户ID
-     * @return
-     */
-    @Override
-    public boolean exchangeToExpress(Long commodityId, Long userAccountId, Long addressId) {
-        ExpressDelivery ex = new ExpressDelivery();//添加到快递表中待处理
-        ex.setUserAccountId(userAccountId);//添加用户ID
-        ex.setState(0);//添加快递进度状态
-        ex.setAddressId(addressId);//添加收货地址ID
-        ex.setCommodityId(commodityId);//添加商品ID
-        return expressMapper.insert(ex) > 0;
-    }
-
-    /**
-     * 查看user抽中的充值卡
+     * 领奖过程
      *
      * @param accountId   用户ID
      * @param commodityId 商品ID
@@ -145,10 +96,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     @Override
     public List<Map<String, Object>> selectUserRechargeCardPrize(Long accountId, Long commodityId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        CommodityHistory ch = new CommodityHistory();
-        ch.setLuckUserAccountId(accountId);
-        ch.setCommodityId(commodityId);
-        List<CommodityHistory> list = chMapper.select(ch);
+        List<CommodityHistory> list = chMapper.selectComIdAndUser(accountId, commodityId);
         for (CommodityHistory comHis : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("commodityName", comHis.getCommodityName());//添加商品名
@@ -180,51 +128,199 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     }
 
     /**
-     * 查看充值卡兑奖流程进度
+     * 查看兑奖流程进度
      *
      * @param commodityId 商品ID
      * @return
      */
     @Override
     public Map<String, Object> selectUserRechargeCardExchangeProcess(Long accountId, Long commodityId) {
+
         Map<String, Object> map = new HashMap<>();
-        CommodityHistory commHis = new CommodityHistory();
-        commHis.setCommodityId(commodityId);
-        commHis.setLuckUserAccountId(accountId);
-        CommodityHistory history = chMapper.selectOne(commHis);
-        ExchangeWay way = ewMapper.selectById(Settings.EXCHANGE_METHOD_RECHARGE_CARD);
+
+        CommodityHistory history = chMapper.selectBycommId(commodityId);
+        ExchangeWay way = ewMapper.selectById(history.getExchangeWay());
+
+        CommodityTemplate template = templateMapper.selectById(history.getTempId());
+
+        Share s = new Share();
+        s.setUserAccountId(accountId);
+        s.setCommodityId(commodityId);
+        List<Share> select = shareMapper.select(s);
+
         map.put("commodityName", history.getCommodityName());//商品名
         map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图
         map.put("exchangeState", history.getExchangeState());//兑奖流程进度状态
-        map.put("exchangeName", way.getName());//兑换方式名
-        map.put("userBuyNumber", history.getBuyNumber());
-        map.putAll(demo2(commodityId, map));
+        map.put("userBuyNumber", history.getBuyNumber());//添加用户购买人次
+        map.put("genre", history.getGenre());//添加商品实体虚拟
+        map.put("commodityId", commodityId);//添加商品ID
+        map.put("prizeState", "正在兑奖中");//奖品状态
+        map.put("size", null);//几张充值卡
+        map.put("cardNumberList", null);//充值卡卡号集合
+        map.put("worth", null);//充值卡面额
+        map.put("expressNumber", null);//快递单号
+        map.put("expressName", null);//获取快递名
+        map.put("expressState", null);//添加快递状态
+        map.put("ContactName", null);//添加领奖联系人姓名
+        map.put("ContactPhone", null);//添加领奖联系人电话
+        map.put("ContactAddress", null);//添加领奖地址
+        map.put("state", 2);//添加兑换流程状态
+
+        if (select.size() > 0) {//晒单状态
+            map.put("shareState", 1);
+        } else {
+            map.put("shareState", 0);
+        }
+        if (way != null) {
+            map.put("exchangeName", way.getName());//兑换方式名
+        } else {
+            map.put("exchangeName", "未选择兑换方式");//如果未选择兑换方式
+        }
+
+        int f = history.getExchangeState();//商品兑换状态
+        if (f == 1) {
+            int g = history.getExchangeWay();//商品兑换方式
+            if (g == 1) {//兑换充值卡
+                map.putAll(demo2(commodityId));
+            } else if (g == 2) {//快递领取
+                ExpressDelivery delivery = exDeMapper.selectByAccountAndCommodity(accountId, commodityId);
+                if (delivery.getDeliveryName() == null) {
+                    map.put("expressNumber", "未派发快递");//快递单号
+                    map.put("expressName", "空！");//获取快递名
+                    map.put("expressState", "未派发快递");//添加快递状态
+                    map.put("state", 3);//添加兑换流程状态
+                } else {
+                    map.put("expressNumber", delivery.getDeliveryNumber());//快递单号
+                    map.put("expressName", delivery.getDeliveryName());//获取快递名
+                    map.put("expressState", delivery.getState());//添加快递状态
+                    map.put("state", 3);//添加兑换流程状态
+                }
+            } else if (g == 5) {//到店领取
+                map.put("ContactName", template.getContactName());//添加领奖联系人姓名
+                map.put("ContactPhone", template.getContactPhone());//添加领奖联系人电话
+                map.put("ContactAddress", template.getContactAddress());//添加领奖地址
+                map.put("state", 3);//添加兑换流程状态
+            }
+        }
         return map;
     }
 
-    public Map<String, Object> demo2(Long commodityId, Map<String, Object> map) {
-        VirtualCommodity v = new VirtualCommodity();
-        v.setCommodityId(commodityId);
-        List<VirtualCommodity> vc = vcMapper.select(v);
+
+    /**
+     * 查询对应商品的充值卡
+     * @param commodityId
+     * @return
+     */
+    public Map<String, Object> demo2(Long commodityId) {
+        Map<String, Object> map = new HashMap<>();
+        List<VirtualCommodity> vc = vcMapper.selectByCommId(commodityId);
         map.put("size", vc.size());//添加有几张充值卡
-        int worth = 0;
-        List<Map<String, Object>> list = new ArrayList<>();
+        List<String> number = new ArrayList<>();
         for (VirtualCommodity vir : vc) {
-            String pwd;
-            worth += vir.getWorth();
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("cardNumber", vir.getCardNumber());
-            if (vir.getState().intValue() == Settings.PASSWORD_VIEWED) {
-                pwd = vir.getPassword();
-            } else {
-                pwd = null;
-            }
-            map1.put("password", pwd);
-            map1.put("state", vir.getState());
-            list.add(map1);
+            number.add(vir.getCardNumber());
         }
-        map.put("worth", worth);//添加面额
-        map.put("cardList", list);
+        map.put("cardNumberList", number);//添加卡号
+        map.put("worth", vc.get(0).getWorth());//添加面额
+        return map;
+    }
+
+    /**
+     * 选择兑换充值卡方式
+     * @param accountId
+     * @param commodityId
+     * @return
+     */
+    @Override
+    public Map<String,Object> temp1(Long accountId,Long commodityId){
+        CommodityHistory com = new CommodityHistory();
+        com.setCommodityId(commodityId);
+        com.setExchangeState(1);
+        com.setExchangeWay(1);
+        chMapper.updateByPrimaryKeySelective(com);//更新历史商品兑换状态
+
+        //调用查询方法，去查询响应数据
+        Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
+
+        return map;
+    }
+
+    /**
+     * 选择快递领取兑换
+     * @param accountId
+     * @param commodityId
+     * @param addressId
+     * @return
+     */
+    @Override
+    public Map<String,Object> temp2(Long accountId,Long commodityId,Long addressId){
+
+        ExpressDelivery ex = new ExpressDelivery();
+        ex.setCommodityId(commodityId);
+        ex.setUserAccountId(accountId);
+        ex.setAddressId(addressId);
+        ex.setState(0);
+        expressMapper.insert(ex);//添加快递对象
+
+        CommodityHistory com = new CommodityHistory();
+        com.setCommodityId(commodityId);
+        com.setExchangeState(1);
+        com.setExchangeWay(2);
+        chMapper.updateByPrimaryKeySelective(com);//更新历史商品兑换状态
+
+        //调用查询方法，去查询响应数据
+        Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
+        return map;
+    }
+
+    /**
+     * 兑换现金
+     * @param accountId
+     * @param commodityId
+     * @return
+     */
+    @Override
+    public Map<String, Object> temp3(Long accountId, Long commodityId) {
+
+        return null;
+    }
+
+    /**
+     * 兑换闪币
+     * @param accountId
+     * @param commodityId
+     * @return
+     */
+    @Override
+    public boolean temp4(Long accountId, Long commodityId) {
+        User key = userMapper.selectByPrimaryKey(accountId);
+        Integer number = key.getGoldNumber();//获得用户当前闪币数量
+        Commoditys com = comMapper.selectByKey(commodityId);
+        CommodityTemplate template = templateMapper.selectByPrimaryKey(com.getTempId());
+        Integer money = template.getExchangeMoney();//获得折换闪币金额
+        User user = new User();
+        user.setAccountId(accountId);
+        user.setGoldNumber(number + money);//修改用户闪币数额
+        return userMapper.updateByPrimaryKeySelective(user) > 0;
+    }
+
+    /**
+     * 到店领取
+     * @param accountId
+     * @param commodityId
+     * @return
+     */
+    @Override
+    public Map<String, Object> temp5(Long accountId, Long commodityId) {
+
+        CommodityHistory com = new CommodityHistory();
+        com.setCommodityId(commodityId);
+        com.setExchangeState(1);
+        com.setExchangeWay(2);
+        chMapper.updateByPrimaryKeySelective(com);//更新历史商品兑换状态
+
+        //调用查询方法，去查询响应数据
+        Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
+
         return map;
     }
 }

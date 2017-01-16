@@ -29,7 +29,7 @@ public interface IVirtualCommodityService {
     boolean deleteCard(VirtualCommodity card);
 
     //查看
-    List<Map<String, Object>> selectUserCard(Long accountId);
+    List<Map<String, Object>> selectUserCard(Long accountId,Long commodityId);
 
     /**
      * 更改充值卡状态，在商品下的所有卡被查看卡密后修改虚拟商品兑换状态

@@ -41,14 +41,12 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
     @Override
     public boolean addDa(Long accountId, DeliveryAddress address) {
         address.setUserId(accountId);
-        DeliveryAddress da = new DeliveryAddress();
-        da.setUserId(accountId);
-        List<DeliveryAddress> addresses = damapper.select(da);
-        if (addresses.size() >= Settings.ADDRESS_ADD_MAX)
+        List<DeliveryAddress> addressList = damapper.selectByUserAccountId(accountId);
+        if (addressList.size() >= Settings.ADDRESS_ADD_MAX)
             return false;
         int i = 0;
-        if (!addresses.isEmpty()) {
-            for (DeliveryAddress addr : addresses) {
+        if (!addressList.isEmpty()) {
+            for (DeliveryAddress addr : addressList) {
                 if (addr.getState() == Settings.DELIVERY_ADDRESS_DEFAULT)
                     i++;
             }
@@ -93,9 +91,7 @@ public class DeliveryAddressServiceImpl implements IDeliveryAddressService {
     @Override
     public List<Map<String, Object>> selectByAccountId(Long accountId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        DeliveryAddress da = new DeliveryAddress();
-        da.setUserId(accountId);
-        List<DeliveryAddress> list = damapper.select(da);
+        List<DeliveryAddress> list = damapper.selectByUserAccountId(accountId);
         for (DeliveryAddress de : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("id", de.getId());//获取收货地址ID

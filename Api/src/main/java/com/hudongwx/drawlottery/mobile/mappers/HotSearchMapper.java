@@ -2,9 +2,7 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.HotSearch;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -29,5 +27,12 @@ public interface HotSearchMapper extends BaseMapper<HotSearch> {
     List<String> selectRecommend();
 
     //更新热门搜索关键词
+    @Update("update t_hot_search set frequency = #{frequency} where id = #{id}")
+    @Results({
+            @Result(id = true,column = "id",property = "id"),
+            @Result(column = "name",property = "name"),
+            @Result(column = "frequency",property = "frequency")
+    })
     int updateRecommend(@Param("id") Long id, @Param("frequency") Long frequency);
+
 }

@@ -1,7 +1,10 @@
 package com.hudongwx.drawlottery.mobile.service.oder.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
+import com.hudongwx.drawlottery.mobile.entitys.Commodity;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.mappers.OrdersMapper;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
@@ -9,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -32,8 +37,19 @@ public class OdersServiceImplTest extends TestBaseMapper {
     IOrdersService odersSer;
     @Test
     public void testAddOder() throws Exception {
-        JSONObject object = new JSONObject();
 
+        List<CommodityAmount> list = new ArrayList<>();
+        CommodityAmount com = new CommodityAmount();
+        com.setAmount(20);
+        com.setCommodityId(49l);
+        list.add(com);
+        Orders o = new Orders();
+        o.setUserAccountId(10000l);
+        o.setPayModeId(1);
+        o.setPrice(20);
+        o.setSubmitDate(new Date().getTime());
+        boolean pay = odersSer.pay(10000l, o, list);
+        Assert.assertTrue(pay);
         //测试完成    可用
 
     }
@@ -71,14 +87,11 @@ public class OdersServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testUpdate() throws Exception {
-        Orders oders = new Orders();
-        oders.setId(1l);
-        oders.setSubmitDate(new Date().getTime());
-        oders.setUserAccountId(3l);
-        boolean update = odersSer.update(oders);
-        Assert.assertTrue(update);
+//        Map<String, Object> map = odersSer.selectOrders(10000l, 1000);
+//        System.out.println(map.get("remainder"));
+//        System.out.println(map.get("useRedPackets"));
+        // 测试成功  可用
 
-        //测试成功  可用
     }
 
 }

@@ -38,9 +38,7 @@ public class RedPacketsServiceImpl implements IRedPacketsService {
     @Override
     public List<Map<String, Object>> selectAllByUserAccountId(Long accountId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        RedPackets redPackets = new RedPackets();
-        redPackets.setUserAccountId(accountId);
-        List<RedPackets> list = mapper.select(redPackets);
+        List<RedPackets> list = mapper.selectByAccount(accountId);
         for (RedPackets r : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("id", r.getId());//获取红包ID

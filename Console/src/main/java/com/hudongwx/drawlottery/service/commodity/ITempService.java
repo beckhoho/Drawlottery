@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.service.commodity;
 
+import com.github.pagehelper.PageInfo;
 import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 
 import java.util.List;
@@ -15,12 +16,19 @@ import java.util.List;
 public interface ITempService {
 
     /**
-     * 根据商品 id 得到商品模板.
+     * 根据 id 得到商品模板.
      *
      * @param id 商品模板id
      * @return 商品模板
      */
     public CommodityTemplate getCommodityById(final long id);
+
+    /**
+     * 根据id集合获取模板
+     * @param ids id集合
+     * @return
+     */
+    public List<CommodityTemplate> getCommodityById(final List<Integer> ids);
 
     /**
      * 添加商品模板.
@@ -69,4 +77,23 @@ public interface ITempService {
      * @return 匹配集合
      */
     public List<String> getNames(String name);
+
+    /**
+     * 获取模板列表
+     *
+     * @param currentPage 当前页数
+     * @param maxPageSize 最大页数
+     * @param type        分类
+     * @param genre       类型
+     * @param order       排序字段
+     * @param direction   方向
+     * @return 匹配分页
+     */
+    public PageInfo<CommodityTemplate> getTemplates(final int currentPage, int maxPageSize, List<Integer> type, List<Integer> genre, int order, int direction);
+
+    /**
+     * 上架模板（根据模板新建一个商品）
+     * @param list 模板id
+     */
+    public void groundNew(List<Integer> list);
 }

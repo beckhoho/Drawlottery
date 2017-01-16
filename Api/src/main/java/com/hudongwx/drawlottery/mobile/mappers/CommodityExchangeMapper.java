@@ -26,5 +26,5 @@ public interface CommodityExchangeMapper extends BaseMapper<CommodityExchange> {
     //通过商品ID查询商品兑换方式
     List<CommodityExchange> selectByCommodityId(@Param("commodityId") Long commodityId);
 
-    List<CommodityExchange> selectByIdList(@Param("idList")List<Long> idList);
+    List<CommodityExchange> selectByIdList(@Param("idList") List<Long> idList);
 }

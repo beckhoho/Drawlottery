@@ -6,7 +6,7 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
+    <result column="user_account_id" jdbcType="BIGINT" property="userAccountId" />
     <result column="valid_date" jdbcType="BIGINT" property="validDate" />
     <result column="overdue_date" jdbcType="BIGINT" property="overdueDate" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -14,4 +14,8 @@
     <result column="worth" jdbcType="INTEGER" property="worth" />
     <result column="use_state" jdbcType="INTEGER" property="useState"/>
   </resultMap>
+
+  <select id="selectByAccount" resultMap="BaseResultMap">
+    SELECT * FROM t_red_packets WHERE user_account_id = #{accountId}
+  </select>
 </mapper>

@@ -6,7 +6,7 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
+        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeTemplateId"/>
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
         <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
         <result column="buy_date" jdbcType="TIMESTAMP" property="buyDate"/>
@@ -14,14 +14,25 @@
         <result column="address_ip" jdbcType="VARCHAR" property="addressIp"/>
     </resultMap>
 
-    <select id="selectCountByCommodity" resultMap="BaseResultMap">
+    <select id="selectCountByCommodity" resultType="java.lang.Long">
         select distinct user_account_id from t_user_luck_codes
     </select>
-
 
     <select id="selectDistinctGroupByCommId" resultType="java.lang.Long">
         select distinct commodity_id from t_user_luck_codes WHERE user_account_id = #{accountId}
     </select>
 
+    <select id="selectByOne" resultMap="BaseResultMap">
+        select * from t_user_luck_codes WHERE commodity_id = #{commodityId} AND luck_code_id = #{luckCoudId}
+    </select>
+    <select id="selectByUserAccountId" resultMap="BaseResultMap">
+      SELECT * FROM t_user_luck_codes WHERE user_account_id = #{userAccountId}
+    </select>
+    <select id="selectByAccAndCommId" resultMap="BaseResultMap">
+        SELECT * FROM t_user_luck_codes WHERE user_account_id = #{userAccountId} and commodity_id =#{commId}
+    </select>
 
+    <select id="selectByBuyDateDesc" resultMap="BaseResultMap">
+        SELECT * FROM t_user_luck_codes ORDER BY buy_date DESC
+    </select>
 </mapper>

@@ -26,6 +26,10 @@ public class CommodityTemplate {
      */
     @Column(name = "commodity_type_id")
     private Long commodityTypeId;
+    /**
+     * 商品类型
+     */
+    private String typeName;
 
     /**
      * 商品类别（1：实体，0：虚拟，2、实体不可快递）
@@ -65,6 +69,7 @@ public class CommodityTemplate {
     /**
      * 是否可用
      */
+    @Column(name = "valid")
     private Integer valid;
 
     /**
@@ -477,5 +482,13 @@ public class CommodityTemplate {
 
     public void setOpenTime(Integer openTime) {
         this.openTime = openTime;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }

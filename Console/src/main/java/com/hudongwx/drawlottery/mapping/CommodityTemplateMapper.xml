@@ -177,4 +177,63 @@
             </if>
         </trim>
     </insert>
+    <update id="updateState">
+        update draw_lottery.t_commodity_template SET
+        <if test="groundTime != null">
+            ground_time = #{groundTime},
+        </if>
+        undercarriage_time = #{underTime}
+        where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+    <select id="selectTemps" resultType="com.hudongwx.drawlottery.pojo.CommodityTemplate">
+        SELECT
+        temp.id,
+        temp.name,
+        type.name AS typeName,
+        temp.genre,
+        temp.buy_total_number as buyTotalNumber
+        FROM t_commodity_template AS temp
+        LEFT JOIN t_commodity_type AS type ON temp.commodity_type_id = type.id
+        <where>
+            <if test="genres != null and genres.size() > 0">
+                and temp.genre in
+                <foreach collection="genres" open="(" close=")" separator="," item="genre">
+                    #{genre}
+                </foreach>
+            </if>
+            <if test="types != null and types.size() > 0">
+                and temp.commodity_type_id in
+                <foreach collection="types" open="(" separator="," close=")" item="type">
+                    #{type}
+                </foreach>
+            </if>
+            and temp.valid = #{valid}
+        </where>
+        order BY
+        <choose>
+            <when test="order == 1">
+                temp.buy_total_number
+            </when>
+            <otherwise>
+                temp.id
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="direction == 0">
+                DESC
+            </when>
+            <otherwise>
+                ASC
+            </otherwise>
+        </choose>
+    </select>
+    <select id="selectByIds" resultMap="BaseResultMap">
+        select * from draw_lottery.t_commodity_template where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

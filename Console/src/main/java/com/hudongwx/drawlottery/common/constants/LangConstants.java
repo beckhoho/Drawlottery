@@ -194,6 +194,15 @@ public class LangConstants {
      * 常量字段 上传成功 .
      */
     public final String UPLOAD_SUCCESS = "UPLOAD_SUCCESS";
+    
+    /**
+     * 常量字段 已经上架的商品不能再上架 .
+     */
+    public final String ALREADY_GROUND = "ALREADY_GROUND";
+    /**
+     * 常量字段 已经下架的商品不能再下架 .
+     */
+    public final String ALREADY_UN_GROUND = "ALREADY_UN_GROUND";
 
 }
 

@@ -25,9 +25,23 @@ import java.util.Date;
  * @email 346905702@qq.com
  */
 public class ShareServiceImplTest extends TestBaseMapper {
+    @Test
+    public void testSelectByUserAccountId() throws Exception {
+        shareService.selectByUserAccountId(10000L);
+    }
+
+    @Test
+    public void testSelectAll() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectByCommId() throws Exception {
+
+    }
 
     @Autowired
-    IShareService mapper;
+    IShareService shareService;
     @Test
     public void testAddShare() throws Exception {
 
@@ -45,7 +59,7 @@ public class ShareServiceImplTest extends TestBaseMapper {
     public void testDeleteShare() throws Exception {
         Share s = new Share();
         s.setId(1l);
-        boolean b = mapper.deleteShare(s.getId());
+        boolean b = shareService.deleteShare(s.getId());
         Assert.assertTrue(b);
     }
 

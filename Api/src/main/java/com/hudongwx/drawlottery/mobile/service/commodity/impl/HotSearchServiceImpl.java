@@ -37,7 +37,7 @@ public class HotSearchServiceImpl implements IHotSearchService {
         hs.setName(keywords);
         HotSearch hotSearch = mapper.selectOne(hs);
         if (null != hotSearch) {
-            return mapper.updateRecommend(hotSearch.getId(), hotSearch.getFrequency() + 1) > 0;
+            return mapper.updateRecommend(hotSearch.getId(),hotSearch.getFrequency()+1) > 0;
         } else {
             hs.setFrequency(1L);
             return mapper.insert(hs) > 0;

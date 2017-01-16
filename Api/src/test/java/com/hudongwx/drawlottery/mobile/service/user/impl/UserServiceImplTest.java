@@ -10,8 +10,6 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.testng.Assert.*;
-
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -57,7 +55,7 @@ public class UserServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectHistoryPay() throws Exception {
-        List<Map<String, Object>> mapList = service.selectHistoryPay(10001l, 0);
+        List<Map<String, Object>> mapList = service.selectHistoryPay(10000l, 1);
         for (Map<String,Object> map: mapList) {
             System.out.println(map.get("userBuyNumber"));
         }
