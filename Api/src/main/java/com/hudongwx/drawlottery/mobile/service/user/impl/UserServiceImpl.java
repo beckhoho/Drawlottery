@@ -218,12 +218,15 @@ public class UserServiceImpl implements IUserService {
     public List<Map<String, Object>> selectToNew(Long accountId) {
         List<Map<String, Object>> list = new ArrayList<>();
         List<Long> commIdList = luckCodesMapper.selectDistinctGroupByCommId(accountId);
+
         for (Long commId : commIdList) {
             Map<String, Object> map = new HashMap<>();
             Commoditys com = comMapper.selectByKey(commId);
             List<String> integers = luckUserList(accountId, com.getId());
+            CommodityHistory history = comHistoryMapper.selectBycommId(commId);
+            User user = userMapper.selectById(history.getLuckUserAccountId());
             map.put("id", com.getId());//添加商品ID
-            map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次
+            map.put("buyCurrentNumber", com.getBuyTotalNumber()-com.getBuyCurrentNumber());//添加当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
             map.put("commState", com.getStateId());//商品状态
             map.put("roundTime", com.getRoundTime());//添加期数
@@ -233,8 +236,8 @@ public class UserServiceImpl implements IUserService {
             map.put("userCodesList", integers);//添加用户参与购买的幸运码集合
             map.put("userBuyNumber", integers.size());//添加用户本商品购买人次；
             map.put("isWinner", 0);
-            map.put("userNickname", null);//中奖者昵称
-            map.put("endTime", null);//添加揭晓时间
+            map.put("userNickname", user.getNickname());//中奖者昵称
+            map.put("endTime", history.getEndTime());//添加揭晓时间
             list.add(map);
         }
         return list;
