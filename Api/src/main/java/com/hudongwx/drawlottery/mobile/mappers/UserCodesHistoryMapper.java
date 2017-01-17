@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface UserCodesHistoryMapper extends BaseMapper<UserCodesHistory> {
     List<UserCodesHistory> selectByUserAccountId(@Param("accountId") Long AccountId);
+
+    int insertHistory(@Param("list")List<UserCodesHistory> list);
 }

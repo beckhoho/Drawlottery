@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +92,7 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
         com.setLuckUserAccountId(luckCodes.getUserAccountId());
         com.setTempId(key.getTempId());
         int insert = historyMapper.insert(com);
-
+        List<UserCodesHistory> list = new ArrayList<>();
         for (UserLuckCodes u : id){
             UserCodesHistory userHistory = new UserCodesHistory();
             userHistory.setRoundTime(key.getRoundTime());
@@ -100,11 +101,12 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
             userHistory.setAddressIp(u.getAddressIp());
             userHistory.setBuyDate(u.getBuyDate());
             userHistory.setUserLuckCodeId(u.getLuckCodeId());
-            codesHistoryMapper.insert(userHistory);
+            list.add(userHistory);
         }
+        int i = codesHistoryMapper.insertHistory(list);
 
 
-        return insert>0;
+        return insert>0 && i>0;
     }
 
     @Override

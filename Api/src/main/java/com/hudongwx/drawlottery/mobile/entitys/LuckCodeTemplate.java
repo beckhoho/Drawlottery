@@ -30,6 +30,7 @@ public class LuckCodeTemplate {
     @Column(name = "luck_code")
     private String luckCode;
 
+
     public Long getId() {
         return id;
     }

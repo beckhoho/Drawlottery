@@ -73,6 +73,8 @@
         WHERE commodity_type_id = #{commodTypeId} limit #{startNum},#{endNum}
     </select>
 
+
+
     <!-- 人气 -->
     <select id="selectByTemp1" resultMap="BaseResultMap">
         <include refid="selectSql"></include>

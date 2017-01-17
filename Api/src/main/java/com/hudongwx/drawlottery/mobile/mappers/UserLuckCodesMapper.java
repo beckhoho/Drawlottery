@@ -27,4 +27,6 @@ public interface UserLuckCodesMapper extends BaseMapper<UserLuckCodes> {
     List<UserLuckCodes> selectByBuyDateDesc();
 
     UserLuckCodes selectByLuckId(Long luckId);
+
+    int insertUserLuck(List<UserLuckCodes> list);
 }
