@@ -6,7 +6,6 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="lock_code" jdbcType="VARCHAR" property="lockCode"/>
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
         <result column="luck_code_template_id" jdbcType="INTEGER" property="luckCodeTemplateId"/>
@@ -25,7 +24,7 @@
   </select>
 
     <select id="selectByCode" resultMap="BaseResultMap">
-        SELECT * FROM t_luck_codes WHERE lock_code = #{code}
+        SELECT * FROM t_luck_code_template WHERE lock_code = #{code}
     </select>
 
     <update id="updateById" parameterType="java.lang.Long">

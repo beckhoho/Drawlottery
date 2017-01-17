@@ -43,7 +43,7 @@ public class LuckCodesServiceImplTest extends TestBaseMapper {
             LuckCodeTemplate template = templateMapper.selectById(l.getLuckCodeTemplateId());
             LuckCodes luckCodes1 = new LuckCodes();
             luckCodes1.setId(l.getId());
-            luckCodes1.setLockCode(template.getLuckCode());
+            //luckCodes1.setLockCode(template.getLuckCode());
             mapper.updateByPrimaryKeySelective(luckCodes1);
         }
     }

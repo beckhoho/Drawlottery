@@ -51,6 +51,8 @@ public class UserServiceImpl implements IUserService {
     CommodityTemplateMapper tempMapper;
     @Autowired
     ShareMapper shareMapper;
+    @Autowired
+    LuckCodeTemplateMapper luckTemplateMapper;
 
     @Override
     public boolean register(String phone, String password) {
@@ -249,7 +251,8 @@ public class UserServiceImpl implements IUserService {
         List<UserLuckCodes> codes = luckCodesMapper.selectByAccAndCommId(accountId,commodityId);
         for (UserLuckCodes code : codes) {
             LuckCodes key = codesMapper.selectById(code.getLuckCodeId());
-            list.add(key.getLockCode());
+            LuckCodeTemplate template = luckTemplateMapper.selectById(key.getLuckCodeTemplateId());
+            list.add(template.getLuckCode());
         }
         return list;
     }

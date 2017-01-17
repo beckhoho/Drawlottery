@@ -50,9 +50,10 @@ public class OrdersServiceImpl implements IOrdersService {
     CommodityMapper commMapper;
     @Autowired
     LotteryInfoMapper lotteryInfoMapper;
-
     @Resource
     ICommodityService commodityService;
+    @Autowired
+    LuckCodeTemplateMapper templateMapper;
 
     /**
      * 计算扣款
@@ -353,7 +354,9 @@ public class OrdersServiceImpl implements IOrdersService {
         for (UserLuckCodes luckCodes : codes) {
             Long codeId = luckCodes.getLuckCodeId();
             LuckCodes codes1 = codesMapper.selectById(codeId);
-            list.add(codes1.getLockCode());
+            Long templateId = codes1.getLuckCodeTemplateId();
+            LuckCodeTemplate template = templateMapper.selectById(templateId);
+            list.add(template.getLuckCode());
         }
         return list;
     }

@@ -8,11 +8,6 @@ public class LuckCodes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * 幸运号
-     */
-    @Column(name = "lock_code")
-    private String lockCode;
 
     /**
      * 商品ID
@@ -53,23 +48,6 @@ public class LuckCodes {
         this.id = id;
     }
 
-    /**
-     * 获取幸运号
-     *
-     * @return lock_code - 幸运号
-     */
-    public String getLockCode() {
-        return lockCode;
-    }
-
-    /**
-     * 设置幸运号
-     *
-     * @param lockCode 幸运号
-     */
-    public void setLockCode(String lockCode) {
-        this.lockCode = lockCode;
-    }
 
     /**
      * 获取商品ID
