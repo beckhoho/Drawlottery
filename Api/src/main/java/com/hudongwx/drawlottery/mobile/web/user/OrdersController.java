@@ -50,7 +50,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/sub", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addOrders(@RequestBody OrderFormData orderFormData) {
-        return success(ordersService.pay(getUserId(), orderFormData.getOrder(), orderFormData.getCaList()));
+        return success("操作成功",ordersService.pay(getUserId(), orderFormData.getOrder(), orderFormData.getCaList()));
     }
 
     /**

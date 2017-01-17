@@ -41,7 +41,7 @@
     </select>
 
     <insert id="insertUserLuck">
-        INSERT  INTO draw_lottery.t_user_luck_codes as userLuck
+        INSERT INTO t_user_luck_codes
         (luck_code_id,commodity_id,user_account_id,orders_id,buy_date,address_ip) VALUES
         <foreach collection="list" separator="," item="userLuck">
             (#{userLuck.luckCodeId},#{userLuck.commodityId},
