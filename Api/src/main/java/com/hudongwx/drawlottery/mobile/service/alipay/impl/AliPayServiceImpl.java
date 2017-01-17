@@ -62,9 +62,9 @@ public class AliPayServiceImpl implements IAliPayService {
         map.put("format", "json");
         map.put("charset", "utf-8");
         map.put("sign_type", "RSA");
-        map.put("timestamp", UtilDate.getDateFormatter());
+        map.put("timestamp", URLEncoder.encode(UtilDate.getDateFormatter(),"UTF-8"));
         map.put("version", "1.0");
-        map.put("notify_url", AlipayConfig.service);
+        map.put("notify_url", URLEncoder.encode(AlipayConfig.service,"UTF-8"));
 
         Map<String, String> m = new HashMap<String, String>();
 
@@ -78,24 +78,24 @@ public class AliPayServiceImpl implements IAliPayService {
 
         JSONObject bizcontentJson= JSON.parseObject(JSONObject.toJSONString(m));
 
-        map.put("biz_content", bizcontentJson.toString());
+        map.put("biz_content", URLEncoder.encode(bizcontentJson.toString(), "UTF-8"));
         //对未签名原始字符串进行签名
         String rsaSign = AlipaySignature.rsaSign(map, AlipayConfig.private_key, "utf-8");
 
-        Map<String, String> map4 = new HashMap<String, String>();
+//        Map<String, String> map4 = new HashMap<String, String>();
+//
+//        map4.put("app_id", AlipayConfig.APP_ID);
+//        map4.put("method", "alipay.trade.app.pay");
+//        map4.put("format", "json");
+//        map4.put("charset", "utf-8");
+//        map4.put("sign_type", "RSA");
+//        map4.put("timestamp", URLEncoder.encode(UtilDate.getDateFormatter(),"UTF-8"));
+//        map4.put("version", "1.0");
+//        map4.put("notify_url",  URLEncoder.encode(AlipayConfig.service,"UTF-8"));
+//        //最后对请求字符串的所有一级value（biz_content作为一个value）进行encode，编码格式按请求串中的charset为准，没传charset按UTF-8处理
+//        map4.put("biz_content", URLEncoder.encode(bizcontentJson.toString(), "UTF-8"));
 
-        map4.put("app_id", AlipayConfig.APP_ID);
-        map4.put("method", "alipay.trade.app.pay");
-        map4.put("format", "json");
-        map4.put("charset", "utf-8");
-        map4.put("sign_type", "RSA");
-        map4.put("timestamp", URLEncoder.encode(UtilDate.getDateFormatter(),"UTF-8"));
-        map4.put("version", "1.0");
-        map4.put("notify_url",  URLEncoder.encode(AlipayConfig.service,"UTF-8"));
-        //最后对请求字符串的所有一级value（biz_content作为一个value）进行encode，编码格式按请求串中的charset为准，没传charset按UTF-8处理
-        map4.put("biz_content", URLEncoder.encode(bizcontentJson.toString(), "UTF-8"));
-
-        Map par = AlipayCore.paraFilter(map4); //除去数组中的空值和签名参数
+        Map par = AlipayCore.paraFilter(map); //除去数组中的空值和签名参数
         String json4 = AlipayCore.createLinkString(par);   //拼接后的字符串
 
         json4=json4 + "&sign=" + URLEncoder.encode(rsaSign, "UTF-8");

@@ -60,7 +60,7 @@ public class PayController extends BaseController {
     @RequestMapping(value = "/api/v1/user/order/alipay.do", method = RequestMethod.POST)
     public JSONObject orderPay(@ApiParam("订单信息") @RequestBody OrderFormData orderFormData) throws Exception {
         LOG.info(new Date() + "[/api/v1/user/order/alipay.do] :" + JSONObject.toJSONString(orderFormData));
-        String sign = aliPayService.createSign(10000L, orderFormData);
+        String sign = aliPayService.createSign(getUserId(), orderFormData);
         LOG.info("[sign] :" + sign);
         return success("操作成功", sign);
     }

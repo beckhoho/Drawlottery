@@ -28,7 +28,7 @@
     </select>
 
     <update id="updateById" parameterType="java.lang.Long">
-        UPDATE t_luck_codes SET state = 1 WHERE id =
+        UPDATE t_luck_codes SET state = 1 WHERE id in
         <foreach collection="list" open="(" separator="," close=")" item="up">
             #{up}
         </foreach>
