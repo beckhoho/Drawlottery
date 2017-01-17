@@ -117,11 +117,10 @@ public class UserServiceImpl implements IUserService {
             s.setUserAccountId(accountId);
             List<Share> shares = shareMapper.select(s);
             Map<String, Object> map = new HashMap<>();
-            if(shares.size()>0){
+            if (shares.size() > 0) {
                 map.put("shareState", 1);//是否晒单（0、未晒单；1、已晒单）
-            }
-            else {
-                map.put("shareState",0);
+            } else {
+                map.put("shareState", 0);
             }
             map.put("id", com.getCommodityId());//添加商品id
             map.put("commodityName", com.getCommodityName());//添加商品名
@@ -130,11 +129,11 @@ public class UserServiceImpl implements IUserService {
             map.put("buyNumber", com.getBuyNumber());//购买人次
             map.put("luckCode", com.getLuckCode());//添加幸运码
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
-            map.put("exchangeId",selectExchange(com.getCommodityId()));//添加兑换方式
-            map.put("withdrawalsMoney",template.getWithdrawalsMoney());//折换现金金额
-            map.put("exchangeMoney",template.getExchangeMoney());//折换闪币
-            map.put("state",com.getExchangeState());//添加兑换状态
-            map.put("exchangeWay",com.getExchangeWay());//添加已选择兑奖方式
+            map.put("exchangeId", selectExchange(com.getCommodityId()));//添加兑换方式
+            map.put("withdrawalsMoney", template.getWithdrawalsMoney());//折换现金金额
+            map.put("exchangeMoney", template.getExchangeMoney());//折换闪币
+            map.put("state", com.getExchangeState());//添加兑换状态
+            map.put("exchangeWay", com.getExchangeWay());//添加已选择兑奖方式
             mapList.add(map);
         }
         return mapList;
@@ -234,7 +233,7 @@ public class UserServiceImpl implements IUserService {
             CommodityHistory history = comHistoryMapper.selectBycommId(commId);
             User user = userMapper.selectById(history.getLuckUserAccountId());
             map.put("id", com.getId());//添加商品ID
-            map.put("buyCurrentNumber", com.getBuyTotalNumber()-com.getBuyCurrentNumber());//添加当前购买人次
+            map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
             map.put("commState", com.getStateId());//商品状态
             map.put("roundTime", com.getRoundTime());//添加期数
@@ -254,7 +253,7 @@ public class UserServiceImpl implements IUserService {
     //查询用户参与商品购买人次和幸运码
     public List<String> luckUserList(Long accountId, Long commodityId) {
         List<String> list = new ArrayList<>();
-        List<UserLuckCodes> codes = luckCodesMapper.selectByAccAndCommId(accountId,commodityId);
+        List<UserLuckCodes> codes = luckCodesMapper.selectByAccAndCommId(accountId, commodityId);
         for (UserLuckCodes code : codes) {
             LuckCodes key = codesMapper.selectById(code.getLuckCodeId());
             LuckCodeTemplate template = luckTemplateMapper.selectById(key.getLuckCodeTemplateId());
@@ -265,6 +264,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 第三方账号绑定注册
+     *
      * @param openId
      * @param password
      * @param header_url
@@ -340,11 +340,11 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * qq验证 ,失败返回false
+     *
      * @param token
      * @return
-     *
      */
-    private boolean validatorQQOpenId(ThirdPartyLoginToken token){
+    private boolean validatorQQOpenId(ThirdPartyLoginToken token) {
         String url = "https://graph.qq.com/oauth2.0/me?access_token=%s";
         url = String.format(url, token.getAccessToken());
         Request request = new Request.Builder()
@@ -353,11 +353,10 @@ public class UserServiceImpl implements IUserService {
         Response response = null;
         try {
             response = httpClient.newCall(request).execute();
-            if(response.isSuccessful()){
+            if (response.isSuccessful()) {
                 String body = response.body().string();
-                if(!body.contains("error")){
-                    return false;
-                }
+                boolean errcode = body.contains("errcode");
+                return !errcode;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -367,10 +366,11 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 验证微信
+     *
      * @param token
      * @return
      */
-    private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token){
+    private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token) {
         String url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s";
         url = String.format(url, token.getAccessToken(), token.getOpenid());
         Request request = new Request.Builder()
@@ -378,8 +378,8 @@ public class UserServiceImpl implements IUserService {
                 .build();
         try {
             Response response = httpClient.newCall(request).execute();
-            if(response.isSuccessful()){
-                String body = response.body().toString();
+            if (response.isSuccessful()) {
+                String body = response.body().string();
                 JSONObject object = JSON.parseObject(body);
                 boolean errcode = object.containsKey("errcode");
                 return !errcode;
@@ -394,20 +394,33 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User registerAndLoginThirdParty(ThirdPartyLoginToken token) {
         User user = null;
-        if(token.isWeixinPlatform()){ //qq平台授权
+        if (token.isQQPlatform()) { //qq平台授权
             user = userMapper.selectByQQOpenId(token.getOpenid());
-            if(user == null){
-                if(!validatorQQOpenId(token)){//验证失败处理
-
+            if (user == null) {
+                if (validatorQQOpenId(token)) {//注册
+                    user = new User();
+                    user.setQqOpenId(token.getOpenid());
+                    insertUser(user, token);
+                    return userMapper.selectByQQOpenId(token.getOpenid());//重新查询携带自增id
                 }
             }
-        }else{//微信授权
+        } else {//微信授权
             user = userMapper.selectByWxOpenId(token.getOpenid());
+            if (user == null) {
+                if (validatorWeiXinOpenId(token)) {
+                    user = new User();
+                    user.setWeixinOpenId(token.getOpenid());
+                    insertUser(user, token);
+                    return userMapper.selectByWxOpenId(token.getOpenid());//重新查询携带自增id
+                }
+            }
         }
-        //去第三方校验数据
-        if(user == null){
-        }
-        return  null;
+        return user;
     }
 
+    public int insertUser(User user, ThirdPartyLoginToken token) {
+        user.setPassword(token.getOpenid());
+        PasswordUtils.encryptPassword(user);
+        return userMapper.insert(user);
+    }
 }

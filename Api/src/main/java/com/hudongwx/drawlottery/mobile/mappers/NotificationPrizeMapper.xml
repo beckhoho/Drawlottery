@@ -11,6 +11,7 @@
     <result column="luck_codes_id" jdbcType="BIGINT" property="luckCodesId" />
     <result column="on_prize_date" jdbcType="BIGINT" property="onPrizeDate" />
     <result column="luck_account_id" jdbcType="BIGINT" property="luckAccountId"/>
+    <result column="state" jdbcType="int" property="state" />
 
   </resultMap>
 

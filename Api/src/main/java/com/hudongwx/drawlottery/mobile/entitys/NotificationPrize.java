@@ -36,6 +36,21 @@ public class NotificationPrize {
     @Column(name = "luck_account_id")
     private Long luckAccountId;
 
+    /**
+     * 阅读状态  0:未读   1：已读
+     */
+    @Column(name = "state")
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+
     public Long getLuckAccountId() {
         return luckAccountId;
     }

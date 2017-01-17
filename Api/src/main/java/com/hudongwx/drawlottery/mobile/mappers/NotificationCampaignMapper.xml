@@ -11,7 +11,7 @@
         <result column="notice_url" jdbcType="VARCHAR" property="noticeUrl"/>
         <result column="send_date" jdbcType="BIGINT" property="sendDate"/>
         <result column="notice_cover_img_url" jdbcType="VARCHAR" property="noticeCoverImgUrl"/>
-
+        <result column="state" jdbcType="int" property="state" />
 
     </resultMap>
     <select id="selectTitle" resultMap="BaseResultMap">

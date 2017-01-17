@@ -79,9 +79,9 @@ public class OrdersServiceImpl implements IOrdersService {
             先使用红包支付，红包>=购买数额则红包作废，其余购买金额作为闪币存入
          */
 
-        int price = orders.getPrice();//70
+        int price = orders.getPrice();
         //实际购买量
-        int TotalNum = updateCommodity(orders1,commodityAmounts);//3,5
+        int TotalNum = updateCommodity(orders1,commodityAmounts);
         //余额更改量
         int changeNum;
         //红包面额
@@ -182,6 +182,13 @@ public class OrdersServiceImpl implements IOrdersService {
             ordersCommoditys.setCommodityId(commodity.getId());
             ordersCommoditys.setOrdersId(orders.getId());
 
+            //判断商品是否符合商品最小购买基数
+            int minNum = commodity.getMinimum();
+            int extraNum = Amount%minNum;
+            if(extraNum!=0){
+                Amount -= extraNum;
+            }
+
             //计算购买量和剩余量差值
             int sub = Amount - remainingNum;
             if (sub >= 0) {
@@ -208,7 +215,7 @@ public class OrdersServiceImpl implements IOrdersService {
             }
             com.setId(commodity.getId());
             comMapper.updateById(com);//提交商品信息
-            TotalNum += buyNum;//累加实际购买量
+            TotalNum = TotalNum+buyNum+extraNum;//累加实际购买量
             ordersCommoditys.setAmount(buyNum);//设置商品订单表购买数量
             ordersCommoditysService.addOrdersCommodity(ordersCommoditys);//添加商品订单信息
             /*

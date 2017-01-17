@@ -57,6 +57,20 @@ public class NotificationCampaign {
     @Column(name = "notice_cover_img_url")
     private String noticeCoverImgUrl;
 
+    /**
+     * 阅读状态  0:未读   1：已读
+     */
+    @Column(name = "state")
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public String getNoticeCoverImgUrl() {
         return noticeCoverImgUrl;
     }
