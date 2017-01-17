@@ -53,8 +53,7 @@ public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher
             throw new ExcessiveAttemptsException("登录错误次数太多,3分钟之后再登录");
         }else{
             //匹配验证
-            match = super.doCredentialsMatch(token, info);
-            //匹配数据
+            match = super.doCredentialsMatch(token,info);
             if(match){
                 //删除缓存
                 removeAtomicInteger(id);

@@ -99,7 +99,6 @@ public class AuthorUserRealm extends AuthorizingRealm {
 
 
     /**
-     *
      * 第三方登录
      * @param token
      * @return
@@ -107,12 +106,12 @@ public class AuthorUserRealm extends AuthorizingRealm {
      */
     private AuthenticationInfo thirdPartyLogin(ThirdPartyLoginToken token){
         User user = userService.registerAndLoginThirdParty(token);
-        /*SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
                 user,
                 user.getPassword(),
                 Util.bytes(user.getCredentialsSalt()),
-                user.getPhoneNumber());*/
-        return null;
+                token.getOpenid());
+        return info;
     }
 
 }

@@ -60,11 +60,12 @@ public class AuthorController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
         if(!subject.isAuthenticated()){
             ThirdPartyLoginToken token = new ThirdPartyLoginToken(openid, accessToken, platform);
+            token.setPassword(openid.toCharArray());
             //判断是否来自QQ或微信平台
             if(token.isQQPlatform() || token.isWeixinPlatform()){
                 subject.login(token); //调用登录,去认证器匹配
             }else{
-                fail(-1,"第三方登录错误");
+                return fail(-1,"第三方登录错误");
             }
         }
         return success();
