@@ -50,9 +50,10 @@ public class OrdersServiceImpl implements IOrdersService {
     CommodityMapper commMapper;
     @Autowired
     LotteryInfoMapper lotteryInfoMapper;
-
     @Resource
     ICommodityService commodityService;
+    @Autowired
+    LuckCodeTemplateMapper templateMapper;
 
     /**
      * 计算扣款
@@ -62,7 +63,7 @@ public class OrdersServiceImpl implements IOrdersService {
      * @return
      */
     @Override
-    public boolean pay(Long accountId, Orders orders, List<CommodityAmount> commodityAmounts) {
+    public Long pay(Long accountId, Orders orders, List<CommodityAmount> commodityAmounts) {
 
         /*
             这是我自己添加的订单添加方法》》》》》
@@ -116,7 +117,13 @@ public class OrdersServiceImpl implements IOrdersService {
         }
         User u = userMapper.selectById(accountId);
         u.setGoldNumber(u.getGoldNumber()+changeNum);
-        return userMapper.updateByPrimaryKeySelective(u) > 0 && i>0;
+
+        if(userMapper.updateByPrimaryKeySelective(u) > 0 && i>0){
+            return orders1.getId();
+        }
+        else{
+            return 0l;
+        }
     }
 
     /**
@@ -207,7 +214,7 @@ public class OrdersServiceImpl implements IOrdersService {
             /*
                 用户获得幸运码
              */
-            List<LuckCodes> luckCodes = updateLuckCodes(ca.getCommodityId(), buyNum, orders);
+            updateLuckCodes(ca.getCommodityId(), buyNum, orders);
 
         }
         return TotalNum;
@@ -221,7 +228,9 @@ public class OrdersServiceImpl implements IOrdersService {
      */
     public List<LuckCodes> updateLuckCodes(long commodityId, int buyNum, Orders orders) {
         //获取商品未使用幸运码
-        List<LuckCodes> codes = codesMapper.selectByUsable(commodityId);
+        List<UserLuckCodes> list = new ArrayList<>();
+        List<Long> longs = new ArrayList<>();
+        List<LuckCodes> codes = codesMapper.selectLimit(commodityId,buyNum);
         for (int i = 0; i < buyNum; i++) {
             LuckCodes code = codes.get(i);
             //生成用户获得幸运码
@@ -231,12 +240,11 @@ public class OrdersServiceImpl implements IOrdersService {
             userLuckCodes.setLuckCodeId(code.getId());
             userLuckCodes.setBuyDate(System.currentTimeMillis());
             userLuckCodes.setOrdersId(orders.getId());
-            luckMapper.insert(userLuckCodes);
-            //更改商品幸运码使用状态
-            code.setId(code.getId());
-            code.setState(1);
-            codesMapper.updateByPrimaryKeySelective(code);
+            list.add(userLuckCodes);//添加到集合，然后将整个集合数据添加到数据库
+            longs.add(code.getId());//添加到集合，然后将整个集合更新数据到数据库
         }
+        luckMapper.insertUserLuck(list);//自定义动态添加sql
+        codesMapper.updateById(longs);//自定义动态更新sql
         return codes;
     }
 
@@ -309,7 +317,7 @@ public class OrdersServiceImpl implements IOrdersService {
      * @return
      */
     @Override
-    public Map<String, Object> selectPaySuccess(Long accountId, JSONObject jsonObject) {
+    public Map<String, Object> selectPaySuccess(Long accountId,Long orderId ,JSONObject jsonObject) {
         List<CommodityAmount> commodityAmounts = new ArrayList<>();
         JSONArray caJArray = jsonObject.getJSONArray("ca");
         for (int i = 0; i < caJArray.size(); i++) {
@@ -323,7 +331,7 @@ public class OrdersServiceImpl implements IOrdersService {
             Commoditys commoditys = comMapper.selectByKey(ca.getCommodityId());
             map.put("commodityName", commoditys.getName());//商品名
             map.put("roundTime", commoditys.getRoundTime());//期数
-            map.put("luckCodes", luckCodes(accountId, ca.getCommodityId()));//用户参与商品的幸运码
+            map.put("luckCodes", luckCodes(accountId, ca.getCommodityId(),orderId));//用户参与商品的幸运码
             number += ca.getAmount();
             mapList.add(map);
         }
@@ -336,16 +344,19 @@ public class OrdersServiceImpl implements IOrdersService {
     }
 
     //查询用户当前订单参与商品的所有幸运号
-    public List<String> luckCodes(Long accountId, Long commodityId) {
+    public List<String> luckCodes(Long accountId, Long commodityId,Long ordersId) {
         List<String> list = new ArrayList<>();
         UserLuckCodes user = new UserLuckCodes();
         user.setUserAccountId(accountId);
         user.setCommodityId(commodityId);
+        user.setOrdersId(ordersId);
         List<UserLuckCodes> codes = luckMapper.select(user);
         for (UserLuckCodes luckCodes : codes) {
             Long codeId = luckCodes.getLuckCodeId();
             LuckCodes codes1 = codesMapper.selectById(codeId);
-            list.add(codes1.getLockCode());
+            Long templateId = codes1.getLuckCodeTemplateId();
+            LuckCodeTemplate template = templateMapper.selectById(templateId);
+            list.add(template.getLuckCode());
         }
         return list;
     }

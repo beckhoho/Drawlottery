@@ -14,6 +14,20 @@
         <result column="address_ip" jdbcType="VARCHAR" property="addressIp"/>
     </resultMap>
     <select id="selectByUserAccountId" resultMap="BaseResultMap">
-    SELECT  * FROM  t_user_luck_codes_history WHERE commodity_id = #{accountId}
-  </select>
+        SELECT *
+        FROM t_user_luck_codes_history
+        WHERE commodity_id = #{accountId}
+    </select>
+
+    <insert id="insertHistory">
+
+        INSERT INTO draw_lottery.t_user_luck_codes_history
+        (luck_code_id,commodity_id,user_account_id,buy_date,address_ip,round_time) VALUES
+        <foreach collection="list" separator="," item="userLuck">
+            (#{userLuck.luckCodeId},#{userLuck.commodityId},
+            #{userLuck.userAccountId},#{userLuck.buyDate},
+            #{userLuck.addressIp},#{userLuck.roundTime})
+        </foreach>
+
+    </insert>
 </mapper>

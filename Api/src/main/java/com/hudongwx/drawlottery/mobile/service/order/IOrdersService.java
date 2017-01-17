@@ -25,7 +25,7 @@ import java.util.Map;
 public interface IOrdersService {
 
     //创建订单
-    boolean pay(Long accountId, Orders orders, List<CommodityAmount> commodityAmounts);
+    Long pay(Long accountId, Orders orders, List<CommodityAmount> commodityAmounts);
 
     //查看订单详情
     List<Orders> selectByUserAccount(Long userAccount);
@@ -40,5 +40,5 @@ public interface IOrdersService {
     Map<String,Object> selectOrders(Long accountId, Integer sum);
 
     //支付成功界面数据
-    Map<String,Object> selectPaySuccess(Long accountId, JSONObject jsonObject);
+    Map<String,Object> selectPaySuccess(Long accountId,Long orderId, JSONObject jsonObject);
 }

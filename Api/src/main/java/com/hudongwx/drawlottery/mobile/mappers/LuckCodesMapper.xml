@@ -6,7 +6,6 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="lock_code" jdbcType="VARCHAR" property="lockCode"/>
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
         <result column="luck_code_template_id" jdbcType="INTEGER" property="luckCodeTemplateId"/>
@@ -15,12 +14,23 @@
   <select id="selectByUsable" resultMap="BaseResultMap">
     select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
   </select>
+    <select id="selectLimit" resultMap="BaseResultMap">
+        select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
+    limit 0,#{endNum}
+    </select>
 
     <select id="selectById" resultMap="BaseResultMap">
     SELECT * FROM t_luck_codes WHERE id = #{lcId}
   </select>
 
     <select id="selectByCode" resultMap="BaseResultMap">
-        SELECT * FROM t_luck_codes WHERE lock_code = #{code}
+        SELECT * FROM t_luck_code_template WHERE lock_code = #{code}
     </select>
+
+    <update id="updateById" parameterType="java.lang.Long">
+        UPDATE t_luck_codes SET state = 1 WHERE id =
+        <foreach collection="list" open="(" separator="," close=")" item="up">
+            #{up}
+        </foreach>
+    </update>
 </mapper>

@@ -76,7 +76,7 @@ public class CommodityExchangeController extends BaseController {
     @ApiOperation("兑换闪币")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp4", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToGold(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
-        return success(emService.temp4(10000L, commId));
+        return success(emService.temp4(getUserId(), commId));
     }
 
     /**
@@ -89,7 +89,7 @@ public class CommodityExchangeController extends BaseController {
     @ApiOperation("兑换充值卡(查看卡密)")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/temp1", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToRechargeCard(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
-        return success("操作成功！", emService.temp1(1000l, commId));
+        return success("操作成功！", emService.temp1(getUserId(), commId));
     }
 
     /**
@@ -102,7 +102,7 @@ public class CommodityExchangeController extends BaseController {
     @ApiOperation("可兑换充值卡方式详情")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCard(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
-        return success(emService.selectUserRechargeCardPrize(10000L, commId));
+        return success(emService.selectUserRechargeCardPrize(getUserId(), commId));
     }
 
     /**
@@ -115,7 +115,7 @@ public class CommodityExchangeController extends BaseController {
     @ApiOperation("充值卡兑换流程详情")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCardInfo(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
-        return success(emService.selectUserRechargeCardExchangeProcess(10000L, commId));
+        return success(emService.selectUserRechargeCardExchangeProcess(getUserId(), commId));
     }
 
     /**
@@ -128,7 +128,7 @@ public class CommodityExchangeController extends BaseController {
     @ApiOperation("快递收货")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp2", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToExpress(@ApiParam("商品Id") @RequestParam("commId") Long commId, @ApiParam("注册用户地址Id") @RequestParam("addressId") Long addressId) {
-        return success(emService.temp2(10000L, commId, addressId));
+        return success(emService.temp2(getUserId(), commId, addressId));
     }
 
     /**
@@ -141,6 +141,6 @@ public class CommodityExchangeController extends BaseController {
     @ApiOperation("到店领取")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp5", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToLocale(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
-        return success(emService.temp5(10000L, commId));
+        return success(emService.temp5(getUserId(), commId));
     }
 }

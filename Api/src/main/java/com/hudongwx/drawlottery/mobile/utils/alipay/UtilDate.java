@@ -1,5 +1,5 @@
 
-package com.hudongwx.drawlottery.mobile.utils.payutils;
+package com.hudongwx.drawlottery.mobile.utils.alipay;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

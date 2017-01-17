@@ -1,7 +1,11 @@
 package com.hudongwx.drawlottery.mobile.service.luckcodes.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
+import com.hudongwx.drawlottery.mobile.entitys.Approve;
+import com.hudongwx.drawlottery.mobile.entitys.LuckCodeTemplate;
 import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
+import com.hudongwx.drawlottery.mobile.mappers.LuckCodeTemplateMapper;
+import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.service.luckcodes.ILuckCodesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -26,13 +30,22 @@ import java.util.List;
  */
 public class LuckCodesServiceImplTest extends TestBaseMapper {
 
+    @Autowired
+    LuckCodesMapper mapper;
+    @Autowired
+    LuckCodeTemplateMapper templateMapper;
     @Test
     public void testCreateLuckCode() throws Exception {
         //生成商品LuckCode;
-        Long commId=10L;//要生成对应luckcode的商品Id;
-        boolean rebuild=true;
-        boolean b = luckService.createLuckCode(commId,rebuild);
-        Assert.assertTrue(b);
+        LuckCodes luckCodes = new LuckCodes();
+        List<LuckCodes> select = mapper.select(luckCodes);
+        for (LuckCodes l : select){
+            LuckCodeTemplate template = templateMapper.selectById(l.getLuckCodeTemplateId());
+            LuckCodes luckCodes1 = new LuckCodes();
+            luckCodes1.setId(l.getId());
+            //luckCodes1.setLockCode(template.getLuckCode());
+            mapper.updateByPrimaryKeySelective(luckCodes1);
+        }
     }
 
     @Autowired

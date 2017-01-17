@@ -31,7 +31,23 @@ public class Commoditys {
     private Integer buyCurrentNumber;
 
 
+    /**
+     * 卡类型
+     */
+    @Column(name = "card_type")
+    private Integer cardType;
 
+    /**
+     * 卡数量
+     */
+    @Column(name = "card_num")
+    private Integer cardNum;
+
+    /**
+     * 卡面额
+     */
+    @Column(name = "card_money")
+    private Integer cardMoney;
 
 
     /**
@@ -130,6 +146,31 @@ public class Commoditys {
      */
     @Column(name = "exchange_money")
     private Integer exchangeMoney;
+
+
+    public Integer getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(Integer cardType) {
+        this.cardType = cardType;
+    }
+
+    public Integer getCardNum() {
+        return cardNum;
+    }
+
+    public void setCardNum(Integer cardNum) {
+        this.cardNum = cardNum;
+    }
+
+    public Integer getCardMoney() {
+        return cardMoney;
+    }
+
+    public void setCardMoney(Integer cardMoney) {
+        this.cardMoney = cardMoney;
+    }
 
     public Integer getWithdrawalsMoney() {
         return withdrawalsMoney;

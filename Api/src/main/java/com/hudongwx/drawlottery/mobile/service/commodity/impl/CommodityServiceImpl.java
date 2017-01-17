@@ -463,7 +463,6 @@ public class CommodityServiceImpl implements ICommodityService {
     public boolean reviseInfo(String luckCode, Long commodityId) {
         Commoditys com = commMapper.selectByKey(commodityId);
         LuckCodes luckCodes = new LuckCodes();
-        luckCodes.setLockCode(luckCode);
         luckCodes.setCommodityId(commodityId);
         List<LuckCodes> codes = luckCodeMapper.select(luckCodes);
         Long codeId = codes.get(0).getId();

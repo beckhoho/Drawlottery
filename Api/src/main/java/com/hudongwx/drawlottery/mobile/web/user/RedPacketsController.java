@@ -44,7 +44,7 @@ public class RedPacketsController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/redpacket/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserRedPacket() {
-        List<Map<String, Object>> infoList = rpService.selectAllByUserAccountId(10000L);
+        List<Map<String, Object>> infoList = rpService.selectAllByUserAccountId(getUserId());
         return success(infoList);
     }
 
@@ -57,7 +57,7 @@ public class RedPacketsController extends BaseController {
     @RequestMapping(value = "/api/v1/user/redpacket/use", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateUserRedPacket(@RequestParam("price") Integer price) {
         // TODO: 2017/1/6 User---------------
-        return success(oService.selectOrders(10000L,price));
+        return success(oService.selectOrders(getUserId(),price));
     }
 
 }

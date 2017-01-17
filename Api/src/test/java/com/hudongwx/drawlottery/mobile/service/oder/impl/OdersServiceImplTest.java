@@ -48,8 +48,8 @@ public class OdersServiceImplTest extends TestBaseMapper {
         o.setPayModeId(1);
         o.setPrice(20);
         o.setSubmitDate(new Date().getTime());
-        boolean pay = odersSer.pay(10000l, o, list);
-        Assert.assertTrue(pay);
+        //boolean pay = odersSer.pay(10000l, o, list);
+        //Assert.assertTrue(pay);
         //测试完成    可用
 
     }
