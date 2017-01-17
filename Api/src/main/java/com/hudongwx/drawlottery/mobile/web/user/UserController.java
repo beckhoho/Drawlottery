@@ -5,6 +5,8 @@ import com.hudongwx.drawlottery.mobile.service.user.ISignInService;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,7 +51,6 @@ public class UserController extends BaseController {
         Map<String, Object> userInfo = userService.queryPersonalInfo(getUserId());
         return success(userInfo);
     }
-
     /**
      * @return
      */
@@ -63,12 +64,12 @@ public class UserController extends BaseController {
     /**
      * 获取用户中奖记录
      *
-     * @param page 页码
      * @return
      */
     @ResponseBody
+    @ApiOperation("获取用户中奖记录（带分页）")
     @RequestMapping(value = "/api/v1/user/win", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserWinningHistory(@RequestParam("page") int page) {
+    public JSONObject queryUserWinningHistory(@ApiParam("当前页最后一item的实际id")@RequestParam("lastItemId") Long lastItemId) {
         List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(getUserId());
         return success(historyLottery);
     }
@@ -77,13 +78,12 @@ public class UserController extends BaseController {
      * 获取用户夺宝记录
      *
      * @param item 获取数据形式
-     * @param page 页码
      * @return
      */
     @ResponseBody
+    @ApiOperation("获取用户夺宝记录（带分页）")
     @RequestMapping(value = "/api/v1/user/usercomm/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserCommRecord(@RequestParam("item") Integer item, @RequestParam("page") Integer page) {
-        System.out.println(item + "------------------" + page);
+    public JSONObject queryUserCommRecord(@ApiParam("显示形式：1、进行中；2、已揭晓；其他数字、显示全部")@RequestParam("item") Integer item, @ApiParam("当前页最后一item的实际id")@RequestParam("lastItemId") Long lastItemId) {
         List<Map<String, Object>> historyLottery = userService.selectHistoryPay(getUserId(), item);
         return success(historyLottery);
     }
