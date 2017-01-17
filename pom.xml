@@ -156,7 +156,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
@@ -195,6 +194,8 @@
         <!--<artifactId>testng</artifactId>-->
         <!--<version>6.10</version>-->
         <!--</dependency>-->
+
+
         <dependency>
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>

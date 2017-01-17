@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.user;
 
+import com.hudongwx.drawlottery.mobile.entitys.ThirdPartyLoginToken;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 
 import java.util.List;
@@ -76,11 +77,19 @@ public interface IUserService {
     User registerByOpenId(String openId,String password,String header_url,String nickname,String platform);
 
     /**
+     * 第三方登录&注册
+     * @param token
+     * @return
+     */
+    User registerAndLoginThirdParty(ThirdPartyLoginToken token);
+
+    /**
      * 校验openId是否合法
      * @return
      */
     boolean checkOpenId(String token,String openId);
 
     Map<String,Object> queryPersonalInfo(Long accountId);
+
 }
 

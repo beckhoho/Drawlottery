@@ -64,7 +64,9 @@ public class PayController extends BaseController {
     @ApiOperation(value = "支付宝APP支付–申请支付请求参数")
     @RequestMapping(value = "/api/v1/user/order/alipay.do", method = RequestMethod.POST)
     public JSONObject orderPay(@ApiParam("订单信息") @RequestBody OrderFormData orderFormData) throws Exception {
-        LOG.info(new Date() + "[/api/v1/user/order/alipay/sub] :" + JSONObject.toJSONString(orderFormData));
+        //LOG.info(new Date() + "[/api/v1/user/order/alipay/sub] :" + JSONObject.toJSONString(orderFormData));
+
+
         return success("操作成功",aliPayService.createSign(10000L, orderFormData));
     }
 

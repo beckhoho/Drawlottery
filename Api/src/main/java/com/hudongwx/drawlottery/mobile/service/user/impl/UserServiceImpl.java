@@ -1,13 +1,19 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -253,7 +259,6 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 第三方账号绑定注册
-     *
      * @param openId
      * @param password
      * @param header_url
@@ -323,4 +328,80 @@ public class UserServiceImpl implements IUserService {
         }
         return userMapper.selectByQQOpenId(openId);
     }
+
+    @Autowired
+    OkHttpClient httpClient;
+
+    /**
+     * qq验证 ,失败返回false
+     * @param token
+     * @return
+     *
+     */
+    private boolean validatorQQOpenId(ThirdPartyLoginToken token){
+        String url = "https://graph.qq.com/oauth2.0/me?access_token=%s";
+        url = String.format(url, token.getAccessToken());
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Response response = null;
+        try {
+            response = httpClient.newCall(request).execute();
+            if(response.isSuccessful()){
+                String body = response.body().string();
+                if(!body.contains("error")){
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 验证微信
+     * @param token
+     * @return
+     */
+    private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token){
+        String url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s";
+        url = String.format(url, token.getAccessToken(), token.getOpenid());
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        try {
+            Response response = httpClient.newCall(request).execute();
+            if(response.isSuccessful()){
+                String body = response.body().toString();
+                JSONObject object = JSON.parseObject(body);
+                boolean errcode = object.containsKey("errcode");
+                return !errcode;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    @Override
+    public User registerAndLoginThirdParty(ThirdPartyLoginToken token) {
+        User user = null;
+        if(token.isWeixinPlatform()){ //qq平台授权
+            user = userMapper.selectByQQOpenId(token.getOpenid());
+            if(user == null){
+                if(!validatorQQOpenId(token)){//验证失败处理
+
+                }
+            }
+        }else{//微信授权
+            user = userMapper.selectByWxOpenId(token.getOpenid());
+        }
+        //去第三方校验数据
+        if(user == null){
+        }
+        return  null;
+    }
+
 }
