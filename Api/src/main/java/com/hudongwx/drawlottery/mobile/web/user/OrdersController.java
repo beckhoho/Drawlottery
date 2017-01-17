@@ -50,7 +50,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/sub", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addOrders(@RequestBody OrderFormData orderFormData) {
-        return success(ordersService.pay(10000L, orderFormData.getOrder(), orderFormData.getCaList()));
+        return success(ordersService.pay(getUserId(), orderFormData.getOrder(), orderFormData.getCaList()));
     }
 
     /**
@@ -75,7 +75,7 @@ public class OrdersController extends BaseController {
     @RequestMapping(value = "/api/v1/user/orders/suc", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOrderSuccess(@RequestParam("ordersId")Long ordersId ,@RequestBody JSONObject jsonObject) {
         System.out.println("suc------>" + jsonObject.toString());
-        Map<String, Object> mapInfo = ordersService.selectPaySuccess(10000L,ordersId, jsonObject);
+        Map<String, Object> mapInfo = ordersService.selectPaySuccess(getUserId(),ordersId, jsonObject);
         System.out.println("mapList---------------->" + JSON.toJSONString(mapInfo));
         return success(mapInfo);
     }

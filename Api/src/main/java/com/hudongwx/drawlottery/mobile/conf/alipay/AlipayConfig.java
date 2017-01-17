@@ -35,7 +35,7 @@ public static String APP_ID = "2016120703992842";
 	public static String return_url = "http://商户网址/create_direct_pay_by_user-JAVA-UTF-8/return_url.jsp";
 
 	// 签名方式
-	public static String sign_type = "RSA2";
+	public static String sign_type = "RSA";
 	
 	// 调试用，创建TXT日志文件夹路径，见AlipayCore.java类中的logResult(String sWord)打印方法。
 	public static String log_path = "C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\alipaylog";
