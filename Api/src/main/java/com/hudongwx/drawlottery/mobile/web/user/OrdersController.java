@@ -88,7 +88,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAllUserOrders() {
-        List<Orders> olist = ordersService.selectByUserAccount(10000L);
+        List<Orders> olist = ordersService.selectByUserAccount(getUserId());
         return success(olist);
     }
 

@@ -2,8 +2,13 @@ package com.hudongwx.drawlottery.mobile.web.notification;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.NotificationPrize;
+import com.hudongwx.drawlottery.mobile.service.notification.ILuckNoticeService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,16 +32,19 @@ import java.util.List;
 @Api(value = "NotificationController", description = "消息通知管理")
 public class NotificationController extends BaseController {
 
+    @Autowired
+    ILuckNoticeService luckNoticeService;
+
     /**
      * 用户中奖消息
      *
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/notify/prize", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserPrizeMessage() {
-        List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
-        return success(nlist);
+    @ApiOperation("用户中奖消息")
+    @RequestMapping(value = "/api/v1/priv/user/notify/prize", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryUserPrizeMessage(@ApiParam("商品Id")@Param("commId") Long commId) {
+        return success(luckNoticeService.addUserLuckNotice(commId));
     }
 
     /**

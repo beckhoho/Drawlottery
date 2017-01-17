@@ -90,7 +90,7 @@ public class ShareController extends BaseController {
         System.out.println("share---------->" + commId);
         System.out.println("share---------->" + desc);
         System.out.println("imgFile---------->" + imgs.size());
-        shareService.addShare(10000L, commId, desc, imgs);
+        shareService.addShare(getUserId(), commId, desc, imgs);
         return success();
     }
 
@@ -102,7 +102,7 @@ public class ShareController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryShareInfoByAccount(@RequestParam("page") int page) {
-        List<Map<String, Object>> shareAll = shareService.selectByUserAccountId(10000L);
+        List<Map<String, Object>> shareAll = shareService.selectByUserAccountId(getUserId());
         return success(shareAll);
     }
 

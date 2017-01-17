@@ -35,13 +35,12 @@ public class UserLuckCodesController extends BaseController {
     /**
      * 用户查看个人幸运码
      *
-     * @param accountid 用户账号
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/luckcode/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserLuckCodes(@RequestParam("acc") Long accountid) {
-        List<UserLuckCodes> ulclist = ulcService.selectByUserId(accountid);
+    public JSONObject queryUserLuckCodes() {
+        List<UserLuckCodes> ulclist = ulcService.selectByUserId(getUserId());
         return success(ulclist);
     }
 }

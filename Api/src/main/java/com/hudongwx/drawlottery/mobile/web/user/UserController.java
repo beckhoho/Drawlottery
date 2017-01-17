@@ -46,7 +46,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/center", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserCenter() {
-        Map<String, Object> userInfo = userService.queryPersonalInfo(10000L);
+        Map<String, Object> userInfo = userService.queryPersonalInfo(getUserId());
         return success(userInfo);
     }
 
@@ -69,7 +69,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/win", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserWinningHistory(@RequestParam("page") int page) {
-        List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(10000L);
+        List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(getUserId());
         return success(historyLottery);
     }
 
@@ -84,7 +84,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/api/v1/user/usercomm/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserCommRecord(@RequestParam("item") Integer item, @RequestParam("page") Integer page) {
         System.out.println(item + "------------------" + page);
-        List<Map<String, Object>> historyLottery = userService.selectHistoryPay(10000L, item);
+        List<Map<String, Object>> historyLottery = userService.selectHistoryPay(getUserId(), item);
         return success(historyLottery);
     }
 
@@ -169,7 +169,7 @@ public class UserController extends BaseController {
         // TODO: 2017/1/12 v2 收益功能接口模块数据↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         Map<String, Object> map = new HashMap<>();
         map.put("YIncome", 10.01d);//昨日收益
-        map.put("accountId", 10000L);//推广Id
+        map.put("accountId", getUserId());//推广Id
         map.put("lv", 1);//等级
         map.put("amIncome", 150.21);//累计收益
         map.put("balance", 10000.05);//余额

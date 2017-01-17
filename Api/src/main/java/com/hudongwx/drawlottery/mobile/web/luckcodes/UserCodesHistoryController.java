@@ -35,13 +35,12 @@ public class UserCodesHistoryController extends BaseController {
     /**
      * 用户查看个人往期幸运码
      *
-     * @param accountid 用户账号
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/codeshistory/show", method = {RequestMethod.POST,RequestMethod.GET})
-    public JSONObject queryUserLuckCodes(@RequestParam("acc") Long accountid) {
-        List<UserCodesHistory> uchlist = uchService.selectByUserAccount(accountid);
+    public JSONObject queryUserLuckCodes() {
+        List<UserCodesHistory> uchlist = uchService.selectByUserAccount(getUserId());
         return success(uchlist);
     }
 }

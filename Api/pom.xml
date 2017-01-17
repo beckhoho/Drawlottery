@@ -39,6 +39,10 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
 
 
         <!--&lt;!&ndash;配置热加载&ndash;&gt;-->
