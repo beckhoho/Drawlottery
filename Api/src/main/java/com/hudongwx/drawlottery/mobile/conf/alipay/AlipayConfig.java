@@ -10,7 +10,7 @@ package com.hudongwx.drawlottery.mobile.conf.alipay;
  *该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
  */
 
-import com.hudongwx.drawlottery.mobile.utils.payutils.UtilDate;
+import com.hudongwx.drawlottery.mobile.utils.alipay.UtilDate;
 
 public class AlipayConfig {
 
@@ -58,7 +58,7 @@ public class AlipayConfig {
     public static String service = "http://192.168.6.115:8080/api/v1/pub/orders/callbacks.do";
 
     // 调用的接口名，无需修改
-    public static String app_id = "2016120703992842";
+    public static String APP_ID = "2016120703992842";
 
 //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
