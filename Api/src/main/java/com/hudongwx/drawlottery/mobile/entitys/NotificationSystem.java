@@ -20,7 +20,7 @@ import java.util.Date;
  */
 
 @Table(name = "t_notification_system")
-public class NotificationSystem {
+public class NotificationSystem extends Notification{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +37,20 @@ public class NotificationSystem {
      */
     @Column(name = "notice_title")
     private String noticeTitle;
+
+    /**
+     * 通知内容
+     */
+    @Column(name="notice_content")
+    private String noticeContent;
+
+    public String getNoticeContent() {
+        return noticeContent;
+    }
+
+    public void setNoticeContent(String noticeContent) {
+        this.noticeContent = noticeContent;
+    }
 
     /**
      * 通知详情url

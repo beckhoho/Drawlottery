@@ -2,15 +2,20 @@ package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.entitys.*;
+import com.hudongwx.drawlottery.mobile.mappers.NotificationCampaignMapper;
+import com.hudongwx.drawlottery.mobile.mappers.NotificationPrizeMapper;
+import com.hudongwx.drawlottery.mobile.mappers.NotificationSystemMapper;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.PrivateKey;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -31,62 +36,67 @@ import java.util.Date;
 @RequestMapping(value = "/api/v1/priv/user/message/")
 @RestController
 public class MessageController extends BaseController {
+    @Autowired
+    NotificationCampaignMapper campaignMapper;
+    @Autowired
+    NotificationPrizeMapper prizeMapper;
+    @Autowired
+    NotificationSystemMapper systemMapper;
 
     /**
      * 查询所有的未读消息数量
+     *
      * @return
      */
     @ApiOperation(value = "queryAllMessageSize", notes = "查询所有的消息未读取消息数", httpMethod = "POST,GET", responseContainer = "{object.put(\"0\", 20);//系统消息\n" +
             "        object.put(\"1\", 10);//中奖消息\n" +
             "        object.put(\"2\", 0);//发货消息}")
-    @RequestMapping(value = "/query/count",method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/query/count", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAllMessageSize() {
         //0系统消息
         //1中奖消息
         //2发货消息
+//        long userId = getUserId();
+        long userId = 10000L;
         JSONObject object = new JSONObject();
-        object.put("0", 20);//系统消息
-        object.put("1", 10);//中奖消息
-        object.put("2", 0);//发货消息
+        object.put("0", systemMapper.countUnreadMsg(userId));//系统消息
+        object.put("1", prizeMapper.countUnreadMsg(userId));//中奖消息
+        object.put("2", campaignMapper.countUnreadMsg(userId));//发货消息
         return success(object);
     }
 
     /**
      * 指定类型的消息
+     *
      * @return
      */
-    @ApiOperation(value = "消息列表查询", notes = "支持分页查询",responseContainer = "{title:标题,id:'1000',content:'内容',date:'日期'}",code = 200, produces = "application/json")
-    @RequestMapping(value = "/query/list/{typeid}/{msgid}",method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(value = "消息列表查询", notes = "支持分页查询", responseContainer = "{title:标题,id:'1000',content:'内容',date:'日期'}", code = 200, produces = "application/json")
+    @RequestMapping(value = "/query/list/{typeid}/{msgid}", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryMessageByType(
             @ApiParam(name = "typeid", value = "消息类型id", required = true) @PathVariable("typeid") int typeid,
-            @ApiParam(name = "msgid", value = "消息id", required = false) @PathVariable(value = "msgid",required = false)String msgid){
+            @ApiParam(name = "msgid", value = "消息id", required = false) @PathVariable(value = "msgid", required = false) String msgid) {
         JSONArray data = new JSONArray();
+        Long userId = getUserId();
         if (typeid == 0) {
-            for (int i = 0; i < 30; i++) {
-                JSONObject object = new JSONObject();
-                object.put("title", "系统消息标题");
-                object.put("id", 1000+i);
-                object.put("content", "消息内容.....................第" + i);
-                object.put("date", new Date().toString());
-                data.add(object);
+            List<NotificationSystem> notificationSystems = systemMapper.selectLimitTen(userId, msgid);
+            for (NotificationSystem notificationSystem : notificationSystems) {
+                if(addJsonObj(notificationSystem,data)){//消息未读，则更改状态
+                    systemMapper.updateStateById(notificationSystem.getId());
+                }
             }
         } else if (typeid == 1) {
-            for (int i = 0; i < 30; i++) {
-                JSONObject object = new JSONObject();
-                object.put("title", "中奖消息标题");
-                object.put("id", 1000+i);
-                object.put("content", "消息内容.....................第" + i);
-                object.put("date", new Date().toString());
-                data.add(object);
+            List<NotificationPrize> notificationPrizes = prizeMapper.selectLimitTen(userId, msgid);
+            for (NotificationPrize notificationPrize : notificationPrizes) {
+                if(addJsonObj(notificationPrize,data)){
+                    prizeMapper.updateStateById(notificationPrize.getId());
+                }
             }
         } else if (typeid == 2) {
-            for (int i = 0; i < 30; i++) {
-                JSONObject object = new JSONObject();
-                object.put("title", "发货消息标题");
-                object.put("id", 1000+i);
-                object.put("content", "消息内容.....................第" + i);
-                object.put("date", new Date().toString());
-                data.add(object);
+            List<NotificationCampaign> notificationCampaigns = campaignMapper.selectLimitTen(userId, msgid);
+            for (NotificationCampaign notificationCampaign : notificationCampaigns) {
+                if(addJsonObj(notificationCampaign,data)){
+                    campaignMapper.updateStateById(notificationCampaign.getId());
+                }
             }
         } else {
             return fail(-1, "请求错误");
@@ -94,4 +104,19 @@ public class MessageController extends BaseController {
         return success(data);
     }
 
+    public boolean addJsonObj(Notification notification,JSONArray data) {
+        boolean flag = false;
+        if (notification.getState() == 0) {//改消息为已读
+            notification.setId(notification.getId());
+            notification.setState(1);
+            flag = true;//消息状态需更改
+        }
+        JSONObject object = new JSONObject();
+        object.put("title", notification.getNoticeTitle());
+        object.put("id", notification.getId());
+        object.put("content", notification.getNoticeContent());
+        object.put("date", notification.getSendDate().toString());
+        data.add(object);
+        return flag;
+    }
 }

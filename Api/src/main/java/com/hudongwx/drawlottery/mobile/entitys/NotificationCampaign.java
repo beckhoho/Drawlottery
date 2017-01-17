@@ -21,7 +21,7 @@ import java.util.Date;
  * <p>
  * @email 346905702@qq.com
  */
-public class NotificationCampaign {
+public class NotificationCampaign extends Notification{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +38,20 @@ public class NotificationCampaign {
      */
     @Column(name = "notice_title")
     private String noticeTitle;
+
+    /**
+     * 通知内容
+     */
+    @Column(name="notice_content")
+    private String noticeContent;
+
+    public String getNoticeContent() {
+        return noticeContent;
+    }
+
+    public void setNoticeContent(String noticeContent) {
+        this.noticeContent = noticeContent;
+    }
 
     /**
      * 通知详情url
