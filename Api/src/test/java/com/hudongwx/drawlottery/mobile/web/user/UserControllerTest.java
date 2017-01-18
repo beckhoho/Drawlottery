@@ -25,6 +25,12 @@ import javax.annotation.Resource;
  * @email 294786949@qq.com
  */
 public class UserControllerTest extends TestBaseWeb {
+    @Test
+    public void testAddPromoter() throws Exception {
+        JSONObject jsonObject = userController.addPromoter(10444L);
+        System.out.println(jsonObject);
+    }
+
     @Resource
     UserController userController;
 

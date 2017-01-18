@@ -97,5 +97,12 @@ public interface IUserService {
 
     List<String>selectGroupLuckCode(Long accountId,String lastCode);
 
+    /**
+     * 添加推广员id
+     * @param promId
+     * @param accountId
+     * @return
+     */
+    int addPromoter(Long promId,Long accountId);
 }
 
