@@ -75,8 +75,7 @@ public class AppIndexController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/index/notice", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject notice() {
-        List<String> nList = npService.selectByNew();
-        return success(nList);
+        return success(npService.selectByNew());
     }
 
     /**

@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.notification;
 import com.hudongwx.drawlottery.mobile.entitys.NotificationPrize;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -34,6 +35,6 @@ public interface INotificationPrizeService {
     boolean delete(Long id);
 
     //查看最新的中奖通知
-    List<String> selectByNew();
+    List<Map<String,Object>> selectByNew();
 
 }

@@ -205,13 +205,13 @@ public class OrdersServiceImpl implements IOrdersService {
                     comm.setLastRoundTime(aLong+"");
                     commMapper.insert(comm);
 
-//                    //复用商品幸运码
-//                    Commodity commod = commMapper.selectOne(comm);
-//                    Long id = ca.getCommodityId();
-//                    codesMapper.updateNext(null,commod.getId(),null,null,null);
-//                    if(remainingNum==0){
-//                        ca.setCommodityId(comm.getId());
-//                    }
+                    //复用商品幸运码
+                    Commodity commod = commMapper.selectOne(comm);
+                    Long id = ca.getCommodityId();
+                    codesMapper.updateNext(null,commod.getId(),null,null,null);
+                    if(remainingNum==0){
+                        ca.setCommodityId(comm.getId());
+                    }
 
                     com.setId(commodity.getId());
                     comMapper.updateById(com);//提交商品信息
