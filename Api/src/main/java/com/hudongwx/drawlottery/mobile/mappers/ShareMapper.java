@@ -13,4 +13,10 @@ public interface ShareMapper extends BaseMapper<Share> {
     List<Share> selectByIssueDate(@Param("issueDate") Long issueDate);
 
     List<Share> selectByUserAccountId(@Param("accountId") Long accountId);
+
+    /**
+     * 返回主键字段
+     * @return
+     */
+    int insertByGeneratedKeys(Share share);
 }
