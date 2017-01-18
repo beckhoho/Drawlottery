@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.web;
 
 import com.hudongwx.drawlottery.common.dto.paramBody.OrderParam;
-import com.hudongwx.drawlottery.service.order.OrderService;
+import com.hudongwx.drawlottery.service.order.HistoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +22,10 @@ import javax.annotation.Resource;
 @Api("订单相关接口")
 @RestController
 @RequestMapping("/order")
-public class OrderController {
+public class HistoryController {
 
     @Resource
-    private OrderService orderService;
+    private HistoryService historyService;
 
     @ApiOperation("获取订单分页数据")
     @RequestMapping("/all")
