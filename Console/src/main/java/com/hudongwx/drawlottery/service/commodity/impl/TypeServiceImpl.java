@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.service.commodity.impl;
 
+import com.hudongwx.drawlottery.common.constants.CommonConstants;
 import com.hudongwx.drawlottery.dao.CommodityTypeMapper;
 import com.hudongwx.drawlottery.pojo.CommodityType;
 import com.hudongwx.drawlottery.service.commodity.ITypeService;
@@ -21,6 +22,8 @@ public class TypeServiceImpl implements ITypeService {
     @Resource
     private CommodityTypeMapper commodityTypeMapper;
 
+    @Resource
+    private CommonConstants commonConstants;
     /**
      * 通过 id 获取类型.
      *
@@ -51,5 +54,23 @@ public class TypeServiceImpl implements ITypeService {
     @Override
     public List<CommodityType> getAllTypes() {
         return commodityTypeMapper.selectAll();
+    }
+
+    @Override
+    public void addType(CommodityType type) {
+        type.setState(commonConstants.getVALID());
+        commodityTypeMapper.insertSelective(type);
+    }
+
+    @Override
+    public void updateType(CommodityType type) {
+        commodityTypeMapper.updateByPrimaryKeySelective(type);
+    }
+
+    @Override
+    public void deleteTypes(List<Integer> ids) {
+        for (Integer id : ids) {
+            commodityTypeMapper.deleteByPrimaryKey(id);
+        }
     }
 }

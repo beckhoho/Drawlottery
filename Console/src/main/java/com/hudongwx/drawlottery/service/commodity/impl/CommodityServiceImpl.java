@@ -76,6 +76,7 @@ public class CommodityServiceImpl implements CommodityService {
      * 批量上架商品
      *
      * @param commodities 商品模板
+     * @deprecated 删除，写法有误
      */
     @Override
     public void groundCommodities(final List<CommodityTemplate> commodities) {
@@ -92,18 +93,21 @@ public class CommodityServiceImpl implements CommodityService {
      */
     @Override
     public void groundCommodity(final long tempId, final long luckCodeCount) {
-        //检索生成幸运码
-        luckCodeService.generate(luckCodeCount);
-        final Commodity commodity = new Commodity();
-        commodity.setBuyLastNumber(0);
-        commodity.setBuyCurrentNumber(0);
-        commodity.setRoundTime("" + roundTimeService.generateNewRoundTime());
-        commodity.setViewNum(0L);
-        commodity.setTempId(tempId);
-        commodity.setStateId(Commodity.ON_SALE);
-        addCommodity(commodity);
-        //关联幸运码
-        luckCodeService.connect(commodity.getId(), luckCodeCount);
+        //线程安全
+        synchronized (this) {
+            //检索生成幸运码
+            luckCodeService.generate(luckCodeCount);
+            final Commodity commodity = new Commodity();
+            commodity.setBuyLastNumber(0);
+            commodity.setBuyCurrentNumber(0);
+            commodity.setRoundTime("" + roundTimeService.generateNewRoundTime());
+            commodity.setViewNum(0L);
+            commodity.setTempId(tempId);
+            commodity.setStateId(Commodity.ON_SALE);
+            addCommodity(commodity);
+            //关联幸运码
+            luckCodeService.connect(commodity.getId(), luckCodeCount);
+        }
     }
 
     /**

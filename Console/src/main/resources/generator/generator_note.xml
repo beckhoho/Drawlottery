@@ -225,7 +225,7 @@
 
 
             <!-- generatedKey用于生成生成主键的方法，
-                如果设置了该元素，MBG会在生成的<insert>元素中生成一条正确的<selectKey>元素，该元素可选
+                如果设置了该元素，MBG会在生成的<insertSet>元素中生成一条正确的<selectKey>元素，该元素可选
                 column:主键的列名；
                 sqlStatement：要生成的selectKey语句，有以下可选项：
                     Cloudscape:相当于selectKey的SQL为： VALUES IDENTITY_VAL_LOCAL()

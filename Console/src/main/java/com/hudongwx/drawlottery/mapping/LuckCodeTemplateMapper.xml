@@ -8,7 +8,16 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="luck_code" jdbcType="VARCHAR" property="luckCode"/>
     </resultMap>
+    <insert id="insertSet">
+        insert into t_luck_code_template VALUES
+        <foreach collection="set" separator="," item="temp">
+            (#{temp.id},#{temp.luckCode})
+        </foreach>
+    </insert>
     <select id="getCount" resultType="java.lang.Long">
     SELECT count(*) from t_luck_code_template
   </select>
+    <select id="selectRange" resultType="com.hudongwx.drawlottery.pojo.LuckCodes">
+        select id as luckCodeTemplateId from draw_lottery.t_luck_code_template where luck_code &lt; #{count}
+    </select>
 </mapper>
