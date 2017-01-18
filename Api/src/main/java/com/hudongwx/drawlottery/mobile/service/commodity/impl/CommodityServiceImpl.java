@@ -39,8 +39,6 @@ public class CommodityServiceImpl implements ICommodityService {
     @Autowired
     UserMapper userMapper;
     @Autowired
-    UserLuckCodesMapper userluckMapper;
-    @Autowired
     LuckCodesMapper luckCodeMapper;
     @Autowired
     CommodityTypeMapper typeMapper;
@@ -125,19 +123,19 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectByStyle(Integer type, Integer page) {
+    public List<Map<String, Object>> selectByStyle(Integer type, Long lastCommId) {
         List<Commoditys> cList;
         List<Map<String, Object>> infoList = new ArrayList<>();
         if (type.intValue() == Settings.COMMODITY_ORDER_POPULARITY) {
-            cList = ServiceUtils.getPageList(commsMapper.selectByTemp1(), page);
+            cList = commsMapper.selectByTemp1(lastCommId, Settings.PAGE_LOAD_SIZE);//按人气搜索
         } else if (type == Settings.COMMODITY_ORDER_FASTEST) {
-            cList = ServiceUtils.getPageList(commsMapper.selectByTemp2(), page);
+            cList = commsMapper.selectByTemp2(lastCommId, Settings.PAGE_LOAD_SIZE);
         } else if (type == Settings.COMMODITY_ORDER_NEWEST) {
-            cList = ServiceUtils.getPageList(commsMapper.selectByTemp3(), page);
+            cList = commsMapper.selectByTemp3(lastCommId, Settings.PAGE_LOAD_SIZE);
         } else if (type == Settings.COMMODITY_ORDER_HIGHT_RATE) {
-            cList = ServiceUtils.getPageList(commsMapper.selectHeight(100), page);
+            cList = commsMapper.selectHeight(100, lastCommId, Settings.PAGE_LOAD_SIZE);
         } else {
-            cList = ServiceUtils.getPageList(commsMapper.selectByTemp4(), page);
+            cList = commsMapper.selectByTemp4(lastCommId, Settings.PAGE_LOAD_SIZE);
         }
         for (Commoditys commoditys : cList) {
             infoList.add(dealCommSelectByStyle(commoditys));
@@ -198,7 +196,7 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("buyCurrent", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买次数
         map.put("roundTime", com.getRoundTime());//获取当前期数
         map.put("user", 0);//是否参与本商品
-        map.put("countDown", 18000l);//倒计时
+        map.put("countDown", 180l);//倒计时
         map.put("descUrl", com.getCommodityDescUrl());//添加商品详情URL
         map.put("partake", listPartake(commodId));//添加参与记录
         map.put("guessLike", listMap3());//添加猜你喜欢商品
@@ -252,7 +250,7 @@ public class CommodityServiceImpl implements ICommodityService {
 
     public List<Map<String, Object>> listPartake(Long commodId) {
         List<Map<String, Object>> listMap = new ArrayList<>();
-        List<Long> codes = userluckMapper.selectCountByCommodity(commodId);
+        List<Long> codes = luckCodeMapper.selectCountByCommodity(commodId);
         for (Long userLuckCodes : codes) {
             Long userAccountId = userLuckCodes;
             Map<String, Object> map = map1(userAccountId);
@@ -278,7 +276,7 @@ public class CommodityServiceImpl implements ICommodityService {
 
     public Map<String, Object> map2(Long commodId, Long userAccountId) {
         Map<String, Object> map = new HashMap<>();
-        List<UserLuckCodes> select = userluckMapper.selectByAccAndCommId(userAccountId, commodId);
+        List<LuckCodes> select = luckCodeMapper.selectByAccAndCommId(userAccountId, commodId);
         Long buyDate = null;
         int size = 0;
         if (!select.isEmpty()) {
@@ -301,40 +299,39 @@ public class CommodityServiceImpl implements ICommodityService {
      *
      * @param categoryId 商品类别
      * @param commName   商品名称
-     * @param page       当前最后一个显示的商品id
      * @return JSONObject
      */
     @Override
-    public List<Map<String, Object>> selectPaging(Integer categoryId, String commName, Integer page) {
+    public List<Map<String, Object>> selectPaging(Integer categoryId, String commName, Long lastCommId) {
         if (null != categoryId && null != commName) {
             //按照商品分类和商品名查询
-            return type1(categoryId, commName, page);
+            return type1(categoryId, commName, lastCommId);
         } else if (null == categoryId && null == commName) {
             //默认显示类型id为1的商品
-            return byType(1, page);
+            return byType(1, lastCommId);
         } else if (null != categoryId && null == commName) {
-            return byType(categoryId, page);
+            return byType(categoryId, lastCommId);
         } else if (null == categoryId && null != commName) {
-            return type4(commName, page);
+            return type4(commName, lastCommId);
         }
         return null;
     }
 
     //已分类的商品名搜索
-    public List<Map<String, Object>> type1(Integer categoryId, String commName, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(commsMapper.selectByTypeAndName("%" + commName + "%", categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
+    public List<Map<String, Object>> type1(Integer categoryId, String commName, Long lastCommId) {
+        List<Commoditys> list = commsMapper.selectByTypeAndName("%" + commName + "%", categoryId, Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE);
         return forPut(list);
     }
 
     //已分类商品搜索
-    public List<Map<String, Object>> byType(Integer categoryId, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(commsMapper.selectByType(categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
+    public List<Map<String, Object>> byType(Integer categoryId, Long lastCommId) {
+        List<Commoditys> list = commsMapper.selectByType(categoryId, Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE);
         return forPut(list);
     }
 
     //未分类的商品名搜索
-    public List<Map<String, Object>> type4(String commName, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(commsMapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE), page);
+    public List<Map<String, Object>> type4(String commName, Long lastCommId) {
+        List<Commoditys> list = commsMapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE);
         return forPut(list);
     }
 
@@ -362,8 +359,8 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectHeight(Integer number) {
-        List<Commoditys> list = commsMapper.selectHeight(number);
+    public List<Map<String, Object>> selectHeight(Integer number, Long lastCommId) {
+        List<Commoditys> list = commsMapper.selectHeight(number, lastCommId, Settings.PAGE_LOAD_SIZE);
         return forPut(list);
     }
 
@@ -392,25 +389,24 @@ public class CommodityServiceImpl implements ICommodityService {
                 residualMinutes = (int) ((endTime - nowTime) / 1000);
             } else {
                 commsMapper.updateCommState(comm.getId(), Settings.COMMODITY_STATE_HAS_LOTTERY);
-                UserLuckCodes ulc = new UserLuckCodes();
-                ulc.setLuckCodeId(comm.getLuckCodeId());
+                LuckCodes ulc = new LuckCodes();
                 ulc.setCommodityId(comm.getId());
-                UserLuckCodes userLuckCodes = userluckMapper.selectByOne(comm.getId(), comm.getLuckCodeId());
+                LuckCodes userLuckCodes = luckCodeMapper.selectById(comm.getLuckCodeId());
                 if (null != userLuckCodes) {
                     Long acc = userLuckCodes.getUserAccountId();
                     //insertHistory(comm,acc,userLuckCodes.getLuckCodeId());
-                    ulc.setLuckCodeId(null);
+
                     ulc.setUserAccountId(acc);
-                    userPayNum = userluckMapper.selectCount(ulc);
+                    userPayNum = luckCodeMapper.selectCount(ulc);
                     User user = userMapper.selectById(acc);
                     userNickName = user.getNickname();
                     userHeadImgUrl = user.getHeaderUrl();
                 }
             }
             map.put("residualMinutes", residualMinutes);//剩余开奖秒数
-            map.put("userHeadImgUrl", Settings.SERVER_URL_PATH + userHeadImgUrl);//
-            map.put("userNickName", userNickName);//
-            map.put("userPayNum", userPayNum);//
+            map.put("userHeadImgUrl", Settings.SERVER_URL_PATH + userHeadImgUrl);//中奖者头像
+            map.put("userNickName", userNickName);// 中奖者昵称
+            map.put("userPayNum", userPayNum);//中奖者购买数量
             map.put("id", comm.getId());//商品id
             map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
             map.put("currentTime", nowTime);//当前时间
@@ -419,94 +415,14 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("state", comm.getStateId());//上商状态
             map.put("totalNumber", comm.getBuyTotalNumber());//所需总人次
             map.put("roundTime", comm.getRoundTime());//期数
-            map.put("desc", comm.getName());//期数
-
+            map.put("desc", comm.getName());//描述
             infoList.add(map);
         }
         return infoList;
     }
 
-    public Long produceLuckCodes(Long commodityId) {
-        List<Long> codes = userluckMapper.selectCountByCommodity(commodityId);
-        int v = (int) (Math.random() * codes.size());
-        Long codeId = codes.get(v);
-        return codeId;
-    }
-
-    public boolean insertHistory(Commoditys com, Long accountId, Long luckCodeId) {
-        UserLuckCodes luckCodes = new UserLuckCodes();
-        luckCodes.setUserAccountId(accountId);
-        List<UserLuckCodes> select = userluckMapper.select(luckCodes);
-        //String s = luckCodeMapper.selectLuckCode(luckCodeId);
-        CommodityHistory history = new CommodityHistory();
-        history.setCommodityId(com.getId());
-        history.setBuyNumber(select.size());
-        history.setLuckUserAccountId(accountId);
-        history.setBuyTotalNumber(com.getBuyTotalNumber());
-        history.setCommodityName(com.getName());
-        history.setCoverImgUrl(com.getCoverImgUrl());
-        history.setEndTime(new Date().getTime());
-        history.setExchangeState(0);
-        history.setExchangeWay(null);
-        history.setGenre(com.getGenre());
-        history.setRoundTime(com.getRoundTime());
-        //history.setLuckCode(s);
-        return historyMapper.insert(history) > 0;
-    }
 
 
-    /**
-     * 商品开奖之后需要改变的数据
-     *
-     * @param luckCode    幸运号（不是ID）
-     * @param commodityId 商品ID
-     * @return 回改变结果
-     */
-    @Override
-    public boolean reviseInfo(String luckCode, Long commodityId) {
-        Commoditys com = commsMapper.selectByKey(commodityId);
-        LuckCodes luckCodes = new LuckCodes();
-        luckCodes.setCommodityId(commodityId);
-        List<LuckCodes> codes = luckCodeMapper.select(luckCodes);
-        Long codeId = codes.get(0).getId();
-        UserLuckCodes userLuckCodes = new UserLuckCodes();
-        userLuckCodes.setLuckCodeId(codeId);
-        List<UserLuckCodes> select = userluckMapper.select(userLuckCodes);
-
-        //将商品表中的商品改变状态
-
-        com.setStateId(1);
-        com.setId(commodityId);
-        int i = commsMapper.updateByPrimaryKeySelective(com);
-
-        //将用户幸运码添加到历史
-        Long accountId = select.get(0).getUserAccountId();
-        UserLuckCodes user = new UserLuckCodes();
-        user.setUserAccountId(accountId);
-        List<UserLuckCodes> listUser = userluckMapper.select(userLuckCodes);
-        UserCodesHistory userHistory = new UserCodesHistory();
-        userHistory.setUserAccountId(accountId);
-        userHistory.setCommodityId(commodityId);
-        userHistory.setUserLuckCodeId(codeId);
-        userHistory.setRoundTime(com.getRoundTime());
-        int insert1 = userHistoryMapper.insert(userHistory);
-
-        //将商品添加到历史
-        CommodityHistory history = new CommodityHistory();
-        history.setCommodityId(commodityId);
-        history.setBuyTotalNumber(com.getBuyTotalNumber());
-        history.setCoverImgUrl(com.getCoverImgUrl());
-        history.setEndTime(new Date().getTime());
-        history.setCommodityName(com.getName());
-        history.setLuckCode(luckCode);
-        history.setRoundTime(com.getRoundTime());
-        history.setGenre(com.getGenre());
-        history.setLuckUserAccountId(select.get(0).getId());
-        history.setLuckUserAccountId(accountId);
-        history.setBuyNumber(listUser.size());
-        int insert = historyMapper.insert(history);
-        return insert > 0 && insert1 > 0 && i > 0;
-    }
 
     /**
      * 生成新的期数

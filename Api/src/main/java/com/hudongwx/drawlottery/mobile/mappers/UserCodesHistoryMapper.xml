@@ -11,22 +11,31 @@
         <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
         <result column="buy_date" jdbcType="BIGINT" property="buyDate"/>
         <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
-        <result column="address_ip" jdbcType="VARCHAR" property="addressIp"/>
     </resultMap>
     <select id="selectByUserAccountId" resultMap="BaseResultMap">
         SELECT *
         FROM t_user_luck_codes_history
-        WHERE commodity_id = #{accountId}
+        WHERE id = #{accountId}
+        ORDER BY id
+    </select>
+    <!--查询一组用-->
+    <select id="selectLimitCodeNum" resultType="java.lang.String">
+        SELECT temp.luck_code
+        FROM t_luck_code_template AS temp LEFT JOIN t_luck_codes AS lc ON temp.id = lc.luck_code_template_id
+        WHERE temp.id &gt; (SELECT id
+                            FROM t_luck_code_template
+                            WHERE luck_code LIKE #{lastCode})
+              AND lc.user_account_id = #{accountId}
+        ORDER BY temp.id
+        LIMIT #{pageLoadSize};
     </select>
 
     <insert id="insertHistory">
 
-        INSERT INTO draw_lottery.t_user_luck_codes_history
-        (luck_code_id,commodity_id,user_account_id,buy_date,address_ip,round_time) VALUES
+        INSERT INTO t_user_luck_codes_history
+        (luck_code_id,commodity_id,user_account_id,buy_date,round_time) VALUES
         <foreach collection="list" separator="," item="userLuck">
-            (#{userLuck.luckCodeId},#{userLuck.commodityId},
-            #{userLuck.userAccountId},#{userLuck.buyDate},
-            #{userLuck.addressIp},#{userLuck.roundTime})
+            (#{userLuck.luckCodeId},#{userLuck.commodityId},#{userLuck.userAccountId},#{userLuck.buyDate},#{userLuck.roundTime})
         </foreach>
 
     </insert>

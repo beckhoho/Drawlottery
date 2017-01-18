@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Table(name = "t_user_luck_codes_history")
 public class UserCodesHistory {
@@ -39,11 +38,9 @@ public class UserCodesHistory {
     @Column(name = "buy_date")
     private Long buyDate;
 
-    /**
-     * IP地址
-     */
-    @Column(name = "address_ip")
-    private String addressIp;
+
+
+
 
     public String getRoundTime() {
         return roundTime;
@@ -59,14 +56,6 @@ public class UserCodesHistory {
 
     public void setBuyDate(Long buyDate) {
         this.buyDate = buyDate;
-    }
-
-    public String getAddressIp() {
-        return addressIp;
-    }
-
-    public void setAddressIp(String addressIp) {
-        this.addressIp = addressIp;
     }
 
     /**

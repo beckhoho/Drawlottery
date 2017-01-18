@@ -251,7 +251,7 @@ public class Settings {
     /**
      * 设置开奖延后时长
      */
-    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL = 1000 * 60 * 3;
+    public static final long LOTTERY_ANNOUNCE_TIME_INTERVAL = 1000 * 60 * 1;
 
     /**
      * 卡密已查看

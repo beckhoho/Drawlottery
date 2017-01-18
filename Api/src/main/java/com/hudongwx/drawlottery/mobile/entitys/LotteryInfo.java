@@ -1,7 +1,5 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import com.alibaba.fastjson.JSONObject;
-
 import javax.persistence.*;
 
 /**
@@ -42,6 +40,17 @@ public class LotteryInfo {
      */
     @Column(name = "buy_num")
     private int buyNum;
+
+    @Column(name = "user_account_id")
+    private Long userAccountId;
+
+    public Long getUserAccountId() {
+        return userAccountId;
+    }
+
+    public void setUserAccountId(Long userAccountId) {
+        this.userAccountId = userAccountId;
+    }
 
     public Long getId() {
         return id;

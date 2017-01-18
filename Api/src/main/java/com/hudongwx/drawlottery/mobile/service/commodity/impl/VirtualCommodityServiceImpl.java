@@ -1,12 +1,10 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
-import com.hudongwx.drawlottery.mobile.entitys.CommodityTemplate;
-import com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes;
 import com.hudongwx.drawlottery.mobile.entitys.VirtualCommodity;
 import com.hudongwx.drawlottery.mobile.mappers.CommodityHistoryMapper;
 import com.hudongwx.drawlottery.mobile.mappers.CommodityTemplateMapper;
-import com.hudongwx.drawlottery.mobile.mappers.UserLuckCodesMapper;
+import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.mappers.VirtualCommodityMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.IVirtualCommodityService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
@@ -43,7 +41,7 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
     @Autowired
     CommodityTemplateMapper tempMapper;
     @Autowired
-    UserLuckCodesMapper codesMapper;
+    LuckCodesMapper codesMapper;
 
     @Override
     public boolean addCard(VirtualCommodity card) {

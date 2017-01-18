@@ -48,14 +48,14 @@ public class CommoditysController extends BaseController {
      *
      * @param categoryId 商品类别
      * @param commName   商品名称
-     * @param page       页数
+     * @param lastCommId 页数
      * @return JSONObject
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/search", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryCommoditys(@RequestParam(name = "categoryId", required = false) Integer categoryId, @RequestParam(name = "commName", required = false) String commName, @RequestParam(name = "page", required = false) Integer page) {
+    public JSONObject queryCommoditys(@RequestParam(name = "categoryId", required = false) Integer categoryId, @RequestParam(name = "commName", required = false) String commName, @RequestParam(name = "lastCommId", required = false) Long lastCommId) {
         hsService.addHotSearch(commName);
-        List<Map<String, Object>> infoList = cService.selectPaging(categoryId, commName, page);
+        List<Map<String, Object>> infoList = cService.selectPaging(categoryId, commName, lastCommId);
         return success(infoList);
     }
 
@@ -74,13 +74,12 @@ public class CommoditysController extends BaseController {
      * 按商品类型category搜索
      *
      * @param categoryId 商品类别
-     * @param page       页数
      * @return JSONObject
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/search/category", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryCommoditys(@RequestParam("categoryId") Integer categoryId, @RequestParam("page") Integer page) {
-        List<Map<String, Object>> infoList = cService.selectPaging(categoryId, null, page);
+    public JSONObject queryCommoditys(@RequestParam("categoryId") Integer categoryId, @RequestParam("lastCommId") Long lastCommId) {
+        List<Map<String, Object>> infoList = cService.selectPaging(categoryId, null, lastCommId);
         return success(infoList);
     }
 
@@ -88,14 +87,13 @@ public class CommoditysController extends BaseController {
      * 按商品名称name搜索
      *
      * @param name
-     * @param page
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/search/name", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryCommoditys(@RequestParam("name") String name, @RequestParam("page") Integer page) {
+    public JSONObject queryCommoditys(@RequestParam("name") String name, @RequestParam("lastCommId") Long lastCommId) {
         hsService.addHotSearch(name);
-        List<Map<String, Object>> infoList = cService.selectPaging(null, name, page);
+        List<Map<String, Object>> infoList = cService.selectPaging(null, name, lastCommId);
         return success(infoList);
     }
 

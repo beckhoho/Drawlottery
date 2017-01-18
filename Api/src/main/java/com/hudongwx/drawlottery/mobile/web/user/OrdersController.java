@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
-import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserLuckCodesService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
@@ -37,8 +36,7 @@ public class OrdersController extends BaseController {
 
     @Autowired
     IOrdersService ordersService;
-    @Autowired
-    IUserLuckCodesService ulcService;
+
     @Autowired
     IAliPayService aliPayService;
 

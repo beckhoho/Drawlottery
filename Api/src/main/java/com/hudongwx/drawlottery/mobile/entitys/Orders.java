@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Table(name = "t_orders")
 public class Orders {
@@ -38,6 +37,17 @@ public class Orders {
      */
     @Column(name = "red_packet_id")
     private Long redPacketId;
+
+    @Column(name = "address_ip")
+    private Long addressIp;
+
+    public Long getAddressIp() {
+        return addressIp;
+    }
+
+    public void setAddressIp(Long addressIp) {
+        this.addressIp = addressIp;
+    }
 
     public Long getRedPacketId() {
         return redPacketId;

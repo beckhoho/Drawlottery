@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.web.commodity;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
+import com.hudongwx.drawlottery.mobile.service.notification.ILuckNoticeService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +36,9 @@ public class CommodityHistoryController extends BaseController {
     @Autowired
     ICommodityHistoryService chService;
 
+    @Autowired
+    ILuckNoticeService noticeService;
+
     /**
      * 查看商品历史
      *
@@ -50,6 +54,11 @@ public class CommodityHistoryController extends BaseController {
         return success(chlist);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/user/commhistory/lottery", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject addUserLuckNotice(@RequestParam("commodityId") Long commodityId) {
+        return success(noticeService.addUserLuckNotice(commodityId));
+    }
     /**
      * 通过商品Id(commId)浏览往期揭晓
      *

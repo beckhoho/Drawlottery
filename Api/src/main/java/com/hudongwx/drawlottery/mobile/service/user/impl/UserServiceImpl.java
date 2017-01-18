@@ -43,8 +43,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     CommodityHistoryMapper comHistoryMapper;
     @Autowired
-    UserLuckCodesMapper luckCodesMapper;
-    @Autowired
     UserCodesHistoryMapper userCodeHistMapper;
     @Autowired
     CommoditysMapper comMapper;
@@ -225,7 +223,7 @@ public class UserServiceImpl implements IUserService {
     //添加正在进行的商品
     public List<Map<String, Object>> selectToNew(Long accountId) {
         List<Map<String, Object>> list = new ArrayList<>();
-        List<Long> commIdList = luckCodesMapper.selectDistinctGroupByCommId(accountId);
+        List<Long> commIdList = codesMapper.selectDistinctGroupByCommId(accountId);
 
         for (Long commId : commIdList) {
             Map<String, Object> map = new HashMap<>();
@@ -234,7 +232,7 @@ public class UserServiceImpl implements IUserService {
             CommodityHistory history = comHistoryMapper.selectBycommId(commId);
             User user = userMapper.selectById(history.getLuckUserAccountId());
             map.put("id", com.getId());//添加商品ID
-            map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买人次
+            map.put("buyCurrentNumber", com.getBuyTotalNumber()-com.getBuyCurrentNumber());//添加当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
             map.put("commState", com.getStateId());//商品状态
             map.put("roundTime", com.getRoundTime());//添加期数
@@ -254,9 +252,9 @@ public class UserServiceImpl implements IUserService {
     //查询用户参与商品购买人次和幸运码
     public List<String> luckUserList(Long accountId, Long commodityId) {
         List<String> list = new ArrayList<>();
-        List<UserLuckCodes> codes = luckCodesMapper.selectByAccAndCommId(accountId, commodityId);
-        for (UserLuckCodes code : codes) {
-            LuckCodes key = codesMapper.selectById(code.getLuckCodeId());
+        List<LuckCodes> codes = codesMapper.selectByAccAndCommId(accountId,commodityId);
+        for (LuckCodes code : codes) {
+            LuckCodes key = codesMapper.selectById(code.getId());
             LuckCodeTemplate template = luckTemplateMapper.selectById(key.getLuckCodeTemplateId());
             list.add(template.getLuckCode());
         }
@@ -321,6 +319,11 @@ public class UserServiceImpl implements IUserService {
         return map;
     }
 
+    @Override
+    public List<String> selectGroupLuckCode(Long accountId, String lastCode) {
+        return userCodeHistMapper.selectLimitCodeNum(accountId, lastCode, Settings.PAGE_LOAD_SIZE);
+    }
+
     /**
      * 分平台查询用户信息
      *
@@ -367,10 +370,11 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 验证微信
-     *
      * @param token
      * @return
      */
+    private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token){
+        String url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s";
     private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token) {
         String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
         url = String.format(url, token.getAccessToken(), token.getOpenid());
@@ -379,8 +383,8 @@ public class UserServiceImpl implements IUserService {
                 .build();
         try {
             Response response = httpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
-                String body = response.body().string();
+            if(response.isSuccessful()){
+                String body = response.body().toString();
                 JSONObject object = JSON.parseObject(body);
                 boolean errcode = object.containsKey("errcode");
                 return !errcode;
@@ -426,4 +430,5 @@ public class UserServiceImpl implements IUserService {
         PasswordUtils.encryptPassword(user);
         return userMapper.insert(user);
     }
+
 }
