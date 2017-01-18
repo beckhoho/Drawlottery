@@ -58,16 +58,16 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
 
     //人气
-    List<Commoditys> selectByTemp1(@Param("lastCommId")Long lastCommId,@Param("maxInfoSize")Integer maxInfoSize);
+    List<Commoditys> selectByTemp1(@Param("lastCommId") Long lastCommId, @Param("maxInfoSize") Integer maxInfoSize);
 
     //最快
-    List<Commoditys> selectByTemp2(@Param("lastCommId")Long lastCommId,@Param("maxInfoSize")Integer maxInfoSize);
+    List<Commoditys> selectByTemp2(@Param("lastCommId") Long lastCommId, @Param("maxInfoSize") Integer maxInfoSize);
 
     //最新
-    List<Commoditys> selectByTemp3(@Param("lastCommId")Long lastCommId,@Param("maxInfoSize")Integer maxInfoSize);
+    List<Commoditys> selectByTemp3(@Param("lastCommId") Long lastCommId, @Param("maxInfoSize") Integer maxInfoSize);
 
     //高价
-    List<Commoditys> selectByTemp4(@Param("lastCommId")Long lastCommId,@Param("maxInfoSize")Integer maxInfoSize);
+    List<Commoditys> selectByTemp4(@Param("lastCommId") Long lastCommId, @Param("maxInfoSize") Integer maxInfoSize);
 
     /**
      * 查询开奖中的商品
@@ -86,7 +86,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @param stateId
      * @return
      */
-    List<Commoditys> selectByType(@Param("typeId") Integer typeId, @Param("stateId") Integer stateId,@Param("lastCommId") Long lastCommId,@Param("pageLoadSize") Integer pageLoadSize);
+    List<Commoditys> selectByType(@Param("typeId") Integer typeId, @Param("stateId") Integer stateId, @Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 
     /**
      * 通过商品名模糊查询
@@ -95,7 +95,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @param stateId
      * @return
      */
-    List<Commoditys> selectByName(@Param("name") String name, @Param("stateId") Integer stateId,@Param("lastCommId")Long lastCommId,@Param("pageLoadSize")Integer pageLoadSize);
+    List<Commoditys> selectByName(@Param("name") String name, @Param("stateId") Integer stateId, @Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 
     /**
      * 确定商品类型，模糊查询商品
@@ -105,7 +105,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @param stateId
      * @return
      */
-    List<Commoditys> selectByTypeAndName(@Param("name") String name, @Param("typeId") Integer typeId, @Param("stateId") Integer stateId,@Param("lastCommId")Long lastCommId,@Param("pageLoadSize")Integer pageLoadSize);
+    List<Commoditys> selectByTypeAndName(@Param("name") String name, @Param("typeId") Integer typeId, @Param("stateId") Integer stateId, @Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 
     /**
      * 猜你喜欢商品
@@ -120,7 +120,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @param number
      * @return
      */
-    List<Commoditys> selectHeight(@Param("number") Integer number,@Param("lastCommId")Long lastCommId,@Param("maxInfoSize")Integer maxInfoSize);
+    List<Commoditys> selectHeight(@Param("number") Integer number, @Param("lastCommId") Long lastCommId, @Param("maxInfoSize") Integer maxInfoSize);
 
     /**
      * 已开奖的商品
@@ -134,4 +134,6 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     int updateById(Commodity commodity);
 
     Long selectMaxRoundTime();
+
+    Commoditys selectNextRoundComm(@Param("tempId") Long tempId, @Param("stateId") Integer stateId);
 }

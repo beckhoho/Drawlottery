@@ -44,6 +44,8 @@ public class CommodityServiceImpl implements ICommodityService {
     CommodityTypeMapper typeMapper;
     @Autowired
     UserCodesHistoryMapper userHistoryMapper;
+    @Autowired
+    LotteryInfoMapper lotteryInfoMapper;
 
     /**
      * 添加商品
@@ -150,6 +152,7 @@ public class CommodityServiceImpl implements ICommodityService {
     private Map<String, Object> dealCommSelectByStyle(Commoditys comm) {
         Map<String, Object> map = new HashMap<>();
         map.put("id", comm.getId());
+        map.put("minNum", comm.getMinimum());
         map.put("state", comm.getStateId());
         map.put("name", comm.getName());
         map.put("imgUrl", comm.getCoverImgUrl());
@@ -183,6 +186,8 @@ public class CommodityServiceImpl implements ICommodityService {
     public Map<String, Object> selectCommodity(Long commodId) {
         Commoditys com = commsMapper.selectByKey(commodId);
         Map<String, Object> map = new HashMap<>();
+        String nextRound = null;
+        Long nextRoundId = null;
         if (com.getStateId() == 3) {//如果未开奖
             CommodityHistory comh = historyMapper.selectBycommodName(com.getName(), com.getRoundTime());
             map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
@@ -190,7 +195,12 @@ public class CommodityServiceImpl implements ICommodityService {
         if (com.getStateId() == 1) {//如果已开奖
             CommodityHistory comm = historyMapper.selectBycommId(commodId);
             map.put("beforeLottery", mapBefore(comm));
+            Commoditys commoditys = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
+            nextRound = commoditys.getRoundTime() + "期正在火热进行中";
+            nextRoundId = commoditys.getId();
         }
+        map.put("nextRound", nextRound);
+        map.put("nextRoundId", nextRoundId);
         map.put("commId", commodId);//商品ID
         map.put("minNum", com.getMinimum());//商品ID
         map.put("coverImg", com.getCoverImgUrl());
@@ -399,15 +409,12 @@ public class CommodityServiceImpl implements ICommodityService {
                 residualMinutes = (int) ((endTime - nowTime) / 1000);
             } else {
                 commsMapper.updateCommState(comm.getId(), Settings.COMMODITY_STATE_HAS_LOTTERY);
-                LuckCodes ulc = new LuckCodes();
-                ulc.setCommodityId(comm.getId());
-                LuckCodes userLuckCodes = luckCodeMapper.selectById(comm.getLuckCodeId());
-                if (null != userLuckCodes) {
-                    Long acc = userLuckCodes.getUserAccountId();
+                LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comm.getId());
+                if (null != lotteryInfo) {
+                    Long acc =lotteryInfo.getUserAccountId();
                     //insertHistory(comm,acc,userLuckCodes.getLuckCodeId());
 
-                    ulc.setUserAccountId(acc);
-                    userPayNum = luckCodeMapper.selectCount(ulc);
+                    userPayNum = lotteryInfo.getBuyNum();
                     User user = userMapper.selectById(acc);
                     userNickName = user.getNickname();
                     userHeadImgUrl = user.getHeaderUrl();
@@ -421,6 +428,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("minNum", comm.getMinimum());//商品id
             map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
             map.put("currentTime", nowTime);//当前时间
+            map.put("endTime", endTime);//当前时间
             map.put("detailUrl", comm.getCommodityDescUrl());//详情url
             map.put("desc", comm.getCommodityDesc());//商品描述
             map.put("state", comm.getStateId());//上商状态

@@ -6,6 +6,7 @@ import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityTypeService;
 import com.hudongwx.drawlottery.mobile.service.commodity.IHotSearchService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,7 @@ public class CommoditysController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
+    @ApiOperation("搜索商品信息（默认搜所有）参数：category 类型；commName 商品名; lastCommName 最后一个商品Id")
     @RequestMapping(value = "/api/v1/pub/commodity/search", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommoditys(@RequestParam(name = "categoryId", required = false) Integer categoryId, @RequestParam(name = "commName", required = false) String commName, @RequestParam(name = "lastCommId", required = false) Long lastCommId) {
         hsService.addHotSearch(commName);
