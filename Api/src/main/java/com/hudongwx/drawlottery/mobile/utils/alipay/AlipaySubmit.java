@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.utils.alipay;
 
-import com.hudongwx.drawlottery.mobile.conf.alipay.AlipayConfig;
-import com.hudongwx.drawlottery.mobile.conf.alipay.sign.RSA;
+import com.hudongwx.drawlottery.mobile.web.pay.alipay.config.AlipayConfig;
+import com.hudongwx.drawlottery.mobile.web.pay.alipay.sign.RSA;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
@@ -31,7 +31,7 @@ public class AlipaySubmit {
      * 支付宝提供给商户的服务接入网关URL(新)
      */
     private static final String ALIPAY_GATEWAY_NEW = "https://mapi.alipay.com/gateway.do?";
-	
+
     /**
      * 生成签名结果
      * @param sPara 要签名的数组

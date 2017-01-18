@@ -63,14 +63,19 @@ public class AuthorController extends BaseController {
             token.setPassword(openid.toCharArray());
             //判断是否来自QQ或微信平台
             if(token.isQQPlatform() || token.isWeixinPlatform()){
-                subject.login(token); //调用登录,去认证器匹配
+                try {
+                    subject.login(token); //调用登录,去认证器匹配
+                    return success();
+                } catch (UnknownAccountException e) {
+                    e.printStackTrace();
+                    return fail(-1,"第三方登录错误");
+                }
             }else{
                 return fail(-1,"第三方登录错误");
             }
         }
         return success();
     }
-
 
     /**
      * 用户登录,post

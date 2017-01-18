@@ -7,15 +7,16 @@ import com.hudongwx.drawlottery.mobile.mappers.NotificationCampaignMapper;
 import com.hudongwx.drawlottery.mobile.mappers.NotificationPrizeMapper;
 import com.hudongwx.drawlottery.mobile.mappers.NotificationSystemMapper;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.PrivateKey;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -71,30 +72,32 @@ public class MessageController extends BaseController {
      * @return
      */
     @ApiOperation(value = "消息列表查询", notes = "支持分页查询", responseContainer = "{title:标题,id:'1000',content:'内容',date:'日期'}", code = 200, produces = "application/json")
-    @RequestMapping(value = "/query/list/{typeid}/{msgid}", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryMessageByType(
-            @ApiParam(name = "typeid", value = "消息类型id", required = true) @PathVariable("typeid") int typeid,
-            @ApiParam(name = "msgid", value = "消息id", required = false) @PathVariable(value = "msgid", required = false) String msgid) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "typeid", dataType = "int", required = true),
+            @ApiImplicitParam(paramType = "query", name = "msgid", dataType = "int", required = false)
+    })
+    @RequestMapping(value = "/query/list", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryMessageByType(@RequestParam int typeid,@RequestParam(value = "msgid",required = false) String msgid) {
         JSONArray data = new JSONArray();
         Long userId = getUserId();
         if (typeid == 0) {
             List<NotificationSystem> notificationSystems = systemMapper.selectLimitTen(userId, msgid);
             for (NotificationSystem notificationSystem : notificationSystems) {
-                if(addJsonObj(notificationSystem,data)){//消息未读，则更改状态
+                if (addJsonObj(notificationSystem, data)) {//消息未读，则更改状态
                     systemMapper.updateStateById(notificationSystem.getId());
                 }
             }
         } else if (typeid == 1) {
             List<NotificationPrize> notificationPrizes = prizeMapper.selectLimitTen(userId, msgid);
             for (NotificationPrize notificationPrize : notificationPrizes) {
-                if(addJsonObj(notificationPrize,data)){
+                if (addJsonObj(notificationPrize, data)) {
                     prizeMapper.updateStateById(notificationPrize.getId());
                 }
             }
         } else if (typeid == 2) {
             List<NotificationCampaign> notificationCampaigns = campaignMapper.selectLimitTen(userId, msgid);
             for (NotificationCampaign notificationCampaign : notificationCampaigns) {
-                if(addJsonObj(notificationCampaign,data)){
+                if (addJsonObj(notificationCampaign, data)) {
                     campaignMapper.updateStateById(notificationCampaign.getId());
                 }
             }
@@ -104,7 +107,7 @@ public class MessageController extends BaseController {
         return success(data);
     }
 
-    public boolean addJsonObj(Notification notification,JSONArray data) {
+    public boolean addJsonObj(Notification notification, JSONArray data) {
         boolean flag = false;
         if (notification.getState() == 0) {//改消息为已读
             notification.setId(notification.getId());

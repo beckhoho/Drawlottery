@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.utils.alipay.httpclient;
 
 
-import com.hudongwx.drawlottery.mobile.conf.alipay.AlipayConfig;
+import com.hudongwx.drawlottery.mobile.web.pay.alipay.config.AlipayConfig;
 import org.apache.commons.httpclient.Header;
 
 import java.io.UnsupportedEncodingException;

@@ -4,7 +4,7 @@
  * author: shiqun.shi@alipay.com
  */
 
-package com.hudongwx.drawlottery.mobile.conf.alipay.sign;
+package com.hudongwx.drawlottery.mobile.web.pay.alipay.sign;
 
 public final class Base64 {
 

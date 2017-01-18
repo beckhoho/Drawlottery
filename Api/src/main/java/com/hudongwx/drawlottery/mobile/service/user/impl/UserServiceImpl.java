@@ -10,6 +10,7 @@ import com.hudongwx.drawlottery.mobile.utils.Settings;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -371,7 +372,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token) {
-        String url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s";
+        String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
         url = String.format(url, token.getAccessToken(), token.getOpenid());
         Request request = new Request.Builder()
                 .url(url)
@@ -415,6 +416,8 @@ public class UserServiceImpl implements IUserService {
                 }
             }
         }
+        if(user == null)
+            throw new AuthenticationException("第三方登录错误");
         return user;
     }
 

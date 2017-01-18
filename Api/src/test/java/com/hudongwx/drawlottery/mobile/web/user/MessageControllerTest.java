@@ -22,8 +22,8 @@ public class MessageControllerTest extends TestBaseWeb {
 
     @Test
     public void testQueryMessageByType() throws Exception {
-        JSONObject jsonObject = messageController.queryMessageByType(0, null);
-        System.out.println(jsonObject);
+        //JSONObject jsonObject = messageController.queryMessageByType(0, null);
+        //System.out.println(jsonObject);
     }
 
     @Override

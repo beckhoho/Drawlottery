@@ -1,7 +1,8 @@
 package com.hudongwx.drawlottery.mobile.utils.alipay;
 
-import com.hudongwx.drawlottery.mobile.conf.alipay.AlipayConfig;
-import com.hudongwx.drawlottery.mobile.conf.alipay.sign.RSA;
+
+import com.hudongwx.drawlottery.mobile.web.pay.alipay.config.AlipayConfig;
+import com.hudongwx.drawlottery.mobile.web.pay.alipay.sign.RSA;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
