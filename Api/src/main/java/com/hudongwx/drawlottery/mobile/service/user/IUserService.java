@@ -28,7 +28,7 @@ public interface IUserService {
      */
     User queryUserByPhoneNum(String phone);
 
-    Map<String,Object> getUserInfo(User user);
+    Map<String, Object> getUserInfo(User user);
 
     /**
      * 查询用户中奖历史
@@ -36,7 +36,7 @@ public interface IUserService {
      * @param accountId
      * @return
      */
-    List<Map<String,Object>> selectHistoryLottery(Long accountId);
+    List<Map<String, Object>> selectHistoryLottery(Long accountId);
 
     /**
      * 用户购买历史(夺宝历史)
@@ -45,13 +45,13 @@ public interface IUserService {
      * @param item
      * @return
      */
-    List<Map<String,Object>> selectHistoryPay(Long accountId,Integer item);
+    List<Map<String, Object>> selectHistoryPay(Long accountId, Integer item);
 
     /**
      * 添加推广Id
      *
      * @param accountId 当前用户Id
-     * @param promId 推广Id
+     * @param promId    推广Id
      * @return
      */
     boolean addPromoterId(Long accountId, Long promId);
@@ -59,14 +59,16 @@ public interface IUserService {
 
     /**
      * 查询用户信息
+     *
      * @param openId
      * @param platform
      * @return
      */
-    User queryByOpenId(String openId,String platform);
+    User queryByOpenId(String openId, String platform);
 
     /**
      * 第三方账号绑定
+     *
      * @param openId
      * @param password
      * @param header_url
@@ -74,10 +76,11 @@ public interface IUserService {
      * @param platform
      * @return
      */
-    User registerByOpenId(String openId,String password,String header_url,String nickname,String platform);
+    User registerByOpenId(String openId, String password, String header_url, String nickname, String platform);
 
     /**
      * 第三方登录&注册
+     *
      * @param token
      * @return
      */
@@ -85,11 +88,14 @@ public interface IUserService {
 
     /**
      * 校验openId是否合法
+     *
      * @return
      */
-    boolean checkOpenId(String token,String openId);
+    boolean checkOpenId(String token, String openId);
 
-    Map<String,Object> queryPersonalInfo(Long accountId);
+    Map<String, Object> queryPersonalInfo(Long accountId);
+
+    List<String>selectGroupLuckCode(Long accountId,String lastCode);
 
 }
 

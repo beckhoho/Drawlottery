@@ -16,7 +16,19 @@
     <select id="selectByUserAccountId" resultMap="BaseResultMap">
         SELECT *
         FROM t_user_luck_codes_history
-        WHERE commodity_id = #{accountId}
+        WHERE id = #{accountId}
+        ORDER BY id
+    </select>
+    <!--查询一组用-->
+    <select id="selectLimitCodeNum" resultType="java.lang.String">
+        SELECT temp.luck_code
+        FROM t_luck_code_template AS temp LEFT JOIN t_luck_codes AS lc ON temp.id = lc.luck_code_template_id
+        WHERE temp.id &gt; (SELECT id
+                            FROM t_luck_code_template
+                            WHERE luck_code LIKE #{lastCode})
+              AND lc.user_account_id = #{accountId}
+        ORDER BY temp.id
+        LIMIT #{pageLoadSize};
     </select>
 
     <insert id="insertHistory">

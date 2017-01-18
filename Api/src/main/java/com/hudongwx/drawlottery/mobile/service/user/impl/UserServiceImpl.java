@@ -320,6 +320,11 @@ public class UserServiceImpl implements IUserService {
         return map;
     }
 
+    @Override
+    public List<String> selectGroupLuckCode(Long accountId, String lastCode) {
+        return userCodeHistMapper.selectLimitCodeNum(accountId, lastCode, Settings.PAGE_LOAD_SIZE);
+    }
+
     /**
      * 分平台查询用户信息
      *

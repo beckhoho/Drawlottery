@@ -74,31 +74,44 @@
     </select>
 
 
-
     <!-- 人气 -->
     <select id="selectByTemp1" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
-        WHERE commodity.state_id = 3 ORDER BY
-        commodity.buy_current_number/template.buy_total_number DESC
+        WHERE commodity.state_id = 3
+        and commodity.view_num $lt;
+        (SELECT t_commoditys.view_num FROM t_commoditys WHERE t_commoditys.id = #{lastCommId} )
+        ORDER BY
+        commodity.view_num DESC LIMIT #{maxInfoSize}
     </select>
 
     <!-- 最快 -->
     <select id="selectByTemp2" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
-        WHERE commodity.state_id = 3 ORDER BY
-        commodity.buy_current_number-commodity.buy_last_number DESC
+        WHERE commodity.state_id = 3
+        and commodity.buy_current_number-commodity.buy_last_number &gt;
+        (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE t_commoditys.id = #{lastCommId} )
+        ORDER BY
+        commodity.buy_current_number-commodity.buy_last_number limit #{maxInfoSize}
     </select>
 
     <!-- 最新 -->
     <select id="selectByTemp3" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
-        WHERE commodity.state_id = 3 ORDER BY ground_time DESC
+        WHERE commodity.state_id = 3
+        and commodity.ground_time &gt;
+        (SELECT t_commoditys.ground_time FROM t_commoditys WHERE t_commoditys.id = #{lastCommId} )
+        ORDER BY
+        ground_time DESC limit #{maxInfoSize}
     </select>
 
     <!-- 高价 -->
     <select id="selectByTemp4" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
-        WHERE commodity.state_id = 3 ORDER BY template.buy_total_number DESC
+        WHERE commodity.state_id = 3
+        and template.buy_total_number &lt;
+        (SELECT t_commodity_template.buy_total_number FROM t_commoditys WHERE t_commodity_template.id = #{lastCommId} )
+        ORDER BY
+        template.buy_total_number DESC limit #{maxInfoSize}
     </select>
 
     <!-- 查询开奖中的商品 -->
@@ -121,7 +134,10 @@
     <select id="selectHeight" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
+        and template.buy_total_number &gt;
+        (SELECT t_commodity_template.buy_total_number FROM t_commodity_template WHERE t_commodity_template.id = #{lastCommId} )
         AND template.buy_total_number &lt; #{number}
+        limit #{maxInfoSize}
     </select>
 
     <!-- 查询已开奖商品 -->
@@ -143,7 +159,11 @@
     <select id="selectByTypeAndName" resultMap="BaseResultMap">
         <include refid="selectSql2"></include>
         WHERE template.commodity_type_id = #{typeId}
-        and template.name like #{name} and commodity.state_id = #{stateId}
+        and template.name like #{name}
+        and commodity.state_id = #{stateId}
+        and commodity.id &gt; #{lastCommId}
+        ORDER BY
+        commodity.id limit #{pageLoadSize}
     </select>
 
     <!-- 模糊查询 -->
@@ -151,6 +171,8 @@
         <include refid="selectSql2"></include>
         WHERE template.name like #{name}
         and commodity.state_id = #{stateId}
+        and commodity.id &gt; #{lastCommId}
+        order by commodity.id limit #{pageLoadSize}
     </select>
 
     <!-- 根据商品类型查询 -->
@@ -158,48 +180,68 @@
         <include refid="selectSql2"></include>
         WHERE template.commodity_type_id = #{typeId}
         and commodity.state_id = #{stateId}
+        and commodity.id &gt; #{lastCommId}
+        order by commodity.id limit #{pageLoadSize}
     </select>
     <select id="selectMaxRoundTime" resultType="java.lang.Long">
-      select IFNULL(max(round_time * 1),100000000) from t_commoditys
+        SELECT IFNULL(max(round_time * 1), 100000000)
+        FROM t_commoditys
     </select>
 
     <update id="updateCommState">
-        UPDATE t_commoditys SET state_id = #{stateId} where id = #{commId}
+        UPDATE t_commoditys
+        SET state_id = #{stateId}
+        WHERE id = #{commId}
     </update>
 
     <!-- 商品通用查询语句 -->
     <sql id="selectSql">
-        SELECT commodity.id,template.name,
-        template.withdrawals_money,
-        template.exchange_money,
-        commodity.temp_id,
-        template.card_type,
-        template.card_num,
-        template.card_money,
-        commodity.view_num,template.commodity_desc,
-        template.commodity_type_id,commodity.buy_current_number,
-        template.buy_total_number,template.ground_time,
-        commodity.luck_code_id,commodity.round_time,
-        template.cover_img_url,template.auto_round,
-        template.commodity_desc_url,commodity.buy_last_number,
-        commodity.sell_out_time,commodity.state_id FROM t_commoditys
-         as commodity LEFT JOIN t_commodity_template
-          as template ON commodity.temp_id = template.id
+        SELECT
+            commodity.id,
+            template.name,
+            template.withdrawals_money,
+            template.exchange_money,
+            commodity.temp_id,
+            template.card_type,
+            template.card_num,
+            template.card_money,
+            commodity.view_num,
+            template.commodity_desc,
+            template.commodity_type_id,
+            commodity.buy_current_number,
+            template.buy_total_number,
+            template.ground_time,
+            commodity.luck_code_id,
+            commodity.round_time,
+            template.cover_img_url,
+            template.auto_round,
+            template.commodity_desc_url,
+            commodity.buy_last_number,
+            commodity.sell_out_time,
+            commodity.state_id
+        FROM t_commoditys
+            AS commodity LEFT JOIN t_commodity_template
+            AS template ON commodity.temp_id = template.id
     </sql>
 
     <!-- 商品通用查询语句2（少字段） -->
     <sql id="selectSql2">
-        SELECT commodity.id,template.name,
-        commodity.temp_id,
-        template.withdrawals_money,
-        template.exchange_money,
-        commodity.view_num,template.commodity_type_id,
-        commodity.buy_current_number,
-        template.buy_total_number,
-        commodity.round_time,template.cover_img_url,
-        commodity.sell_out_time,commodity.state_id
-        FROM t_commoditys as commodity
-        LEFT JOIN t_commodity_template as template ON
-        commodity.temp_id = template.id
+        SELECT
+            commodity.id,
+            template.name,
+            commodity.temp_id,
+            template.withdrawals_money,
+            template.exchange_money,
+            commodity.view_num,
+            template.commodity_type_id,
+            commodity.buy_current_number,
+            template.buy_total_number,
+            commodity.round_time,
+            template.cover_img_url,
+            commodity.sell_out_time,
+            commodity.state_id
+        FROM t_commoditys AS commodity
+            LEFT JOIN t_commodity_template AS template ON
+                                                           commodity.temp_id = template.id
     </sql>
 </mapper>

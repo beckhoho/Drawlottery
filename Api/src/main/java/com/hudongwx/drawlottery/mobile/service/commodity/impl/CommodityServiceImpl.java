@@ -125,19 +125,19 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectByStyle(Integer type, Integer page) {
+    public List<Map<String, Object>> selectByStyle(Integer type, Long lastCommId) {
         List<Commoditys> cList;
         List<Map<String, Object>> infoList = new ArrayList<>();
         if (type.intValue() == Settings.COMMODITY_ORDER_POPULARITY) {
-            cList = ServiceUtils.getPageList(commsMapper.selectByTemp1(), page);
+            cList = commsMapper.selectByTemp1(lastCommId, Settings.PAGE_LOAD_SIZE);//按人气搜索
         } else if (type == Settings.COMMODITY_ORDER_FASTEST) {
-            cList = ServiceUtils.getPageList(commsMapper.selectByTemp2(), page);
+            cList = commsMapper.selectByTemp2(lastCommId, Settings.PAGE_LOAD_SIZE);
         } else if (type == Settings.COMMODITY_ORDER_NEWEST) {
-            cList = ServiceUtils.getPageList(commsMapper.selectByTemp3(), page);
+            cList = commsMapper.selectByTemp3(lastCommId, Settings.PAGE_LOAD_SIZE);
         } else if (type == Settings.COMMODITY_ORDER_HIGHT_RATE) {
-            cList = ServiceUtils.getPageList(commsMapper.selectHeight(100), page);
+            cList = commsMapper.selectHeight(100, lastCommId, Settings.PAGE_LOAD_SIZE);
         } else {
-            cList = ServiceUtils.getPageList(commsMapper.selectByTemp4(), page);
+            cList = commsMapper.selectByTemp4(lastCommId, Settings.PAGE_LOAD_SIZE);
         }
         for (Commoditys commoditys : cList) {
             infoList.add(dealCommSelectByStyle(commoditys));
@@ -198,7 +198,7 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("buyCurrent", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买次数
         map.put("roundTime", com.getRoundTime());//获取当前期数
         map.put("user", 0);//是否参与本商品
-        map.put("countDown", 18000l);//倒计时
+        map.put("countDown", 180l);//倒计时
         map.put("descUrl", com.getCommodityDescUrl());//添加商品详情URL
         map.put("partake", listPartake(commodId));//添加参与记录
         map.put("guessLike", listMap3());//添加猜你喜欢商品
@@ -301,40 +301,39 @@ public class CommodityServiceImpl implements ICommodityService {
      *
      * @param categoryId 商品类别
      * @param commName   商品名称
-     * @param page       当前最后一个显示的商品id
      * @return JSONObject
      */
     @Override
-    public List<Map<String, Object>> selectPaging(Integer categoryId, String commName, Integer page) {
+    public List<Map<String, Object>> selectPaging(Integer categoryId, String commName, Long lastCommId) {
         if (null != categoryId && null != commName) {
             //按照商品分类和商品名查询
-            return type1(categoryId, commName, page);
+            return type1(categoryId, commName, lastCommId);
         } else if (null == categoryId && null == commName) {
             //默认显示类型id为1的商品
-            return byType(1, page);
+            return byType(1, lastCommId);
         } else if (null != categoryId && null == commName) {
-            return byType(categoryId, page);
+            return byType(categoryId, lastCommId);
         } else if (null == categoryId && null != commName) {
-            return type4(commName, page);
+            return type4(commName, lastCommId);
         }
         return null;
     }
 
     //已分类的商品名搜索
-    public List<Map<String, Object>> type1(Integer categoryId, String commName, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(commsMapper.selectByTypeAndName("%" + commName + "%", categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
+    public List<Map<String, Object>> type1(Integer categoryId, String commName, Long lastCommId) {
+        List<Commoditys> list = commsMapper.selectByTypeAndName("%" + commName + "%", categoryId, Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE);
         return forPut(list);
     }
 
     //已分类商品搜索
-    public List<Map<String, Object>> byType(Integer categoryId, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(commsMapper.selectByType(categoryId, Settings.COMMODITY_STATE_ON_SALE), page);
+    public List<Map<String, Object>> byType(Integer categoryId, Long lastCommId) {
+        List<Commoditys> list = commsMapper.selectByType(categoryId, Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE);
         return forPut(list);
     }
 
     //未分类的商品名搜索
-    public List<Map<String, Object>> type4(String commName, Integer page) {
-        List<Commoditys> list = ServiceUtils.getPageList(commsMapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE), page);
+    public List<Map<String, Object>> type4(String commName, Long lastCommId) {
+        List<Commoditys> list = commsMapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE);
         return forPut(list);
     }
 
@@ -362,8 +361,8 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectHeight(Integer number) {
-        List<Commoditys> list = commsMapper.selectHeight(number);
+    public List<Map<String, Object>> selectHeight(Integer number, Long lastCommId) {
+        List<Commoditys> list = commsMapper.selectHeight(number, lastCommId, Settings.PAGE_LOAD_SIZE);
         return forPut(list);
     }
 
@@ -408,9 +407,9 @@ public class CommodityServiceImpl implements ICommodityService {
                 }
             }
             map.put("residualMinutes", residualMinutes);//剩余开奖秒数
-            map.put("userHeadImgUrl", Settings.SERVER_URL_PATH + userHeadImgUrl);//
-            map.put("userNickName", userNickName);//
-            map.put("userPayNum", userPayNum);//
+            map.put("userHeadImgUrl", Settings.SERVER_URL_PATH + userHeadImgUrl);//中奖者头像
+            map.put("userNickName", userNickName);// 中奖者昵称
+            map.put("userPayNum", userPayNum);//中奖者购买数量
             map.put("id", comm.getId());//商品id
             map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
             map.put("currentTime", nowTime);//当前时间
@@ -419,8 +418,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("state", comm.getStateId());//上商状态
             map.put("totalNumber", comm.getBuyTotalNumber());//所需总人次
             map.put("roundTime", comm.getRoundTime());//期数
-            map.put("desc", comm.getName());//期数
-
+            map.put("desc", comm.getName());//描述
             infoList.add(map);
         }
         return infoList;
