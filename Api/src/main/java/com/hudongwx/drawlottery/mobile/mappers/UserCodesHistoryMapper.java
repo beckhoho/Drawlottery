@@ -13,5 +13,9 @@ public interface UserCodesHistoryMapper extends BaseMapper<UserCodesHistory> {
 
     List<String> selectLimitCodeNum(@Param("accountId") Long accountId, @Param("lastCode") String lastCode, @Param("pageLoadSize") Integer pageLoadSize);
 
+    List<UserCodesHistory> selectByOrders(@Param("accountId")Long accountId,
+                                          @Param("commodityId")Long commodityId,@Param("ordersId")Long ordersId);
 
+
+    UserCodesHistory selectById(@Param("id")Long id);
 }

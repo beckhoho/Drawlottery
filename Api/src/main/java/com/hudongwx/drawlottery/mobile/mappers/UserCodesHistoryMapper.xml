@@ -31,6 +31,15 @@
         LIMIT #{pageLoadSize};
     </select>
 
+    <select id="selectByOrders" resultMap="BaseResultMap">
+        SELECT * FROM t_luck_codes WHERE user_account_id = #{accountId}
+        and commodity_id = #{commodityId} and orders_id = #{ordersId} limit 0,12
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM t_user_luck_codes_history WHERE id = #{lcId}
+    </select>
+
     <insert id="insertHistory">
 
         INSERT INTO t_user_luck_codes_history
