@@ -29,11 +29,11 @@
     </select>
 
     <select id="selectByWxOpenId" resultMap="BaseResultMap">
-        select * from t_users where weixin_open_id = #{openId}
+        select account_id,salt,password from t_users where weixin_open_id = #{openId}
     </select>
 
     <select id="selectByQQOpenId" resultMap="BaseResultMap">
-        select * from t_users where qq_open_id = #{openId}
+        select account_id,salt,password from t_users where qq_open_id = #{openId}
     </select>
 
     <select id="selectById" resultMap="BaseResultMap">
@@ -41,6 +41,7 @@
     </select>
 
     <select id="selectUserNicknameById" resultType="java.lang.String">
-
     </select>
+
+
 </mapper>

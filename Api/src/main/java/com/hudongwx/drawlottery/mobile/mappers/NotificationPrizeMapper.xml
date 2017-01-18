@@ -7,15 +7,28 @@
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle"/>
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent"/>
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
     <result column="luck_codes_id" jdbcType="BIGINT" property="luckCodesId" />
     <result column="on_prize_date" jdbcType="BIGINT" property="onPrizeDate" />
+    <result column="send_date" jdbcType="BIGINT" property="sendDate"/>
     <result column="luck_account_id" jdbcType="BIGINT" property="luckAccountId"/>
-
+    <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
 
   <select id="selectByNew" resultMap="BaseResultMap">
     SELECT * FROM t_notification_prize ORDER BY on_prize_date DESC
   </select>
-
+  <select id="countUnreadMsg" resultType="INTEGER">
+    select count(*) from t_notification_prize where user_account_id = #{UserId} and state = 0
+  </select>
+  <select id="selectLimitTen" resultMap="BaseResultMap">
+    select * from t_notification_prize where user_account_id = #{UserId}
+    <if test="msgId !=null">and id &lt; #{msgId}</if>
+    ORDER BY id DESC limit 10
+  </select>
+  <update id="updateStateById" >
+    update t_notification_prize set state = 1 where id= #{Id}
+  </update>
 </mapper>

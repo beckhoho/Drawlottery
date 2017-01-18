@@ -1,10 +1,13 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
+import com.hudongwx.drawlottery.mobile.entitys.ThirdPartyLoginToken;
+import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -29,6 +32,8 @@ public class UserServiceImplTest extends TestBaseMapper {
 
     @Autowired
     IUserService service;
+
+
     @Test
     public void testRegister() throws Exception {
 
@@ -79,6 +84,13 @@ public class UserServiceImplTest extends TestBaseMapper {
         context.refresh();
         context.start();
         context.close();
+    }
+
+    @Test
+    public void testRegisterAndLoginThirdParty() throws Exception {
+        ThirdPartyLoginToken token  = new ThirdPartyLoginToken("0A87870128FC92F3A9C69CDDF5F63ED8","6E4D87DCEAD3DEA351B0A364976F6371",1);
+        User user = service.registerAndLoginThirdParty(token);
+        Assert.assertNotNull(user,"用户不为空");
     }
 
 }

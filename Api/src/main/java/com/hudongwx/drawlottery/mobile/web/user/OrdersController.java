@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
-import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserLuckCodesService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
@@ -37,8 +36,7 @@ public class OrdersController extends BaseController {
 
     @Autowired
     IOrdersService ordersService;
-    @Autowired
-    IUserLuckCodesService ulcService;
+
     @Autowired
     IAliPayService aliPayService;
 
@@ -50,7 +48,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/sub", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addOrders(@RequestBody OrderFormData orderFormData) {
-        return response(ordersService.pay(10000L, orderFormData.getOrder(), orderFormData.getCaList()));
+        return success("操作成功",ordersService.pay(getUserId(), orderFormData.getOrder(), orderFormData.getCaList()));
     }
 
     /**
@@ -73,9 +71,9 @@ public class OrdersController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/suc", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryOrderSuccess(@RequestBody JSONObject jsonObject) {
+    public JSONObject queryOrderSuccess(@RequestParam("ordersId")Long ordersId ,@RequestBody JSONObject jsonObject) {
         System.out.println("suc------>" + jsonObject.toString());
-        Map<String, Object> mapInfo = ordersService.selectPaySuccess(10000L, jsonObject);
+        Map<String, Object> mapInfo = ordersService.selectPaySuccess(getUserId(),ordersId, jsonObject);
         System.out.println("mapList---------------->" + JSON.toJSONString(mapInfo));
         return success(mapInfo);
     }
@@ -88,7 +86,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAllUserOrders() {
-        List<Orders> olist = ordersService.selectByUserAccount(10000L);
+        List<Orders> olist = ordersService.selectByUserAccount(getUserId());
         return success(olist);
     }
 

@@ -17,18 +17,21 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ *
  * DATE:2016-12-2016/12/14 0014-22:04
  * Author: origin
  * DESC:用户认证,3次登陆失败就出现图片验证码
+ *
  * */
-@Component
 public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher {
 
     @Autowired
     private CacheManager cache;
-
+    //缓存的名称
     private final String cacheName;
+
     private int limitRetry = 10;//重试次数
+
 
     public AuthorRetryLimitCredentialsMatcher(String cacheName) {
         super();
@@ -37,6 +40,8 @@ public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher
         setHashAlgorithmName(PasswordUtils.DEFAULT_ALGORITHM_NAME);
         setStoredCredentialsHexEncoded(false);//使用base64
     }
+
+
 
     @Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
@@ -48,8 +53,7 @@ public class AuthorRetryLimitCredentialsMatcher extends HashedCredentialsMatcher
             throw new ExcessiveAttemptsException("登录错误次数太多,3分钟之后再登录");
         }else{
             //匹配验证
-            match = super.doCredentialsMatch(token, info);
-            //匹配数据
+            match = super.doCredentialsMatch(token,info);
             if(match){
                 //删除缓存
                 removeAtomicInteger(id);

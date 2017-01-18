@@ -69,7 +69,7 @@ public class ServiceUtils {
                 s.append("0");
             }
             s.append(i);
-            luckCodes.setLockCode(sdf.format(date) + s);
+            //luckCodes.setLockCode(sdf.format(date) + s);
             luckCodes.setState(0);
             mapper.insert(luckCodes);
         }

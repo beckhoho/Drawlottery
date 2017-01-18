@@ -29,7 +29,7 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
 
 
     @Autowired
-    UserCodesHistoryMapper mapper;
+    UserCodesHistoryMapper uchMapper;
 
     /**
      * 添加用户历史幸运码
@@ -38,7 +38,7 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
      */
     @Override
     public boolean addToHistory(UserCodesHistory userhis) {
-        int insert = mapper.insert(userhis);
+        int insert = uchMapper.insert(userhis);
         if(insert>0){
             return  true;
         }
@@ -54,7 +54,7 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
     public List<UserCodesHistory> selectByUserAccount(Long accounId) {
         UserCodesHistory user = new UserCodesHistory();
         user.setUserAccountId(accounId);
-        return mapper.select(user);
+        return uchMapper.select(user);
     }
 
     /**
@@ -66,7 +66,7 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
     public List<UserCodesHistory> selectByCommodId(Long commodId) {
         UserCodesHistory user = new UserCodesHistory();
         user.setCommodityId(commodId);
-        return mapper.select(user);
+        return uchMapper.select(user);
     }
 
     /**
@@ -75,6 +75,6 @@ public class UserCodesHistoryServiceImpl implements IUserCodesHistoryService {
      */
     @Override
     public List<UserCodesHistory> selectAll() {
-        return mapper.selectAll();
+        return uchMapper.selectAll();
     }
 }

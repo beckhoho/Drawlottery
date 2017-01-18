@@ -16,4 +16,5 @@
     <select id="selectUsingImgs" resultMap="BaseResultMap">
         SELECT * FROM t_images WHERE state=#{sta} and img_genre=#{genre}
     </select>
+
 </mapper>

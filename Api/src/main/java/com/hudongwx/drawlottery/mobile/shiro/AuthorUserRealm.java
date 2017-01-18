@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.shiro;
 
+import com.hudongwx.drawlottery.mobile.entitys.ThirdPartyLoginToken;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import org.apache.shiro.authc.*;
@@ -19,6 +20,7 @@ public class AuthorUserRealm extends AuthorizingRealm {
     @Autowired
     private IUserService userService;
 
+
     /**
      * @param cacheManager       缓存对象
      * @param matcher            匹配器
@@ -29,10 +31,10 @@ public class AuthorUserRealm extends AuthorizingRealm {
         super(cacheManager, matcher);
         setAuthenticationCachingEnabled(true);
         setAuthorizationCachingEnabled(true);
-//        setCachingEnabled(true);
         setAuthorizationCacheName(authorZationName);
         setAuthenticationCacheName(authenTicationName);
     }
+
 
     @Override
     protected void doClearCache(PrincipalCollection principals) {
@@ -46,7 +48,6 @@ public class AuthorUserRealm extends AuthorizingRealm {
 
     /**
      * 权限实现
-     *
      * @param principals
      * @return
      */
@@ -64,12 +65,28 @@ public class AuthorUserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        if(token instanceof ThirdPartyLoginToken){
+            //第三方登录
+           return thirdPartyLogin((ThirdPartyLoginToken) token);
+        }else{
+            //本地登录
+          return  localLogin((CaptchaUsernamePasswordToken) token);
+        }
+    }
+
+
+    /**
+     * 本地登录
+     */
+    private AuthenticationInfo localLogin(CaptchaUsernamePasswordToken token){
         //获取用户信息
         CaptchaUsernamePasswordToken passwordToken = (CaptchaUsernamePasswordToken) token;
         String username = passwordToken.getUsername();
         //查询用户
         User user = userService.queryUserByPhoneNum(username);
+
         if (user == null) throw new UnknownAccountException("用户名或密码错误");
+
         //非法账户会被锁定
         if (user.isLocked()) throw new LockedAccountException("账户被锁定");
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
@@ -77,6 +94,23 @@ public class AuthorUserRealm extends AuthorizingRealm {
                 user.getPassword(),
                 Util.bytes(user.getCredentialsSalt()),
                 user.getPhoneNumber());
+        return info;
+    }
+
+
+    /**
+     * 第三方登录
+     * @param token
+     * @return
+     *
+     */
+    private AuthenticationInfo thirdPartyLogin(ThirdPartyLoginToken token){
+        User user = userService.registerAndLoginThirdParty(token);
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(
+                user,
+                user.getPassword(),
+                Util.bytes(user.getCredentialsSalt()),
+                token.getOpenid());
         return info;
     }
 

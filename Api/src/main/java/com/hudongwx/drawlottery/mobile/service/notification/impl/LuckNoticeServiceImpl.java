@@ -1,16 +1,13 @@
 package com.hudongwx.drawlottery.mobile.service.notification.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
-import com.hudongwx.drawlottery.mobile.entitys.LuckNotice;
-import com.hudongwx.drawlottery.mobile.mappers.LuckNoticeMapper;
-import com.hudongwx.drawlottery.mobile.service.luckcodes.ILuckCodesService;
+import com.hudongwx.drawlottery.mobile.entitys.*;
+import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.notification.ILuckNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -32,11 +29,45 @@ import java.util.Map;
 public class LuckNoticeServiceImpl implements ILuckNoticeService{
 
     @Autowired
+    UserMapper userMapper;
+    @Autowired
     LuckNoticeMapper mapper;
+    @Autowired
+    CommodityMapper comMapper;
+    @Autowired
+    LotteryInfoMapper lotteryMapper;
+    @Autowired
+    CommoditysMapper commMapper;
+    @Autowired
+    LuckCodesMapper luckMapper;
+    @Autowired
+    CommodityHistoryMapper historyMapper;
+    @Autowired
+    UserCodesHistoryMapper codesHistoryMapper;
+    @Autowired
+    LuckCodeTemplateMapper luckCodeTemplateMapper;
 
     @Override
-    public boolean addUserLuckNotice(LuckNotice notice) {
-        return mapper.insert(notice)>0;
+    public Map<String,Object> addUserLuckNotice(Long commodityId) {
+        Commodity com = new Commodity();
+        com.setId(commodityId);
+        com.setStateId(1);
+        int i = comMapper.updateByPrimaryKeySelective(com);
+        boolean b = addHistory(commodityId);
+        CommodityHistory history = historyMapper.selectBycommId(commodityId);
+        User user = userMapper.selectById(history.getLuckUserAccountId());
+        Map<String,Object> map = new HashMap<>();
+        if(i>0 && b && user!=null){
+            map.put("userName",user.getNickname());//添加用户名
+            map.put("buyNum",history.getBuyNumber());//添加购买数量
+            map.put("endTime",history.getEndTime());//添加揭晓时间
+        } else{
+            map.put("userName",null);//添加用户名
+            map.put("buyNum",null);//添加购买数量
+            map.put("endTime",null);//添加揭晓时间
+        }
+
+        return map;
     }
 
     @Override
@@ -45,8 +76,48 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
     }
 
     @Override
-    public List<Map<String, Object>> selectByAccount(Long accountId) {
+    public Map<String, Object> selectByCommodityId(Long commodityId) {
+
+
         return null;
+    }
+    public boolean addHistory(Long commodityId){
+
+        Commoditys key = commMapper.selectByKey(commodityId);
+        LotteryInfo lotteryInfo = lotteryMapper.selectByComId(commodityId);
+        Long lotteryId = lotteryInfo.getLotteryId();
+        LuckCodeTemplate byCode = luckCodeTemplateMapper.selectByCode(lotteryId + "");
+        LuckCodes luckCodes = luckMapper.selectBytemplate(byCode.getId(),commodityId);
+        List<LuckCodes> id = luckMapper.selectByUserAccountId(luckCodes.getUserAccountId(),commodityId);
+
+        CommodityHistory com = new CommodityHistory();
+        com.setLuckCode(lotteryInfo.getLotteryId()+"");
+        com.setRoundTime(key.getRoundTime());
+        com.setGenre(key.getGenre());
+        com.setBuyNumber(id.size());
+        com.setBuyTotalNumber(key.getBuyTotalNumber());
+        com.setCommodityId(commodityId);
+        com.setCommodityName(key.getName());
+        com.setCoverImgUrl(key.getCoverImgUrl());
+        com.setEndTime(new Date().getTime());
+        Long ids = lotteryInfo.getUserAccountId();
+        com.setLuckUserAccountId(lotteryInfo.getUserAccountId());
+        com.setTempId(key.getTempId());
+        int insert = historyMapper.insert(com);
+//        List<UserCodesHistory> list = new ArrayList<>();
+//        for (LuckCodes u : id){
+//            UserCodesHistory userHistory = new UserCodesHistory();
+//            userHistory.setRoundTime(key.getRoundTime());
+//            userHistory.setUserLuckCodeId(u.getUserAccountId());
+//            userHistory.setCommodityId(u.getCommodityId());
+//            userHistory.setBuyDate(u.getBuyDate());
+//            userHistory.setUserLuckCodeId(u.getId());
+//            list.add(userHistory);
+//        }
+//        int i = codesHistoryMapper.insertHistory(list);
+
+
+        return insert>0 ;
     }
 
     @Override

@@ -11,6 +11,7 @@
         <result column="submit_date" jdbcType="BIGINT" property="submitDate"/>
         <result column="price" jdbcType="INTEGER" property="price"/>
         <result column="red_packet_id" jdbcType="BIGINT" property="redPacketId"/>
+        <result column="address_ip" jdbcType="BIGINT" property="addressIp"/>
     </resultMap>
     <select id="selectByUserAccount" resultMap="BaseResultMap">
         select * from t_orders where user_account_id = #{userAccount}

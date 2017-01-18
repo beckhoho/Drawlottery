@@ -1,13 +1,20 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.utils.PasswordUtils;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,8 +43,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     CommodityHistoryMapper comHistoryMapper;
     @Autowired
-    UserLuckCodesMapper luckCodesMapper;
-    @Autowired
     UserCodesHistoryMapper userCodeHistMapper;
     @Autowired
     CommoditysMapper comMapper;
@@ -51,6 +56,8 @@ public class UserServiceImpl implements IUserService {
     CommodityTemplateMapper tempMapper;
     @Autowired
     ShareMapper shareMapper;
+    @Autowired
+    LuckCodeTemplateMapper luckTemplateMapper;
 
     @Override
     public boolean register(String phone, String password) {
@@ -109,11 +116,10 @@ public class UserServiceImpl implements IUserService {
             s.setUserAccountId(accountId);
             List<Share> shares = shareMapper.select(s);
             Map<String, Object> map = new HashMap<>();
-            if(shares.size()>0){
+            if (shares.size() > 0) {
                 map.put("shareState", 1);//是否晒单（0、未晒单；1、已晒单）
-            }
-            else {
-                map.put("shareState",0);
+            } else {
+                map.put("shareState", 0);
             }
             map.put("id", com.getCommodityId());//添加商品id
             map.put("commodityName", com.getCommodityName());//添加商品名
@@ -122,11 +128,11 @@ public class UserServiceImpl implements IUserService {
             map.put("buyNumber", com.getBuyNumber());//购买人次
             map.put("luckCode", com.getLuckCode());//添加幸运码
             map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
-            map.put("exchangeId",selectExchange(com.getCommodityId()));//添加兑换方式
-            map.put("withdrawalsMoney",template.getWithdrawalsMoney());//折换现金金额
-            map.put("exchangeMoney",template.getExchangeMoney());//折换闪币
-            map.put("state",com.getExchangeState());//添加兑换状态
-            map.put("exchangeWay",com.getExchangeWay());//添加已选择兑奖方式
+            map.put("exchangeId", selectExchange(com.getCommodityId()));//添加兑换方式
+            map.put("withdrawalsMoney", template.getWithdrawalsMoney());//折换现金金额
+            map.put("exchangeMoney", template.getExchangeMoney());//折换闪币
+            map.put("state", com.getExchangeState());//添加兑换状态
+            map.put("exchangeWay", com.getExchangeWay());//添加已选择兑奖方式
             mapList.add(map);
         }
         return mapList;
@@ -217,13 +223,16 @@ public class UserServiceImpl implements IUserService {
     //添加正在进行的商品
     public List<Map<String, Object>> selectToNew(Long accountId) {
         List<Map<String, Object>> list = new ArrayList<>();
-        List<Long> commIdList = luckCodesMapper.selectDistinctGroupByCommId(accountId);
+        List<Long> commIdList = codesMapper.selectDistinctGroupByCommId(accountId);
+
         for (Long commId : commIdList) {
             Map<String, Object> map = new HashMap<>();
             Commoditys com = comMapper.selectByKey(commId);
             List<String> integers = luckUserList(accountId, com.getId());
+            CommodityHistory history = comHistoryMapper.selectBycommId(commId);
+            User user = userMapper.selectById(history.getLuckUserAccountId());
             map.put("id", com.getId());//添加商品ID
-            map.put("buyCurrentNumber", com.getBuyCurrentNumber());//添加当前购买人次
+            map.put("buyCurrentNumber", com.getBuyTotalNumber()-com.getBuyCurrentNumber());//添加当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
             map.put("commState", com.getStateId());//商品状态
             map.put("roundTime", com.getRoundTime());//添加期数
@@ -233,8 +242,8 @@ public class UserServiceImpl implements IUserService {
             map.put("userCodesList", integers);//添加用户参与购买的幸运码集合
             map.put("userBuyNumber", integers.size());//添加用户本商品购买人次；
             map.put("isWinner", 0);
-            map.put("userNickname", null);//中奖者昵称
-            map.put("endTime", null);//添加揭晓时间
+            map.put("userNickname", user.getNickname());//中奖者昵称
+            map.put("endTime", history.getEndTime());//添加揭晓时间
             list.add(map);
         }
         return list;
@@ -243,10 +252,11 @@ public class UserServiceImpl implements IUserService {
     //查询用户参与商品购买人次和幸运码
     public List<String> luckUserList(Long accountId, Long commodityId) {
         List<String> list = new ArrayList<>();
-        List<UserLuckCodes> codes = luckCodesMapper.selectByAccAndCommId(accountId,commodityId);
-        for (UserLuckCodes code : codes) {
-            LuckCodes key = codesMapper.selectById(code.getLuckCodeId());
-            list.add(key.getLockCode());
+        List<LuckCodes> codes = codesMapper.selectByAccAndCommId(accountId,commodityId);
+        for (LuckCodes code : codes) {
+            LuckCodes key = codesMapper.selectById(code.getId());
+            LuckCodeTemplate template = luckTemplateMapper.selectById(key.getLuckCodeTemplateId());
+            list.add(template.getLuckCode());
         }
         return list;
     }
@@ -309,6 +319,11 @@ public class UserServiceImpl implements IUserService {
         return map;
     }
 
+    @Override
+    public List<String> selectGroupLuckCode(Long accountId, String lastCode) {
+        return userCodeHistMapper.selectLimitCodeNum(accountId, lastCode, Settings.PAGE_LOAD_SIZE);
+    }
+
     /**
      * 分平台查询用户信息
      *
@@ -323,4 +338,95 @@ public class UserServiceImpl implements IUserService {
         }
         return userMapper.selectByQQOpenId(openId);
     }
+
+    @Autowired
+    OkHttpClient httpClient;
+
+    /**
+     * qq验证 ,失败返回false
+     *
+     * @param token
+     * @return
+     */
+    private boolean validatorQQOpenId(ThirdPartyLoginToken token) {
+        String url = "https://graph.qq.com/oauth2.0/me?access_token=%s";
+        url = String.format(url, token.getAccessToken());
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Response response = null;
+        try {
+            response = httpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                String body = response.body().string();
+                boolean errcode = body.contains("errcode");
+                return !errcode;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 验证微信
+     * @param token
+     * @return
+     */
+    private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token){
+        String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
+        url = String.format(url, token.getAccessToken(), token.getOpenid());
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        try {
+            Response response = httpClient.newCall(request).execute();
+            if(response.isSuccessful()){
+                String body = response.body().toString();
+                JSONObject object = JSON.parseObject(body);
+                boolean errcode = object.containsKey("errcode");
+                return !errcode;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    @Override
+    public User registerAndLoginThirdParty(ThirdPartyLoginToken token) {
+        User user = null;
+        if (token.isQQPlatform()) { //qq平台授权
+            user = userMapper.selectByQQOpenId(token.getOpenid());
+            if (user == null) {
+                if (validatorQQOpenId(token)) {//注册
+                    user = new User();
+                    user.setQqOpenId(token.getOpenid());
+                    insertUser(user, token);
+                    return userMapper.selectByQQOpenId(token.getOpenid());//重新查询携带自增id
+                }
+            }
+        } else {//微信授权
+            user = userMapper.selectByWxOpenId(token.getOpenid());
+            if (user == null) {
+                if (validatorWeiXinOpenId(token)) {
+                    user = new User();
+                    user.setWeixinOpenId(token.getOpenid());
+                    insertUser(user, token);
+                    return userMapper.selectByWxOpenId(token.getOpenid());//重新查询携带自增id
+                }
+            }
+        }
+        if(user == null)
+            throw new AuthenticationException("第三方登录错误");
+        return user;
+    }
+
+    public int insertUser(User user, ThirdPartyLoginToken token) {
+        user.setPassword(token.getOpenid());
+        PasswordUtils.encryptPassword(user);
+        return userMapper.insert(user);
+    }
+
 }

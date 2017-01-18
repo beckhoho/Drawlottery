@@ -50,17 +50,16 @@ public interface ICommodityService {
      *
      * @param category 商品类别
      * @param commName 商品名称
-     * @param page     当前最后一个显示的商品id
      * @return JSONObject
      */
-    List<Map<String, Object>> selectPaging(Integer category, String commName, Integer page);
+    List<Map<String, Object>> selectPaging(Integer category, String commName, Long lastCommId);
 
     //查看所有的商品信息
     List<Commoditys> selectAll();
 
 
     //通过商品的价格，人气，最新进行查询
-    List<Map<String, Object>> selectByStyle(Integer type, Integer page);
+    List<Map<String, Object>> selectByStyle(Integer type, Long lastCommId);
 
     //查询正在开奖的商品
     List<Map<String, Object>> selectOnLottery(Integer page);
@@ -72,10 +71,9 @@ public interface ICommodityService {
     Map<String, Object> selectCommodity(Long commId);
 
     //查询高中奖率商品
-    List<Map<String, Object>> selectHeight(Integer number);
+    List<Map<String, Object>> selectHeight(Integer number,Long lastCommId);
 
-    //开奖之后改变信息
-    boolean reviseInfo(String luckCode, Long commodityId);
+
 
     /**
      * 生成新的期数

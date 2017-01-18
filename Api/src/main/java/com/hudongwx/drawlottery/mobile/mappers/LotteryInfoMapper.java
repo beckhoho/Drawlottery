@@ -22,4 +22,5 @@ import org.apache.ibatis.annotations.Param;
 public interface LotteryInfoMapper extends BaseMapper<LotteryInfo>{
 
     LotteryInfo selectByComId(@Param("commodityId")Long commodityId);
+
 }

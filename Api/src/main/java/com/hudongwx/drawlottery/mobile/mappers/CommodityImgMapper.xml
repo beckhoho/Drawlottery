@@ -13,6 +13,14 @@
 
     </resultMap>
     <select id="selectByCommId" resultMap="BaseResultMap">
-    SELECT * from t_commoditys_imags WHERE commodity_id = #{commId}
-  </select>
+        SELECT *
+        FROM t_commoditys_imags
+        WHERE commodity_id = #{commId}
+    </select>
+
+    <select id="selectImgUrlListByTempId" resultType="java.lang.String">
+        SELECT url
+        FROM t_commoditys_imags
+        WHERE commodity_id = #{tempId} and state = #{state}
+    </select>
 </mapper>

@@ -8,11 +8,6 @@ public class LuckCodes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * 幸运号
-     */
-    @Column(name = "lock_code")
-    private String lockCode;
 
     /**
      * 商品ID
@@ -30,6 +25,48 @@ public class LuckCodes {
      */
     @Column(name = "luck_code_template_id")
     private Long luckCodeTemplateId;
+
+    /**
+     * 用戶ID
+     */
+    @Column(name = "user_account_id")
+    private Long userAccountId;
+
+    /**
+     * 訂單ID
+     */
+    @Column(name = "orders_id")
+    private Long ordersId;
+
+    /**
+     * 购买时间
+     */
+    @Column(name = "buy_date")
+    private Long buyDate;
+
+    public Long getBuyDate() {
+        return buyDate;
+    }
+
+    public void setBuyDate(Long buyDate) {
+        this.buyDate = buyDate;
+    }
+
+    public Long getUserAccountId() {
+        return userAccountId;
+    }
+
+    public void setUserAccountId(Long userAccountId) {
+        this.userAccountId = userAccountId;
+    }
+
+    public Long getOrdersId() {
+        return ordersId;
+    }
+
+    public void setOrdersId(Long ordersId) {
+        this.ordersId = ordersId;
+    }
 
     public Integer getState() {
         return state;
@@ -53,23 +90,6 @@ public class LuckCodes {
         this.id = id;
     }
 
-    /**
-     * 获取幸运号
-     *
-     * @return lock_code - 幸运号
-     */
-    public String getLockCode() {
-        return lockCode;
-    }
-
-    /**
-     * 设置幸运号
-     *
-     * @param lockCode 幸运号
-     */
-    public void setLockCode(String lockCode) {
-        this.lockCode = lockCode;
-    }
 
     /**
      * 获取商品ID

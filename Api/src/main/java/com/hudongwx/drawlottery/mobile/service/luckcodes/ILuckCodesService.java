@@ -29,4 +29,9 @@ public interface ILuckCodesService {
 
     //删除幸运码
     boolean delete(Long id);
+
+    //查看用户幸运码
+    List<LuckCodes> selectByUserId(Long accountId);
+
+
 }

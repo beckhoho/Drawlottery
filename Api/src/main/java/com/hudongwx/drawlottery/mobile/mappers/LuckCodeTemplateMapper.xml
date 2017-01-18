@@ -8,9 +8,14 @@
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="luck_code" jdbcType="VARCHAR" property="luckCode"/>
+
     </resultMap>
 
     <select id="selectById" resultMap="BaseResultMap">
       SELECT * FROM t_luck_code_template WHERE id = #{lctId}
+    </select>
+
+    <select id="selectByCode" resultMap="BaseResultMap">
+        SELECT * FROM t_luck_code_template WHERE luck_code = #{code}
     </select>
 </mapper>

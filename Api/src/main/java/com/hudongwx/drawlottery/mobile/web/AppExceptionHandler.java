@@ -30,6 +30,7 @@ public class AppExceptionHandler extends BaseController {
     @ResponseBody
     public JSONObject error404Handler(ServletException e){
         e.printStackTrace();
+        e.printStackTrace();
         JSONObject object = new JSONObject();
         object.put("code",404);
         object.put("msg",e.getMessage());
@@ -64,6 +65,7 @@ public class AppExceptionHandler extends BaseController {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public JSONObject errorHandler(Exception e){
+        e.printStackTrace();
         JSONObject object = new JSONObject();
         object.put("code",-1);
         object.put("msg",e.getMessage());

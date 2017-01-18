@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.NotificationCampaign;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -28,4 +29,12 @@ public interface NotificationCampaignMapper extends BaseMapper<NotificationCampa
     //查询所有活动通知
     List<NotificationCampaign> selectTitle();
 
+    //查询用户未读信息条数
+    Integer countUnreadMsg(@Param("UserId") Long UserId);
+
+    //查询往期信息
+    List<NotificationCampaign> selectLimitTen(@Param("UserId") Long UserId,@Param("msgId") String msgId);
+
+    //更改消息阅读状态
+    Integer updateStateById(@Param("Id")Long Id);
 }

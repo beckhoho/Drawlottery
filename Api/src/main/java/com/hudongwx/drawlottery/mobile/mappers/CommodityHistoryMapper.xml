@@ -18,6 +18,7 @@
         <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
         <result column="exchange_way" jdbcType="INTEGER" property="exchangeWay"/>
         <result column="temp_id" jdbcType="BIGINT" property="tempId"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
     </resultMap>
 
     <!-- 查询中奖历史-->

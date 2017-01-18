@@ -14,13 +14,13 @@ import java.util.Date;
  * <p>
  * 创建　kiter　2017/1/3 14:08　<br/>
  * <p>
- *          系统通知实体类
+ * 系统通知实体类
  * <p>
  * @email 346905702@qq.com
  */
 
 @Table(name = "t_notification_system")
-public class NotificationSystem {
+public class NotificationSystem extends Notification{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +39,20 @@ public class NotificationSystem {
     private String noticeTitle;
 
     /**
+     * 通知内容
+     */
+    @Column(name="notice_content")
+    private String noticeContent;
+
+    public String getNoticeContent() {
+        return noticeContent;
+    }
+
+    public void setNoticeContent(String noticeContent) {
+        this.noticeContent = noticeContent;
+    }
+
+    /**
      * 通知详情url
      */
     @Column(name = "notice_url")
@@ -49,6 +63,20 @@ public class NotificationSystem {
      */
     @Column(name = "send_date")
     private Long sendDate;
+
+    /**
+     * 阅读状态  0:未读   1：已读
+     */
+    @Column(name = "state")
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public Long getId() {
         return id;

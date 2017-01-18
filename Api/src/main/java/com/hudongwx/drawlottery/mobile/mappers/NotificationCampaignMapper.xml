@@ -5,16 +5,29 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="user_account_id" jdbcType="BIGINT" property="commdityId" />
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
         <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle"/>
+        <result column="notice_content" jdbcType="VARCHAR" property="noticeContent"/>
         <result column="notice_url" jdbcType="VARCHAR" property="noticeUrl"/>
         <result column="send_date" jdbcType="BIGINT" property="sendDate"/>
         <result column="notice_cover_img_url" jdbcType="VARCHAR" property="noticeCoverImgUrl"/>
-
+        <result column="state" jdbcType="INTEGER" property="state"/>
 
     </resultMap>
     <select id="selectTitle" resultMap="BaseResultMap">
-        select  distinct * from t_notification_activity GROUP BY notice_title
+        select  distinct * from t_notification_campaign GROUP BY notice_title
     </select>
+    <select id="countUnreadMsg" resultType="INTEGER">
+        select count(*) from t_notification_campaign where user_account_id = #{UserId} and state = 0
+    </select>
+    <select id="selectLimitTen" resultMap="BaseResultMap">
+        select * from t_notification_campaign where user_account_id = #{UserId}
+        <if test="msgId !=null">and id &lt; #{msgId}</if>
+        ORDER BY id DESC limit 10
+    </select>
+    
+    <update id="updateStateById" >
+      update t_notification_campaign set state = 1 where id= #{Id}
+    </update>
 </mapper>

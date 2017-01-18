@@ -14,4 +14,7 @@ public interface LuckCodeTemplateMapper extends BaseMapper<Approve> {
      * @return
      */
     LuckCodeTemplate selectById(@Param("lctId") Long lctId);
+
+
+    LuckCodeTemplate selectByCode(@Param("code") String code);
 }

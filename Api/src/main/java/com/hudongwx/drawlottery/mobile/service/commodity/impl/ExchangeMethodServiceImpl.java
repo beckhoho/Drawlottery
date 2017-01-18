@@ -33,7 +33,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
     @Autowired
     ExchangeWayMapper ewMapper;
-    @Resource
+    @Autowired
     CommodityHistoryMapper chMapper;
     @Autowired
     VirtualCommodityMapper vcMapper;
@@ -51,6 +51,8 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     ExpressDeliveryMapper exDeMapper;
     @Autowired
     ShareMapper shareMapper;
+    @Autowired
+    CardMapper cardMapper;
 
 
     /**
@@ -145,7 +147,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         s.setCommodityId(commodityId);
         List<Share> select = shareMapper.select(s);
 
-        map.put("commodityName", history.getCommodityName());//商品名
+        map.put("commodityName", template.getName());//商品名
         map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图
         map.put("exchangeState", history.getExchangeState());//兑奖流程进度状态
         map.put("userBuyNumber", history.getBuyNumber());//添加用户购买人次
@@ -183,8 +185,8 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             } else if (g == 2) {//快递领取
                 ExpressDelivery delivery = exDeMapper.selectByAccountAndCommodity(accountId, commodityId);
                 if (delivery.getDeliveryName() == null) {
-                    map.put("expressNumber", "未派发快递");//快递单号
-                    map.put("expressName", "空！");//获取快递名
+                    map.put("expressNumber", "空！");//快递单号
+                    map.put("expressName", "未派发快递");//获取快递名
                     map.put("expressState", "未派发快递");//添加快递状态
                     map.put("state", 3);//添加兑换流程状态
                 } else {
@@ -211,15 +213,38 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
      * @return
      */
     public Map<String, Object> demo2(Long commodityId) {
+
         Map<String, Object> map = new HashMap<>();
-        List<VirtualCommodity> vc = vcMapper.selectByCommId(commodityId);
-        map.put("size", vc.size());//添加有几张充值卡
-        List<String> number = new ArrayList<>();
-        for (VirtualCommodity vir : vc) {
-            number.add(vir.getCardNumber());
+        CommodityHistory commoditys = chMapper.selectBycommId(commodityId);
+        Long tempId = commoditys.getTempId();
+        CommodityTemplate template = templateMapper.selectByPrimaryKey(tempId);
+        Integer num = template.getCardNum();//卡数量
+        Integer money = template.getCardMoney();//卡面额
+        Integer type = template.getCardType();//运营商
+
+        Card card = new Card();
+        card.setState(0);
+        card.setCorporation(type);
+        card.setMoney(money);
+
+        List<Card> cards = cardMapper.select(card);//查询未派发的充值卡
+        List<String> list = new ArrayList<>();
+        if(cards!=null && num!=null){
+            if(cards.size()>num) {
+                map.put("size", num);
+                for (int i = 0; i < num; i++) {
+                    list.add(cards.get(i).getCardNum());//添加卡号
+                }
+                map.put("cardNumberList", list);
+                map.put("worth", money);//添加面额
+            }
         }
-        map.put("cardNumberList", number);//添加卡号
-        map.put("worth", vc.get(0).getWorth());//添加面额
+        else {//如果充值卡不够，那么不发送
+            map.put("size",0);
+            map.put("cardNumberList",list);
+            map.put("worth",0);
+        }
+
         return map;
     }
 
