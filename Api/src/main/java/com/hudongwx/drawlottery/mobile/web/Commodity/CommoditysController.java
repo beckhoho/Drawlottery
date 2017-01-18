@@ -111,7 +111,7 @@ public class CommoditysController extends BaseController {
     }
 
     /**
-     * 查看单件正在开奖的商品
+     * 查看开奖的商品
      *
      * @param page 页码
      * @return
@@ -133,6 +133,19 @@ public class CommoditysController extends BaseController {
     @RequestMapping(value = "/api/v1/pub/commodity/onlottery/one", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOnLotteryInfo(@RequestParam("commId") Long commId) {
         List<Map<String, Object>> mapList = cService.selectOneOnLottery(commId);
+        return success(mapList);
+    }
+
+    /**
+     * 最新揭晓
+     *
+     * @param lastCommId 商品id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/pub/commodity/announce", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryNewestAnnounced(@RequestParam("lastCommId") Long lastCommId) {
+        List<Map<String, Object>> mapList = cService.selectOneOnLottery(lastCommId);
         return success(mapList);
     }
 

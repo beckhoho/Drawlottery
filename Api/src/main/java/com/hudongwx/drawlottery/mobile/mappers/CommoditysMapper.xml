@@ -78,8 +78,10 @@
     <select id="selectByTemp1" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
-        and commodity.view_num $lt;
-        (SELECT t_commoditys.view_num FROM t_commoditys WHERE t_commoditys.id = #{lastCommId} )
+        <if test="lastCommId != 0">
+            and commodity.view_num &lt;
+            (SELECT view_num FROM t_commoditys WHERE id = #{lastCommId} )
+        </if>
         ORDER BY
         commodity.view_num DESC LIMIT #{maxInfoSize}
     </select>
@@ -88,8 +90,12 @@
     <select id="selectByTemp2" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
-        and commodity.buy_current_number-commodity.buy_last_number &gt;
-        (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE t_commoditys.id = #{lastCommId} )
+        <if test="lastCommId != 0">
+            and commodity.buy_current_number-commodity.buy_last_number &gt;
+            (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE t_commoditys.id
+            =
+            #{lastCommId} )
+        </if>
         ORDER BY
         commodity.buy_current_number-commodity.buy_last_number limit #{maxInfoSize}
     </select>
@@ -98,8 +104,11 @@
     <select id="selectByTemp3" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
-        and commodity.ground_time &gt;
-        (SELECT t_commoditys.ground_time FROM t_commoditys WHERE t_commoditys.id = #{lastCommId} )
+        <if test="lastCommId != 0">
+            and commodity.ground_time &gt;
+            (SELECT t_commoditys.ground_time FROM t_commoditys
+            WHERE t_commoditys.id = (SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId}) )
+        </if>
         ORDER BY
         ground_time DESC limit #{maxInfoSize}
     </select>
@@ -108,8 +117,11 @@
     <select id="selectByTemp4" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
-        and template.buy_total_number &lt;
-        (SELECT t_commodity_template.buy_total_number FROM t_commoditys WHERE t_commodity_template.id = #{lastCommId} )
+        <if test="lastCommId!=0">
+            and template.buy_total_number &lt;
+            (SELECT buy_total_number FROM t_commodity_template
+            WHERE id=(SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId})
+        </if>
         ORDER BY
         template.buy_total_number DESC limit #{maxInfoSize}
     </select>
@@ -135,7 +147,8 @@
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
         and template.buy_total_number &gt;
-        (SELECT t_commodity_template.buy_total_number FROM t_commodity_template WHERE t_commodity_template.id = #{lastCommId} )
+        (SELECT t_commodity_template.buy_total_number FROM t_commodity_template
+        WHERE t_commodity_template.id =(SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId}) )
         AND template.buy_total_number &lt; #{number}
         limit #{maxInfoSize}
     </select>

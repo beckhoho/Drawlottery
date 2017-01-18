@@ -31,8 +31,8 @@ public abstract class BaseController {
      * @return
      */
     public Long getUserId() {
-        Long userId = getUser().getAccountId();
-        return userId;
+//        Long userId = getUser().getAccountId();
+        return 10000l;
     }
 
     /**

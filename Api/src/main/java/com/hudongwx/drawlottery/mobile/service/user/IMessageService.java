@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 /**
  * Created by 11 on 2017/1/18.
  */
-public interface MessageService {
+public interface IMessageService {
     /**
      * 查询所有的未读消息数量
      *

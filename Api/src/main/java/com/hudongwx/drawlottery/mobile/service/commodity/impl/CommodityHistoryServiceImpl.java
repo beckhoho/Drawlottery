@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
+import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
 import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
@@ -40,10 +41,12 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
     UserMapper userMapper;
     @Autowired
     CommodityMapper commodityMapper;
+    @Autowired
+    LotteryInfoMapper lotteryInfoMapper;
 
     @Override
     public boolean addCommodHistory(CommodityHistory commodityHistory) {
-        return chMapper.insert(commodityHistory)>0;
+        return chMapper.insert(commodityHistory) > 0;
     }
 
     @Override
@@ -56,25 +59,35 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
 
     @Override
     public List<Map<String, Object>> selectThePastAnnouncedCommList(Long commId) {
-        List<Map<String, Object>> infoList=null;
+        List<Map<String, Object>> infoList = null;
         Long aLong = commodityMapper.selectTempIdByCommId(commId);
         List<CommodityHistory> chList = chMapper.selectByTempId(aLong);
-        if(!chList.isEmpty())
-            infoList=new ArrayList<>();
+        if (!chList.isEmpty())
+            infoList = new ArrayList<>();
         for (CommodityHistory history : chList) {
             User user = userMapper.selectById(history.getLuckUserAccountId());
-            Map<String, Object> map=new HashMap<>();
-            map.put("commId",history.getCommodityId());//商品id
-            map.put("roundTime",history.getRoundTime());//商品期数
-            map.put("endTime",history.getEndTime());//揭晓时间
-            map.put("UserImgUrl",user.getHeaderUrl());
-            map.put("luckUserName",user.getNickname());//用户昵称
-            map.put("ip","127.0.0.1");//用户IP // TODO: 2017/1/16 getUserIP？？？
-            map.put("luckCode",history.getLuckCode());//中奖码
-            map.put("userByNum",history.getBuyNumber());//用户当期参与购买量
+            Map<String, Object> map = new HashMap<>();
+            map.put("commId", history.getCommodityId());//商品id
+            map.put("roundTime", history.getRoundTime());//商品期数
+            map.put("endTime", history.getEndTime());//揭晓时间
+            map.put("UserImgUrl", user.getHeaderUrl());
+            map.put("luckUserName", user.getNickname());//用户昵称
+            map.put("ip", "127.0.0.1");//用户IP // TODO: 2017/1/16 getUserIP？？？
+            map.put("luckCode", history.getLuckCode());//中奖码
+            map.put("userByNum", history.getBuyNumber());//用户当期参与购买量
             infoList.add(map);
         }
         return infoList;
+    }
+
+    /**
+     * 查看该期商品中奖信息
+     *
+     * @return
+     */
+    @Override
+    public LotteryInfo queryLotteryInfo(Long commId) {
+        return lotteryInfoMapper.selectByComId(commId);
     }
 
 }

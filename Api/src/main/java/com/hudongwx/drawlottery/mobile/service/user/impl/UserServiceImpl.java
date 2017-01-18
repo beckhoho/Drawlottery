@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -232,7 +229,7 @@ public class UserServiceImpl implements IUserService {
             CommodityHistory history = comHistoryMapper.selectBycommId(commId);
             User user = userMapper.selectById(history.getLuckUserAccountId());
             map.put("id", com.getId());//添加商品ID
-            map.put("buyCurrentNumber", com.getBuyTotalNumber()-com.getBuyCurrentNumber());//添加当前购买人次
+            map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
             map.put("commState", com.getStateId());//商品状态
             map.put("roundTime", com.getRoundTime());//添加期数
@@ -252,7 +249,7 @@ public class UserServiceImpl implements IUserService {
     //查询用户参与商品购买人次和幸运码
     public List<String> luckUserList(Long accountId, Long commodityId) {
         List<String> list = new ArrayList<>();
-        List<LuckCodes> codes = codesMapper.selectByAccAndCommId(accountId,commodityId);
+        List<LuckCodes> codes = codesMapper.selectByAccAndCommId(accountId, commodityId);
         for (LuckCodes code : codes) {
             LuckCodes key = codesMapper.selectById(code.getId());
             LuckCodeTemplate template = luckTemplateMapper.selectById(key.getLuckCodeTemplateId());
@@ -371,10 +368,11 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 验证微信
+     *
      * @param token
      * @return
      */
-    private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token){
+    private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token) {
         String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
         url = String.format(url, token.getAccessToken(), token.getOpenid());
         Request request = new Request.Builder()
@@ -382,7 +380,7 @@ public class UserServiceImpl implements IUserService {
                 .build();
         try {
             Response response = httpClient.newCall(request).execute();
-            if(response.isSuccessful()){
+            if (response.isSuccessful()) {
                 String body = response.body().toString();
                 JSONObject object = JSON.parseObject(body);
                 boolean errcode = object.containsKey("errcode");
@@ -419,7 +417,7 @@ public class UserServiceImpl implements IUserService {
                 }
             }
         }
-        if(user == null)
+        if (user == null)
             throw new AuthenticationException("第三方登录错误");
         return user;
     }
@@ -432,22 +430,36 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 添加推广人id
+     *
      * @param promId
      * @param accountId
      * @return
      */
     @Override
     public int addPromoter(Long promId, Long accountId) {
-        User promUser = userMapper.selectById(promId);
-        if(promUser!=null){
-            User user = userMapper.selectById(accountId);
-            if(user.getRegistDate()>promUser.getRegistDate()){
-                return userMapper.updateUserPromteId(accountId,promId);
-            }else{
+        User user = userMapper.selectById(accountId);
+        if (user.getPromoterId() == null) {
+            User promUser = userMapper.selectById(promId);
+            if (promUser != null) {
+                if (user.getRegistDate() > promUser.getRegistDate()) {
+                    return userMapper.updateUserPromteId(accountId, promId, new Date().getTime());
+                }
+            } else {
                 return -1;
             }
-        }else{
-            return -2;
         }
+        return -2;
+    }
+
+    /**
+     * 添加QQ号
+     *
+     * @param accountId
+     * @param qq
+     * @return
+     */
+    @Override
+    public boolean addQQNumber(Long accountId, String qq) {
+        return userMapper.updateUserQQ(accountId, qq) > 0;
     }
 }

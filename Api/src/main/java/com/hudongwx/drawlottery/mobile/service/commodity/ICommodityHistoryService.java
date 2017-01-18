@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
+import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -35,4 +36,10 @@ public interface ICommodityHistoryService {
      * @return
      */
     List<Map<String,Object>> selectThePastAnnouncedCommList(Long commId);
+
+    /**
+     * 查看该期商品中奖信息
+     * @return
+     */
+    LotteryInfo queryLotteryInfo(Long commId);
 }

@@ -156,7 +156,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/update/qq", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateQQNumber(@RequestParam("qq") String QQ) {
-        return response(true);
+        return response(userService.addQQNumber(getUserId(),QQ));
     }
 
     /**
@@ -194,15 +194,13 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/promoter/add/promote", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addPromoter(@RequestParam("promId") Long promId) {
-        int i = userService.addPromoter(promId, 100012L);
-        if (i == -1) {
-            return fail("用户注册时间早于推广人");
-        } else if (i == -2) {
-            return fail("无此推广人id");
-        } else if (i == 1) {
+        int re = userService.addPromoter(promId, getUserId());
+        if (re==1) {
             return response(true);
-        } else {
-            return fail("插入数据失败");
+        }else if(re==-1){
+            return fail("推广人id不存在");
+        }else{
+            return fail("已有推广人或用户注册时间早于推广人");
         }
     }
 
