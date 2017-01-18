@@ -102,6 +102,7 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
         com.setEndTime(new Date().getTime());
         com.setLuckUserAccountId(lotteryInfo.getUserAccountId());
         com.setTempId(key.getTempId());
+        //
 
         int insert = historyMapper.insert(com);
 
