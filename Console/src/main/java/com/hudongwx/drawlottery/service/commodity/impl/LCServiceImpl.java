@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.service.commodity.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.hudongwx.drawlottery.dao.LuckCodeTemplateMapper;
 import com.hudongwx.drawlottery.dao.LuckCodesMapper;
 import com.hudongwx.drawlottery.pojo.LuckCodeTemplate;
@@ -8,6 +9,9 @@ import com.hudongwx.drawlottery.service.commodity.LuckCodeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Drawlottery.
@@ -26,20 +30,29 @@ public class LCServiceImpl implements LuckCodeService {
 
     /**
      * 生成幸运码（会尝试生成，如果total已经小于或等于目前已有的了，就不再生成）
+     * <p>
+     * <p>2017/1/17 优化代码，幸运码生成乱序</p>
+     * <p>2017/1/18 优化代码，针对大量数据处理，做出分段存储优化</p>
      *
      * @param total 幸运码总量
      * @return 返回total对应的最后一个幸运码
      */
     @Override
     public String generate(final long total) {
-        final Long count = getCountCode();
-        if (total > count) {
-            LuckCodeTemplate temp = new LuckCodeTemplate();
-            for (long i = count + 1; i <= total; i++) {
-                temp.setId(i);
+        Long count = getCountCode();
+        while (total > count) {
+            Set<LuckCodeTemplate> set = new HashSet<>();
+            for (long i = count + 1; i <= total && i <= count + 500000; i++) {
+                LuckCodeTemplate temp = new LuckCodeTemplate();
                 temp.setLuckCode(10000000 + i + "");
-                luckTempMapper.insert(temp);
+                set.add(temp);
             }
+            long i = count + 1;
+            for (LuckCodeTemplate t : set) {
+                t.setId(i++);
+            }
+            luckTempMapper.insertSet(set);
+            count += 500000;
         }
         return 10000000 + total + "";
     }
@@ -56,17 +69,20 @@ public class LCServiceImpl implements LuckCodeService {
 
     /**
      * 将幸运码关联到商品
+     * <p>2017/1/18 优化代码，针对大量数据处理，做出分段读取存储优化，减少数据库操作次数</p>
      *
      * @param commodityId 商品id
      * @param count       总数
      */
     @Override
     public void connect(long commodityId, long count) {
-        final LuckCodes code = new LuckCodes();
-        for (long i = 0; i < count; i++) {
-            code.setCommodityId(commodityId);
-            code.setLuckCodeTemplateId(i + 1);
-            luckMapper.insertAuto(code);
+        for (int currentPage = 1; currentPage * 500000 < count; currentPage++) {
+            PageHelper.startPage(currentPage, 500000);
+            List<LuckCodes> list = luckTempMapper.selectRange(count);
+            for (LuckCodes code : list) {
+                code.setCommodityId(commodityId);
+            }
+            luckMapper.insertCodeList(list);
         }
     }
 

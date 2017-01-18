@@ -25,6 +25,7 @@ public interface ITempService {
 
     /**
      * 根据id集合获取模板
+     *
      * @param ids id集合
      * @return
      */
@@ -93,14 +94,24 @@ public interface ITempService {
 
     /**
      * 上架模板（根据模板新建一个商品）
+     *
      * @param list 模板id
      */
     public void groundNew(List<Integer> list);
 
     /**
      * 为模板关联图片列表
-     * @param id 模板id
+     *
+     * @param id     模板id
      * @param images 图片url集合
      */
     public void connectImgs(long id, List<String> images);
+
+    /**
+     * 为模板关联付款方式
+     *
+     * @param id             模板id
+     * @param exchangeWayIds 付款方式id集合
+     */
+    public void connectExchangeWay(long id, List<Integer> exchangeWayIds);
 }

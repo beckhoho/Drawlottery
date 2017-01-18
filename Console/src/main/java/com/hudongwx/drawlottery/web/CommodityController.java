@@ -93,7 +93,6 @@ public class CommodityController extends BaseController {
         final CommodityTemplate commodityTemplate = body.packingMe();
         if (commodityTemplate.getId() == null) {
             tempService.addCommodityTemplate(commodityTemplate);
-            tempService.connectImgs(commodityTemplate.getId(), body.getImages());
             return success(langConstants.getLang(langConstants.ADD_SUCCESS));
         }
         tempService.updateCommodity(commodityTemplate);
@@ -162,7 +161,6 @@ public class CommodityController extends BaseController {
         if (s == null) {
             return fail(langConstants.getLang(langConstants.UPLOAD_FAIL));
         }
-
         return success(langConstants.getLang(langConstants.UPLOAD_SUCCESS), s);
     }
 
@@ -186,6 +184,23 @@ public class CommodityController extends BaseController {
     @RequestMapping(value = "/deleteCards", method = RequestMethod.POST)
     public AjaxResult deleteCards(@RequestBody List<Integer> cardIds) {
         cardService.deleteCard(cardIds);
+        return success(langConstants.getLang(langConstants.DELETE_SUCCESS));
+    }
+
+    @ApiOperation("添加类型")
+    @RequestMapping(value = "/addType", method = RequestMethod.POST)
+    public AjaxResult addType(@RequestBody CommodityType type) {
+        if (null == type.getId())
+            typeService.addType(type);
+        else
+            typeService.updateType(type);
+        return success(langConstants.getLang(langConstants.ADD_SUCCESS));
+    }
+
+    @ApiOperation("删除类型")
+    @RequestMapping(value = "/deleteTypes", method = RequestMethod.POST)
+    public AjaxResult deleteTypes(@RequestBody List<Integer> typeIds) {
+        typeService.deleteTypes(typeIds);
         return success(langConstants.getLang(langConstants.DELETE_SUCCESS));
     }
 }
