@@ -34,4 +34,13 @@ public interface UserMapper extends BaseMapper<User> {
 
 
     String selectUserNicknameById(@Param("accountId")Long accountId);
+
+    /**
+     * 更新推广人id
+     * @param accountId
+     * @param promId
+     * @return
+     */
+    Integer updateUserPromteId(@Param("accountId")Long accountId,@Param("promId")Long promId);
+
 }

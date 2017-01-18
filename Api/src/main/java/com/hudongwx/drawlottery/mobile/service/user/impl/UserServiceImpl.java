@@ -324,6 +324,7 @@ public class UserServiceImpl implements IUserService {
         return userCodeHistMapper.selectLimitCodeNum(accountId, lastCode, Settings.PAGE_LOAD_SIZE);
     }
 
+
     /**
      * 分平台查询用户信息
      *
@@ -429,4 +430,24 @@ public class UserServiceImpl implements IUserService {
         return userMapper.insert(user);
     }
 
+    /**
+     * 添加推广人id
+     * @param promId
+     * @param accountId
+     * @return
+     */
+    @Override
+    public int addPromoter(Long promId, Long accountId) {
+        User promUser = userMapper.selectById(promId);
+        if(promUser!=null){
+            User user = userMapper.selectById(accountId);
+            if(user.getRegistDate()>promUser.getRegistDate()){
+                return userMapper.updateUserPromteId(accountId,promId);
+            }else{
+                return -1;
+            }
+        }else{
+            return -2;
+        }
+    }
 }

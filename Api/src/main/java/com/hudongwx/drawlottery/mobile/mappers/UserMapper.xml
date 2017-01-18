@@ -21,7 +21,7 @@
         <result column="promoter_id" jdbcType="BIGINT" property="promoterId"/>
         <result column="balance" jdbcType="DECIMAL" property="balance"/>
         <result column="lv" jdbcType="INTEGER" property="lv"/>
-
+        <result column="regist_date" jdbcType="BIGINT" property="registDate"/>
     </resultMap>
 
     <select id="selectByPhoneNumber" resultMap="BaseResultMap">
@@ -43,5 +43,7 @@
     <select id="selectUserNicknameById" resultType="java.lang.String">
     </select>
 
-
+    <update id="updateUserPromteId">
+      UPDATE t_users SET promoter_id = #{promId} where account_id = #{accountId}
+    </update>
 </mapper>
