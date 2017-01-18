@@ -65,7 +65,7 @@ public class PayController extends BaseController {
             LOG.debug(result.getAllErrors());
             return fail(-1,"参数错误");
         }
-        //// TODO: 2017/1/18 0018
+        //// TODO: 支付宝订单实现
         String info = null;
         try {
             info = OrderUtils.createAlipayInfo("订单详细信息json","订单信息", OrderUtils.getOrderId()+"","主题信息","商品详情");

@@ -461,4 +461,6 @@ public class UserServiceImpl implements IUserService {
     public boolean addQQNumber(Long accountId, String qq) {
         return userMapper.updateUserQQ(accountId, qq) > 0;
     }
+
+    
 }
