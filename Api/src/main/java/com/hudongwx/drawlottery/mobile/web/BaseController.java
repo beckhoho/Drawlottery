@@ -27,7 +27,6 @@ public abstract class BaseController {
 
     /**
      * 获取当前登录的用户id
-     *
      * @return
      */
     public Long getUserId() {

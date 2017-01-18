@@ -90,7 +90,6 @@ public class AuthorController extends BaseController {
         if (!subject.isAuthenticated()) {//是否已经验证过
             String msg = null;
             try {
-                token.setRememberMe(true);
                 subject.login(token);
                 return success();
             } catch (UnknownAccountException e) {//账号不存在

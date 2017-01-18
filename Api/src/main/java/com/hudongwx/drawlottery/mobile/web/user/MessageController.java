@@ -51,7 +51,7 @@ public class MessageController extends BaseController {
             "        object.put(\"2\", 0);//发货消息}")
     @RequestMapping(value = "/query/count", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAllMessageSize() {
-        return messageService.queryAllMessageSize(getUserId());
+        return success(messageService.queryAllMessageSize(getUserId()));
     }
 
     /**

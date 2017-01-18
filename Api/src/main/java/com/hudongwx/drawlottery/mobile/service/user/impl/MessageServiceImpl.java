@@ -11,13 +11,16 @@ import com.hudongwx.drawlottery.mobile.mappers.NotificationPrizeMapper;
 import com.hudongwx.drawlottery.mobile.mappers.NotificationSystemMapper;
 import com.hudongwx.drawlottery.mobile.service.user.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by 11 on 2017/1/18.
  */
+@Service
 public class MessageServiceImpl implements MessageService{
+
     @Autowired
     NotificationCampaignMapper campaignMapper;
     @Autowired

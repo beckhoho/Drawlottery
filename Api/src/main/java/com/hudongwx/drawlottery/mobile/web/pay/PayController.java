@@ -3,15 +3,15 @@ package com.hudongwx.drawlottery.mobile.web.pay;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
-import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayConstants;
-import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
-import com.alipay.api.internal.util.StringUtils;
-import com.alipay.api.request.AlipayOpenPublicTemplateMessageIndustryModifyRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeRefundResponse;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
+import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
+import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
+import com.hudongwx.drawlottery.mobile.utils.OrderUtils;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.config.AlipayConfig;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.sign.RSA;
@@ -21,13 +21,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
@@ -55,59 +56,38 @@ public class PayController extends BaseController {
     @Autowired
     IAliPayService aliPayService;
 
-    /**
-     * 支付下订单 支付宝APP支付–申请支付请求参数
-     *
-     * @throws UnsupportedEncodingException
-     */
     @ResponseBody
-    @ApiOperation(value = "支付宝APP支付–申请支付请求参数")
+    @ApiOperation(value = "支付宝支付,创建订单接口")
     @RequestMapping(value = "/api/v1/user/order/alipay", method = RequestMethod.POST)
     //@ApiParam("订单信息") @RequestBody OrderFormData orderFormData
-    public JSONObject orderPay() throws Exception {
-        //String content = "_input_charset=\"utf-8\"&body=\"测试试\"&it_b_pay=\"30m\"&notify_url=\"http://notify.msp.hk/notify.htm\"&out_trade_no=\"08191454126177\"&partner=\"2088221564947196\"&payment_type=\"1\"&seller_id=\"2088221564947196\"&service=\"mobile.securitypay.pay\"&sign_type=RSA&subject=\"测试\"&total_fee=\"0.01\"";
-        //String sign = null;//AlipaySignature.rsaSign(content,AlipayConfig.private_key,"utf-8");
-        //sign = RSA.sign(content,AlipayConfig.private_key,"utf-8");
-        //String encode = URLEncoder.encode(sign, "utf-8");
-        //System.out.println(content+"&sign="+encode);
-        //app_id=2088221564947196&biz_content={"button":[{"actionParam":"ZFB_HFCZ","actionType":"out","name":"话费充值"},{"name":"查询","subButton":[{"actionParam":"ZFB_YECX","actionType":"out","name":"余额查询"},{"actionParam":"ZFB_LLCX","actionType":"out","name":"流量查询"},{"actionParam":"ZFB_HFCX","actionType":"out","name":"话费查询"}]},{"actionParam":"http://m.alipay.com","actionType":"link","name":"最新优惠"}]}&charset=UTF-8&method=alipay.mobile.public.menu.add&sign_type=RSA&timestamp=2014-07-24 03:07:50&version=1.0
-        //sign = "cs6eecin/5kePlMT8/ETTqJhYZ6g/siMHy+5hO0D/WojXtKyQFfCHTbi4zN4+O3LQKSpbVcW+aDgWTCobe5C5v10XSmA3zNiLfpOGiouCz7tO6gaqZEfKCd1n8+eV9EfVT/8q9kkZAdleGUU+Rn52eRf/agoZZTs+xkn5zZeknw=";
+    public JSONObject createOrderByAlipay(@Valid OrderFormData data, BindingResult result){
+        if(result.hasErrors()){
+            LOG.debug(result.getAllErrors());
+            return fail(-1,"参数错误");
+        }
+        //// TODO: 2017/1/18 0018
+        String info = null;
+        try {
+            info = OrderUtils.createAlipayInfo("订单详细信息json","订单信息", OrderUtils.getOrderId()+"","主题信息","商品详情");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return fail(-1,"创建订单失败,请重新尝试");
+        }
+        JSONObject json = success("操作成功", info);
 
-        Map<String,String> params = new HashMap<String,String>();
-        params.put("service","\"mobile.securitypay.pay\"");
-        params.put("partner","\"2088221564947196\"");
-        params.put("_input_charset","\"UTF-8\"");
-        params.put("out_trade_no",System.currentTimeMillis()+"");
-        params.put("notify_url","http://notify.msp.hk/notify.htm");
-        params.put("subject","测试商品");
-        params.put("payment_type","1");
-        params.put("seller_id",AlipayConfig.partner+"");
-        params.put("total_fee","0.1");
-        params.put("it_b_pay","30m");
-        params.put("body","商品详情");
-        //sign
-        String content = AlipayCore.createLinkString(params);
-        System.out.println(content);
-        String sing = RSA.sign(content,AlipayConfig.private_key,"utf-8");
+        /*//创建临时订单
+        OrderFormData order = new OrderFormData();
+        order.setOrder(new Orders());
+        order.getOrder().setId(OrderUtils.getOrderId());
+        List<CommodityAmount> amounts = new ArrayList<CommodityAmount>();
+        order.setCaList(amounts);
+        aliPayService.createTemporaryOrder(order);
 
-        String data = content+"&sign="+URLEncoder.encode(sing,"UTF-8")+"&sign_type=RSA";
-        System.out.println(data);
-        //partner="2088101568358171"&
-        //seller_id="xxx@alipay.com"&
-        //out_trade_no="0819145412-6177"&
-        //subject="测试"&
-        //body="测试测试"&
-        //total_fee="0.01"&
-        //notify_url="http://notify.msp.hk/notify.htm"&
-        //service="mobile.securitypay.pay"&
-        //payment_type="1"&
-        //_input_charset="utf-8"&
-        //it_b_pay="30m"&
-        //sign="lBBK%2F0w5LOajrMrji7DUgEqNjIhQbidR13GovA5r3TgIbNqv231yC1NksLdw%2Ba3JnfHXoXuet6XNNHtn7VE%2BeCoRO1O%2BR1KugLrQEZMtG5jmJIe2pbjm%2F3kb%2FuGkpG%2BwYQYI51%2BhA3YBbvZHVQBYveBqK%2Bh8mUyb7GM1HxWs9k4%3D"&
-        //sign_type="RSA"
-        //String str = "partner=\"2088101568358171\"&seller_id=\"xxx@alipay.com\"&out_trade_no=\"0819145412-6177\"&subject=\"测试\"&body=\"测试测试\"&total_fee=\"0.01\"&notify_url=\"http://notify.msp.hk/notify.htm\"&service=\"mobile.securitypay.pay\"&payment_type=\"1\"&_input_charset=\"utf-8\"&it_b_pay=\"30m\"&sign=\"lBBK%2F0w5LOajrMrji7DUgEqNjIhQbidR13GovA5r3TgIbNqv231yC1NksLdw%2Ba3JnfHXoXuet6XNNHtn7VE%2BeCoRO1O%2BR1KugLrQEZMtG5jmJIe2pbjm%2F3kb%2FuGkpG%2BwYQYI51%2BhA3YBbvZHVQBYveBqK%2Bh8mUyb7GM1HxWs9k4%3D\"&sign_type=\"RSA\"";
+        OrderFormData temporaryOrder = aliPayService.getTemporaryOrder(order.getOrder().getId());
+        aliPayService.removeTemporaryOrder(order.getOrder().getId());
+        temporaryOrder = aliPayService.getTemporaryOrder(order.getOrder().getId());*/
 
-        String orderNum = UtilDate.getOrderNum();
+     /*   String orderNum = UtilDate.getOrderNum();
         // 1.构建阿里支付订单参数map
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("partner", "\"" + AlipayConfig.partner + "\"");
@@ -116,19 +96,19 @@ public class PayController extends BaseController {
         paramMap.put("subject", "\"" + "闪币充值" + "\"");
         paramMap.put("body", "\"" + "互动无限测试数据" + "\"");
         paramMap.put("total_fee", "\"" + 0.01 + "\"");
-        paramMap.put("service", "\"" + "mobile.securitypay.pay" + "\"");
+        //https://openapi.alipaydev.com/gateway.do
+        //mobile.securitypay.pay
+        paramMap.put("service", "\"" +"mobile.securitypay.pay"+ "\"");
         paramMap.put("payment_type", "\"" + "1" + "\"");
         paramMap.put("_input_charset", "\"" + "utf-8" + "\"");
         paramMap.put("it_b_pay", "\"" + "5m" + "\"");
-        paramMap.put("return_url", "\"" + "m.alipay.com" + "\"");
+        //paramMap.put("return_url", "\"" + "m.alipay.com" + "\"");
         paramMap.put("notify_url", "\"" + AlipayConfig.NOTIFY_URL + "\"");
-
         // 2.参数map转string
         String paramStr = AlipayCore.createLinkString(paramMap);
 
         // 3.签名
         String signStr = RSA.sign(paramStr, AlipayConfig.private_key, "utf-8");
-
         // 4.签名URLEncoder编码
         try {
             signStr = URLEncoder.encode(signStr, "UTF-8");
@@ -137,39 +117,28 @@ public class PayController extends BaseController {
         }
         // 5.汇总参数string
         String retrnStr = paramStr + "&sign=\"" + signStr + "\"&sign_type=\"RSA\"";
-
-        //String content3 = "app_id=2016120703992842&timestamp=2016-07-29+16%3A55%3A53&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%2211.0%22%2C%22subject%22%3A%22zhejiushidingdanxinxi%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%220118100845-1931%22%7D&method=alipay.trade.app.pay&charset=utf-8&version=1.0&sign_type=RSA&sign=eVRxIj6FrSr7RLUDr%2BeVhPh1j1AGYYQVHd9bgGY%2BCPIw349aZK0cVO8F0G0OreOpv7y0%2FW9w0zFb%2BqWszwbaDdAsMUjxug0SduL5XLiat3xyrlmuvyZ%2B9Ltm4QOxgfCx8gQ5djfmvHQIjCy%2BSLiAxbByohtUvfmr1yWRaDfFO5w%3D";
-        //System.out.println(content3);
-        JSONObject json = success("操作成功", retrnStr);
-        System.out.println(JSON.toJSONString(json,true));
+        JSONObject json = success("操作成功", getTest());
+        System.out.println(JSON.toJSONString(json,true));*/
         return json;
     }
 
-//    private String getOrderInfo(){
-//
-//    }
-
     /**
-     *
      * 支付成功,支付宝回调界面
-     *
      */
     @ResponseBody
     @ApiOperation(value = "支付宝APP支付成功通知")
-    @RequestMapping(value = "/api/v1/pub/user/order/alipay/callback", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/order/alipay/callback")
     public String alipayNotify(ModelMap map) throws Exception {
         System.out.println("===================淘宝调回调了...."+map.toString());
-        //Map data = new LinkedHashMap();
-        //map.putAll(data); //把参数放到data
-        boolean isCheckOk = AlipaySignature.rsaCheckV1((Map)map, AlipayConfig.alipay_public_key, "utf-8");
-        if(isCheckOk){//验证签名是否正确
+        //boolean isCheckOk = AlipaySignature.rsaCheckV1((Map)map, AlipayConfig.alipay_public_key, "utf-8");
+        //if(isCheckOk){
+            //验证签名是否正确
             //1.验证订单是否是系统的订单
             //2.验证金额是否正确
             //3.校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方
             //4.验证app_id是否为该商户本身
 
-
-        }
+        //}
         //返回交易关闭
         return "TRADE_CLOSED";
     }
@@ -178,7 +147,6 @@ public class PayController extends BaseController {
     /**
      * 支付宝支付结果异步通知业务处理
      * 接收支付宝返回的请求参数
-     *
      * @param request
      * @return
      * @throws Exception
@@ -351,7 +319,6 @@ public class PayController extends BaseController {
 //        } catch (AlipayApiException e) {
 //            e.printStackTrace();
 //        }
-
 //        if (flag) {
 //            // 订单查询成功
 //            WebUtil.response(response,
@@ -374,7 +341,6 @@ public class PayController extends BaseController {
     @RequestMapping(value = "/api/v1/user/order/alipay/refund/query", method = RequestMethod.POST)
     public void orderPayRefundQuery(HttpServletRequest request, HttpServletResponse response, String orderno,
                                     String tradeno, String callback) {
-        LOG.info("[/pay/refund/query]");
 //        if (StringUtil.isEmpty(orderno) && StringUtil.isEmpty(tradeno)) {
 //            WebUtil.response(response,
 //                    WebUtil.packJsonp(callback,

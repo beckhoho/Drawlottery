@@ -12,7 +12,12 @@ import com.hudongwx.drawlottery.mobile.mappers.OrdersCommoditysMapper;
 import com.hudongwx.drawlottery.mobile.mappers.OrdersMapper;
 import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.config.AlipayConfig;
+import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.UtilDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
@@ -35,6 +40,7 @@ import java.util.*;
  * @email 294786949@qq.com
  */
 @Service
+@CacheConfig(cacheNames = {"linshi_order_cache"})
 public class AliPayServiceImpl implements IAliPayService {
 
     @Autowired
@@ -43,6 +49,35 @@ public class AliPayServiceImpl implements IAliPayService {
     OrdersCommoditysMapper ordersCommoditysMapper;
     @Autowired
     CommoditysMapper commoditysMapper;
+
+    /**
+     * 创建临时订单,放到缓存框架中
+     * @param data
+     * @return
+     */
+    @CachePut(key = "#data.order.id")
+    public OrderFormData createTemporaryOrder(OrderFormData data){
+        return data;
+    }
+
+    /**
+     * 获取缓存订单
+     * @param orderId 订单id
+     * @return
+     */
+    @Cacheable(key = "#orderId")
+    public OrderFormData getTemporaryOrder(Long orderId){
+        return null;
+    }
+
+    /**
+     * 删除缓存订单
+     * @param orderId 订单id
+     *
+     */
+    @CacheEvict(key = "#orderId")
+    public void removeTemporaryOrder(Long orderId){
+    }
 
     @Override
     public String createSign(Long accountId, OrderFormData formData) throws Exception {
@@ -82,7 +117,7 @@ public class AliPayServiceImpl implements IAliPayService {
 
         Map<String, String> map4 = new HashMap<String, String>();
 
-        map4.put("app_id", AlipayConfig.APP_ID);
+        //map4.put("app_id", AlipayConfig.APP_ID);
         map4.put("method", "alipay.trade.app.pay");
         map4.put("format", "json");
         map4.put("charset", "utf-8");
@@ -146,5 +181,13 @@ public class AliPayServiceImpl implements IAliPayService {
             sb.append(name);
         }
         return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        //
+
+        for(int i=0;i<1000;i++){
+            System.out.println(UtilDate.getOrderId());
+        }
     }
 }

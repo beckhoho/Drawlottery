@@ -1,6 +1,9 @@
 package com.hudongwx.drawlottery.mobile.service.alipay;
 
 import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -27,4 +30,26 @@ public interface IAliPayService {
      * @throws Exception
      */
     String createSign(Long accountId, OrderFormData formData) throws Exception;
+
+    /**
+     * 创建临时订单,放到缓存框架中
+     * @param data
+     * @return
+     */
+    public OrderFormData createTemporaryOrder(OrderFormData data);
+
+    /**
+     * 获取缓存订单
+     * @param orderId 订单id
+     * @return
+     */
+    public OrderFormData getTemporaryOrder(Long orderId);
+
+    /**
+     * 删除缓存订单
+     * @param orderId 订单id
+     *
+     */
+    public void removeTemporaryOrder(Long orderId);
+
 }

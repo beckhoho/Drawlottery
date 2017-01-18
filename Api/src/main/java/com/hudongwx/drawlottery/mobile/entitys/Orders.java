@@ -1,9 +1,11 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "t_orders")
-public class Orders {
+public class Orders implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,7 +20,6 @@ public class Orders {
      * 价格
      */
     private Integer price;
-
 
     /**
      * 支付方式id
