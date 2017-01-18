@@ -103,6 +103,6 @@ public interface IUserService {
      * @param accountId
      * @return
      */
-    int addPromoter(Long promId,Long accountId);
+    int addPromoter(Long promId, Long accountId);
 }
 

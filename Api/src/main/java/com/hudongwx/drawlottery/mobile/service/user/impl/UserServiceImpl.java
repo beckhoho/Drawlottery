@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -438,16 +435,17 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public int addPromoter(Long promId, Long accountId) {
-        User promUser = userMapper.selectById(promId);
-        if(promUser!=null){
-            User user = userMapper.selectById(accountId);
-            if(user.getRegistDate()>promUser.getRegistDate()){
-                return userMapper.updateUserPromteId(accountId,promId);
+        User user = userMapper.selectById(accountId);
+        if(user.getPromoterId()==null) {
+            User promUser = userMapper.selectById(promId);
+            if (promUser != null) {
+                if (user.getRegistDate() > promUser.getRegistDate()) {
+                    return userMapper.updateUserPromteId(accountId, promId,new Date().getTime());
+                }
             }else{
                 return -1;
             }
-        }else{
-            return -2;
         }
+        return -2;
     }
 }

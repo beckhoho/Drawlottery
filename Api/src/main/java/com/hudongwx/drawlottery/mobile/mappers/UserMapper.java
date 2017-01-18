@@ -41,6 +41,6 @@ public interface UserMapper extends BaseMapper<User> {
      * @param promId
      * @return
      */
-    Integer updateUserPromteId(@Param("accountId")Long accountId,@Param("promId")Long promId);
+    Integer updateUserPromteId(@Param("accountId")Long accountId,@Param("promId")Long promId,@Param("promoteDate")Long promoteDate);
 
 }

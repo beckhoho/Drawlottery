@@ -19,6 +19,7 @@
         <result column="qq_open_id" jdbcType="VARCHAR" property="qqOpenId"/>
         <result column="weixin_open_id" jdbcType="VARCHAR" property="weixinOpenId"/>
         <result column="promoter_id" jdbcType="BIGINT" property="promoterId"/>
+        <result column="promote_date" jdbcType="BIGINT" property="promoteDate"/>
         <result column="balance" jdbcType="DECIMAL" property="balance"/>
         <result column="lv" jdbcType="INTEGER" property="lv"/>
         <result column="regist_date" jdbcType="BIGINT" property="registDate"/>
@@ -44,6 +45,6 @@
     </select>
 
     <update id="updateUserPromteId">
-      UPDATE t_users SET promoter_id = #{promId} where account_id = #{accountId}
+      UPDATE t_users SET promoter_id = #{promId},promote_date = #{promoteDate} where account_id = #{accountId}
     </update>
 </mapper>
