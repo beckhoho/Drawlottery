@@ -81,6 +81,20 @@ public class CommodityHistory {
     @Column(name = "exchange_way")
     private Integer exchangeWay;
 
+    /**
+     * 晒单状态
+     */
+    @Column(name="share_state")
+    private Integer shareState;
+
+    public Integer getShareState() {
+        return shareState;
+    }
+
+    public void setShareState(Integer shareState) {
+        this.shareState = shareState;
+    }
+
     public Long getTempId() {
         return tempId;
     }

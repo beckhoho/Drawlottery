@@ -22,10 +22,9 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
 
     /**
      * 查询单件历史商品信息
-     * @param commodId  商品ID
      * @return  返回商品信息
      */
-    CommodityHistory selectBycommId(@Param("cmmodId") Long commodId);
+    CommodityHistory selectBycommId(@Param("commodityId") Long commodityId);
 
     /**
      * 查询中奖历史
@@ -39,4 +38,11 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
     List<CommodityHistory> selectByTempId(@Param("tempId")Long tempId);
 
     int updateByCommodityIdSelective(@Param("commodityHistory") CommodityHistory commodityHistory);
+
+    /**
+     * 更改商品分享状态
+     * @param commodityId
+     * @return
+     */
+    int updateShareStateByCommodityId(@Param("commodityId")Long commodityId);
 }

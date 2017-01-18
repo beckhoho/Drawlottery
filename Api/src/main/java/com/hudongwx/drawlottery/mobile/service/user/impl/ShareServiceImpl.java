@@ -1,14 +1,8 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.entitys.Share;
-import com.hudongwx.drawlottery.mobile.entitys.ShareImg;
-import com.hudongwx.drawlottery.mobile.entitys.User;
-import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
-import com.hudongwx.drawlottery.mobile.mappers.ShareImgMapper;
-import com.hudongwx.drawlottery.mobile.mappers.ShareMapper;
-import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
+import com.hudongwx.drawlottery.mobile.entitys.*;
+import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.user.IShareService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import com.qiniu.common.QiniuException;
@@ -72,7 +66,8 @@ public class ShareServiceImpl implements IShareService {
     ShareImgMapper shareImgMapper;
     @Autowired
     CommoditysMapper commMapper;
-
+    @Autowired
+    CommodityHistoryMapper commodityHistoryMapper;
     /**
      * 得到七牛的upToken
      *
@@ -166,6 +161,11 @@ public class ShareServiceImpl implements IShareService {
      */
     @Override
     public boolean addShare(Long accountId, Long commId, String desc, List<MultipartFile> imgs) {
+        //判断是否晒过单
+        CommodityHistory commodityHistory = commodityHistoryMapper.selectBycommId(commId);
+        if(commodityHistory.getShareState()==1){
+            return  false;
+        }
         Share share = new Share();
         share.setCommodityId(commId);
         share.setIssueDate(new Date().getTime());
@@ -181,6 +181,7 @@ public class ShareServiceImpl implements IShareService {
             shareImg.setShareImgUrl(url);
             shareImgMapper.insert(shareImg);
         }
+        commodityHistoryMapper.updateShareStateByCommodityId(commodityHistory.getCommodityId());
         return true;
     }
 

@@ -87,7 +87,11 @@ public class ShareController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/upload.do", method = RequestMethod.POST)
     public JSONObject uploadShareInfo(@RequestParam("commId") Long commId, @RequestParam("desc") String desc, @RequestParam("imgs") List<MultipartFile> imgs) {
-        return success(shareService.addShare(getUserId(), commId, desc, imgs));
+        if(shareService.addShare(getUserId(), commId, desc, imgs)){
+            return success(true);
+        }else{
+            return fail("用户已晒过单");
+        }
     }
 
     /**
