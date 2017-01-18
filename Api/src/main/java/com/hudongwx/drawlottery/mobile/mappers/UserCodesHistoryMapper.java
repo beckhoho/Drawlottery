@@ -9,7 +9,11 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface UserCodesHistoryMapper extends BaseMapper<UserCodesHistory> {
-    List<UserCodesHistory> selectByUserAccountId(@Param("accountId") Long AccountId);
+    List<UserCodesHistory> selectByUserAccountId(@Param("accountId") Long accountId);
 
-    int insertHistory(@Param("list")List<UserCodesHistory> list);
+    int insertHistory(@Param("list") List<UserCodesHistory> list);
+
+    List<String> selectLimitCodeNum(@Param("accountId") Long accountId, @Param("lastCode") String lastCode, @Param("pageLoadSize") Integer pageLoadSize);
+
+
 }

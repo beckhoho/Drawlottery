@@ -7,6 +7,8 @@ import com.hudongwx.drawlottery.mobile.service.images.ImagesService;
 import com.hudongwx.drawlottery.mobile.service.notification.INotificationPrizeService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -93,13 +95,13 @@ public class AppIndexController extends BaseController {
      * 客户端首页商品板块信息（默认人气搜索）
      *
      * @param type 排序类型(1、按人气，2、按最快，3、最新，4、高价，5高中奖率)
-     * @param page 页
      * @return JSONObject
      */
     @ResponseBody
+    @ApiOperation("客户端首页商品板块信息（默认人气搜索）参数：type 排序类型(1、按人气，2、按最快，3、最新，4、高价，5高中奖率，其他数字默认人气)")
     @RequestMapping(value = "/api/v1/index/commodity", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject orderCommodityInfo(@RequestParam("type") int type, @RequestParam("page") int page) {
-        List<Map<String, Object>> infoList = cService.selectByStyle(type, page);
+    public JSONObject orderCommodityInfo(@ApiParam("排序类型") @RequestParam("type") Integer type, @ApiParam("当前页最后一个item的id") @RequestParam("lastItemId") Long lastItenmId) {
+        List<Map<String, Object>> infoList = cService.selectByStyle(type, lastItenmId);
         return success(infoList);
     }
 

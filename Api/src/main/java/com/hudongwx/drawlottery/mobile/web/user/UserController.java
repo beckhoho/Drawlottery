@@ -197,4 +197,16 @@ public class UserController extends BaseController {
         return response(true);
     }
 
+    /**
+     * 添加推广员Id
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/v1/priv/user/luckcode/show", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryLuckCode(@RequestParam("lastCode") String lastCode) {
+
+        return response(true);
+    }
+
 }
