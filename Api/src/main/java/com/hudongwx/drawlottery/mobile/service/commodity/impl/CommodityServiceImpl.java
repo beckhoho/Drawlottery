@@ -189,8 +189,13 @@ public class CommodityServiceImpl implements ICommodityService {
         String nextRound = null;
         Long nextRoundId = null;
         if (com.getStateId() == 3) {//如果未开奖
-            CommodityHistory comh = historyMapper.selectBycommodName(com.getName(), com.getRoundTime());
-            map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
+            List<CommodityHistory> comh = historyMapper.selectBycommodName(com.getName(), com.getRoundTime());
+            if(comh.size()==0){
+                map.put("beforeLottery",new HashMap<>());
+            }
+            else {
+                map.put("beforeLottery", mapBefore(comh.get(0)));//往期开奖揭晓
+            }
         }
         if (com.getStateId() == 1) {//如果已开奖
             CommodityHistory comm = historyMapper.selectBycommId(commodId);
@@ -440,7 +445,6 @@ public class CommodityServiceImpl implements ICommodityService {
         return infoList;
     }
 
-
     /**
      * 生成新的期数
      *
@@ -451,6 +455,22 @@ public class CommodityServiceImpl implements ICommodityService {
         synchronized (this) {
             return commsMapper.selectMaxRoundTime() + 1;
         }
+    }
+
+    /**
+     * 最新揭曉
+     *
+     * @param lastCommId
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> selectAnnounceComm(Long lastCommId) {
+        //正在开奖的商品
+        List<Commoditys> lotcommList = null;
+        //已开奖的商品
+        List<Commoditys> annCommList = commsMapper.selectAnnouncedComm(lastCommId, Settings.PAGE_LOAD_SIZE);
+
+        return null;
     }
 
 }

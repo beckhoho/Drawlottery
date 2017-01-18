@@ -39,6 +39,7 @@
             commodity_name = #{commodName}
             and round_time &lt; #{roundTime}
         </where>
+        ORDER BY id DESC
         <!-- &lt; 小于     &jt; 大于 -->
     </select>
 

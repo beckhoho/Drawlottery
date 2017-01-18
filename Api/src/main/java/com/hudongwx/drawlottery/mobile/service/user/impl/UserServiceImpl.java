@@ -88,6 +88,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Map<String, Object> getUserInfo(User user) {
         Map<String, Object> map = new HashMap<>();
+        map.put("id", user.getAccountId());
         map.put("headUrl", user.getHeaderUrl());
         map.put("accountId", user.getAccountId());
         map.put("nickname", user.getNickname());

@@ -31,6 +31,7 @@
         <result column="card_type" jdbcType="INTEGER" property="cardType"/>
         <result column="card_num" jdbcType="INTEGER" property="cardNum"/>
         <result column="card_money" jdbcType="INTEGER" property="cardMoney"/>
+        <result column="last_round_time" jdbcType="BIGINT" property="lastRoundTime"/>
 
     </resultMap>
 
@@ -135,11 +136,12 @@
     </select>
 
 
-    <select id="selectTopTenOnLottery" resultMap="BaseResultMap">
+    <select id="selectAnnouncedComm" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE template.buy_total_number - commodity.buy_current_number = 0
-        AND commodity.state_id=2 ORDER BY commodity.sell_out_time
-        DESC limit 10
+        AND commodity.state_id=1
+        AND commodity.sell_out_time &lt; (SELECT sell_out_time FROM t_commoditys WHERE id=#{lastCommId})
+        ORDER BY commodity.sell_out_time DESC limit #{pageLoadSize}
     </select>
 
     <!-- 查询高中奖率商品 -->
@@ -219,6 +221,7 @@
     <sql id="selectSql">
         SELECT
             commodity.id,
+            commodity.last_round_time,
             template.name,
             template.withdrawals_money,
             template.exchange_money,

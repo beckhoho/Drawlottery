@@ -3,9 +3,6 @@ package com.hudongwx.drawlottery.mobile.mappers;
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -17,7 +14,7 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
      * @param roundTime
      * @return
      */
-    CommodityHistory selectBycommodName(@Param("commodName") String commodName, @Param("roundTime") String roundTime);
+    List<CommodityHistory> selectBycommodName(@Param("commodName") String commodName, @Param("roundTime") String roundTime);
 
 
     /**

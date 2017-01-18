@@ -77,7 +77,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      */
     List<Commoditys> selectOnLottery(@Param("maxInfo") Integer maxInfo);
 
-    List<Commoditys> selectTopTenOnLottery();
+    List<Commoditys> selectAnnouncedComm(@Param("lastCommId") Long lastCommId,@Param("pageLoadSize") Integer pageLoadSize);
 
     /**
      * 通过商品类型ID查询商品
