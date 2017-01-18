@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.common.dto.paramBody;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,11 +11,22 @@ import java.util.List;
  * @version 1.0.0
  */
 public class OrderParam {
-    int currentPage;
-    int pageSize;
-    List<Integer> payModeId;
-    Date submitDateFront;
-    Date submitDateAfter;
-    int order;
-    int direction;
+    /**
+     * 期数搜索
+     */
+    private String roundTime;
+    /**
+     * 兑奖方式
+     */
+    private List<Integer> exchangeWay;
+    /**
+     * 商品属性
+     */
+    private List<Integer> genre;
+    /**
+     * 兑奖状态
+     */
+    private List<Integer> state;
+
+
 }
