@@ -1,6 +1,6 @@
 package com.hudongwx.drawlottery.web;
 
-import com.hudongwx.drawlottery.common.dto.paramBody.OrderParam;
+import com.hudongwx.drawlottery.common.dto.paramBody.HistoryParam;
 import com.hudongwx.drawlottery.service.order.HistoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +30,7 @@ public class HistoryController {
     @ApiOperation("获取订单分页数据")
     @RequestMapping("/all")
     @ResponseBody
-    public void getAll(@RequestBody OrderParam param) {
+    public void getAll(@RequestBody HistoryParam param) {
         
     }
 }

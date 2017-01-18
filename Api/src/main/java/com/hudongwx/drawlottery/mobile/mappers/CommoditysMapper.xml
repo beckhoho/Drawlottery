@@ -79,7 +79,7 @@
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
         <if test="lastCommId != 0">
-            and commodity.view_num &lt;
+            and commodity.view_num &lt;=
             (SELECT view_num FROM t_commoditys WHERE id = #{lastCommId} )
         </if>
         ORDER BY
@@ -91,7 +91,7 @@
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
         <if test="lastCommId != 0">
-            and commodity.buy_current_number-commodity.buy_last_number &gt;
+            and commodity.buy_current_number-commodity.buy_last_number &gt;=
             (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE t_commoditys.id
             =
             #{lastCommId} )
@@ -105,7 +105,7 @@
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
         <if test="lastCommId != 0">
-            and commodity.ground_time &gt;
+            and commodity.ground_time &gt;=
             (SELECT t_commoditys.ground_time FROM t_commoditys
             WHERE t_commoditys.id = (SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId}) )
         </if>
@@ -118,7 +118,7 @@
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
         <if test="lastCommId!=0">
-            and template.buy_total_number &lt;
+            and template.buy_total_number &lt;=
             (SELECT buy_total_number FROM t_commodity_template
             WHERE id=(SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId})
         </if>

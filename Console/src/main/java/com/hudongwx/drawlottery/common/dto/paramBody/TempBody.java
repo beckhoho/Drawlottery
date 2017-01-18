@@ -5,6 +5,7 @@ import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -93,16 +94,16 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
 
         c.setAutoRound(autoRound ? 1 : 0);
         c.setEasyWinning(easyWinning ? 1 : 0);
-
-        if (sendCard)
+        exchangeWay = new ArrayList<>();
+        if (sendCard != null && sendCard)
             exchangeWay.add(1);
-        if (express)
+        if (express != null && express)
             exchangeWay.add(2);
-        if (withdrawals)
+        if (withdrawals != null && withdrawals)
             exchangeWay.add(3);
-        if (exchangeable)
+        if (null != exchangeable && exchangeable)
             exchangeWay.add(4);
-        if (genre == 2)
+        if (null != genre && genre == 2)
             exchangeWay.add(5);
 
         c.setExchangeWay(exchangeWay);

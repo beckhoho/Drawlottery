@@ -192,6 +192,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("beforeLottery", mapBefore(comm));
         }
         map.put("commId", commodId);//商品ID
+        map.put("minNum", com.getMinimum());//商品ID
         map.put("coverImg", com.getCoverImgUrl());
         map.put("imgUrls", listUrl(commodId));//添加图片url数组
         map.put("onState", com.getStateId());//添加是否已开奖状态
@@ -216,6 +217,7 @@ public class CommodityServiceImpl implements ICommodityService {
             Commoditys com = coms.get(s);
             map.put("name", com.getName());//获取商品名
             map.put("id", com.getId());//获取商品ID
+            map.put("minNum", com.getMinimum());//获取商品ID
             map.put("state", com.getStateId());//获取状态
             map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//获取当前剩余人次
             map.put("buyTotalNumber", com.getBuyTotalNumber());//获取总购买人次
@@ -347,6 +349,7 @@ public class CommodityServiceImpl implements ICommodityService {
         for (Commoditys com : list) {
             Map<String, Object> map = new HashMap<>();
             map.put("id", com.getId());//添加商品ID
+            map.put("minNum", com.getMinimum());//商品最低购买量
             map.put("typeId", com.getCommodityTypeId());//添加商品类型ID
             map.put("commodityName", com.getName());//添加商品名
             map.put("totalNumber", com.getBuyTotalNumber());//添加商品总购买人次
@@ -415,6 +418,7 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("userNickname", userNickName);// 中奖者昵称
             map.put("userPayNum", userPayNum);//中奖者购买数量
             map.put("id", comm.getId());//商品id
+            map.put("minNum", comm.getMinimum());//商品id
             map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
             map.put("currentTime", nowTime);//当前时间
             map.put("detailUrl", comm.getCommodityDescUrl());//详情url
