@@ -60,7 +60,7 @@
     <insert id="insertList">
         insert into draw_lottery.t_commodity_exchange (commodity_id, exchange_way_id, state) VALUES
         <foreach collection="list" separator="," item="ce">
-            (#{ce.commodityId,ce.exchangeWayId,ce.state})
+            (#{ce.commodityId},#{ce.exchangeWayId},#{ce.state})
         </foreach>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.hudongwx.drawlottery.pojo.TempExchange">

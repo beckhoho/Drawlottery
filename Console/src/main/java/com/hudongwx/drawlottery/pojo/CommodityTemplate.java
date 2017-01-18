@@ -117,8 +117,9 @@ public class CommodityTemplate {
 
     @Column(name = "open_time")
     private Integer openTime;
-
+    @Transient
     private List<Integer> exchangeWay;
+    @Transient
     private List<String> images;
 
     /**

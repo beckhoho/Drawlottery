@@ -18,6 +18,6 @@
     SELECT count(*) from t_luck_code_template
   </select>
     <select id="selectRange" resultType="com.hudongwx.drawlottery.pojo.LuckCodes">
-        select id as luckCodeTemplateId from draw_lottery.t_luck_code_template where luck_code &lt; #{count}
-    </select>
-</mapper>
+    select id as luckCodeTemplateId from draw_lottery.t_luck_code_template where luck_code &lt;= #{count}
+</select>
+        </mapper>

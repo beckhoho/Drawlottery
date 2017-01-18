@@ -76,9 +76,9 @@ public class LCServiceImpl implements LuckCodeService {
      */
     @Override
     public void connect(long commodityId, long count) {
-        for (int currentPage = 1; currentPage * 500000 < count; currentPage++) {
-            PageHelper.startPage(currentPage, 500000);
-            List<LuckCodes> list = luckTempMapper.selectRange(count);
+        for (int currentPage = 0; currentPage * 500000 < count; currentPage++) {
+            PageHelper.startPage(currentPage+1, 500000);
+            List<LuckCodes> list = luckTempMapper.selectRange(10000000+count);
             for (LuckCodes code : list) {
                 code.setCommodityId(commodityId);
             }
