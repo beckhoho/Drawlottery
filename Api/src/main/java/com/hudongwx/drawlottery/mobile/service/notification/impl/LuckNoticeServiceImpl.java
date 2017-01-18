@@ -104,17 +104,8 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
         com.setTempId(key.getTempId());
 
         int insert = historyMapper.insert(com);
-        List<UserCodesHistory> list = new ArrayList<>();
-        for (LuckCodes u : id){
-            UserCodesHistory userHistory = new UserCodesHistory();
-            userHistory.setOrdersId(u.getOrdersId());
-            userHistory.setUserAccountId(u.getUserAccountId());
-            userHistory.setCommodityId(u.getCommodityId());
-            userHistory.setBuyDate(u.getBuyDate());
-            userHistory.setLuckCodeTemplateId(u.getLuckCodeTemplateId());
-            list.add(userHistory);
-        }
-        int i = codesHistoryMapper.insertHistory(list);
+
+        int i = codesHistoryMapper.insertCopy(commodityId);
 
         return insert>0 && i>0;
     }
