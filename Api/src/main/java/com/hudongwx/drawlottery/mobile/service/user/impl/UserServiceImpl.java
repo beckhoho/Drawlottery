@@ -374,8 +374,6 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token){
-        String url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s";
-    private boolean validatorWeiXinOpenId(ThirdPartyLoginToken token) {
         String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
         url = String.format(url, token.getAccessToken(), token.getOpenid());
         Request request = new Request.Builder()

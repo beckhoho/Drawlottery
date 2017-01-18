@@ -70,11 +70,11 @@ public class AlipayCore {
         return prestr;
     }
 
-    /**
+   /* *//**
      * 写日志，方便测试（看网站需求，也可以改成把记录存入数据库）
      *
      * @param sWord 要写入日志里的文本内容
-     */
+     *//*
     public static void logResult(String sWord, String filename) {
         FileWriter writer = null;
         try {
@@ -91,5 +91,5 @@ public class AlipayCore {
                 }
             }
         }
-    }
+    }*/
 }

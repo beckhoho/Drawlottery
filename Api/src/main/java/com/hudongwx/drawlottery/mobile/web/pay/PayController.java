@@ -12,20 +12,19 @@ import com.alipay.api.request.AlipayOpenPublicTemplateMessageIndustryModifyReque
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
-import com.hudongwx.drawlottery.mobile.utils.alipay.UtilDate;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.config.AlipayConfig;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.sign.RSA;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.AlipayCore;
+import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.UtilDate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -108,9 +107,7 @@ public class PayController extends BaseController {
         //sign_type="RSA"
         //String str = "partner=\"2088101568358171\"&seller_id=\"xxx@alipay.com\"&out_trade_no=\"0819145412-6177\"&subject=\"测试\"&body=\"测试测试\"&total_fee=\"0.01\"&notify_url=\"http://notify.msp.hk/notify.htm\"&service=\"mobile.securitypay.pay\"&payment_type=\"1\"&_input_charset=\"utf-8\"&it_b_pay=\"30m\"&sign=\"lBBK%2F0w5LOajrMrji7DUgEqNjIhQbidR13GovA5r3TgIbNqv231yC1NksLdw%2Ba3JnfHXoXuet6XNNHtn7VE%2BeCoRO1O%2BR1KugLrQEZMtG5jmJIe2pbjm%2F3kb%2FuGkpG%2BwYQYI51%2BhA3YBbvZHVQBYveBqK%2Bh8mUyb7GM1HxWs9k4%3D\"&sign_type=\"RSA\"";
 
-
-
-        String orderNum = UtilDate.getOrderNum() + UUID.randomUUID().toString();
+        String orderNum = UtilDate.getOrderNum();
         // 1.构建阿里支付订单参数map
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("partner", "\"" + AlipayConfig.partner + "\"");
@@ -141,8 +138,6 @@ public class PayController extends BaseController {
         // 5.汇总参数string
         String retrnStr = paramStr + "&sign=\"" + signStr + "\"&sign_type=\"RSA\"";
 
-
-
         //String content3 = "app_id=2016120703992842&timestamp=2016-07-29+16%3A55%3A53&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%2211.0%22%2C%22subject%22%3A%22zhejiushidingdanxinxi%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%220118100845-1931%22%7D&method=alipay.trade.app.pay&charset=utf-8&version=1.0&sign_type=RSA&sign=eVRxIj6FrSr7RLUDr%2BeVhPh1j1AGYYQVHd9bgGY%2BCPIw349aZK0cVO8F0G0OreOpv7y0%2FW9w0zFb%2BqWszwbaDdAsMUjxug0SduL5XLiat3xyrlmuvyZ%2B9Ltm4QOxgfCx8gQ5djfmvHQIjCy%2BSLiAxbByohtUvfmr1yWRaDfFO5w%3D";
         //System.out.println(content3);
         JSONObject json = success("操作成功", retrnStr);
@@ -150,18 +145,31 @@ public class PayController extends BaseController {
         return json;
     }
 
+//    private String getOrderInfo(){
+//
+//    }
 
     /**
-     * 支付下订单 支付宝APP支付–申请支付请求参数
      *
-     * @throws UnsupportedEncodingException
+     * 支付成功,支付宝回调界面
+     *
      */
     @ResponseBody
     @ApiOperation(value = "支付宝APP支付成功通知")
-    @RequestMapping(value = "/api/v1/user/order/alipay/notify", method = {RequestMethod.POST, RequestMethod.GET})
-    public String alipayNotify() throws Exception {
+    @RequestMapping(value = "/api/v1/pub/user/order/alipay/callback", method = {RequestMethod.POST, RequestMethod.GET})
+    public String alipayNotify(ModelMap map) throws Exception {
+        System.out.println("===================淘宝调回调了...."+map.toString());
+        //Map data = new LinkedHashMap();
+        //map.putAll(data); //把参数放到data
+        boolean isCheckOk = AlipaySignature.rsaCheckV1((Map)map, AlipayConfig.alipay_public_key, "utf-8");
+        if(isCheckOk){//验证签名是否正确
+            //1.验证订单是否是系统的订单
+            //2.验证金额是否正确
+            //3.校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方
+            //4.验证app_id是否为该商户本身
 
-        System.out.println("===================淘宝调用了....");
+
+        }
         //返回交易关闭
         return "TRADE_CLOSED";
     }
