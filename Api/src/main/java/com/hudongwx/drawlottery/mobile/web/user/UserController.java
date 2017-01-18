@@ -84,7 +84,6 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户夺宝记录（带分页）")
     @RequestMapping(value = "/api/v1/user/usercomm/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserCommRecord(@ApiParam("显示形式：1、进行中；2、已揭晓；其他数字、显示全部") @RequestParam("item") Integer item, @ApiParam("当前页最后一item的实际id") @RequestParam("lastItemId") Long lastItemId) {
     public JSONObject queryUserCommRecord(@ApiParam("显示形式：1、进行中；2、已揭晓；其他数字、显示全部")@RequestParam("item") Integer item, @ApiParam("当前页最后一item的实际id")@RequestParam(value = "lastItemId", required = false) Long lastItemId) {
         List<Map<String, Object>> historyLottery = userService.selectHistoryPay(getUserId(), item);
         return success(historyLottery);
@@ -161,8 +160,8 @@ public class UserController extends BaseController {
 
     /**
      * 推广员收益信息
-     *
      * @return
+     *
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/promoter/profit/info", method = {RequestMethod.POST, RequestMethod.GET})
