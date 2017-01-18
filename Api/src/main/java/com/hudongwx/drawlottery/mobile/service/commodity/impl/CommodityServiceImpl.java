@@ -188,12 +188,11 @@ public class CommodityServiceImpl implements ICommodityService {
         Map<String, Object> map = new HashMap<>();
         String nextRound = null;
         Long nextRoundId = null;
-        if (com.getStateId() == 3) {//如果未开奖
+        if (com.getStateId() == 3 || com.getStateId() == 2) {//如果未开奖
             List<CommodityHistory> comh = historyMapper.selectBycommodName(com.getName(), com.getRoundTime());
-            if(comh.size()==0){
-                map.put("beforeLottery",new HashMap<>());
-            }
-            else {
+            if (comh.size() == 0) {
+                map.put("beforeLottery", new HashMap<>());
+            } else {
                 map.put("beforeLottery", mapBefore(comh.get(0)));//往期开奖揭晓
             }
         }
@@ -216,7 +215,7 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("buyCurrent", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买次数
         map.put("roundTime", com.getRoundTime());//获取当前期数
         map.put("user", 0);//是否参与本商品
-        map.put("countDown", 180l);//倒计时
+        map.put("countDown", ServiceUtils.getResidualLotteryMinute(com));//倒计时
         map.put("descUrl", com.getCommodityDescUrl());//添加商品详情URL
         map.put("partake", listPartake(commodId));//添加参与记录
         map.put("guessLike", listMap3());//添加猜你喜欢商品
@@ -416,9 +415,8 @@ public class CommodityServiceImpl implements ICommodityService {
                 commsMapper.updateCommState(comm.getId(), Settings.COMMODITY_STATE_HAS_LOTTERY);
                 LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comm.getId());
                 if (null != lotteryInfo) {
-                    Long acc =lotteryInfo.getUserAccountId();
+                    Long acc = lotteryInfo.getUserAccountId();
                     //insertHistory(comm,acc,userLuckCodes.getLuckCodeId());
-
                     userPayNum = lotteryInfo.getBuyNum();
                     User user = userMapper.selectById(acc);
                     userNickName = user.getNickname();

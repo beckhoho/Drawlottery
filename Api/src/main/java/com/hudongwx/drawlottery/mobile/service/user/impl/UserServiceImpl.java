@@ -222,7 +222,6 @@ public class UserServiceImpl implements IUserService {
     public List<Map<String, Object>> selectToNew(Long accountId) {
         List<Map<String, Object>> list = new ArrayList<>();
         List<Long> commIdList = codesMapper.selectDistinctGroupByCommId(accountId);
-
         for (Long commId : commIdList) {
             Map<String, Object> map = new HashMap<>();
             Commoditys com = comMapper.selectByKey(commId);

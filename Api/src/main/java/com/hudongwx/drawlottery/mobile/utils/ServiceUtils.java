@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.utils;
 
+import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
 import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
@@ -44,6 +45,18 @@ public class ServiceUtils {
             newList.add(list.get(i));
         }
         return newList;
+    }
+
+    public static Integer getResidualLotteryMinute(Commoditys comm) {
+        if (comm.getStateId() != Settings.COMMODITY_STATE_ON_LOTTERY)
+            return 0;
+        long nowTime = new Date().getTime();
+        long sellOutTime = null == comm.getSellOutTime() ? 0 : comm.getSellOutTime();
+        long endTime = sellOutTime + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
+        if (nowTime < endTime) {
+            return (int) ((endTime - nowTime) / 1000);
+        }
+        return 0;
     }
 
     public static void createLuckCode(LuckCodesMapper mapper, CommoditysMapper commMapper, Long commId, boolean rebuild) {
