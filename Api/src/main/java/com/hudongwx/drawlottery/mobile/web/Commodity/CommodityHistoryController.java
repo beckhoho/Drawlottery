@@ -1,7 +1,8 @@
-package com.hudongwx.drawlottery.mobile.web.commodity;
+package com.hudongwx.drawlottery.mobile.web.Commodity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
+import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
 import com.hudongwx.drawlottery.mobile.service.notification.ILuckNoticeService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
@@ -72,4 +73,14 @@ public class CommodityHistoryController extends BaseController {
         return success(chService.selectThePastAnnouncedCommList(commId));
     }
 
+    /**
+     * 浏览商品中奖信息
+     * @return
+     */
+    @ResponseBody
+    @ApiOperation("通过商品Id(commId)浏览中奖信息")
+    @RequestMapping(value = "/api/v1/user/commhistory/announced/lottertyinfo", method = {RequestMethod.POST, RequestMethod.GET})
+    public LotteryInfo queryLotteryInfo(@ApiParam("商品Id")@RequestParam("commId") Long commId){
+        return chService.queryLotteryInfo(commId);
+    }
 }
