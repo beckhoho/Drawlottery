@@ -206,7 +206,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
 //                comMapper.;//根据主键修改商品状态
                 /*
-                    下期请求
+//                    下期请求
                  */
             } else {
                 buyNum = Amount;
