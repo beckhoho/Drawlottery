@@ -156,7 +156,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/update/qq", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateQQNumber(@RequestParam("qq") String QQ) {
-        return response(true);
+        return response(userService.addQQNumber(getUserId(),QQ));
     }
 
     /**

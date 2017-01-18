@@ -47,4 +47,8 @@
     <update id="updateUserPromteId">
       UPDATE t_users SET promoter_id = #{promId},promote_date = #{promoteDate} where account_id = #{accountId}
     </update>
+
+    <update id="updateUserQQ">
+        UPDATE t_users SET qq_number = #{qqNumber} where account_id = #{accountId}
+    </update>
 </mapper>

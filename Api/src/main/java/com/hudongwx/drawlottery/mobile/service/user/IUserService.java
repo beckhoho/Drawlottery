@@ -104,5 +104,13 @@ public interface IUserService {
      * @return
      */
     int addPromoter(Long promId, Long accountId);
+
+    /**
+     * 添加QQ号
+     * @param accountId
+     * @param qq
+     * @return
+     */
+    boolean addQQNumber(Long accountId,String qq);
 }
 
