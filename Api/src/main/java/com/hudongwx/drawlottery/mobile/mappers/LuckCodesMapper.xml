@@ -8,7 +8,7 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
-        <result column="luck_code_template_id" jdbcType="INTEGER" property="luckCodeTemplateId"/>
+        <result column="luck_code_template_id" jdbcType="BIGINT" property="luckCodeTemplateId"/>
         <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
         <result column="orders_id" jdbcType="BIGINT" property="ordersId"/>
         <result column="buy_date" jdbcType="BIGINT" property="buyDate"/>
@@ -42,12 +42,12 @@
 
     <update id="updateNext">
         UPDATE t_luck_codes SET state = 0,user_account_id=#{accountId},
-        orders_id=#{ordersid},buy_date=#{buyDate}
+        orders_id=#{ordersid},buy_date=#{buyDate},commodity_id = #{nextCommId}
         where commodity_id = #{commodityId}
     </update>
 
     <select id="selectCountByCommodity" resultType="java.lang.Long">
-        select distinct user_account_id from t_luck_codes
+        select distinct user_account_id from t_luck_codes WHERE commodity_id = #{commId}
     </select>
 
     <select id="selectDistinctGroupByCommId" resultType="java.lang.Long">

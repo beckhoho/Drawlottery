@@ -34,4 +34,10 @@ public interface ITypeService {
      * @return 返回类型列表
      */
     public List<CommodityType> getAllTypes();
+
+    public void addType(CommodityType type);
+
+    public void updateType(CommodityType type);
+
+    public void deleteTypes(List<Integer> ids);
 }

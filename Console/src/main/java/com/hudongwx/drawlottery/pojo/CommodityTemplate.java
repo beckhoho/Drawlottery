@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.pojo;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table(name = "t_commodity_template")
 public class CommodityTemplate {
@@ -116,6 +117,10 @@ public class CommodityTemplate {
 
     @Column(name = "open_time")
     private Integer openTime;
+    @Transient
+    private List<Integer> exchangeWay;
+    @Transient
+    private List<String> images;
 
     /**
      * @return id
@@ -490,5 +495,21 @@ public class CommodityTemplate {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public List<Integer> getExchangeWay() {
+        return exchangeWay;
+    }
+
+    public void setExchangeWay(List<Integer> exchangeWay) {
+        this.exchangeWay = exchangeWay;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

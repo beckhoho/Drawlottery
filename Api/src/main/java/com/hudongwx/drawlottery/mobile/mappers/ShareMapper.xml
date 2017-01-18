@@ -10,6 +10,7 @@
     <result column="issue_date" jdbcType="BIGINT" property="issueDate" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
     <result column="particulars" jdbcType="VARCHAR" property="particulars" />
+    <result column="state" jdbcType="INTEGER" property="state"/>
   </resultMap>
 
   <select id="selectByUserAccountId" resultMap="BaseResultMap">
@@ -23,4 +24,8 @@
   <select id="selectByIssueDate" resultMap="BaseResultMap">
    select * from t_share where issue_date = #{issueDate}
   </select>
+  <insert id="insertByGeneratedKeys"  parameterType="Share" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO t_share(user_account_id,issue_date,commodity_id,particulars)
+    values(#{userAccountId},#{issueDate},#{commodityId},#{particulars})
+  </insert>
 </mapper>

@@ -13,4 +13,10 @@
             keyProperty="id">
       insert into t_luck_codes (luck_code_template_id,commodity_id) values (#{luckCodeTemplateId},#{commodityId})
     </insert>
+    <insert id="insertCodeList">
+        insert into draw_lottery.t_luck_codes (luck_code_template_id,commodity_id) VALUES
+        <foreach collection="list" item="code" separator=",">
+            (#{code.luckCodeTemplateId},#{code.commodityId})
+        </foreach>
+    </insert>
 </mapper>

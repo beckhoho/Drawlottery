@@ -30,7 +30,22 @@ public class Share {
     /**
      * 晒单文段
      */
+    @Column(name = "particulars")
     private String particulars;
+
+    /**
+     * 审核状态 0:未审核 1：审核
+     */
+    @Column(name = "state")
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     /**
      * @return id

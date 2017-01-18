@@ -8,6 +8,8 @@ import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 import com.hudongwx.drawlottery.service.commodity.CommodityService;
 import com.hudongwx.drawlottery.service.commodity.LuckCodeService;
 import com.hudongwx.drawlottery.service.commodity.RoundTimeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,6 +32,7 @@ public class CommodityServiceImpl implements CommodityService {
     private RoundTimeService roundTimeService;
     @Resource
     private LuckCodeService luckCodeService;
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 获取商品列表.
@@ -76,6 +79,7 @@ public class CommodityServiceImpl implements CommodityService {
      * 批量上架商品
      *
      * @param commodities 商品模板
+     * @deprecated 删除，写法有误
      */
     @Override
     public void groundCommodities(final List<CommodityTemplate> commodities) {
@@ -92,18 +96,24 @@ public class CommodityServiceImpl implements CommodityService {
      */
     @Override
     public void groundCommodity(final long tempId, final long luckCodeCount) {
-        //检索生成幸运码
-        luckCodeService.generate(luckCodeCount);
-        final Commodity commodity = new Commodity();
-        commodity.setBuyLastNumber(0);
-        commodity.setBuyCurrentNumber(0);
-        commodity.setRoundTime("" + roundTimeService.generateNewRoundTime());
-        commodity.setViewNum(0L);
-        commodity.setTempId(tempId);
-        commodity.setStateId(Commodity.ON_SALE);
-        addCommodity(commodity);
-        //关联幸运码
-        luckCodeService.connect(commodity.getId(), luckCodeCount);
+        //线程安全
+        synchronized (this) {
+            logger.info("生成开始");
+            final long start = System.currentTimeMillis();
+            //检索生成幸运码
+            luckCodeService.generate(luckCodeCount);
+            final Commodity commodity = new Commodity();
+            commodity.setBuyLastNumber(0);
+            commodity.setBuyCurrentNumber(0);
+            commodity.setRoundTime("" + roundTimeService.generateNewRoundTime());
+            commodity.setViewNum(0L);
+            commodity.setTempId(tempId);
+            commodity.setStateId(Commodity.ON_SALE);
+            addCommodity(commodity);
+            //关联幸运码
+            luckCodeService.connect(commodity.getId(), luckCodeCount);
+            logger.info("生成结束："+(System.currentTimeMillis()-start));
+        }
     }
 
     /**

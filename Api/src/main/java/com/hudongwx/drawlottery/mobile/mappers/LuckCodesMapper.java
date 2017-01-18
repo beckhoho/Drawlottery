@@ -29,10 +29,11 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
                    @Param("commodityId")Long commodityId,
                    @Param("ordersid")Long ordersId,
                    @Param("buyDate")Long buyDate,
-                   @Param("buyNum")Integer buyNum);
+                   @Param("nextCommId")Long nextCommId
+                   );
 
     //查看商品幸运码
-    List<Long> selectCountByCommodity(@Param("commod") Long commod);
+    List<Long> selectCountByCommodity(@Param("commId") Long commId);
 
     //查看用户幸运码
     List<Long> selectDistinctGroupByCommId(@Param("accountId") Long accountId);

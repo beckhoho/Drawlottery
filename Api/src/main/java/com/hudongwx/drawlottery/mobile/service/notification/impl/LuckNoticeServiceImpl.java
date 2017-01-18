@@ -49,25 +49,27 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
 
     @Override
     public Map<String,Object> addUserLuckNotice(Long commodityId) {
-        Commodity com = new Commodity();
-        com.setId(commodityId);
-        com.setStateId(1);
-        int i = comMapper.updateByPrimaryKeySelective(com);
-        boolean b = addHistory(commodityId);
+
+        Commoditys byKey = commMapper.selectByKey(commodityId);
         CommodityHistory history = historyMapper.selectBycommId(commodityId);
         User user = userMapper.selectById(history.getLuckUserAccountId());
         Map<String,Object> map = new HashMap<>();
-        if(i>0 && b && user!=null){
-            map.put("userName",user.getNickname());//添加用户名
-            map.put("buyNum",history.getBuyNumber());//添加购买数量
-            map.put("endTime",history.getEndTime());//添加揭晓时间
-        } else{
-            map.put("userName",null);//添加用户名
-            map.put("buyNum",null);//添加购买数量
-            map.put("endTime",null);//添加揭晓时间
+
+        map.put("userName",user.getNickname());//添加用户名
+        map.put("buyNum",history.getBuyNumber());//添加购买数量
+        map.put("endTime",history.getEndTime());//添加揭晓时间
+
+        if(byKey.getStateId()!=1){
+            Commodity com = new Commodity();
+            com.setId(commodityId);
+            com.setStateId(1);
+            comMapper.updateByPrimaryKeySelective(com);
+            return map;
+        }
+        else {
+            return map;
         }
 
-        return map;
     }
 
     @Override
@@ -81,44 +83,7 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
 
         return null;
     }
-    public boolean addHistory(Long commodityId){
 
-        Commoditys key = commMapper.selectByKey(commodityId);
-        LotteryInfo lotteryInfo = lotteryMapper.selectByComId(commodityId);
-        Long lotteryId = lotteryInfo.getLotteryId();
-        LuckCodeTemplate byCode = luckCodeTemplateMapper.selectByCode(lotteryId + "");
-        LuckCodes luckCodes = luckMapper.selectBytemplate(byCode.getId(),commodityId);
-        List<LuckCodes> id = luckMapper.selectByUserAccountId(luckCodes.getUserAccountId(),commodityId);
-
-        CommodityHistory com = new CommodityHistory();
-        com.setLuckCode(lotteryInfo.getLotteryId()+"");
-        com.setRoundTime(key.getRoundTime());
-        com.setGenre(key.getGenre());
-        com.setBuyNumber(id.size());
-        com.setBuyTotalNumber(key.getBuyTotalNumber());
-        com.setCommodityId(commodityId);
-        com.setCommodityName(key.getName());
-        com.setCoverImgUrl(key.getCoverImgUrl());
-        com.setEndTime(new Date().getTime());
-        Long ids = lotteryInfo.getUserAccountId();
-        com.setLuckUserAccountId(lotteryInfo.getUserAccountId());
-        com.setTempId(key.getTempId());
-        int insert = historyMapper.insert(com);
-//        List<UserCodesHistory> list = new ArrayList<>();
-//        for (LuckCodes u : id){
-//            UserCodesHistory userHistory = new UserCodesHistory();
-//            userHistory.setRoundTime(key.getRoundTime());
-//            userHistory.setUserLuckCodeId(u.getUserAccountId());
-//            userHistory.setCommodityId(u.getCommodityId());
-//            userHistory.setBuyDate(u.getBuyDate());
-//            userHistory.setUserLuckCodeId(u.getId());
-//            list.add(userHistory);
-//        }
-//        int i = codesHistoryMapper.insertHistory(list);
-
-
-        return insert>0 ;
-    }
 
     @Override
     public boolean updateUserLuckNotice(LuckNotice notice) {

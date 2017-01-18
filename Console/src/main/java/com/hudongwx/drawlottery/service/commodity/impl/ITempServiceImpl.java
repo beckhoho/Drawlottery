@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.hudongwx.drawlottery.common.constants.CommonConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.exceptions.ServiceException;
+import com.hudongwx.drawlottery.common.exceptions.ValidateException;
+import com.hudongwx.drawlottery.common.utils.ArrayUtils;
 import com.hudongwx.drawlottery.common.utils.TimerUtil;
 import com.hudongwx.drawlottery.dao.CommodityImagesMapper;
 import com.hudongwx.drawlottery.dao.CommodityMapper;
@@ -13,6 +15,7 @@ import com.hudongwx.drawlottery.pojo.Commodity;
 import com.hudongwx.drawlottery.pojo.CommodityImages;
 import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 import com.hudongwx.drawlottery.service.commodity.CommodityService;
+import com.hudongwx.drawlottery.service.commodity.ExchangeWayService;
 import com.hudongwx.drawlottery.service.commodity.ITempService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +57,9 @@ public class ITempServiceImpl implements ITempService {
     @Resource
     private CommodityImagesMapper imgMapper;
 
+    @Resource
+    private ExchangeWayService exchangeWayService;
+
 
     /**
      * 根据商品 id 得到商品.
@@ -93,13 +99,22 @@ public class ITempServiceImpl implements ITempService {
             throw new ServiceException(langConstants.getLang(langConstants.GENRE_NOT_NULL));
         if (null == temp.getCommodityTypeId())
             throw new ServiceException(langConstants.getLang(langConstants.TYPE_NOT_NULL));
+        if (ArrayUtils.isEmpty(temp.getExchangeWay()))
+            throw new ValidateException(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
 
         //字段补充
         if (null == temp.getGroundTime())
             temp.setGroundTime(System.currentTimeMillis());
 
         temp.setValid(1);
+
+
         final int result = tempMapper.insertAuto(temp);
+        //关联商品图片
+        connectImgs(temp.getId(), temp.getImages());
+        //关联付款方式
+        connectExchangeWay(temp.getId(), temp.getExchangeWay());
+
         //定时上架
         TimerUtil.registry(() -> {
             commodityService.groundCommodity(temp.getId(), temp.getBuyTotalNumber());
@@ -225,6 +240,19 @@ public class ITempServiceImpl implements ITempService {
             imgs.add(img);
         }
         imgMapper.insertList(imgs);
+    }
+
+    /**
+     * 为模板关联付款方式
+     *
+     * @param id             模板id
+     * @param exchangeWayIds 付款方式id集合
+     */
+    @Override
+    public void connectExchangeWay(long id, List<Integer> exchangeWayIds) {
+        if (ArrayUtils.isEmpty(exchangeWayIds))
+            return;
+        exchangeWayService.addCommodityExchange(id, exchangeWayIds);
     }
 
 }

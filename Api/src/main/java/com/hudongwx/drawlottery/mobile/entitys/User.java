@@ -93,6 +93,34 @@ public class User implements Serializable {
      */
     private Long lv;
 
+    /**
+     * 注册时间
+     */
+    @Column(name="regist_date")
+    private Long registDate;
+
+    /**
+     * 填写推广人时间
+     */
+    @Column(name="promote_date")
+    private Long promoteDate;
+
+    public Long getPromoteDate() {
+        return promoteDate;
+    }
+
+    public void setPromoteDate(Long promoteDate) {
+        this.promoteDate = promoteDate;
+    }
+
+    public Long getRegistDate() {
+        return registDate;
+    }
+
+    public void setRegistDate(Long registDate) {
+        this.registDate = registDate;
+    }
+
     public String getQqNumber() {
         return qqNumber;
     }

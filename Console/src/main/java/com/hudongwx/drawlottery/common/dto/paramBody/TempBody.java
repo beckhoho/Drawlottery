@@ -1,8 +1,11 @@
 package com.hudongwx.drawlottery.common.dto.paramBody;
 
 import com.hudongwx.drawlottery.common.base.PoParamBase;
+import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.pojo.CommodityTemplate;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +19,9 @@ import java.util.List;
  */
 public class TempBody implements PoParamBase<CommodityTemplate> {
 
+    @Resource
+    private LangConstants langConstants;
+
     private Long id;
     private String name;
     private Long type;
@@ -23,14 +29,20 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
     private String contactName;
     private String contactPhone;
     private String contactAddress;
+
+    private Boolean express;
+
     private Boolean sendCard;
     private Integer cardType;
     private Integer cardNum;
     private Integer cardMoney;
+
     private Boolean withdrawals;
     private Integer withdrawalsMoney;
+
     private Boolean exchangeable;
     private Integer exchangeMoney;
+
     private String coverImgUrl;
     private String content;
     private Boolean easyWinning;
@@ -39,6 +51,7 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
     private Integer minimum;
     private Integer openTime;
     private Date groundTime;
+    private List<Integer> exchangeWay;
 
     private List<String> images;
 
@@ -81,6 +94,20 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
 
         c.setAutoRound(autoRound ? 1 : 0);
         c.setEasyWinning(easyWinning ? 1 : 0);
+        exchangeWay = new ArrayList<>();
+        if (sendCard != null && sendCard)
+            exchangeWay.add(1);
+        if (express != null && express)
+            exchangeWay.add(2);
+        if (withdrawals != null && withdrawals)
+            exchangeWay.add(3);
+        if (null != exchangeable && exchangeable)
+            exchangeWay.add(4);
+        if (null != genre && genre == 2)
+            exchangeWay.add(5);
+
+        c.setExchangeWay(exchangeWay);
+        c.setImages(images);
 
         return c;
     }
@@ -276,5 +303,21 @@ public class TempBody implements PoParamBase<CommodityTemplate> {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public List<Integer> getExchangeWay() {
+        return exchangeWay;
+    }
+
+    public void setExchangeWay(List<Integer> exchangeWay) {
+        this.exchangeWay = exchangeWay;
+    }
+
+    public Boolean getExpress() {
+        return express;
+    }
+
+    public void setExpress(Boolean express) {
+        this.express = express;
     }
 }

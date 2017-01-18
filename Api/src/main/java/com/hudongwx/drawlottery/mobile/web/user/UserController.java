@@ -70,7 +70,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户中奖记录（带分页）")
     @RequestMapping(value = "/api/v1/user/win", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserWinningHistory(@ApiParam("当前页最后一item的实际id")@RequestParam("lastItemId") Long lastItemId) {
+    public JSONObject queryUserWinningHistory(@ApiParam("当前页最后一item的实际id") @RequestParam("lastItemId") Long lastItemId) {
         List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(getUserId());
         return success(historyLottery);
     }
@@ -84,6 +84,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户夺宝记录（带分页）")
     @RequestMapping(value = "/api/v1/user/usercomm/show", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject queryUserCommRecord(@ApiParam("显示形式：1、进行中；2、已揭晓；其他数字、显示全部") @RequestParam("item") Integer item, @ApiParam("当前页最后一item的实际id") @RequestParam("lastItemId") Long lastItemId) {
     public JSONObject queryUserCommRecord(@ApiParam("显示形式：1、进行中；2、已揭晓；其他数字、显示全部")@RequestParam("item") Integer item, @ApiParam("当前页最后一item的实际id")@RequestParam(value = "lastItemId", required = false) Long lastItemId) {
         List<Map<String, Object>> historyLottery = userService.selectHistoryPay(getUserId(), item);
         return success(historyLottery);
@@ -155,7 +156,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/update/qq", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateQQNumber(@RequestParam("qq") String QQ) {
-        return response(true);
+        return response(userService.addQQNumber(getUserId(),QQ));
     }
 
     /**
@@ -191,10 +192,16 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/promoter/add", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/api/v1/user/promoter/add/promote", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addPromoter(@RequestParam("promId") Long promId) {
-
-        return response(true);
+        int re = userService.addPromoter(promId, getUserId());
+        if (re==1) {
+            return response(true);
+        }else if(re==-1){
+            return fail("推广人id不存在");
+        }else{
+            return fail("已有推广人或用户注册时间早于推广人");
+        }
     }
 
     /**
@@ -202,11 +209,11 @@ public class UserController extends BaseController {
      *
      * @return
      */
-    @ResponseBody
-    @RequestMapping(value = "/api/v1/priv/user/luckcode/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryLuckCode(@RequestParam("lastCode") String lastCode) {
-
-        return response(true);
-    }
+//    @ResponseBody
+//    @RequestMapping(value = "/api/v1/priv/user/add/promote", method = {RequestMethod.POST, RequestMethod.GET})
+//    public JSONObject queryLuckCode(@RequestParam("accountId") String accountId) {
+//
+//        return success();
+//    }
 
 }

@@ -2,22 +2,11 @@ package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.*;
-import com.hudongwx.drawlottery.mobile.mappers.NotificationCampaignMapper;
-import com.hudongwx.drawlottery.mobile.mappers.NotificationPrizeMapper;
-import com.hudongwx.drawlottery.mobile.mappers.NotificationSystemMapper;
-import com.hudongwx.drawlottery.mobile.service.user.MessageService;
+import com.hudongwx.drawlottery.mobile.service.user.IMessageService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.*;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.PrivateKey;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -39,7 +28,7 @@ import java.util.Optional;
 @RestController
 public class MessageController extends BaseController {
     @Autowired
-    MessageService messageService;
+    IMessageService messageService;
 
     /**
      * 查询所有的未读消息数量

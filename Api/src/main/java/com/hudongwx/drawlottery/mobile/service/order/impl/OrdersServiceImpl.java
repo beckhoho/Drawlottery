@@ -51,6 +51,14 @@ public class OrdersServiceImpl implements IOrdersService {
     ICommodityService commodityService;
     @Autowired
     LuckCodeTemplateMapper templateMapper;
+    @Autowired
+    UserCodesHistoryMapper userHistoryMapper;
+    @Autowired
+    CommodityTemplateMapper templeMapper;
+    @Autowired
+    CommodityHistoryMapper historyMapper;
+
+
 
     /**
      * 计算扣款
@@ -88,7 +96,7 @@ public class OrdersServiceImpl implements IOrdersService {
         //红包
         Long packetId = orders.getRedPacketId();
 
-        if(packetId != 0 && packetId!= null && !packetId.equals("0")){ // 如果红包ID不为空
+        if(packetId != 0 && packetId != null ){ // 如果红包ID不为空
             RedPackets red = new RedPackets();
             red.setId(orders.getRedPacketId());
             //查询红包面值
@@ -150,16 +158,19 @@ public class OrdersServiceImpl implements IOrdersService {
 
             Commoditys byKey = comMapper.selectByKey(ca.getCommodityId());
             remainingNum=byKey.getBuyTotalNumber()-byKey.getBuyCurrentNumber();
-            Amount =ca.getAmount();
+            Amount = ca.getAmount();
             //计算购买量和剩余量差值
 
-            int sub = Amount - remainingNum;
+            int sub = Amount - remainingNum ;
             if(sub>=0){
                 buyNum = remainingNum;
             }else {
                 buyNum = Amount;
             }
+
+            //为用户生成幸运码
             updateLuckCodes(accountId,ca.getCommodityId(), buyNum, orders);
+
             Commoditys commodity = comMapper.selectByKey(ca.getCommodityId());
             Commodity com = new Commodity();//**
 
@@ -186,36 +197,41 @@ public class OrdersServiceImpl implements IOrdersService {
                 /*
                     计算开奖幸运码
                  */
+
                 LotteryInfo raffle = LotteryUtils.raffle(templateMapper,codesMapper, userMapper, commodity);
                 lotteryInfoMapper.insert(raffle);
 
 
                 if (commodity.getAutoRound() == 1 && (remainingNum==0 || remainingNum - buyNum == 0)) {
                     //如果商品卖光，自动生成下一期
-                    Long aLong = Long.valueOf(commodity.getRoundTime());
+                    Commoditys commoditys = comMapper.selectByKey(ca.getCommodityId());
+                    Long roundTime = Long.valueOf(commoditys.getRoundTime());
                     Commodity comm = new Commodity();
                     comm.setBuyCurrentNumber(0);
                     comm.setStateId(3);
                     comm.setBuyLastNumber(0);
+                    com.setLastRoundTime(roundTime);
                     comm.setTempId(commodity.getTempId());
                     comm.setRoundTime(commodityService.generateNewRoundTime()+"");
                     comm.setViewNum(0l);
-                    comm.setLastRoundTime(aLong+"");
                     commMapper.insert(comm);
 
-//                    //复用商品幸运码
-//                    Commodity commod = commMapper.selectOne(comm);
-//                    Long id = ca.getCommodityId();
-//                    codesMapper.updateNext(null,commod.getId(),null,null,null);
-//                    if(remainingNum==0){
-//                        ca.setCommodityId(comm.getId());
-//                    }
+                    //复用商品幸运码
+                    List<Commodity> list = commMapper.select(comm);
+                    addHistory(ca.getCommodityId());//添加到历史
+
+                    codesMapper.updateNext(0l,ca.getCommodityId(),0l,0l,list.get(0).getId());
+                    if(remainingNum==0){
+                        ca.setCommodityId(comm.getId());
+                        commodityAmounts.add(ca);
+                    }
 
                     com.setId(commodity.getId());
                     comMapper.updateById(com);//提交商品信息
                     TotalNum += buyNum;//累加实际购买量
                     ordersCommoditys.setAmount(buyNum);//设置商品订单表购买数量
                     orderMapper.insert(ordersCommoditys);//添加商品订单信息
+
 
                     //下一期请求
                     continue;
@@ -236,7 +252,7 @@ public class OrdersServiceImpl implements IOrdersService {
             TotalNum = TotalNum+buyNum+extraNum;//累加实际购买量
             ordersCommoditys.setAmount(buyNum);//设置商品订单表购买数量
             int insert = orderMapper.insert(ordersCommoditys);//添加商品订单信息
-            System.out.println(insert);
+
 /*
                 用户获得幸运码
              */
@@ -245,6 +261,42 @@ public class OrdersServiceImpl implements IOrdersService {
         }
         return TotalNum;
 
+    }
+
+
+    /**
+     * 添加历史商品信息
+     * @param commodityId   商品ID
+     * @return
+     */
+    public boolean addHistory(Long commodityId){
+
+        Commoditys key = comMapper.selectByKey(commodityId);
+        LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(commodityId);
+        Long lotteryId = lotteryInfo.getLotteryId();
+        LuckCodeTemplate byCode = templateMapper.selectByCode(lotteryId + "");
+        LuckCodes luckCodes = codesMapper.selectBytemplate(byCode.getId(),commodityId);
+        List<LuckCodes> id = codesMapper.selectByUserAccountId(luckCodes.getUserAccountId(),commodityId);
+
+        CommodityHistory com = new CommodityHistory();
+        com.setLuckCode(lotteryInfo.getLotteryId()+"");
+        com.setRoundTime(key.getRoundTime());
+        com.setGenre(key.getGenre());
+        com.setBuyNumber(id.size());
+        com.setBuyTotalNumber(key.getBuyTotalNumber());
+        com.setCommodityId(commodityId);
+        com.setCommodityName(key.getName());
+        com.setCoverImgUrl(key.getCoverImgUrl());
+        com.setEndTime(new Date().getTime());
+        com.setLuckUserAccountId(lotteryInfo.getUserAccountId());
+        com.setTempId(key.getTempId());
+        //
+
+        int insert = historyMapper.insert(com);
+
+        int i = userHistoryMapper.insertCopy(commodityId);
+
+        return insert>0 && i>0;
     }
 
     /**
@@ -344,7 +396,13 @@ public class OrdersServiceImpl implements IOrdersService {
             Commoditys commoditys = comMapper.selectByKey(ca.getCommodityId());
             map.put("commodityName", commoditys.getName());//商品名
             map.put("roundTime", commoditys.getRoundTime());//期数
-            map.put("luckCodes", luckCodes(accountId, ca.getCommodityId(),orderId));//用户参与商品的幸运码
+            if(commoditys.getStateId()==3){
+                map.put("luckCodes", luckCodes(accountId, ca.getCommodityId(),orderId));//用户参与商品的幸运码
+            }
+            else{
+                map.put("luckCodes", luckCodesHistory(accountId, ca.getCommodityId(),orderId));//用户参与商品的幸运码
+            }
+
             number += ca.getAmount();
             mapList.add(map);
         }
@@ -357,10 +415,22 @@ public class OrdersServiceImpl implements IOrdersService {
     }
 
     //查询用户当前订单参与商品的所有幸运号
+    public List<String> luckCodesHistory(Long accountId, Long commodityId,Long ordersId) {
+        List<String> list = new ArrayList<>();
+        List<UserCodesHistory> list1 = userHistoryMapper.selectByOrders(accountId,commodityId,ordersId);
+        for (UserCodesHistory luckCodes : list1) {
+            UserCodesHistory codes1 = userHistoryMapper.selectById(luckCodes.getId());
+            Long templateId = codes1.getLuckCodeTemplateId();
+            LuckCodeTemplate template = templateMapper.selectById(templateId);
+            list.add(template.getLuckCode());
+        }
+        return list;
+    }
+
     public List<String> luckCodes(Long accountId, Long commodityId,Long ordersId) {
         List<String> list = new ArrayList<>();
-        List<LuckCodes> codes = codesMapper.selectByOrders(accountId,commodityId,ordersId);
-        for (LuckCodes luckCodes : codes) {
+        List<LuckCodes> list1 = codesMapper.selectByOrders(accountId,commodityId,ordersId);
+        for (LuckCodes luckCodes : list1) {
             LuckCodes codes1 = codesMapper.selectById(luckCodes.getId());
             Long templateId = codes1.getLuckCodeTemplateId();
             LuckCodeTemplate template = templateMapper.selectById(templateId);
