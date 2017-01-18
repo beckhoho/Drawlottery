@@ -39,8 +39,6 @@ public class CommodityServiceImpl implements ICommodityService {
     @Autowired
     UserMapper userMapper;
     @Autowired
-    UserLuckCodesMapper userluckMapper;
-    @Autowired
     LuckCodesMapper luckCodeMapper;
     @Autowired
     CommodityTypeMapper typeMapper;
@@ -252,7 +250,7 @@ public class CommodityServiceImpl implements ICommodityService {
 
     public List<Map<String, Object>> listPartake(Long commodId) {
         List<Map<String, Object>> listMap = new ArrayList<>();
-        List<Long> codes = userluckMapper.selectCountByCommodity(commodId);
+        List<Long> codes = luckCodeMapper.selectCountByCommodity(commodId);
         for (Long userLuckCodes : codes) {
             Long userAccountId = userLuckCodes;
             Map<String, Object> map = map1(userAccountId);
@@ -278,7 +276,7 @@ public class CommodityServiceImpl implements ICommodityService {
 
     public Map<String, Object> map2(Long commodId, Long userAccountId) {
         Map<String, Object> map = new HashMap<>();
-        List<UserLuckCodes> select = userluckMapper.selectByAccAndCommId(userAccountId, commodId);
+        List<LuckCodes> select = luckCodeMapper.selectByAccAndCommId(userAccountId, commodId);
         Long buyDate = null;
         int size = 0;
         if (!select.isEmpty()) {
@@ -391,16 +389,15 @@ public class CommodityServiceImpl implements ICommodityService {
                 residualMinutes = (int) ((endTime - nowTime) / 1000);
             } else {
                 commsMapper.updateCommState(comm.getId(), Settings.COMMODITY_STATE_HAS_LOTTERY);
-                UserLuckCodes ulc = new UserLuckCodes();
-                ulc.setLuckCodeId(comm.getLuckCodeId());
+                LuckCodes ulc = new LuckCodes();
                 ulc.setCommodityId(comm.getId());
-                UserLuckCodes userLuckCodes = userluckMapper.selectByOne(comm.getId(), comm.getLuckCodeId());
+                LuckCodes userLuckCodes = luckCodeMapper.selectById(comm.getLuckCodeId());
                 if (null != userLuckCodes) {
                     Long acc = userLuckCodes.getUserAccountId();
                     //insertHistory(comm,acc,userLuckCodes.getLuckCodeId());
-                    ulc.setLuckCodeId(null);
+
                     ulc.setUserAccountId(acc);
-                    userPayNum = userluckMapper.selectCount(ulc);
+                    userPayNum = luckCodeMapper.selectCount(ulc);
                     User user = userMapper.selectById(acc);
                     userNickName = user.getNickname();
                     userHeadImgUrl = user.getHeaderUrl();
@@ -424,87 +421,8 @@ public class CommodityServiceImpl implements ICommodityService {
         return infoList;
     }
 
-    public Long produceLuckCodes(Long commodityId) {
-        List<Long> codes = userluckMapper.selectCountByCommodity(commodityId);
-        int v = (int) (Math.random() * codes.size());
-        Long codeId = codes.get(v);
-        return codeId;
-    }
-
-    public boolean insertHistory(Commoditys com, Long accountId, Long luckCodeId) {
-        UserLuckCodes luckCodes = new UserLuckCodes();
-        luckCodes.setUserAccountId(accountId);
-        List<UserLuckCodes> select = userluckMapper.select(luckCodes);
-        //String s = luckCodeMapper.selectLuckCode(luckCodeId);
-        CommodityHistory history = new CommodityHistory();
-        history.setCommodityId(com.getId());
-        history.setBuyNumber(select.size());
-        history.setLuckUserAccountId(accountId);
-        history.setBuyTotalNumber(com.getBuyTotalNumber());
-        history.setCommodityName(com.getName());
-        history.setCoverImgUrl(com.getCoverImgUrl());
-        history.setEndTime(new Date().getTime());
-        history.setExchangeState(0);
-        history.setExchangeWay(null);
-        history.setGenre(com.getGenre());
-        history.setRoundTime(com.getRoundTime());
-        //history.setLuckCode(s);
-        return historyMapper.insert(history) > 0;
-    }
 
 
-    /**
-     * 商品开奖之后需要改变的数据
-     *
-     * @param luckCode    幸运号（不是ID）
-     * @param commodityId 商品ID
-     * @return 回改变结果
-     */
-    @Override
-    public boolean reviseInfo(String luckCode, Long commodityId) {
-        Commoditys com = commsMapper.selectByKey(commodityId);
-        LuckCodes luckCodes = new LuckCodes();
-        luckCodes.setCommodityId(commodityId);
-        List<LuckCodes> codes = luckCodeMapper.select(luckCodes);
-        Long codeId = codes.get(0).getId();
-        UserLuckCodes userLuckCodes = new UserLuckCodes();
-        userLuckCodes.setLuckCodeId(codeId);
-        List<UserLuckCodes> select = userluckMapper.select(userLuckCodes);
-
-        //将商品表中的商品改变状态
-
-        com.setStateId(1);
-        com.setId(commodityId);
-        int i = commsMapper.updateByPrimaryKeySelective(com);
-
-        //将用户幸运码添加到历史
-        Long accountId = select.get(0).getUserAccountId();
-        UserLuckCodes user = new UserLuckCodes();
-        user.setUserAccountId(accountId);
-        List<UserLuckCodes> listUser = userluckMapper.select(userLuckCodes);
-        UserCodesHistory userHistory = new UserCodesHistory();
-        userHistory.setUserAccountId(accountId);
-        userHistory.setCommodityId(commodityId);
-        userHistory.setUserLuckCodeId(codeId);
-        userHistory.setRoundTime(com.getRoundTime());
-        int insert1 = userHistoryMapper.insert(userHistory);
-
-        //将商品添加到历史
-        CommodityHistory history = new CommodityHistory();
-        history.setCommodityId(commodityId);
-        history.setBuyTotalNumber(com.getBuyTotalNumber());
-        history.setCoverImgUrl(com.getCoverImgUrl());
-        history.setEndTime(new Date().getTime());
-        history.setCommodityName(com.getName());
-        history.setLuckCode(luckCode);
-        history.setRoundTime(com.getRoundTime());
-        history.setGenre(com.getGenre());
-        history.setLuckUserAccountId(select.get(0).getId());
-        history.setLuckUserAccountId(accountId);
-        history.setBuyNumber(listUser.size());
-        int insert = historyMapper.insert(history);
-        return insert > 0 && insert1 > 0 && i > 0;
-    }
 
     /**
      * 生成新的期数

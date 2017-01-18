@@ -1,12 +1,15 @@
 package com.hudongwx.drawlottery.mobile.web.luckcodes;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes;
-import com.hudongwx.drawlottery.mobile.service.luckcodes.IUserLuckCodesService;
+import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
+import com.hudongwx.drawlottery.mobile.service.luckcodes.ILuckCodesService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -30,7 +33,7 @@ import java.util.List;
 public class UserLuckCodesController extends BaseController {
 
     @Autowired
-    IUserLuckCodesService ulcService;
+    ILuckCodesService ulcService;
 
     /**
      * 用户查看个人幸运码
@@ -40,7 +43,7 @@ public class UserLuckCodesController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/luckcode/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserLuckCodes() {
-        List<UserLuckCodes> ulclist = ulcService.selectByUserId(getUserId());
+        List<LuckCodes> ulclist = ulcService.selectByUserId(getUserId());
         return success(ulclist);
     }
 }

@@ -26,6 +26,48 @@ public class LuckCodes {
     @Column(name = "luck_code_template_id")
     private Long luckCodeTemplateId;
 
+    /**
+     * 用戶ID
+     */
+    @Column(name = "user_account_id")
+    private Long userAccountId;
+
+    /**
+     * 訂單ID
+     */
+    @Column(name = "orders_id")
+    private Long ordersId;
+
+    /**
+     * 购买时间
+     */
+    @Column(name = "buy_date")
+    private Long buyDate;
+
+    public Long getBuyDate() {
+        return buyDate;
+    }
+
+    public void setBuyDate(Long buyDate) {
+        this.buyDate = buyDate;
+    }
+
+    public Long getUserAccountId() {
+        return userAccountId;
+    }
+
+    public void setUserAccountId(Long userAccountId) {
+        this.userAccountId = userAccountId;
+    }
+
+    public Long getOrdersId() {
+        return ordersId;
+    }
+
+    public void setOrdersId(Long ordersId) {
+        this.ordersId = ordersId;
+    }
+
     public Integer getState() {
         return state;
     }

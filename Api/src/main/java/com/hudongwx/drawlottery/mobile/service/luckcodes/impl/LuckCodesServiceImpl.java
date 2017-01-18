@@ -72,4 +72,11 @@ public class LuckCodesServiceImpl implements ILuckCodesService {
         return false;
     }
 
+    @Override
+    public List<LuckCodes> selectByUserId(Long accountId) {
+
+       // return mapper.selectByUserAccountId(accountId);
+        return  null;
+    }
+
 }

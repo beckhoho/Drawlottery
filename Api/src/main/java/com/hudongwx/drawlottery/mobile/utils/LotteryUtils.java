@@ -1,11 +1,9 @@
 package com.hudongwx.drawlottery.mobile.utils;
 
 import com.alibaba.fastjson.JSONArray;
-import com.hudongwx.drawlottery.mobile.entitys.Commodity;
-import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
-import com.hudongwx.drawlottery.mobile.entitys.User;
-import com.hudongwx.drawlottery.mobile.entitys.UserLuckCodes;
-import com.hudongwx.drawlottery.mobile.mappers.UserLuckCodesMapper;
+import com.hudongwx.drawlottery.mobile.entitys.*;
+import com.hudongwx.drawlottery.mobile.mappers.LuckCodeTemplateMapper;
+import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
 
 import java.text.SimpleDateFormat;
@@ -21,10 +19,10 @@ public class LotteryUtils {
     private static String pattern = "yyyy年MM月dd日 HH:mm:ss:SSS";
     private static SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
 
-    public static LotteryInfo raffle(UserLuckCodesMapper luckCodesMapper, UserMapper userMapper, Commodity commodity) {
+    public static LotteryInfo raffle(LuckCodeTemplateMapper templateMapper, LuckCodesMapper luckCodesMapper, UserMapper userMapper, Commoditys commodity) {
         Calendar calendar = Calendar.getInstance();
         //查询最后购买的五十条商品信息
-        List<UserLuckCodes> userLuckCodes = luckCodesMapper.selectByBuyDateDesc();
+        List<LuckCodes> userLuckCodes = luckCodesMapper.selectByBuyDateDesc();
         //开奖信息
         LotteryInfo lotteryInfo = new LotteryInfo();
         //最后五十商品毫秒和
@@ -32,7 +30,7 @@ public class LotteryUtils {
         //时分秒毫秒拼接值
         String subTime;
         JSONArray array = new JSONArray();
-        for (UserLuckCodes userLuckCode : userLuckCodes) {
+        for (LuckCodes userLuckCode : userLuckCodes) {
             Long buyDate = userLuckCode.getBuyDate();
             calendar.setTimeInMillis(buyDate);
             User user = userMapper.selectById(userLuckCode.getUserAccountId());
@@ -43,14 +41,20 @@ public class LotteryUtils {
             array.add(date + " " + subTime + " : " + user.getNickname());
         }
         lotteryInfo.setCommodityId(commodity.getId());//商品id
-        lotteryInfo.setBuyNum(commodity.getBuyCurrentNumber());//总购买数
-        lotteryInfo.setLotteryInfo(array.toString());//具体每条信息json
+        lotteryInfo.setBuyNum(commodity.getBuyTotalNumber());//总购买数
+        //lotteryInfo.setLotteryInfo(array.toString());//具体每条信息json
         lotteryInfo.setSumDate(sumDate);//五十和
+
+
         /*
             计算中奖id
          */
-        long lotteryId = (sumDate % commodity.getBuyCurrentNumber()) + 100000001;
+        long lotteryId = (sumDate % commodity.getBuyTotalNumber()) + 10000001;
         lotteryInfo.setLotteryId(lotteryId);
+        LuckCodeTemplate template = templateMapper.selectByCode(lotteryId + "");
+        LuckCodes codes = luckCodesMapper.selectBytemplate(template.getId(), commodity.getId());
+        lotteryInfo.setSumDate(new Date().getTime());//五十和
+        lotteryInfo.setUserAccountId(codes.getUserAccountId());
         return lotteryInfo;
     }
 

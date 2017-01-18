@@ -73,8 +73,7 @@ public interface ICommodityService {
     //查询高中奖率商品
     List<Map<String, Object>> selectHeight(Integer number,Long lastCommId);
 
-    //开奖之后改变信息
-    boolean reviseInfo(String luckCode, Long commodityId);
+
 
     /**
      * 生成新的期数

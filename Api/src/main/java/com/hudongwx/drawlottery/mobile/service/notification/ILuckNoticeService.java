@@ -2,7 +2,6 @@ package com.hudongwx.drawlottery.mobile.service.notification;
 
 import com.hudongwx.drawlottery.mobile.entitys.LuckNotice;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,7 +22,7 @@ import java.util.Map;
 public interface ILuckNoticeService {
 
     //添加用户中奖通知
-    boolean addUserLuckNotice(Long commodity);
+    Map<String,Object> addUserLuckNotice(Long commodity);
 
     //删除用户中奖通知
     boolean deleteUserLuckNotice(LuckNotice notice);
