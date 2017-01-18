@@ -99,6 +99,20 @@ public class User implements Serializable {
     @Column(name="regist_date")
     private Long registDate;
 
+    /**
+     * 填写推广人时间
+     */
+    @Column(name="promote_date")
+    private Long promoteDate;
+
+    public Long getPromoteDate() {
+        return promoteDate;
+    }
+
+    public void setPromoteDate(Long promoteDate) {
+        this.promoteDate = promoteDate;
+    }
+
     public Long getRegistDate() {
         return registDate;
     }

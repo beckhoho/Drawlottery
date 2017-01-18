@@ -126,7 +126,11 @@ public class CommodityServiceImpl implements ICommodityService {
     public List<Map<String, Object>> selectByStyle(Integer type, Long lastCommId) {
         List<Commoditys> cList;
         List<Map<String, Object>> infoList = new ArrayList<>();
-        if (type.intValue() == Settings.COMMODITY_ORDER_POPULARITY) {
+        if (null == type)
+            type = 0;
+        if (null == lastCommId)
+            lastCommId = 0L;
+        if (type == Settings.COMMODITY_ORDER_POPULARITY) {
             cList = commsMapper.selectByTemp1(lastCommId, Settings.PAGE_LOAD_SIZE);//按人气搜索
         } else if (type == Settings.COMMODITY_ORDER_FASTEST) {
             cList = commsMapper.selectByTemp2(lastCommId, Settings.PAGE_LOAD_SIZE);
@@ -266,11 +270,14 @@ public class CommodityServiceImpl implements ICommodityService {
     public Map<String, Object> map1(Long userAccountId) {
         Map<String, Object> map = new HashMap<>();
         User user = userMapper.selectById(userAccountId);
-        String name = user.getNickname();
-        String headerUrl = user.getHeaderUrl();
+        String name = null;
+        String headerUrl = null;
+        if (null != user) {
+            name = user.getNickname();
+            headerUrl = Settings.SERVER_URL_PATH + user.getHeaderUrl();
+        }
         map.put("userName", name);//用户名
-        map.put("headerUrl", Settings.SERVER_URL_PATH + headerUrl);//头像地址
-
+        map.put("headerUrl", headerUrl);//头像地址
         return map;
     }
 
@@ -405,7 +412,7 @@ public class CommodityServiceImpl implements ICommodityService {
             }
             map.put("residualMinutes", residualMinutes);//剩余开奖秒数
             map.put("userHeadImgUrl", Settings.SERVER_URL_PATH + userHeadImgUrl);//中奖者头像
-            map.put("userNickName", userNickName);// 中奖者昵称
+            map.put("userNickname", userNickName);// 中奖者昵称
             map.put("userPayNum", userPayNum);//中奖者购买数量
             map.put("id", comm.getId());//商品id
             map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
@@ -420,8 +427,6 @@ public class CommodityServiceImpl implements ICommodityService {
         }
         return infoList;
     }
-
-
 
 
     /**

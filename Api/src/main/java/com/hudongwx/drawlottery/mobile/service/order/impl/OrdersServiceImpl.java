@@ -90,7 +90,7 @@ public class OrdersServiceImpl implements IOrdersService {
         //红包
         Long packetId = orders.getRedPacketId();
 
-        if(packetId != 0 && packetId!= null && !packetId.equals("0")){ // 如果红包ID不为空
+        if(packetId != 0 && packetId != null ){ // 如果红包ID不为空
             RedPackets red = new RedPackets();
             red.setId(orders.getRedPacketId());
             //查询红包面值

@@ -23,8 +23,8 @@ public class OrdersServiceImplTest extends TestBaseMapper {
         Orders orders = new Orders();
         orders.setUserAccountId(accountId);
         orders.setPayModeId(1);
-        orders.setRedPacketId(4L);
-        orders.setPrice(100);
+        orders.setRedPacketId(0l);
+        orders.setPrice(60);
         orders.setSubmitDate(new Date().getTime());
         List<CommodityAmount> list = new ArrayList<>();
         CommodityAmount commodityAmount = new CommodityAmount();
