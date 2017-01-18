@@ -100,8 +100,9 @@ public class AppIndexController extends BaseController {
     @ResponseBody
     @ApiOperation("客户端首页商品板块信息（默认人气搜索）参数：type 排序类型(1、按人气，2、按最快，3、最新，4、高价，5高中奖率，其他数字默认人气)")
     @RequestMapping(value = "/api/v1/index/commodity", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject orderCommodityInfo(@ApiParam("排序类型") @RequestParam("type") Integer type, @ApiParam("当前页最后一个item的id") @RequestParam("lastItemId") Long lastItenmId) {
-        List<Map<String, Object>> infoList = cService.selectByStyle(type, lastItenmId);
+    public JSONObject orderCommodityInfo(@ApiParam("排序类型") @RequestParam(name = "type",required = false) Integer type, @ApiParam("当前页最后一个item的id") @RequestParam(name = "lastCommId",required = false) Long lastCommId) {
+        System.out.println("type------------->"+type+"------------lastCommId--------------->"+lastCommId);
+        List<Map<String, Object>> infoList = cService.selectByStyle(type, lastCommId);
         return success(infoList);
     }
 
