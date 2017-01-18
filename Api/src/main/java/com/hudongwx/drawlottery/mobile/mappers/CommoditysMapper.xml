@@ -78,7 +78,7 @@
     <select id="selectByTemp1" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
-        and commodity.view_num $lt;
+        and commodity.view_num &lt;
         (SELECT t_commoditys.view_num FROM t_commoditys WHERE t_commoditys.id = #{lastCommId} )
         ORDER BY
         commodity.view_num DESC LIMIT #{maxInfoSize}

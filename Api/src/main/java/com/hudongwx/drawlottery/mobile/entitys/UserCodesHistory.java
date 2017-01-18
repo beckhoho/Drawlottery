@@ -8,11 +8,6 @@ public class UserCodesHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * 幸运号id
-     */
-    @Column(name = "luck_code_id")
-    private Long luckCodeId;
 
     /**
      * 商品ID
@@ -26,11 +21,7 @@ public class UserCodesHistory {
     @Column(name = "user_account_id")
     private Long userAccountId;
 
-    /**
-     * 商品期数
-     */
-    @Column(name = "round_time")
-    private String roundTime;
+
 
     /**
      * 购买时间
@@ -38,16 +29,29 @@ public class UserCodesHistory {
     @Column(name = "buy_date")
     private Long buyDate;
 
+    /**
+     * 幸运码模板ID
+     */
+    @Column(name = "luck_code_template_id")
+    private Long luckCodeTemplateId;
 
+    @Column(name = "orders_id")
+    private Long ordersId;
 
-
-
-    public String getRoundTime() {
-        return roundTime;
+    public Long getOrdersId() {
+        return ordersId;
     }
 
-    public void setRoundTime(String roundTime) {
-        this.roundTime = roundTime;
+    public void setOrdersId(Long ordersId) {
+        this.ordersId = ordersId;
+    }
+
+    public Long getLuckCodeTemplateId() {
+        return luckCodeTemplateId;
+    }
+
+    public void setLuckCodeTemplateId(Long luckCodeTemplateId) {
+        this.luckCodeTemplateId = luckCodeTemplateId;
     }
 
     public Long getBuyDate() {
@@ -72,23 +76,6 @@ public class UserCodesHistory {
         this.id = id;
     }
 
-    /**
-     * 获取幸运号id
-     *
-     * @return user_luck_code_id - 幸运号id
-     */
-    public Long getUserLuckCodeId() {
-        return luckCodeId;
-    }
-
-    /**
-     * 设置幸运号id
-     *
-     * @param userLuckCodeId 幸运号id
-     */
-    public void setUserLuckCodeId(Long userLuckCodeId) {
-        this.luckCodeId = userLuckCodeId;
-    }
 
     /**
      * 获取商品ID

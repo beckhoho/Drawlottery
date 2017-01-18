@@ -51,6 +51,8 @@ public class OrdersServiceImpl implements IOrdersService {
     ICommodityService commodityService;
     @Autowired
     LuckCodeTemplateMapper templateMapper;
+    @Autowired
+    UserCodesHistoryMapper userHistoryMapper;
 
     /**
      * 计算扣款
@@ -359,9 +361,9 @@ public class OrdersServiceImpl implements IOrdersService {
     //查询用户当前订单参与商品的所有幸运号
     public List<String> luckCodes(Long accountId, Long commodityId,Long ordersId) {
         List<String> list = new ArrayList<>();
-        List<LuckCodes> codes = codesMapper.selectByOrders(accountId,commodityId,ordersId);
-        for (LuckCodes luckCodes : codes) {
-            LuckCodes codes1 = codesMapper.selectById(luckCodes.getId());
+        List<UserCodesHistory> list1 = userHistoryMapper.selectByOrders(accountId,commodityId,ordersId);
+        for (UserCodesHistory luckCodes : list1) {
+            UserCodesHistory codes1 = userHistoryMapper.selectById(luckCodes.getId());
             Long templateId = codes1.getLuckCodeTemplateId();
             LuckCodeTemplate template = templateMapper.selectById(templateId);
             list.add(template.getLuckCode());

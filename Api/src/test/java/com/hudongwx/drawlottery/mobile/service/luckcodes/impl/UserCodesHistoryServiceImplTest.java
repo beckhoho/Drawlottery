@@ -36,7 +36,7 @@ public class UserCodesHistoryServiceImplTest extends TestBaseMapper {
         userch.setId(1l);
         userch.setUserAccountId(1l);
         userch.setCommodityId(1l);
-        userch.setUserLuckCodeId(2l);
+        //userch.setUserLuckCodeId(2l);
         boolean b = usercodesHistory.addToHistory(userch);
         Assert.assertTrue(b);
 

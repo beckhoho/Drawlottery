@@ -43,6 +43,6 @@ public class AlipayConfig {
 	public static String service = "mobile.securitypay.pay";
 	public static String NOTIFY_URL = "http://localhost:8080//api/v1/user/order/alipay/callback";
 
-
+	public static String log_path = "";
 }
 
