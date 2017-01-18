@@ -3,10 +3,13 @@ package com.hudongwx.drawlottery.mobile.web.auth;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.ThirdPartyLoginToken;
 import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.service.captcha.ICaptchaService;
+import com.hudongwx.drawlottery.mobile.service.captcha.impl.CaptchaServiceImpl;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.shiro.CaptchaUsernamePasswordToken;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
+import com.octo.captcha.service.CaptchaService;
 import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,6 +34,10 @@ public class AuthorController extends BaseController {
 
     @Autowired
     IUserService usersService;
+
+    @Autowired
+    ICaptchaService captchaService;
+
 
     @RequestMapping(value = "/api/v1/pub/error/403", method = {RequestMethod.GET, RequestMethod.POST})
     public JSONObject error403() {
@@ -87,6 +94,7 @@ public class AuthorController extends BaseController {
     public JSONObject login(@RequestBody(required = true) CaptchaUsernamePasswordToken token) {
         //获取用户信息
         Subject subject = SecurityUtils.getSubject();
+        token.setRememberMe(false);
         if (!subject.isAuthenticated()) {//是否已经验证过
             String msg = null;
             try {
@@ -110,7 +118,6 @@ public class AuthorController extends BaseController {
         }
     }
 
-
     /**
      * 用户登出
      *
@@ -122,26 +129,30 @@ public class AuthorController extends BaseController {
         super.logout();
     }
 
-
     /**
-     * 用户注册
      *
+     * 用户注册
      * @param phone    注册账号
      * @param password 注册密码
      * @return
+     *
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/auth/register", method = RequestMethod.POST)
-    public JSONObject register(@RequestParam("phone") String phone, @RequestParam("password") String
-            password, @RequestParam("SMSCode") String SMSCode) {
-        Session session = getSession();
-        System.out.println("SMSCode-->" + SMSCode);
-        Object attribute = session.getAttribute(session.getId().toString());
-        String verifyCode = null;
-        if (null != attribute)
-            verifyCode = attribute.toString();
-        System.out.println("verifyCode-->" + verifyCode);
-        boolean register = usersService.register(phone, password);
-        return response(register, "注册成功!", "注册失败!");
+    public JSONObject register(
+            @RequestParam("phone") String phone,
+            @RequestParam("password") String password,
+            @RequestParam("SMSCode") String smscode) {
+            boolean isOk = captchaService.validatorImageCode(phone, smscode);
+            if (isOk) {
+                fail(-1, "验证码无效");
+            } else {
+                isOk = usersService.register(phone, password);
+                if (!isOk) {
+                   return fail(-1, "注册失败");
+                }
+            }
+        return success();
     }
+
 }

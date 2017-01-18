@@ -195,7 +195,7 @@ public class UserController extends BaseController {
     public JSONObject addPromoter(@RequestParam("promId") Long promId) {
         int re = userService.addPromoter(promId, getUserId());
         if (re==1) {
-            return response(true);
+            return success();
         }else if(re==-1){
             return fail("推广人id不存在");
         }else{

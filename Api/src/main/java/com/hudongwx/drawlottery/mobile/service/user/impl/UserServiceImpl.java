@@ -369,7 +369,6 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 验证微信
-     *
      * @param token
      * @return
      */
@@ -382,7 +381,7 @@ public class UserServiceImpl implements IUserService {
         try {
             Response response = httpClient.newCall(request).execute();
             if (response.isSuccessful()) {
-                String body = response.body().toString();
+                String body = response.body().string();
                 JSONObject object = JSON.parseObject(body);
                 boolean errcode = object.containsKey("errcode");
                 return !errcode;
