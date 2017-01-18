@@ -73,12 +73,12 @@ public interface ICommodityService {
     //查询高中奖率商品
     List<Map<String, Object>> selectHeight(Integer number,Long lastCommId);
 
-
-
     /**
      * 生成新的期数
      *
      * @return  期数
      */
     public Long generateNewRoundTime();
+
+//     selectAnnounceComm(Long lastCommId);
 }
