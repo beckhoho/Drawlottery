@@ -71,7 +71,7 @@ public class OrdersServiceImpl implements IOrdersService {
     public Long pay(Long accountId, Orders orders, List<CommodityAmount> commodityAmounts) {
 
         /*
-            这是我自己添加的订单添加方法》》》》》
+           1、直接写入订单信息
          */
         Long date = new Date().getTime();
         orders.setUserAccountId(accountId);
@@ -85,7 +85,10 @@ public class OrdersServiceImpl implements IOrdersService {
          */
 
         int price = orders.getPrice();//70
-        //实际购买量
+
+        /*
+            2、更改商品信息方法，返回实际购买量
+         */
         int TotalNum = updateCommodity(accountId,orders1,commodityAmounts);//3,5
         //余额更改量
         int changeNum;
@@ -161,6 +164,9 @@ public class OrdersServiceImpl implements IOrdersService {
             Amount = ca.getAmount();
             //计算购买量和剩余量差值
 
+            /*
+                如果用户购买量减去
+             */
             int sub = Amount - remainingNum ;
             if(sub>=0){
                 buyNum = remainingNum;
@@ -216,11 +222,13 @@ public class OrdersServiceImpl implements IOrdersService {
                     comm.setViewNum(0l);
                     commMapper.insert(comm);
 
-                    //复用商品幸运码
+                    //
                     List<Commodity> list = commMapper.select(comm);
                     addHistory(ca.getCommodityId());//添加到历史
 
+                    //复用商品幸运码
                     codesMapper.updateNext(0l,ca.getCommodityId(),0l,0l,list.get(0).getId());
+
                     if(remainingNum==0){
                         ca.setCommodityId(comm.getId());
                         commodityAmounts.add(ca);
