@@ -189,7 +189,7 @@ public class CommodityServiceImpl implements ICommodityService {
         String nextRound = null;
         Long nextRoundId = null;
         if (com.getStateId() == 3 || com.getStateId() == 2) {//如果未开奖
-            List<CommodityHistory> comh = historyMapper.selectBycommodName(com.getName(), com.getRoundTime());
+            List<CommodityHistory> comh = historyMapper.selectByCommName(com.getName(), com.getRoundTime());
             if (comh.size() == 0) {
                 map.put("beforeLottery", new HashMap<>());
             } else {
@@ -197,7 +197,7 @@ public class CommodityServiceImpl implements ICommodityService {
             }
         }
         if (com.getStateId() == 1) {//如果已开奖
-            CommodityHistory comm = historyMapper.selectBycommId(commodId);
+            CommodityHistory comm = historyMapper.selectByCommId(commodId);
             map.put("beforeLottery", mapBefore(comm));
             Commoditys commoditys = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
             nextRound = commoditys.getRoundTime() + "期正在火热进行中";

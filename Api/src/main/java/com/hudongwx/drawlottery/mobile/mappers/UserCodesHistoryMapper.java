@@ -20,4 +20,8 @@ public interface UserCodesHistoryMapper extends BaseMapper<UserCodesHistory> {
 
 
     UserCodesHistory selectById(@Param("id")Long id);
+
+    Integer countUserOrderCommAmount(@Param("accountId")Long accountId,@Param("commId")Long commId);
+
+    List<String> countUserCommLuckCode(@Param("accountId")Long accountId,@Param("commId")Long commId);
 }

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.*;
 
@@ -162,7 +161,7 @@ public class ShareServiceImpl implements IShareService {
     @Override
     public boolean addShare(Long accountId, Long commId, String desc, List<MultipartFile> imgs) {
         //判断是否晒过单
-        CommodityHistory commodityHistory = commodityHistoryMapper.selectBycommId(commId);
+        CommodityHistory commodityHistory = commodityHistoryMapper.selectByCommId(commId);
         if(commodityHistory.getShareState()==1){
             return  false;
         }

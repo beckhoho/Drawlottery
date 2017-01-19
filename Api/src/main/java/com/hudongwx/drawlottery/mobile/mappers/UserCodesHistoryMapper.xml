@@ -39,6 +39,18 @@
     <select id="selectById" resultMap="BaseResultMap">
         SELECT * FROM t_user_luck_codes_history WHERE id = #{lcId}
     </select>
+    <select id="countUserOrderCommAmount" resultType="java.lang.Integer">
+        SELECT COUNT(luck_code_template_id) FROM t_user_luck_codes_history
+        WHERE user_account_id = #{accountId} and commodity_id =#{commId}
+    </select>
+
+    <select id="countUserCommLuckCode" resultType="java.lang.String">
+        SELECT tlct.luck_code
+         FROM t_user_luck_codes_history AS tulch
+         RIGHT JOIN t_luck_code_template AS tlct
+         ON tulch.luck_code_template_id = tlct.id
+        WHERE user_account_id = #{accountId} and commodity_id =#{commId}
+    </select>
 
     <insert id="insertHistory">
 

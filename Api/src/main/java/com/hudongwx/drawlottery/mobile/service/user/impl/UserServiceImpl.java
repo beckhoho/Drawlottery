@@ -57,6 +57,8 @@ public class UserServiceImpl implements IUserService {
     LuckCodeTemplateMapper luckTemplateMapper;
     @Autowired
     OrdersMapper ordersMapper;
+    @Autowired
+    OrdersCommoditysMapper ordersCommoditysMapper;
 
     @Override
     public boolean register(String phone, String password) {
@@ -196,7 +198,7 @@ public class UserServiceImpl implements IUserService {
         List<UserCodesHistory> s1 = userCodeHistMapper.selectByUserAccountId(accountId);
         for (UserCodesHistory u : s1) {
             Map<String, Object> map = new HashMap<>();
-            CommodityHistory history = comHistoryMapper.selectBycommId(u.getCommodityId());
+            CommodityHistory history = comHistoryMapper.selectByCommId(u.getCommodityId());
             User user1 = userMapper.selectById(history.getLuckUserAccountId());
             List<String> integers = luckUserList(accountId, history.getCommodityId());
             map.put("id", history.getCommodityId());//商品ID
@@ -229,7 +231,7 @@ public class UserServiceImpl implements IUserService {
             Map<String, Object> map = new HashMap<>();
             Commoditys com = comMapper.selectByKey(commId);
             List<String> integers = luckUserList(accountId, com.getId());
-            CommodityHistory history = comHistoryMapper.selectBycommId(commId);
+            CommodityHistory history = comHistoryMapper.selectByCommId(commId);
             User user = userMapper.selectById(history.getLuckUserAccountId());
             map.put("id", com.getId());//添加商品ID
             map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买人次
@@ -371,6 +373,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 验证微信
+     *
      * @param token
      * @return
      */
@@ -465,31 +468,54 @@ public class UserServiceImpl implements IUserService {
         return userMapper.updateUserQQ(accountId, qq) > 0;
     }
 
+    /**
+     * 夺宝记录
+     *
+     * @param accountId
+     * @param item      （显示形式：1、进行中；2、已揭晓；其他数字、显示全部）
+     * @return
+     */
     @Override
-    public List<Map<String, Object>> selectPurchaseRecords(Long accountId) {
-        List<Orders> orderList = ordersMapper.selectUserOrdersByPayState(accountId,Settings.ORDERS_ALREADY_PAID);
-        for (Orders order : orderList) {
-            Map<String,Object>map =new HashMap<>();
-//            map.put("id", order.getId());//添加商品ID
-//            map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买人次
-//            map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
-//            map.put("commState", com.getStateId());//商品状态
-//            map.put("roundTime", com.getRoundTime());//添加期数
-//            map.put("coverImgUrl", com.getCoverImgUrl());//添加封面图URL
-//            map.put("commName", com.getName());//添加商品名
-//            map.put("userAccountId", accountId);//添加用户ID
-//            map.put("userCodesList", integers);//添加用户参与购买的幸运码集合
-//            map.put("userBuyNumber", integers.size());//添加用户本商品购买人次；
-//            map.put("isWinner", 0);
-//            map.put("userNickname", user.getNickname());//中奖者昵称
-//            map.put("endTime", history.getEndTime());//添加揭晓时间
-
-
+    public List<Map<String, Object>> selectPurchaseRecords(Long accountId, Integer item) {
+        List<Orders> orderList = ordersMapper.selectUserOrdersByPayState(accountId, Settings.ORDERS_ALREADY_PAID);
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        for (Orders orders : orderList) {
+            Long orderId = orders.getId();
+            List<OrdersCommoditys> ordersCommodityses = ordersCommoditysMapper.selectByOrderId(orderId);
+            for (OrdersCommoditys ordersCommoditys : ordersCommodityses) {
+                Commoditys comm = comMapper.selectByKey(ordersCommoditys.getCommodityId());
+                if (item == 1 && comm.getStateId() == Settings.COMMODITY_STATE_HAS_LOTTERY) {
+                    continue;
+                } else if (item == 2 && (comm.getStateId() == Settings.COMMODITY_STATE_ON_SALE || comm.getStateId() == Settings.COMMODITY_STATE_ON_LOTTERY)) {
+                    continue;
+                } else {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("id", comm.getId());//添加商品ID
+                    map.put("buyCurrentNumber", comm.getBuyTotalNumber() - comm.getBuyCurrentNumber());//添加当前购买人次
+                    map.put("buyTotalNumber", comm.getBuyTotalNumber());//添加总购买人次
+                    map.put("commState", comm.getStateId());//商品状态
+                    map.put("roundTime", comm.getRoundTime());//添加期数
+                    map.put("coverImgUrl", comm.getCoverImgUrl());//添加封面图URL
+                    map.put("commName", comm.getName());//添加商品名
+                    map.put("userAccountId", accountId);//添加用户ID
+                    CommodityHistory commHistory = comHistoryMapper.selectComIdAndUser(accountId, comm.getId());
+                    if (null != commHistory) {
+                        map.put("endTime", commHistory.getEndTime());//添加揭晓时间
+                        map.put("userBuyNumber", commHistory.getBuyNumber());//添加用户本商品购买人次；
+                    }
+                    map.put("isWinner", commHistory == null ? 0 : 1);
+                    CommodityHistory history = comHistoryMapper.selectByCommId(comm.getId());
+                    if (history != null) {
+                        User user = userMapper.selectById(history.getLuckUserAccountId());
+                        map.put("userCodesList", userCodeHistMapper.countUserCommLuckCode(accountId, comm.getId()));//添加用户参与购买的幸运码集合
+                        map.put("userNickname", user.getNickname());//中奖者昵称
+                    }
+                    mapList.add(map);
+                }
+            }
 
         }
-
-
-        return null;
+        return mapList;
     }
 
 

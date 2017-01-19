@@ -115,6 +115,6 @@ public interface IUserService {
      */
     boolean addQQNumber(Long accountId, String qq);
 
-    List<Map<String, Object>> selectPurchaseRecords(Long accountId);
+    List<Map<String, Object>> selectPurchaseRecords(Long accountId, Integer item);
 }
 

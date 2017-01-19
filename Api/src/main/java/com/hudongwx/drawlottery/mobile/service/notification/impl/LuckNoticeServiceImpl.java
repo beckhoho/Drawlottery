@@ -51,7 +51,7 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
     public Map<String,Object> addUserLuckNotice(Long commodityId) {
 
         Commoditys byKey = commMapper.selectByKey(commodityId);
-        CommodityHistory history = historyMapper.selectBycommId(commodityId);
+        CommodityHistory history = historyMapper.selectByCommId(commodityId);
         User user = userMapper.selectById(history.getLuckUserAccountId());
         Map<String,Object> map = new HashMap<>();
 
