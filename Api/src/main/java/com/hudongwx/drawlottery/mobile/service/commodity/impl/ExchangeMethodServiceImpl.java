@@ -94,14 +94,14 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     @Override
     public List<Map<String, Object>> selectUserRechargeCardPrize(Long accountId, Long commodityId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        CommodityHistory ch = chMapper.selectComIdAndUser(accountId, commodityId);
+        CommodityHistory history = chMapper.selectComIdAndUser(accountId, commodityId);
         Map<String, Object> map = new HashMap<>();
-        map.put("commodityName", ch.getCommodityName());//添加商品名
-        map.put("roundTime", ch.getRoundTime());//添加期数
-        map.put("commodityId", ch.getId());//添加商品ID
-        map.put("endTime", ch.getEndTime());//添加揭晓时间；
-        map.put("coverImgUrl", ch.getCoverImgUrl());//添加商品封面图
-        map.put("exchangeState", ch.getExchangeState());
+        map.put("commodityName", history.getCommodityName());//添加商品名
+        map.put("roundTime", history.getRoundTime());//添加期数
+        map.put("commodityId", history.getId());//添加商品ID
+        map.put("endTime", history.getEndTime());//添加揭晓时间；
+        map.put("coverImgUrl", history.getCoverImgUrl());//添加商品封面图
+        map.put("exchangeState", history.getExchangeState());
         //添加兑换状态（1：已选择兑换方式，2：卡密兑换方式派发成功，3：商品派发，4：晒单）
         mapList.add(map);
         return mapList;
@@ -145,18 +145,18 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         List<Share> select = shareMapper.select(s);
 
         map.put("commodityName", template.getName());//商品名
-        map.put("coverImgUrl", Settings.SERVER_URL_PATH + history.getCoverImgUrl());//商品封面图
+        map.put("coverImgUrl", history.getCoverImgUrl());//商品封面图
         map.put("exchangeState", history.getExchangeState());//兑奖流程进度状态
         map.put("userBuyNumber", history.getBuyNumber());//添加用户购买人次
         map.put("genre", history.getGenre());//添加商品实体虚拟
         map.put("commodityId", commodityId);//添加商品ID
         map.put("prizeState", "正在兑奖中");//奖品状态
-        map.put("size", null);//几张充值卡
-        map.put("cardNumberList", null);//充值卡卡号集合
-        map.put("worth", null);//充值卡面额
+        map.put("size", 0);//几张充值卡
+        map.put("worth", 0);//充值卡面额
+        map.put("cardNumberList", new HashMap<>());
         map.put("expressNumber", null);//快递单号
         map.put("expressName", null);//获取快递名
-        map.put("expressState", null);//添加快递状态
+        map.put("expressState", 0);//添加快递状态(0,未发奖；1,发货中；2,已收货)
         map.put("ContactName", null);//添加领奖联系人姓名
         map.put("ContactPhone", null);//添加领奖联系人电话
         map.put("ContactAddress", null);//添加领奖地址
@@ -177,21 +177,10 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         int f = history.getExchangeState();//商品兑换状态
         if (f == 1) {
             int g = history.getExchangeWay();//商品兑换方式
-            if (g == 1) {//兑换充值卡
-                map.putAll(demo2(commodityId));
-            } else if (g == 2) {//快递领取
-                ExpressDelivery delivery = exDeMapper.selectByAccountAndCommodity(accountId, commodityId);
-                if (delivery.getDeliveryName() == null) {
-                    map.put("expressNumber", "空！");//快递单号
-                    map.put("expressName", "未派发快递");//获取快递名
-                    map.put("expressState", "未派发快递");//添加快递状态
-                    map.put("state", 3);//添加兑换流程状态
-                } else {
-                    map.put("expressNumber", delivery.getDeliveryNumber());//快递单号
-                    map.put("expressName", delivery.getDeliveryName());//获取快递名
-                    map.put("expressState", delivery.getState());//添加快递状态
-                    map.put("state", 3);//添加兑换流程状态
-                }
+            if (g == 1) {
+                map.putAll(demo2(commodityId));//兑换充值卡
+            } else if (g == 2) {
+                map.putAll(demo3(accountId, commodityId));//快递领取
             } else if (g == 5) {//到店领取
                 map.put("ContactName", template.getContactName());//添加领奖联系人姓名
                 map.put("ContactPhone", template.getContactPhone());//添加领奖联系人电话
@@ -204,17 +193,16 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
 
     /**
-     * 查询对应商品的充值卡
+     * 查询对应商品的充值卡Map
      *
      * @param commodityId
      * @return
      */
     public Map<String, Object> demo2(Long commodityId) {
-
+        List<Map<String, Object>> mapList = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         CommodityHistory commoditys = chMapper.selectByCommId(commodityId);
-        Long tempId = commoditys.getTempId();
-        CommodityTemplate template = templateMapper.selectByPrimaryKey(tempId);
+        CommodityTemplate template = templateMapper.selectByPrimaryKey(commoditys.getTempId());
         Integer num = template.getCardNum();//卡数量
         Integer money = template.getCardMoney();//卡面额
         Integer type = template.getCardType();//运营商
@@ -225,24 +213,54 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         card.setMoney(money);
 
         List<Card> cards = cardMapper.select(card);//查询未派发的充值卡
-        List<String> list = new ArrayList<>();
-        if (cards != null && num != null) {
-            if (cards.size() > num) {
-                map.put("size", num);
-                for (int i = 0; i < num; i++) {
-                    list.add(cards.get(i).getCardNum());//添加卡号
-                }
-                map.put("cardNumberList", list);
-                map.put("worth", money);//添加面额
+
+        if (cards.size() >= num) {
+            map.put("size", num);
+            for (int i = 0; i < num; i++) {
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("cardNumber", cards.get(i).getCardNum());
+                map1.put("password", null);
+                map1.put("state", cards.get(i).getState());
+                mapList.add(map1);
             }
-        } else {//如果充值卡不够，那么不发送
+            map.put("cardNumberList", mapList);
+            map.put("worth", money);//添加面额
+        } else {
+            Map<String, Object> map1 = new HashMap<>();
+            mapList.add(map1);
             map.put("size", 0);
-            map.put("cardNumberList", list);
+            map.put("cardNumberList", mapList);
             map.put("worth", 0);
         }
 
         return map;
     }
+
+
+    /**
+     * 快递领取方法Map
+     *
+     * @param accountId
+     * @param commodityId
+     * @return
+     */
+    public Map<String, Object> demo3(Long accountId, Long commodityId) {
+        Map<String, Object> map = new HashMap<>();
+        ExpressDelivery delivery = exDeMapper.selectByAccountAndCommodity(accountId, commodityId);
+        if (delivery.getDeliveryName() == null) {
+            map.put("expressNumber", "空！");//快递单号
+            map.put("expressName", "未派发快递");//获取快递名
+            map.put("expressState", "未派发快递");//添加快递状态
+            map.put("state", 3);//添加兑换流程状态
+        } else {
+            map.put("expressNumber", delivery.getDeliveryNumber());//快递单号
+            map.put("expressName", delivery.getDeliveryName());//获取快递名
+            map.put("expressState", delivery.getState());//添加快递状态
+            map.put("state", 3);//添加兑换流程状态
+        }
+        return map;
+    }
+
 
     /**
      * 选择兑换充值卡方式
@@ -345,8 +363,8 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         CommodityHistory history = chMapper.selectByCommId(commodityId);
         history.setExchangeState(1);
-        history.setExchangeWay(2);
-        chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
+        history.setExchangeWay(5);
+        int i = chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
 
 
         //调用查询方法，去查询响应数据

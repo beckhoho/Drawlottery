@@ -129,6 +129,7 @@ public class OrdersServiceImpl implements IOrdersService {
         u.setGoldNumber(u.getGoldNumber()+changeNum);
 
         if(userMapper.updateByPrimaryKeySelective(u) > 0 && i>0){
+
             return orders1.getId();
         }
         else{
