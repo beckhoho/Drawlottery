@@ -253,7 +253,7 @@ public class OrdersServiceImpl implements IOrdersService {
                     continue;
                 }
                 /*
-//                    下期请求
+                    下期请求
                  */
             } else {
                 buyNum = Amount;
@@ -269,9 +269,6 @@ public class OrdersServiceImpl implements IOrdersService {
             ordersCommoditys.setAmount(buyNum);//设置商品订单表购买数量
             int insert = orderMapper.insert(ordersCommoditys);//添加商品订单信息
 
-/*
-                用户获得幸运码
-             */
 
 
         }
