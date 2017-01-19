@@ -214,6 +214,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         List<Card> cards = cardMapper.select(card);//查询未派发的充值卡
 
+
         if (cards.size() >= num) {
             map.put("size", num);
             for (int i = 0; i < num; i++) {
@@ -222,6 +223,9 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
                 map1.put("password", null);
                 map1.put("state", cards.get(i).getState());
                 mapList.add(map1);
+
+                cardMapper.updateCardState(cards.get(i).getCardNum());
+                //更改充值卡状态
             }
             map.put("cardNumberList", mapList);
             map.put("worth", money);//添加面额
@@ -235,6 +239,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         return map;
     }
+
 
 
     /**
@@ -372,5 +377,11 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
 
         return map;
+    }
+
+    @Override
+    public String cardPassword(String card){
+        String s = cardMapper.selectCardPassword(card);
+        return s;
     }
 }

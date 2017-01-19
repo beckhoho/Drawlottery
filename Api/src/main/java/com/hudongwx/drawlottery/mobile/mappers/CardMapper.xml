@@ -13,5 +13,12 @@
         <result column="state" jdbcType="INTEGER" property="state"/>
     </resultMap>
 
+    <select id="selectCardPassword" resultType="java.lang.String">
+        SELECT password FROM t_card WHERE card_num = #{cardNumber}
+    </select>
+
+    <update id="updateCardState" parameterType="java.lang.String">
+        UPDATE t_card SET state = 1 WHERE card_num = #{cardNumber}
+    </update>
 
 </mapper>

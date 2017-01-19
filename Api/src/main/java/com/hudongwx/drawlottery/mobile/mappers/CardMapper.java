@@ -20,4 +20,9 @@ import com.hudongwx.drawlottery.mobile.entitys.Card;
  */
 public interface CardMapper extends BaseMapper<Card>{
 
+    //查看卡密
+    String selectCardPassword(String cardNumber);
+
+    //更新充值卡密码
+    int updateCardState(String cardNumber);
 }
