@@ -90,6 +90,8 @@ public class OrdersServiceImpl implements IOrdersService {
             2、更改商品信息方法，返回实际购买量
          */
         int TotalNum = updateCommodity(accountId,orders1,commodityAmounts);//3,5
+
+
         //余额更改量
         int changeNum;
         //红包面额
@@ -164,9 +166,7 @@ public class OrdersServiceImpl implements IOrdersService {
             Amount = ca.getAmount();
             //计算购买量和剩余量差值
 
-            /*
-                如果用户购买量减去
-             */
+
             int sub = Amount - remainingNum ;
             if(sub>=0){
                 buyNum = remainingNum;
@@ -174,13 +174,13 @@ public class OrdersServiceImpl implements IOrdersService {
                 buyNum = Amount;
             }
 
-            //为用户生成幸运码
+            /*
+                为用户生成幸运码
+             */
             updateLuckCodes(accountId,ca.getCommodityId(), buyNum, orders);
 
             Commoditys commodity = comMapper.selectByKey(ca.getCommodityId());
             Commodity com = new Commodity();//**
-
-            remainingNum = commodity.getBuyTotalNumber() - commodity.getBuyCurrentNumber();
 
             //生成商品订单
             OrdersCommoditys ordersCommoditys = new OrdersCommoditys();
@@ -194,20 +194,28 @@ public class OrdersServiceImpl implements IOrdersService {
                 Amount -= extraNum;
             }
 
+            /*
+                如果用户购买量减去可购买量不为负，用户购买当前可购买量，商品售罄，
+                并将多余数量以闪币形式返回给用户
+             */
             if (sub >= 0) {
                 buyNum = remainingNum;
                 com.setBuyCurrentNumber(commodity.getBuyTotalNumber());
 
                 com.setStateId(2);//进入待揭晓状态
                 com.setSellOutTime(System.currentTimeMillis());//添加售罄时间
+
                 /*
                     计算开奖幸运码
                  */
-
                 LotteryInfo raffle = LotteryUtils.raffle(templateMapper,codesMapper, userMapper, commodity);
-                lotteryInfoMapper.insert(raffle);
+                lotteryInfoMapper.insert(raffle);//将开奖信息写入数据库
 
 
+                /*
+                    如果商品下一期属性为1，并且可购买量=0 或者 可购买量减去用户购买量=0
+                    生成下一期
+                 */
                 if (commodity.getAutoRound() == 1 && (remainingNum==0 || remainingNum - buyNum == 0)) {
                     //如果商品卖光，自动生成下一期
                     Commoditys commoditys = comMapper.selectByKey(ca.getCommodityId());
@@ -220,13 +228,13 @@ public class OrdersServiceImpl implements IOrdersService {
                     comm.setTempId(commodity.getTempId());
                     comm.setRoundTime(commodityService.generateNewRoundTime()+"");
                     comm.setViewNum(0l);
+                    //添加下一期商品到商品表
                     commMapper.insert(comm);
 
-                    //
-                    List<Commodity> list = commMapper.select(comm);
-                    addHistory(ca.getCommodityId());//添加到历史
+                    addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
 
                     //复用商品幸运码
+                    List<Commodity> list = commMapper.select(comm);
                     codesMapper.updateNext(0l,ca.getCommodityId(),0l,0l,list.get(0).getId());
 
                     if(remainingNum==0){
