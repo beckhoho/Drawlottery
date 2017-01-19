@@ -29,7 +29,7 @@
     <!--默认缓存配置-->
     <defaultCache
             maxElementsInMemory="1"
-            eternal="false"
+            eternal="true"
             timeToIdleSeconds="120"
             timeToLiveSeconds="120"
             overflowToDisk="true"
@@ -116,14 +116,14 @@
 
 
     <cache
-            name="shiro-ActiveSessionCache"
+            name="ActiveSessionCache"
             maxElementsInMemory="1"
-            eternal="false"
+            eternal="true"
             timeToIdleSeconds="600"
             overflowToDisk="true"
             maxElementsOnDisk="0"
             diskPersistent="true"
-            diskExpiryThreadIntervalSeconds="120"
+            diskExpiryThreadIntervalSeconds="180"
             memoryStoreEvictionPolicy="LRU"/>
 
     <!--

@@ -4,6 +4,7 @@ import com.hudongwx.drawlottery.mobile.conf.cache.CacheConfig;
 import com.hudongwx.drawlottery.mobile.conf.mybatis.MyBatisConfig;
 import com.hudongwx.drawlottery.mobile.shiro.AuthorRetryLimitCredentialsMatcher;
 import com.hudongwx.drawlottery.mobile.shiro.AuthorUserRealm;
+import com.hudongwx.drawlottery.mobile.shiro.CustomerEnterpriseCacheSessionDAO;
 import com.hudongwx.drawlottery.mobile.shiro.MobileAuthenticationFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
@@ -11,6 +12,7 @@ import org.apache.shiro.cache.CacheManagerAware;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.AbstractSessionManager;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -47,8 +49,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.Filter;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * shiro权限框架
@@ -204,6 +205,7 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 //        securityManager.setRememberMeManager(new CookieRememberMeManager().);
         securityManager.setSessionManager(getWebSessionManager());
+
         //管理认证器
         securityManager.setRealm(getRealm());
         return securityManager;
@@ -211,8 +213,8 @@ public class ShiroConfig {
 
     @Bean
     public CachingSessionDAO getCachingSessionDAO(){
-        EnterpriseCacheSessionDAO dao = new EnterpriseCacheSessionDAO();
-        dao.setActiveSessionsCacheName("shiro-ActiveSessionCache");
+        CustomerEnterpriseCacheSessionDAO dao = new CustomerEnterpriseCacheSessionDAO();
+        dao.setActiveSessionsCacheName("ActiveSessionCache");
         dao.setCacheManager(getShiroCacheManager());
         return dao;
     }
@@ -221,14 +223,18 @@ public class ShiroConfig {
     public WebSessionManager getWebSessionManager(){
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionDAO(getCachingSessionDAO());
+        sessionManager.setSessionValidationSchedulerEnabled(true);
+        //设置session失效时间:60天过期
+        sessionManager.setGlobalSessionTimeout(AbstractSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT*2*24*60);
+        sessionManager.setSessionValidationSchedulerEnabled(true);//定期检查失效session
+
+
         //设置cookie
         SimpleCookie token = new SimpleCookie("token");
         token.setMaxAge(86400000*60);//缓存时间60天
         token.setVersion(1);
         token.setHttpOnly(true);
         sessionManager.setSessionIdCookie(token);
-
-
         return sessionManager;
     }
 
@@ -297,19 +303,25 @@ public class ShiroConfig {
 
     @Bean
     public net.sf.ehcache.CacheManager getCacheManager(){
-        return getManagerFactoryBean().getObject();
+        net.sf.ehcache.CacheManager object = getManagerFactoryBean().getObject();
+        //List activeSessionCache = object.getCache("ActiveSessionCache").getKeys();
+        //System.out.println(Arrays.toString(activeSessionCache.toArray()));
+        return object;
     }
 
     @Bean
-    public EhCacheCacheManager getEhCacheCacheManager(){
-        return new EhCacheCacheManager(getManagerFactoryBean().getObject());
+    public EhCacheCacheManager getSpringCacheManager(){
+        EhCacheCacheManager ehCacheCacheManager = new EhCacheCacheManager(getManagerFactoryBean().getObject());
+        return ehCacheCacheManager;
     }
 
     @Bean
     public EhCacheManagerFactoryBean getManagerFactoryBean(){
+        System.setProperty(net.sf.ehcache.CacheManager.ENABLE_SHUTDOWN_HOOK_PROPERTY,"true");
         EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
+        factoryBean.setAcceptExisting(true);
         factoryBean.setConfigLocation(new ClassPathResource("ehcache-dev-config.xml"));
-        factoryBean.setShared (true);
+        factoryBean.setShared (false);
         return factoryBean;
     }
 

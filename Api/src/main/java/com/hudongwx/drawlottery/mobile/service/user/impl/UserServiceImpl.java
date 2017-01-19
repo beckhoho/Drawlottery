@@ -462,5 +462,5 @@ public class UserServiceImpl implements IUserService {
         return userMapper.updateUserQQ(accountId, qq) > 0;
     }
 
-    
+
 }

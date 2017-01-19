@@ -74,7 +74,6 @@ public class CommoditysController extends BaseController {
 
     /**
      * 按商品类型category搜索
-     *
      * @param categoryId 商品类别
      * @return JSONObject
      */
