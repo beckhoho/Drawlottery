@@ -49,6 +49,20 @@ public class Card {
      */
     private Integer state;
 
+    /**
+     * 商品ID
+     */
+    @Column(name = "commodity_id")
+    private Long commodityId;
+
+    public Long getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(Long commodityId) {
+        this.commodityId = commodityId;
+    }
+
     public Long getId() {
         return id;
     }

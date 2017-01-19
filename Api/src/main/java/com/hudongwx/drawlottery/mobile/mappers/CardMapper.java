@@ -2,6 +2,9 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Card;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -21,8 +24,10 @@ import com.hudongwx.drawlottery.mobile.entitys.Card;
 public interface CardMapper extends BaseMapper<Card>{
 
     //查看卡密
-    String selectCardPassword(String cardNumber);
+    String selectCardPassword(@Param("cardNumber") String cardNumber);
 
     //更新充值卡密码
-    int updateCardState(String cardNumber);
+    int updateCardState(@Param("cardNumber") String cardNumber,@Param("commodityId")Long commodityId);
+
+    List<Card> selectByCommodityId(@Param("commodityId")Long commodityId);
 }

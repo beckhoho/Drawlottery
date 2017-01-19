@@ -143,7 +143,8 @@ public class UserServiceImpl implements IUserService {
 
     public Map<String, Object> selectExchange(Long commodityId) {
         Map<String, Object> map = new HashMap<>();
-        List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commodityId);
+        Commoditys commoditys = comMapper.selectByKey(commodityId);
+        List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commoditys.getTempId());
         for (CommodityExchange ex : exchanges) {
             ExchangeWay way = wayMapper.selectById(ex.getExchangeWayId());
             map.put(way.getId() + "", way.getName());

@@ -207,34 +207,50 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         Integer money = template.getCardMoney();//卡面额
         Integer type = template.getCardType();//运营商
 
-        Card card = new Card();
-        card.setState(0);
-        card.setCorporation(type);
-        card.setMoney(money);
+        List<Card> list = cardMapper.selectByCommodityId(commodityId);
 
-        List<Card> cards = cardMapper.select(card);//查询未派发的充值卡
+        if(list == null || list.size() == 0){   //查询没有匹配的充值卡
 
+            Card card = new Card();
+            card.setState(0);
+            card.setCorporation(type);
+            card.setCommodityId(0l);
+            card.setMoney(money);
 
-        if (cards.size() >= num) {
-            map.put("size", num);
-            for (int i = 0; i < num; i++) {
+            List<Card> cards = cardMapper.select(card);//查询未派发的充值卡
+
+            if (cards.size() >= num) {
+                map.put("size", num);
+                for (int i = 0; i < num; i++) {
+                    Map<String, Object> map1 = new HashMap<>();
+                    map1.put("cardNumber", cards.get(i).getCardNum());
+                    map1.put("password", null);
+                    map1.put("state", cards.get(i).getState());
+                    mapList.add(map1);
+                    cardMapper.updateCardState(cards.get(i).getCardNum(),commodityId);
+                    //更改充值卡状态并对应商品ID
+                }
+                map.put("cardNumberList", mapList);
+                map.put("worth", money);//添加面额
+            } else {
                 Map<String, Object> map1 = new HashMap<>();
-                map1.put("cardNumber", cards.get(i).getCardNum());
-                map1.put("password", null);
-                map1.put("state", cards.get(i).getState());
                 mapList.add(map1);
-
-                cardMapper.updateCardState(cards.get(i).getCardNum());
-                //更改充值卡状态
+                map.put("size", 0);
+                map.put("cardNumberList", mapList);
+                map.put("worth", 0);
+            }
+        }
+        else {
+            map.put("size", num);
+            for (Card card : list){
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("cardNumber", card.getCardNum());
+                map1.put("password", null);
+                map1.put("state", card.getState());
+                mapList.add(map1);
             }
             map.put("cardNumberList", mapList);
             map.put("worth", money);//添加面额
-        } else {
-            Map<String, Object> map1 = new HashMap<>();
-            mapList.add(map1);
-            map.put("size", 0);
-            map.put("cardNumberList", mapList);
-            map.put("worth", 0);
         }
 
         return map;
