@@ -55,6 +55,8 @@ public class UserServiceImpl implements IUserService {
     ShareMapper shareMapper;
     @Autowired
     LuckCodeTemplateMapper luckTemplateMapper;
+    @Autowired
+    OrdersMapper ordersMapper;
 
     @Override
     public boolean register(String phone, String password) {
@@ -86,7 +88,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Map<String, Object> getUserInfo(User user) {
+    public Map<String, Object> getUserInfo(Long accountId) {
+        User user = userMapper.selectById(accountId);
         Map<String, Object> map = new HashMap<>();
         map.put("id", user.getAccountId());
         map.put("headUrl", user.getHeaderUrl());
@@ -125,7 +128,7 @@ public class UserServiceImpl implements IUserService {
             map.put("endTime", com.getEndTime());//揭晓时间
             map.put("buyNumber", com.getBuyNumber());//购买人次
             map.put("luckCode", com.getLuckCode());//添加幸运码
-            map.put("imgUrl", Settings.SERVER_URL_PATH + com.getCoverImgUrl());//中奖商品图片地址
+            map.put("imgUrl", com.getCoverImgUrl());//中奖商品图片地址
             map.put("exchangeId", selectExchange(com.getCommodityId()));//添加兑换方式
             map.put("withdrawalsMoney", template.getWithdrawalsMoney());//折换现金金额
             map.put("exchangeMoney", template.getExchangeMoney());//折换闪币
@@ -461,6 +464,34 @@ public class UserServiceImpl implements IUserService {
     public boolean addQQNumber(Long accountId, String qq) {
         return userMapper.updateUserQQ(accountId, qq) > 0;
     }
+
+    @Override
+    public List<Map<String, Object>> selectPurchaseRecords(Long accountId) {
+        List<Orders> orderList = ordersMapper.selectUserOrdersByPayState(accountId,Settings.ORDERS_ALREADY_PAID);
+        for (Orders order : orderList) {
+            Map<String,Object>map =new HashMap<>();
+//            map.put("id", order.getId());//添加商品ID
+//            map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买人次
+//            map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
+//            map.put("commState", com.getStateId());//商品状态
+//            map.put("roundTime", com.getRoundTime());//添加期数
+//            map.put("coverImgUrl", com.getCoverImgUrl());//添加封面图URL
+//            map.put("commName", com.getName());//添加商品名
+//            map.put("userAccountId", accountId);//添加用户ID
+//            map.put("userCodesList", integers);//添加用户参与购买的幸运码集合
+//            map.put("userBuyNumber", integers.size());//添加用户本商品购买人次；
+//            map.put("isWinner", 0);
+//            map.put("userNickname", user.getNickname());//中奖者昵称
+//            map.put("endTime", history.getEndTime());//添加揭晓时间
+
+
+
+        }
+
+
+        return null;
+    }
+
 
 
 }

@@ -58,8 +58,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserInfo() {
-        Map<String, Object> userInfo = userService.getUserInfo(getUser());
-        return success(userInfo);
+        return success(userService.getUserInfo(getUserId()));
     }
 
     /**
