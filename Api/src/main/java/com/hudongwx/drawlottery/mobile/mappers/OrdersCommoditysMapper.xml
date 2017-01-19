@@ -11,4 +11,7 @@
         <result column="amount" jdbcType="INTEGER" property="amount"/>
 
     </resultMap>
+    <select id="selectByOrderId" resultMap="BaseResultMap">
+        SELECT * FROM t_orders_commoditys WHERE orders_id = #{orderId}
+    </select>
 </mapper>

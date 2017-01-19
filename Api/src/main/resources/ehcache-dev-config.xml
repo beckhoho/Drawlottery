@@ -8,7 +8,6 @@
         java.io.tmpdir : 系统临时目录
         磁盘缓存使用的文件后缀名是*.data和*.index
     -->
-
     <diskStore path="users.home"/>
 
     <!--
@@ -30,7 +29,7 @@
     <!--默认缓存配置-->
     <defaultCache
             maxElementsInMemory="1"
-            eternal="false"
+            eternal="true"
             timeToIdleSeconds="120"
             timeToLiveSeconds="120"
             overflowToDisk="true"
@@ -102,6 +101,81 @@
             diskPersistent="true"
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- 临时订单配置,10分钟内删除 -->
+    <cache
+            name="linshi_order_cache"
+            maxElementsInMemory="1"
+            eternal="false"
+            timeToLiveSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"/>
+
+
+
+    <cache
+            name="RedPackCache"
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="180"
+            memoryStoreEvictionPolicy="LRU"/>
+
+    <cache
+            name="CommodityCache"
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="180"
+            memoryStoreEvictionPolicy="LRU"/>
+
+    <cache
+            name="UserInfoCache"
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="180"
+            memoryStoreEvictionPolicy="LRU"/>
+
+    <cache
+            name="OrderCache"
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="180"
+            memoryStoreEvictionPolicy="LRU"/>
+
+
+    <cache
+            name="ActiveSessionCache"
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="180"
+            memoryStoreEvictionPolicy="LRU"/>
+
+    <!--
+        timeToLiveSeconds
+        缓存自创建日期起至失效时的间隔时间
+    -->
 
     <!--
         添加缓存时得到监听

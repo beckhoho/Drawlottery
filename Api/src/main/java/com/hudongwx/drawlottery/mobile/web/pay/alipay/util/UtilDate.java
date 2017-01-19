@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /* *
  *类名：UtilDate
@@ -63,9 +64,12 @@ public class UtilDate {
 	 * 产生随机的三位数
 	 * @return
 	 */
-	public static String getThree(){
-		Random rad=new Random();
-		return rad.nextInt(1000)+"";
+	public static Long getOrderId(){
+	    StringBuffer buffer = new StringBuffer(18);
+        ThreadLocalRandom current = ThreadLocalRandom.current();
+        buffer.append(System.nanoTime());
+        buffer.append(current.nextInt(1000,9999));
+        return Long.valueOf(buffer.toString());
 	}
-	
+
 }

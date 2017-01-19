@@ -23,6 +23,100 @@ import java.util.List;
  * @email 294786949@qq.com
  */
 public class CommoditysMapperTest extends TestBaseMapper {
+    @Test
+    public void testSelectByKey() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectPaging() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectTypeCount() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectType() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectByTemp1() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectByTemp2() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectByTemp3() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectByTemp4() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectOnLottery() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectTopTenOnLottery() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectByType() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectByName() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectByTypeAndName() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectByGuess() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectHeight() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectHasTheLotteryComm() throws Exception {
+
+    }
+
+    @Test
+    public void testUpdateCommState() throws Exception {
+
+    }
+
+    @Test
+    public void testUpdateById() throws Exception {
+
+    }
+
+    @Test
+    public void testSelectMaxRoundTime() throws Exception {
+
+    }
 
     @Resource
     CommoditysMapper commoditysMapper;

@@ -8,14 +8,14 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
-        <result column="luck_code_template_id" jdbcType="INTEGER" property="luckCodeTemplateId"/>
+        <result column="luck_code_template_id" jdbcType="BIGINT" property="luckCodeTemplateId"/>
         <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
         <result column="orders_id" jdbcType="BIGINT" property="ordersId"/>
         <result column="buy_date" jdbcType="BIGINT" property="buyDate"/>
 
     </resultMap>
 
-  <select id="selectByUsable" resultMap="BaseResultMap">
+    <select id="selectByUsable" resultMap="BaseResultMap">
     select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
   </select>
     <select id="selectLimit" resultMap="BaseResultMap">
@@ -33,7 +33,6 @@
     </select>
 
 
-
     <update id="updateCodesState">
         UPDATE t_luck_codes SET state = 1,user_account_id=#{accountId},
         orders_id=#{ordersid},buy_date=#{buyDate}
@@ -42,7 +41,7 @@
 
     <update id="updateNext">
         UPDATE t_luck_codes SET state = 0,user_account_id=#{accountId},
-        orders_id=#{ordersid},buy_date=#{buyDate}
+        orders_id=#{ordersid},buy_date=#{buyDate},commodity_id = #{nextCommId}
         where commodity_id = #{commodityId}
     </update>
 
@@ -70,10 +69,20 @@
     </select>
 
 
-
     <select id="selectByOrders" resultMap="BaseResultMap">
         SELECT * FROM t_luck_codes WHERE user_account_id = #{accountId}
         and commodity_id = #{commodityId} and orders_id = #{ordersId} limit 0,12
+    </select>
+    <select id="selectUserCommLuckCode" resultType="java.lang.String">
+        SELECT tlct.luck_code
+         FROM t_luck_codes AS tlc
+         RIGHT JOIN t_luck_code_template AS tlct
+         ON tlc.luck_code_template_id = tlct.id
+        WHERE tlc.user_account_id = #{accountId}
+        and tlc.commodity_id = #{commId}
+        and tlct.id &lt; (select id from t_luck_code_template where luck_code= #{lastCode})
+        order by tlct.id desc
+        limit #{pageLoadSize}
     </select>
 
 </mapper>

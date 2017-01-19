@@ -4,10 +4,13 @@ import com.hudongwx.drawlottery.mobile.TestBaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Share;
 import com.hudongwx.drawlottery.mobile.service.user.IShareService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -25,6 +28,7 @@ import java.util.Date;
  * @email 346905702@qq.com
  */
 public class ShareServiceImplTest extends TestBaseMapper {
+
     @Test
     public void testSelectByUserAccountId() throws Exception {
         shareService.selectByUserAccountId(10000L);
@@ -44,14 +48,7 @@ public class ShareServiceImplTest extends TestBaseMapper {
     IShareService shareService;
     @Test
     public void testAddShare() throws Exception {
-
-        Share s = new Share();
-        s.setUserAccountId(2l);
-        s.setCommodityId(2l);
-        s.setIssueDate(new Date().getTime());
-        s.setParticulars("url1");
-//        boolean b = shareMapper.addShare(s);
-//        Assert.assertTrue(b);
+        shareService.addShare(10000L, 20L, "111", new ArrayList<MultipartFile>());
 
     }
 

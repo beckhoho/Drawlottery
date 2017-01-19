@@ -147,6 +147,19 @@ public class Commoditys {
     @Column(name = "exchange_money")
     private Integer exchangeMoney;
 
+    /**
+     * 上一期期数
+     */
+    @Column(name = "last_round_time")
+    private Long lastRoundTime;
+
+    public Long getLastRoundTime() {
+        return lastRoundTime;
+    }
+
+    public void setLastRoundTime(Long lastRoundTime) {
+        this.lastRoundTime = lastRoundTime;
+    }
 
     public Integer getCardType() {
         return cardType;

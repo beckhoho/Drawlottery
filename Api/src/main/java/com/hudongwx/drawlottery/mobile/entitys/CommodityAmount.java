@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
+import java.io.Serializable;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -15,12 +17,10 @@ package com.hudongwx.drawlottery.mobile.entitys;
  * <p>
  * @email 346905702@qq.com
  */
-public class CommodityAmount {
+public class CommodityAmount implements Serializable{
 
-    private Long commodityId;
-
-    private Integer amount;
-
+    private Long commodityId; //商品id
+    private Integer amount;  //商品数量
 
     public Long getCommodityId() {
         return commodityId;

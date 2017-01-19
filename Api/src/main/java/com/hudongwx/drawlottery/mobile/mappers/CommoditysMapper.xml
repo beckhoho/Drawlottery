@@ -31,6 +31,7 @@
         <result column="card_type" jdbcType="INTEGER" property="cardType"/>
         <result column="card_num" jdbcType="INTEGER" property="cardNum"/>
         <result column="card_money" jdbcType="INTEGER" property="cardMoney"/>
+        <result column="last_round_time" jdbcType="BIGINT" property="lastRoundTime"/>
 
     </resultMap>
 
@@ -79,7 +80,7 @@
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
         <if test="lastCommId != 0">
-            and commodity.view_num &lt;
+            and commodity.view_num &lt;=
             (SELECT view_num FROM t_commoditys WHERE id = #{lastCommId} )
         </if>
         ORDER BY
@@ -91,7 +92,7 @@
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
         <if test="lastCommId != 0">
-            and commodity.buy_current_number-commodity.buy_last_number &gt;
+            and commodity.buy_current_number-commodity.buy_last_number &gt;=
             (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE t_commoditys.id
             =
             #{lastCommId} )
@@ -105,7 +106,7 @@
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
         <if test="lastCommId != 0">
-            and commodity.ground_time &gt;
+            and commodity.ground_time &gt;=
             (SELECT t_commoditys.ground_time FROM t_commoditys
             WHERE t_commoditys.id = (SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId}) )
         </if>
@@ -118,7 +119,7 @@
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
         <if test="lastCommId!=0">
-            and template.buy_total_number &lt;
+            and template.buy_total_number &lt;=
             (SELECT buy_total_number FROM t_commodity_template
             WHERE id=(SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId})
         </if>
@@ -135,11 +136,12 @@
     </select>
 
 
-    <select id="selectTopTenOnLottery" resultMap="BaseResultMap">
+    <select id="selectAnnouncedComm" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE template.buy_total_number - commodity.buy_current_number = 0
-        AND commodity.state_id=2 ORDER BY commodity.sell_out_time
-        DESC limit 10
+        AND commodity.state_id=1
+        AND commodity.sell_out_time &lt; (SELECT sell_out_time FROM t_commoditys WHERE id=#{lastCommId})
+        ORDER BY commodity.sell_out_time DESC limit #{pageLoadSize}
     </select>
 
     <!-- 查询高中奖率商品 -->
@@ -200,6 +202,14 @@
         SELECT IFNULL(max(round_time * 1), 100000000)
         FROM t_commoditys
     </select>
+    <select id="selectNextRoundComm" resultMap="BaseResultMap">
+        SELECT
+            id,
+            round_time
+        FROM t_commoditys
+        WHERE temp_id = #{tempId}
+              AND state_id = #{stateId}
+    </select>
 
     <update id="updateCommState">
         UPDATE t_commoditys
@@ -211,6 +221,7 @@
     <sql id="selectSql">
         SELECT
             commodity.id,
+            commodity.last_round_time,
             template.name,
             template.withdrawals_money,
             template.exchange_money,
@@ -248,6 +259,7 @@
         SELECT
             commodity.id,
             template.name,
+            template.minimum,
             commodity.temp_id,
             template.withdrawals_money,
             template.exchange_money,

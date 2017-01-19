@@ -348,6 +348,12 @@ public class User implements Serializable {
     }
 
     public boolean isLocked() {
-        return currentState == -1;
+        return currentState!=null && currentState == -1;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(accountId);
+    }
+
 }

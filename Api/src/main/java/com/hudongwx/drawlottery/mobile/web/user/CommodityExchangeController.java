@@ -63,7 +63,7 @@ public class CommodityExchangeController extends BaseController {
     @ApiOperation("兑换现金")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp3", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToCash(@ApiParam("商品Id") @RequestParam("commId") Long commId, @ApiParam("平台名称（例：支付宝平台）") @RequestParam("TPName") String TPName, @ApiParam("平台账号") @RequestParam("TPAccount") String TPAccount) {
-        return success(emService.exchangeToCash(TPName, TPAccount, commId, 10000L));
+        return success(emService.exchangeToCash(TPName, TPAccount, commId, getUserId()));
     }
 
     /**
@@ -80,16 +80,29 @@ public class CommodityExchangeController extends BaseController {
     }
 
     /**
-     * 兑换充值卡(查看卡密)
+     * 兑换充值卡
      *
      * @param commId
      * @return
      */
     @ResponseBody
-    @ApiOperation("兑换充值卡(查看卡密)")
+    @ApiOperation("兑换充值卡")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/temp1", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject exchangeToRechargeCard(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
-        return success("操作成功！", emService.temp1(getUserId(), commId));
+    public JSONObject exchangeToRechargeCardTemp1(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
+        return success("操作成功！", emService.temp1(getUserId(),commId));
+    }
+
+    /**
+     * 查看充值卡卡密
+     *
+     * @param code
+     * @return
+     */
+    @ResponseBody
+    @ApiOperation("查看充值卡卡密")
+    @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/show/code", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject exchangeToRechargeCard(@ApiParam("卡号") @RequestParam("code") String code) {
+        return success("操作成功！", emService.cardPassword(code));
     }
 
     /**

@@ -53,7 +53,6 @@ public class LotteryUtils {
         lotteryInfo.setLotteryId(lotteryId);
         LuckCodeTemplate template = templateMapper.selectByCode(lotteryId + "");
         LuckCodes codes = luckCodesMapper.selectBytemplate(template.getId(), commodity.getId());
-        lotteryInfo.setSumDate(new Date().getTime());//五十和
         lotteryInfo.setUserAccountId(codes.getUserAccountId());
         return lotteryInfo;
     }

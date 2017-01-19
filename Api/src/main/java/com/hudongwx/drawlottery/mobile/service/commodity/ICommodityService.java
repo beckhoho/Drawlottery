@@ -80,5 +80,10 @@ public interface ICommodityService {
      */
     public Long generateNewRoundTime();
 
-//     selectAnnounceComm(Long lastCommId);
+    /**
+     * 最新揭晓
+     * @param lastCommId
+     * @return
+     */
+    List<Map<String, Object>> selectAnnounceComm(Long lastCommId);
 }

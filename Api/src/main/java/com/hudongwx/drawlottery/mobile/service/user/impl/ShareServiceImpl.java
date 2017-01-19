@@ -1,21 +1,20 @@
 package com.hudongwx.drawlottery.mobile.service.user.impl;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.entitys.Share;
-import com.hudongwx.drawlottery.mobile.entitys.ShareImg;
-import com.hudongwx.drawlottery.mobile.entitys.User;
-import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
-import com.hudongwx.drawlottery.mobile.mappers.ShareImgMapper;
-import com.hudongwx.drawlottery.mobile.mappers.ShareMapper;
-import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
+import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.entitys.*;
+import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.user.IShareService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
-import org.apache.commons.io.FileUtils;
+import com.qiniu.common.QiniuException;
+import com.qiniu.common.Zone;
+import com.qiniu.http.Response;
+import com.qiniu.storage.Configuration;
+import com.qiniu.storage.UploadManager;
+import com.qiniu.util.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -36,6 +35,27 @@ import java.util.*;
  */
 @Service
 public class ShareServiceImpl implements IShareService {
+    /**
+     * 七牛ak
+     */
+    final String qiniuAccessKey = "F5kk6Wp3aSKV5ViXVd-hH0YZvoEeYrI_3dLx4SbQ";
+    /**
+     * 七牛sk
+     */
+    final String qiniuSecretKey = "6a182dZ4k2fl9DvJj4iLOeJlhgwKdopPPhjsk6oi";
+    /**
+     * 七牛上传空间
+     */
+    final String bucketName = "lottery";
+    /**
+     * token有效时间
+     */
+    final Long expries = 600L;
+    /**
+     * 七牛远程显示地址 注意要在最后加/
+     */
+    final String qiniuhost = "http://ojm4pmwbe.bkt.clouddn.com/";
+
 
     @Autowired
     ShareMapper shareMapper;
@@ -45,6 +65,93 @@ public class ShareServiceImpl implements IShareService {
     ShareImgMapper shareImgMapper;
     @Autowired
     CommoditysMapper commMapper;
+    @Autowired
+    CommodityHistoryMapper commodityHistoryMapper;
+    /**
+     * 得到七牛的upToken
+     *
+     * @param suffix 文件后缀名
+     * @return upToken
+     */
+    @Override
+    public String getUpToken(String suffix) {
+        if (!suffix.startsWith("."))
+            suffix = "." + suffix;
+        //上传到七牛后保存的文件名
+        String key = UUID.randomUUID().toString() + suffix;
+
+        //密钥配置
+        Auth auth = Auth.create(qiniuAccessKey, qiniuSecretKey);
+
+        auth.uploadToken(bucketName);
+        //生成token
+        return auth.uploadToken(bucketName, key, expries, null);
+
+    }
+
+    /**
+     * 上传文件到七牛云
+     *
+     * @param file 文件
+     * @return 保存成功的文件名
+     */
+    @Override
+    public String uploadToQiniu(MultipartFile file) {
+        final String fileName = file.getOriginalFilename();
+        final String s = fileName.substring(fileName.indexOf("."), fileName.length());
+        String key = UUID.randomUUID().toString() + s;
+        final String upToken = getUpToken();
+        Zone z = Zone.autoZone();
+        Configuration c = new Configuration(z);
+        //创建上传对象
+        UploadManager uploadManager = new UploadManager(c);
+        try {
+            //调用put方法上传
+            Response res = uploadManager.put(file.getBytes(), key, upToken);
+            //打印返回的信息
+            final JSONObject obj = JSONObject.parseObject(res.bodyString());
+            return obj.get("key").toString();
+        } catch (QiniuException e) {
+            Response r = e.response;
+            // 请求失败时打印的异常的信息
+            System.out.println(r.toString());
+            try {
+                //响应的文本信息
+                System.out.println(r.bodyString());
+            } catch (QiniuException e1) {
+                //ignore
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 得到七牛的upToken
+     *
+     * @return upToken
+     */
+    @Override
+    public String getUpToken() {
+        //密钥配置
+        Auth auth = Auth.create(qiniuAccessKey, qiniuSecretKey);
+
+        auth.uploadToken(bucketName);
+        //生成token
+        return auth.uploadToken(bucketName);
+
+    }
+
+    /**
+     * 判断七牛是否就绪
+     *
+     * @return
+     */
+    @Override
+    public boolean isReady() {
+        return !(null == qiniuAccessKey || null == qiniuSecretKey);
+    }
 
     /**
      * 添加用户晒单
@@ -53,32 +160,27 @@ public class ShareServiceImpl implements IShareService {
      */
     @Override
     public boolean addShare(Long accountId, Long commId, String desc, List<MultipartFile> imgs) {
-        if (!shareMapper.selectByCommId(commId).isEmpty()) {
-            return false;
+        //判断是否晒过单
+        CommodityHistory commodityHistory = commodityHistoryMapper.selectByCommId(commId);
+        if(commodityHistory.getShareState()==1){
+            return  false;
         }
-        long date = new Date().getTime();
         Share share = new Share();
         share.setCommodityId(commId);
+        share.setIssueDate(new Date().getTime());
         share.setParticulars(desc);
         share.setUserAccountId(accountId);
-        share.setIssueDate(date);
-        if (shareMapper.insert(share) <= 0)
-            return false;
-        String fileSavePath = "C:\\Users\\wu\\IdeaProjects\\DrawLottery\\Api\\src\\main\\resources\\static\\imgs\\shareimg";
-        for (MultipartFile multipartFile : imgs) {
-            try {
-                String filename = multipartFile.getOriginalFilename();
-                ShareImg shareImg = new ShareImg();
-                shareImg.setShareId(shareMapper.selectByIssueDate(date).get(0).getId());
-                shareImg.setShareImgUrl("imgs/shareimg" + filename);
-                if (shareImgMapper.insert(shareImg) > 0)
-                    return false;
-                FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(fileSavePath, filename));
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
+        shareMapper.insertByGeneratedKeys(share);
+        for (MultipartFile img : imgs) {
+            ShareImg shareImg = new ShareImg();
+            String filename = uploadToQiniu(img);
+            //拼接文件地址
+            String url = qiniuhost+filename;
+            shareImg.setShareId(share.getId());
+            shareImg.setShareImgUrl(url);
+            shareImgMapper.insert(shareImg);
         }
+        commodityHistoryMapper.updateShareStateByCommodityId(commodityHistory.getCommodityId());
         return true;
     }
 

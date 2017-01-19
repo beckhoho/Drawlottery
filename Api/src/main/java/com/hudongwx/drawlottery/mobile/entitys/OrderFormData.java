@@ -1,12 +1,16 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
  * <p>
- *
  * @author wu
  * @version 1.0, 2017/1/16 <br/>
  * @desc <p>
@@ -16,10 +20,13 @@ import java.util.List;
  * 订单表单数据
  * <p>
  * @email 294786949@qq.co */
-public class OrderFormData {
+public class OrderFormData implements Serializable {
 
+    @NotNull(message = "订单创建错误")
     private Orders order;
 
+    @Size(min = 1,message = "没有购买商品")
+    @NotEmpty(message = "没有购买商品")
     private List<CommodityAmount> caList;
 
     public Orders getOrder() {
@@ -37,4 +44,6 @@ public class OrderFormData {
     public void setCaList(List<CommodityAmount> caList) {
         this.caList = caList;
     }
+
+
 }

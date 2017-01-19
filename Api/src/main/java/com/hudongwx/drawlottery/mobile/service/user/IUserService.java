@@ -28,7 +28,7 @@ public interface IUserService {
      */
     User queryUserByPhoneNum(String phone);
 
-    Map<String, Object> getUserInfo(User user);
+    Map<String, Object> getUserInfo(Long accountId);
 
     /**
      * 查询用户中奖历史
@@ -39,7 +39,7 @@ public interface IUserService {
     List<Map<String, Object>> selectHistoryLottery(Long accountId);
 
     /**
-     * 用户购买历史(夺宝历史)
+     * 用户购买历史(夺宝记录)
      *
      * @param accountId
      * @param item
@@ -95,10 +95,11 @@ public interface IUserService {
 
     Map<String, Object> queryPersonalInfo(Long accountId);
 
-    List<String>selectGroupLuckCode(Long accountId,String lastCode);
+    List<String> selectGroupLuckCode(Long accountId, String lastCode);
 
     /**
      * 添加推广员id
+     *
      * @param promId
      * @param accountId
      * @return
@@ -107,10 +108,23 @@ public interface IUserService {
 
     /**
      * 添加QQ号
+     *
      * @param accountId
      * @param qq
      * @return
      */
-    boolean addQQNumber(Long accountId,String qq);
+    boolean addQQNumber(Long accountId, String qq);
+
+    List<Map<String, Object>> selectPurchaseRecords(Integer item, Long accountId, Long lastCommId);
+
+    /**
+     * 查询用户夺宝记录中的Code码
+     *
+     * @param accountId 用户id
+     * @param commId    商品id
+     * @param lastCode  回传的前端显示的最后一个code码
+     * @return
+     */
+    List<String> selectUserLuckCode(Long accountId, Long commId, String lastCode);
 }
 
