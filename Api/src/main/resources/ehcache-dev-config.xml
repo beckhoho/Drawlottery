@@ -115,6 +115,52 @@
             memoryStoreEvictionPolicy="LRU"/>
 
 
+
+    <cache
+            name="RedPackCache"
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="180"
+            memoryStoreEvictionPolicy="LRU"/>
+
+    <cache
+            name="CommodityCache"
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="180"
+            memoryStoreEvictionPolicy="LRU"/>
+
+    <cache
+            name="UserInfoCache"
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="180"
+            memoryStoreEvictionPolicy="LRU"/>
+
+    <cache
+            name="OrderCache"
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="0"
+            diskPersistent="true"
+            diskExpiryThreadIntervalSeconds="180"
+            memoryStoreEvictionPolicy="LRU"/>
+
+
     <cache
             name="ActiveSessionCache"
             maxElementsInMemory="1"
