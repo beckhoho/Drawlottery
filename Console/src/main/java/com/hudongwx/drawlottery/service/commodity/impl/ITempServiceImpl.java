@@ -217,7 +217,7 @@ public class ITempServiceImpl implements ITempService {
         for (CommodityTemplate temp : temps) {
             commodityService.groundCommodity(temp.getId(), temp.getBuyTotalNumber());
         }
-        logger.error("消耗时长：" + (System.currentTimeMillis() - start));
+        logger.info("消耗时长：" + (System.currentTimeMillis() - start));
     }
 
     /**

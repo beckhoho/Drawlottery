@@ -232,7 +232,7 @@
     </select>
     <select id="selectByIds" resultMap="BaseResultMap">
         select * from draw_lottery.t_commodity_template where id in
-        <foreach collection="list" open="(" separator="," close=")" item="id">
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
             #{id}
         </foreach>
     </select>

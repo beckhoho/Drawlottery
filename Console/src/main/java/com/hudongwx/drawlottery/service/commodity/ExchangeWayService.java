@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.service.commodity;
 
+import com.hudongwx.drawlottery.pojo.ExchangeWay;
+
 import java.util.List;
 
 /**
@@ -18,4 +20,10 @@ public interface ExchangeWayService {
      * @param exchangeWayIds 付款方式集合
      */
     public void addCommodityExchange(long tempId, List<Integer> exchangeWayIds);
+
+    /**
+     * 得到所有的兑换方式
+     * @return
+     */
+    public List<ExchangeWay> getAll();
 }

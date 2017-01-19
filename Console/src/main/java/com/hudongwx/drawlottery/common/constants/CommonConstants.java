@@ -1,7 +1,11 @@
 package com.hudongwx.drawlottery.common.constants;
 
+import com.hudongwx.drawlottery.common.dto.Node;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 通用常量类.
@@ -82,5 +86,60 @@ public class CommonConstants {
 
     public int getINVALID() {
         return INVALID;
+    }
+
+
+    private Integer convertGenre(String genreLabel) {
+        Integer genre = null;
+        switch (genreLabel) {
+            case "虚拟":
+                genre = 0;
+                break;
+            case "实体":
+                genre = 1;
+                break;
+            case "实体不可快递":
+                genre = 2;
+                break;
+        }
+        return genre;
+    }
+
+    private String convertGenre(Integer genre) {
+        String genreLabel = null;
+        switch (genre) {
+            case 0:
+                genreLabel = "虚拟";
+                break;
+            case 1:
+                genreLabel = "实体";
+                break;
+            case 2:
+                genreLabel = "实体不可快递";
+                break;
+        }
+        return genreLabel;
+    }
+
+    public List<Node> createGenres() {
+        List<Node> list = new ArrayList<>();
+        list.add(new Node("虚拟", 0));
+        list.add(new Node("实体", 1));
+        list.add(new Node("实体不可快递", 2));
+        return list;
+    }
+
+    public List<Node> createExchangeState() {
+        List<Node> list = new ArrayList<>();
+        list.add(new Node("未兑奖", 0));
+        list.add(new Node("已兑奖", 1));
+        return list;
+    }
+
+    public List<Node> createCardNotEnough() {
+        List<Node> list = new ArrayList<>();
+        list.add(new Node("无", 0));
+        list.add(new Node("充值卡不足", 1));
+        return list;
     }
 }

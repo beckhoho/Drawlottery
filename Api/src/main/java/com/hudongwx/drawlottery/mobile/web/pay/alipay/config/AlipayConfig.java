@@ -11,16 +11,6 @@ package com.hudongwx.drawlottery.mobile.web.pay.alipay.config;
  *该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
  */
 
-import com.hudongwx.drawlottery.mobile.web.pay.alipay.sign.RSA;
-import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.AlipayCore;
-import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.UtilDate;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class AlipayConfig {
 	//↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 	//合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://openhome.alipay.com/platform/keyManage.htm?keyType=partner
@@ -41,7 +31,7 @@ public class AlipayConfig {
 
 	// 接收通知的接口名
 	public static String service = "mobile.securitypay.pay";
-	public static String NOTIFY_URL = "http://localhost:8080//api/v1/user/order/alipay/callback";
+	public static String NOTIFY_URL = "http://localhost:8080//api/v1/user/history/alipay/callback";
 
 	public static String log_path = "";
 }
