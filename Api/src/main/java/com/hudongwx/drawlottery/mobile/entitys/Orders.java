@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Table(name = "t_orders")
-public class Orders implements Serializable{
+public class Orders implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,13 +40,16 @@ public class Orders implements Serializable{
     private Long redPacketId;
 
     @Column(name = "address_ip")
-    private Long addressIp;
+    private String addressIp;
 
-    public Long getAddressIp() {
+    @Column(name = "pay_state")
+    private Integer payState;
+
+    public String getAddressIp() {
         return addressIp;
     }
 
-    public void setAddressIp(Long addressIp) {
+    public void setAddressIp(String addressIp) {
         this.addressIp = addressIp;
     }
 
@@ -135,4 +138,21 @@ public class Orders implements Serializable{
         this.submitDate = submitDate;
     }
 
+    /**
+     * 获取付款状态
+     *
+     * @return
+     */
+    public Integer getPayState() {
+        return payState;
+    }
+
+    /**
+     * 设置付款状态
+     *
+     * @param payState
+     */
+    public void setPayState(Integer payState) {
+        this.payState = payState;
+    }
 }

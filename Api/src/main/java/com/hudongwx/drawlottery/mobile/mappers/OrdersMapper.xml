@@ -11,7 +11,8 @@
         <result column="submit_date" jdbcType="BIGINT" property="submitDate"/>
         <result column="price" jdbcType="INTEGER" property="price"/>
         <result column="red_packet_id" jdbcType="BIGINT" property="redPacketId"/>
-        <result column="address_ip" jdbcType="BIGINT" property="addressIp"/>
+        <result column="address_ip" jdbcType="VARCHAR" property="addressIp"/>
+        <result column="pay_state" jdbcType="INTEGER" property="payState"/>
     </resultMap>
     <select id="selectByUserAccount" resultMap="BaseResultMap">
         select * from t_orders where user_account_id = #{userAccount}
@@ -25,4 +26,12 @@
         SELECT * from t_orders where user_account_id = #{userAccount}
         AND submit_date = #{dateTime}
     </select>
+
+    <select id="selectUserOrdersByPayState" resultMap="BaseResultMap">
+        SELECT * FROM t_orders WHERE pay_state = #{state} and user_account_id =#{userAccountId}
+    </select>
+
+    <update id="updatePayState">
+      UPDATE t_orders SET pay_state = #{state} where id = #{orderId}
+    </update>
 </mapper>

@@ -349,7 +349,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         CommodityHistory history = chMapper.selectBycommId(commodityId);
         history.setExchangeState(1);
         history.setExchangeWay(2);
-        int i = chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
+        chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
 
 
         //调用查询方法，去查询响应数据
