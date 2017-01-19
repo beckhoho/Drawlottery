@@ -115,6 +115,16 @@ public interface IUserService {
      */
     boolean addQQNumber(Long accountId, String qq);
 
-    List<Map<String, Object>> selectPurchaseRecords(Long accountId, Integer item);
+    List<Map<String, Object>> selectPurchaseRecords(Integer item, Long accountId, Long lastCommId);
+
+    /**
+     * 查询用户夺宝记录中的Code码
+     *
+     * @param accountId 用户id
+     * @param commId    商品id
+     * @param lastCode  回传的前端显示的最后一个code码
+     * @return
+     */
+    List<String> selectUserLuckCode(Long accountId, Long commId, String lastCode);
 }
 

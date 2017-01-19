@@ -133,15 +133,15 @@ public class CommodityServiceImpl implements ICommodityService {
         if (null == lastCommId)
             lastCommId = 0L;
         if (type == Settings.COMMODITY_ORDER_POPULARITY) {
-            cList = commsMapper.selectByTemp1(lastCommId, Settings.PAGE_LOAD_SIZE);//按人气搜索
+            cList = commsMapper.selectByTemp1(lastCommId, Settings.PAGE_LOAD_SIZE_10);//按人气搜索
         } else if (type == Settings.COMMODITY_ORDER_FASTEST) {
-            cList = commsMapper.selectByTemp2(lastCommId, Settings.PAGE_LOAD_SIZE);
+            cList = commsMapper.selectByTemp2(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         } else if (type == Settings.COMMODITY_ORDER_NEWEST) {
-            cList = commsMapper.selectByTemp3(lastCommId, Settings.PAGE_LOAD_SIZE);
+            cList = commsMapper.selectByTemp3(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         } else if (type == Settings.COMMODITY_ORDER_HIGHT_RATE) {
-            cList = commsMapper.selectHeight(100, lastCommId, Settings.PAGE_LOAD_SIZE);
+            cList = commsMapper.selectHeight(100, lastCommId, Settings.PAGE_LOAD_SIZE_10);
         } else {
-            cList = commsMapper.selectByTemp4(lastCommId, Settings.PAGE_LOAD_SIZE);
+            cList = commsMapper.selectByTemp4(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         }
         for (Commoditys commoditys : cList) {
             infoList.add(dealCommSelectByStyle(commoditys));
@@ -226,7 +226,7 @@ public class CommodityServiceImpl implements ICommodityService {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         List<Commoditys> coms = commsMapper.selectByGuess();
-        int i = Settings.PAGE_LOAD_SIZE <= coms.size() ? Settings.PAGE_LOAD_SIZE : coms.size();
+        int i = Settings.PAGE_LOAD_SIZE_10 <= coms.size() ? Settings.PAGE_LOAD_SIZE_10 : coms.size();
         for (int s = 0; s < i; s++) {
             Commoditys com = coms.get(s);
             map.put("name", com.getName());//获取商品名
@@ -342,19 +342,19 @@ public class CommodityServiceImpl implements ICommodityService {
 
     //已分类的商品名搜索
     public List<Map<String, Object>> type1(Integer categoryId, String commName, Long lastCommId) {
-        List<Commoditys> list = commsMapper.selectByTypeAndName("%" + commName + "%", categoryId, Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE);
+        List<Commoditys> list = commsMapper.selectByTypeAndName("%" + commName + "%", categoryId, Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE_10);
         return forPut(list);
     }
 
     //已分类商品搜索
     public List<Map<String, Object>> byType(Integer categoryId, Long lastCommId) {
-        List<Commoditys> list = commsMapper.selectByType(categoryId, Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE);
+        List<Commoditys> list = commsMapper.selectByType(categoryId, Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE_10);
         return forPut(list);
     }
 
     //未分类的商品名搜索
     public List<Map<String, Object>> type4(String commName, Long lastCommId) {
-        List<Commoditys> list = commsMapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE);
+        List<Commoditys> list = commsMapper.selectByName("%" + commName + "%", Settings.COMMODITY_STATE_ON_SALE, lastCommId, Settings.PAGE_LOAD_SIZE_10);
         return forPut(list);
     }
 
@@ -384,7 +384,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public List<Map<String, Object>> selectHeight(Integer number, Long lastCommId) {
-        List<Commoditys> list = commsMapper.selectHeight(number, lastCommId, Settings.PAGE_LOAD_SIZE);
+        List<Commoditys> list = commsMapper.selectHeight(number, lastCommId, Settings.PAGE_LOAD_SIZE_10);
         return forPut(list);
     }
 
@@ -466,7 +466,7 @@ public class CommodityServiceImpl implements ICommodityService {
         //正在开奖的商品
         List<Commoditys> lotcommList = null;
         //已开奖的商品
-        List<Commoditys> annCommList = commsMapper.selectAnnouncedComm(lastCommId, Settings.PAGE_LOAD_SIZE);
+        List<Commoditys> annCommList = commsMapper.selectAnnouncedComm(lastCommId, Settings.PAGE_LOAD_SIZE_10);
 
         return null;
     }

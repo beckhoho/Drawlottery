@@ -15,7 +15,7 @@
 
     </resultMap>
 
-  <select id="selectByUsable" resultMap="BaseResultMap">
+    <select id="selectByUsable" resultMap="BaseResultMap">
     select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
   </select>
     <select id="selectLimit" resultMap="BaseResultMap">
@@ -31,7 +31,6 @@
         SELECT * FROM t_luck_codes WHERE luck_code_template_id = #{tempId} and
         commodity_id = #{commodityId}
     </select>
-
 
 
     <update id="updateCodesState">
@@ -70,10 +69,20 @@
     </select>
 
 
-
     <select id="selectByOrders" resultMap="BaseResultMap">
         SELECT * FROM t_luck_codes WHERE user_account_id = #{accountId}
         and commodity_id = #{commodityId} and orders_id = #{ordersId} limit 0,12
+    </select>
+    <select id="selectUserCommLuckCode" resultType="java.lang.String">
+        SELECT tlct.luck_code
+         FROM t_luck_codes AS tlc
+         RIGHT JOIN t_luck_code_template AS tlct
+         ON tlc.luck_code_template_id = tlct.id
+        WHERE tlc.user_account_id = #{accountId}
+        and tlc.commodity_id = #{commId}
+        and tlct.id &lt; (select id from t_luck_code_template where luck_code= #{lastCode})
+        order by tlct.id desc
+        limit #{pageLoadSize}
     </select>
 
 </mapper>
