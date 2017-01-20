@@ -176,7 +176,7 @@ public class AliPayServiceImpl implements IAliPayService {
                 list.add(commodityAmount.getCommodityId());
             }
         }
-        List<String> nameList = commoditysMapper.selectCommNameByCommId(list);
+        List<String> nameList = commoditysMapper.selectCommNameListByCommId(list);
         for (String name : nameList) {
             sb.append(name);
         }

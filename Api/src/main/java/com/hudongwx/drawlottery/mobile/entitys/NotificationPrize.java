@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
-import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "t_notification_prize")

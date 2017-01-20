@@ -36,7 +36,7 @@ public class UserServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testRegister() throws Exception {
-
+        service.register("111","111");
     }
 
     @Test

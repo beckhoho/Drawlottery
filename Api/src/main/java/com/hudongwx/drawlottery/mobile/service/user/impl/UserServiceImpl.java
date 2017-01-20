@@ -35,6 +35,10 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements IUserService {
 
+    private Long overTime = 1000L * 60 * 60 * 24 * 7;//过期时间
+    private Integer[] worths = {1, 1, 2, 5, 10, 15, 20, 45};//价值
+    private Integer[] prices = {10, 10, 20, 50, 100, 150, 200, 450};//满减
+
     @Autowired
     UserMapper userMapper;
     @Autowired
@@ -59,13 +63,13 @@ public class UserServiceImpl implements IUserService {
     OrdersMapper ordersMapper;
     @Autowired
     OrdersCommoditysMapper ordersCommoditysMapper;
+    @Autowired
+    RedPacketsMapper redPacketsMapper;
 
     @Override
     public boolean register(String phone, String password) {
         if (null != userMapper.selectByPhoneNumber(phone))
             return false;
-//        if (!verifyCode.toUpperCase().equals(code.toUpperCase()))
-//            return false;
         User user = new User();
         user.setPhoneNumber(phone);
         user.setPassword(password);
@@ -74,14 +78,17 @@ public class UserServiceImpl implements IUserService {
         if (length == 11) {
             user.setNickname(phone.substring(0, 3) + "*****" + phone.substring(length - 3, length));
         } else {
-            user.setNickname("未设置");
+            user.setNickname("用户"+userMapper.countUsers());
         }
         user.setUserIntegral(0);
-        user.setHeaderUrl(Settings.SERVER_URL_PATH + Settings.USER_PORTRAIT_URL_DEFAULT);
+        user.setHeaderUrl(Settings.USER_PORTRAIT_URL_DEFAULT);
         user.setGoldNumber(0);
+        user.setRegistDate(new Date().getTime());
         user.setCurrentState(Settings.USER_STATE_NORMAL);
         PasswordUtils.encryptPassword(user);//加密用户密码
-        return userMapper.insert(user) > 0;
+        boolean rs = userMapper.insert(user) > 0;
+        giveRegisterRedPackets(user.getAccountId());
+        return rs;
     }
 
     @Override
@@ -536,5 +543,23 @@ public class UserServiceImpl implements IUserService {
         return userCodeHistMapper.selectUserCommLuckCode(accountId, commId, lastCode, Settings.PAGE_LOAD_SIZE_16);
     }
 
-
+    /**
+     * 新注册用户送红包
+     *
+     * @param accountId
+     */
+    public void giveRegisterRedPackets(Long accountId) {
+        Long registerDate = userMapper.selectUserRegisterDate(accountId);
+        for (int i = 0; i < worths.length; i++) {
+            RedPackets rp = new RedPackets();
+            rp.setUserAccountId(accountId);
+            rp.setUseState(0);
+            rp.setName("新用户红包");
+            rp.setValidDate(registerDate);
+            rp.setUsePrice(prices[i]);
+            rp.setWorth(worths[i]);
+            rp.setOverdueDate(registerDate + overTime);
+            redPacketsMapper.insert(rp);
+        }
+    }
 }

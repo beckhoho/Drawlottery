@@ -124,7 +124,7 @@ public class CommoditysMapperTest extends TestBaseMapper {
     public void testSelectCommNameByCommId() throws Exception {
         List<Long>longList=new ArrayList<>();
         longList.add(43L);
-        List<String> list = commoditysMapper.selectCommNameByCommId(longList);
+        List<String> list = commoditysMapper.selectCommNameListByCommId(longList);
         for (String s : list) {
             System.out.println("name:"+s);
         }

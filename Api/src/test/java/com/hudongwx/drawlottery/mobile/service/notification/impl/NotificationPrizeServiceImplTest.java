@@ -64,7 +64,7 @@ public class NotificationPrizeServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectByNew() throws  Exception{
-//        List<String> no = service.selectByNew();
+//        List<String> no = service.selectByNewPrizeNotify();
 //        System.out.println(no.size());
     }
 

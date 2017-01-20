@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hudongwx.drawlottery.mobile.service.user.IPromoterProfitService;
 import com.hudongwx.drawlottery.mobile.service.user.ISignInService;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +41,8 @@ public class UserController extends BaseController {
     IUserService userService;
     @Autowired
     ISignInService signInService;
+    @Autowired
+    IPromoterProfitService promoterProfitService;
 
     /**
      * @return
@@ -182,22 +183,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/promoter/profit/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryPromoterProfit() {
-        // TODO: 2017/1/12 v2 收益功能接口模块数据↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-        Map<String, Object> map = new HashMap<>();
-        map.put("YIncome", 10.01d);//昨日收益
-        map.put("accountId", getUserId());//推广Id
-        map.put("lv", 1);//等级
-        map.put("amIncome", 150.21);//累计收益
-        map.put("balance", 10000.05);//余额
-        List<Map<String, Object>> list = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("date", "2017-01-0" + i);
-            map1.put("income", 10.01);
-            list.add(map1);
-        }
-        map.put("incomeHistory", list);
-        return success(map);
+        return success(promoterProfitService.selectPromoterProfitInfo(getUserId()));
     }
 
     /**
@@ -209,7 +195,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("添加推广员Id")
     @RequestMapping(value = "/api/v1/user/promoter/add/promote", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject addPromoter(@ApiParam("推广员Id")@RequestParam("promId") Long promId) {
+    public JSONObject addPromoter(@ApiParam("推广员Id") @RequestParam("promId") Long promId) {
         int re = userService.addPromoter(promId, getUserId());
         if (re == 1) {
             return success();
