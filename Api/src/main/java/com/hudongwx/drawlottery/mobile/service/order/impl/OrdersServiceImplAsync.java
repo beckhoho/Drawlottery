@@ -51,8 +51,7 @@ public class OrdersServiceImplAsync {
      */
     @Async
     public void payAsync(Long accountId, Orders orders,
-                         List<CommodityAmount> commodityAmounts,
-                         List<Commoditys> commodityses
+                         List<CommodityAmount> commodityAmounts
     ) {
         /*
             先使用红包支付，红包>=购买数额则红包作废，其余购买金额作为闪币存入
@@ -83,8 +82,7 @@ public class OrdersServiceImplAsync {
         int index = 0;
         for (CommodityAmount ca : commodityAmounts) {
 //            获取商品信息
-            Commoditys byKey = commodityses.get(index);
-            index++;
+            Commoditys byKey = comMapper.selectByKey(ca.getCommodityId());
 //            Commoditys byKey = comMapper.selectByKey(ca.getCommodityId());
             remainingNum = byKey.getBuyTotalNumber() - byKey.getBuyCurrentNumber();
             Amount = ca.getAmount();
@@ -155,7 +153,7 @@ public class OrdersServiceImplAsync {
                                     /*
                     计算开奖幸运码
                  */
-                    LotteryInfo raffle = LotteryUtils.raffle(templateMapper, codesMapper, lotteryInfoMapper, userMapper, commodity);
+                    LotteryInfo raffle = LotteryUtils.raffle(mapper,templateMapper, codesMapper, lotteryInfoMapper, userMapper, commodity);
 
 
                     addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
@@ -249,13 +247,11 @@ public class OrdersServiceImplAsync {
         com.setCommodityName(key.getName());
         com.setCoverImgUrl(key.getCoverImgUrl());
         com.setEndTime(new Date().getTime());
-        com.setExchangeState(0);
-        com.setExchangeWay(0);
         com.setLuckUserAccountId(lotteryInfo.getUserAccountId());
         com.setTempId(key.getTempId());
         //
 
-        int insert = historyMapper.insert(com);
+        int insert = historyMapper.insertSelective(com);
 
         int i = userHistoryMapper.insertCopy(commodityId);
 

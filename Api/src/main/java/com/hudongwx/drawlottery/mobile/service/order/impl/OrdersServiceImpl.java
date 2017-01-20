@@ -77,7 +77,6 @@ public class OrdersServiceImpl implements IOrdersService {
         orders.setUserAccountId(accountId);
         orders.setSubmitDate(date);
         mapper.insertUseGenerated(orders);     //有问题！！！！
-        List<Commoditys> commodityses = new ArrayList<>();
         for (CommodityAmount ca : commodityAmounts) {
             //获取商品信息
             Commoditys byKey = comMapper.selectByKey(ca.getCommodityId());
@@ -97,9 +96,8 @@ public class OrdersServiceImpl implements IOrdersService {
                 为用户生成幸运码
              */
             updateLuckCodes(accountId, ca.getCommodityId(), buyNum, orders);
-            commodityses.add(byKey);
         }
-        ordersServiceImplAsync.payAsync(accountId,orders,commodityAmounts,commodityses);
+        ordersServiceImplAsync.payAsync(accountId,orders,commodityAmounts);
         return orders.getId();
     }
 

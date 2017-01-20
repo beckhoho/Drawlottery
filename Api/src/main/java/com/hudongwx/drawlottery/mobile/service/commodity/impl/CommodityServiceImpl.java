@@ -262,6 +262,7 @@ public class CommodityServiceImpl implements ICommodityService {
         if (comh == null) {
             return historyMap;
         }
+        System.out.println("id::::"+comh.getId());
         LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comh.getId());//查询中奖信息
 
         User user1 = userMapper.selectById(lotteryInfo.getUserAccountId());

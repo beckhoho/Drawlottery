@@ -41,4 +41,8 @@
     <update id="updatePayState">
       UPDATE t_orders SET pay_state = #{state} where id = #{orderId}
     </update>
+
+    <select id="selectByBuyDateDesc" resultMap="BaseResultMap">
+        SELECT * FROM t_orders ORDER BY submit_date DESC limit 50;
+    </select>
 </mapper>
