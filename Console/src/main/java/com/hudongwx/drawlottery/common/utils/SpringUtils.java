@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 
 
 /**
+ * spring bean 管理类.
+ * Date: 2017/1/10 0018
+ * Time: 10:10
  *
- * DATE:2016-12-2016/12/16 0016-09:34
- * Author: origin
- * DESC:
- * 工具类,用于获取spring里面的bean实例对象
- *
+ * @author <a href="http://userwu.github.io">wuhongxu</a>.
+ * @version 1.0.0
  */
 @Component
-public class SpringUtils  implements ApplicationContextAware{
+public class SpringUtils implements ApplicationContextAware {
 
     private static ApplicationContext context;
 
@@ -34,12 +34,20 @@ public class SpringUtils  implements ApplicationContextAware{
         return context.getBean(name, requiredType);
     }
 
+    public static <T> T getBean(String name) {
+        return (T) context.getBean(name);
+    }
+
+    public static <T> T getBean(Class<T> clazz) {
+        return context.getBean(clazz);
+    }
+
     public static boolean isSingleton(String name)
             throws NoSuchBeanDefinitionException {
         return context.isSingleton(name);
     }
 
-    public static Class<? extends Object> getType(String name)
+    public static Class<?> getType(String name)
             throws NoSuchBeanDefinitionException {
         return context.getType(name);
     }

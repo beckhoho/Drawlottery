@@ -204,6 +204,16 @@ public class LangConstants {
      */
     public final String ALREADY_UN_GROUND = "ALREADY_UN_GROUND";
 
+    /**
+     * 常量字段 未兑奖 .
+     */
+    public final String EXCHANGE_STATE_NOT = "EXCHANGE_STATE_NOT";
+    
+    /**
+     * 常量字段 已兑奖 .
+     */
+    public final String EXCHANGE_STATE_ON = "EXCHANGE_STATE_ON";
+
 }
 
 

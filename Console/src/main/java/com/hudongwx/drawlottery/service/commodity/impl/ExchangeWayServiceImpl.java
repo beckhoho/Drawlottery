@@ -1,7 +1,9 @@
 package com.hudongwx.drawlottery.service.commodity.impl;
 
 import com.hudongwx.drawlottery.common.constants.CommonConstants;
+import com.hudongwx.drawlottery.dao.ExchangeWayMapper;
 import com.hudongwx.drawlottery.dao.TempExchangeMapper;
+import com.hudongwx.drawlottery.pojo.ExchangeWay;
 import com.hudongwx.drawlottery.pojo.TempExchange;
 import com.hudongwx.drawlottery.service.commodity.ExchangeWayService;
 import org.springframework.stereotype.Service;
@@ -20,11 +22,14 @@ import java.util.List;
  */
 @Service
 public class ExchangeWayServiceImpl implements ExchangeWayService {
+
     @Resource
     private TempExchangeMapper txMapper;
     @Resource
-    private CommonConstants commonConstants;
+    private ExchangeWayMapper exchangeWayMapper;
 
+    @Resource
+    private CommonConstants commonConstants;
     /**
      * 添加模板、付款方式联系到表中
      *
@@ -43,4 +48,16 @@ public class ExchangeWayServiceImpl implements ExchangeWayService {
         }
         txMapper.insertList(list);
     }
+
+    /**
+     * 得到所有的兑换方式
+     *
+     * @return
+     */
+    @Override
+    public List<ExchangeWay> getAll() {
+        return exchangeWayMapper.selectAll();
+    }
+
+
 }

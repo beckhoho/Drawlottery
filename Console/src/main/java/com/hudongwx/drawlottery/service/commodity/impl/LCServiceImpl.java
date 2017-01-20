@@ -42,7 +42,7 @@ public class LCServiceImpl implements LuckCodeService {
         Long count = getCountCode();
         while (total > count) {
             Set<LuckCodeTemplate> set = new HashSet<>();
-            for (long i = count + 1; i <= total && i <= count + 500000; i++) {
+            for (long i = count + 1; i <= total && i <= count + 80000; i++) {
                 LuckCodeTemplate temp = new LuckCodeTemplate();
                 temp.setLuckCode(10000000 + i + "");
                 set.add(temp);
@@ -52,7 +52,7 @@ public class LCServiceImpl implements LuckCodeService {
                 t.setId(i++);
             }
             luckTempMapper.insertSet(set);
-            count += 500000;
+            count += 80000;
         }
         return 10000000 + total + "";
     }
@@ -77,7 +77,7 @@ public class LCServiceImpl implements LuckCodeService {
     @Override
     public void connect(long commodityId, long count) {
         for (int currentPage = 0; currentPage * 500000 < count; currentPage++) {
-            PageHelper.startPage(currentPage+1, 500000);
+            PageHelper.startPage(currentPage+1, 80000);
             List<LuckCodes> list = luckTempMapper.selectRange(10000000+count);
             for (LuckCodes code : list) {
                 code.setCommodityId(commodityId);

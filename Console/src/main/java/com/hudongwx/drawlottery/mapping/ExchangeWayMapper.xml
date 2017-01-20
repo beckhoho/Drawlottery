@@ -16,7 +16,10 @@
     from t_exchange_way
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectAll" resultMap="BaseResultMap">
+      select * from draw_lottery.t_exchange_way
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_exchange_way
     where id = #{id,jdbcType=INTEGER}
   </delete>

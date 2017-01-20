@@ -175,14 +175,14 @@ public class PayController extends BaseController {
             /**
              *支付成功之后的业务处理
              */
-            LOG.info(new Date() + "[/api/v1/user/order/alipay/sub] :支付成功!商户的订单编号：" + out_trade_no);
+            LOG.info(new Date() + "[/api/v1/user/history/alipay/sub] :支付成功!商户的订单编号：" + out_trade_no);
             return "SUCCESS";
         } else {
 
             /**
              *支付失败后的业务处理
              */
-            LOG.info(new Date() + "[/api/v1/user/order/alipay/sub] :支付成功!商户的订单编号：" + out_trade_no);
+            LOG.info(new Date() + "[/api/v1/user/history/alipay/sub] :支付成功!商户的订单编号：" + out_trade_no);
             return "SUCCESS";
         }
     }
@@ -198,7 +198,7 @@ public class PayController extends BaseController {
     @RequestMapping(value = "/api/v1/user/order/alipay/query", method = RequestMethod.POST)
     public void orderPayQuery(HttpServletRequest request, HttpServletResponse response, String tradeno, String orderno,
                               String callback) throws AlipayApiException {
-//        LOG.info("[/order/pay/query]");
+//        LOG.info("[/history/pay/query]");
 //        AlipayTradeQueryRequest alipayRequest = new AlipayTradeQueryRequest(); // 统一收单线下交易查询
 //        // 只需要传入业务参数
 //        Map<String, Object> param = new HashMap<>();
@@ -238,7 +238,7 @@ public class PayController extends BaseController {
      */
     @RequestMapping(value = "/api/v1/user/order/wxpay/notify", method = RequestMethod.POST)
     public void orderPayNotify(HttpServletRequest request, HttpServletResponse response) {
-        LOG.info("[/order/pay/notify]");
+        LOG.info("[/history/pay/notify]");
         // 获取到返回的所有参数 先判断是否交易成功trade_status 再做签名校验
         // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
         // 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），

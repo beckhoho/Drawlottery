@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hudongwx.drawlottery.dao.HistoryMapper">
+    <resultMap id="BaseResultMap" type="com.hudongwx.drawlottery.pojo.History">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
+        <result column="temp_id" jdbcType="BIGINT" property="empId"/>
+        <result column="commodity_name" jdbcType="VARCHAR" property="commodityName"/>
+        <result column="genre" jdbcType="INTEGER" property="genre"/>
+        <result column="luck_code" jdbcType="VARCHAR" property="luckCode"/>
+        <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
+        <result column="buy_number" jdbcType="INTEGER" property="buyNumber"/>
+        <result column="end_time" jdbcType="BIGINT" property="endTime"/>
+        <result column="luck_user_account_id" jdbcType="BIGINT" property="luckUserAccountId"/>
+        <result column="cover_img_url" jdbcType="VARCHAR" property="coverImgUrl"/>
+        <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
+        <result column="exchange_state" jdbcType="INTEGER" property="exchangeState"/>
+        <result column="exchange_way" jdbcType="INTEGER" property="exchangeWay"/>
+        <result column="card_not_enough" jdbcType="INTEGER" property="cardNotEnough"/>
+        <result column="share_state" jdbcType="INTEGER" property="shareState"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, commodity_id, temp_id, commodity_name, genre, luck_code, round_time, buy_number, 
+    end_time, luck_user_account_id, cover_img_url, buy_total_number, exchange_state, 
+    exchange_way, card_not_enough, share_state
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_commodity_history
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectList" resultType="com.hudongwx.drawlottery.pojo.History">
+        select
+        history.commodity_id as commodityId,
+        history.luck_user_account_id luckUserAccountId,
+        history.end_time endTime,
+        history.round_time roundTime,
+        history.commodity_name commodityName,
+        history.exchange_way exchangeWay,
+        history.genre,
+        history.exchange_state exchangeState,
+        history.card_not_enough cardNotEnough,
+        eWay.name exchangeWayLabel
+        from draw_lottery.t_commodity_history as history
+        LEFT JOIN draw_lottery.t_exchange_way as eWay
+        ON eWay.id = history.exchange_way
+        <where>
+            <if test="param.roundTime != null">
+                and history.round_time = #{param.roundTime}
+            </if>
+            <if test="param.exchangeWay != null and param.exchangeWay.size() > 0">
+                and history.exchange_way in
+                <foreach collection="param.exchangeWay" open="(" separator="," close=")" item="way">
+                    #{way}
+                </foreach>
+            </if>
+            <if test="param.genre != null and param.genre.size() > 0">
+                and history.genre in
+                <foreach collection="param.state" open="(" separator="," close=")" item="g">
+                    #{g}
+                </foreach>
+            </if>
+            <if test="param.state != null and param.state.size() > 0">
+                and history.exchange_state in
+                <foreach collection="param.state" open="(" separator="," close=")" item="s">
+                    #{s}
+                </foreach>
+            </if>
+            <if test="param.state != null and param.state.size() > 0">
+                and history.exchange_state in
+                <foreach collection="param.state" open="(" separator="," close=")" item="s">
+                    #{s}
+                </foreach>
+            </if>
+        </where>
+        order BY
+        <choose>
+            <when test="param.order == 1">
+                luck_user_account_id
+            </when>
+            <when test="param.order == 2">
+                round_time
+            </when>
+            <otherwise>
+                end_time
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="param.direction == 1">
+                asc
+            </when>
+            <otherwise>
+                desc
+            </otherwise>
+        </choose>
+    </select>
+    <select id="selectRoundTimes" resultType="java.lang.String">
+        <bind name="pattern" value="'%' + text + '%'"/>
+        select round_time from draw_lottery.t_commodity_history where round_time LIKE #{pattern}
+    </select>
+    <select id="selectHistory" resultType="com.hudongwx.drawlottery.pojo.History">
+      select
+  history.id,
+  users.nickname as nickname,
+  users.real_name as realName,
+  users.phone_number as userPhoneNumber,
+  address,
+  express.state as expressState,
+  delivery_name as deliveryName,
+  delivery_number as deliveryNumber,
+  receiver_name as receiverName,
+  phone as receiverPhone
+from draw_lottery.t_commodity_history as history
+  LEFT JOIN draw_lottery.t_express_delivery as express ON history.commodity_id = express.commodity_id
+  LEFT JOIN draw_lottery.t_delivery_address as dAddress ON dAddress.id = express.address_id
+  LEFT JOIN draw_lottery.t_users as users ON luck_user_account_id = users.account_id
+WHERE history.commodity_id = #{id}
+UNION select
+        history.id,
+        users.nickname as nickname,
+        users.real_name as realName,
+        users.phone_number as userPhoneNumber,
+        address,
+        express.state as expressState,
+        delivery_name as deliveryName,
+        delivery_number as deliveryNumber,
+        receiver_name as receiverName,
+        phone as receiverPhone
+      from draw_lottery.t_commoditys as history
+        LEFT JOIN draw_lottery.t_express_delivery as express ON history.id = express.commodity_id
+        LEFT JOIN draw_lottery.t_delivery_address as dAddress ON dAddress.id = express.address_id
+        LEFT JOIN draw_lottery.t_lottery_info as info ON info.commodity_id = history.id
+        LEFT JOIN draw_lottery.t_users as users ON info.user_account_id = users.account_id
+      WHERE history.id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_commodity_history
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.hudongwx.drawlottery.pojo.History">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_commodity_history (commodity_id, temp_id, commodity_name,
+        genre, luck_code, round_time,
+        buy_number, end_time, luck_user_account_id,
+        cover_img_url, buy_total_number, exchange_state,
+        exchange_way, card_not_enough, share_state
+        )
+        values (#{commodityId,jdbcType=BIGINT}, #{empId,jdbcType=BIGINT}, #{commodityName,jdbcType=VARCHAR},
+        #{genre,jdbcType=INTEGER}, #{luckCode,jdbcType=VARCHAR}, #{roundTime,jdbcType=VARCHAR},
+        #{buyNumber,jdbcType=INTEGER}, #{endTime,jdbcType=BIGINT}, #{luckUserAccountId,jdbcType=BIGINT},
+        #{coverImgUrl,jdbcType=VARCHAR}, #{buyTotalNumber,jdbcType=INTEGER}, #{exchangeState,jdbcType=INTEGER},
+        #{exchangeWay,jdbcType=INTEGER}, #{cardNotEnough,jdbcType=INTEGER}, #{shareState,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.hudongwx.drawlottery.pojo.History">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_commodity_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commodityId != null">
+                commodity_id,
+            </if>
+            <if test="empId != null">
+                temp_id,
+            </if>
+            <if test="commodityName != null">
+                commodity_name,
+            </if>
+            <if test="genre != null">
+                genre,
+            </if>
+            <if test="luckCode != null">
+                luck_code,
+            </if>
+            <if test="roundTime != null">
+                round_time,
+            </if>
+            <if test="buyNumber != null">
+                buy_number,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="luckUserAccountId != null">
+                luck_user_account_id,
+            </if>
+            <if test="coverImgUrl != null">
+                cover_img_url,
+            </if>
+            <if test="buyTotalNumber != null">
+                buy_total_number,
+            </if>
+            <if test="exchangeState != null">
+                exchange_state,
+            </if>
+            <if test="exchangeWay != null">
+                exchange_way,
+            </if>
+            <if test="cardNotEnough != null">
+                card_not_enough,
+            </if>
+            <if test="shareState != null">
+                share_state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commodityId != null">
+                #{commodityId,jdbcType=BIGINT},
+            </if>
+            <if test="empId != null">
+                #{empId,jdbcType=BIGINT},
+            </if>
+            <if test="commodityName != null">
+                #{commodityName,jdbcType=VARCHAR},
+            </if>
+            <if test="genre != null">
+                #{genre,jdbcType=INTEGER},
+            </if>
+            <if test="luckCode != null">
+                #{luckCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roundTime != null">
+                #{roundTime,jdbcType=VARCHAR},
+            </if>
+            <if test="buyNumber != null">
+                #{buyNumber,jdbcType=INTEGER},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=BIGINT},
+            </if>
+            <if test="luckUserAccountId != null">
+                #{luckUserAccountId,jdbcType=BIGINT},
+            </if>
+            <if test="coverImgUrl != null">
+                #{coverImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="buyTotalNumber != null">
+                #{buyTotalNumber,jdbcType=INTEGER},
+            </if>
+            <if test="exchangeState != null">
+                #{exchangeState,jdbcType=INTEGER},
+            </if>
+            <if test="exchangeWay != null">
+                #{exchangeWay,jdbcType=INTEGER},
+            </if>
+            <if test="cardNotEnough != null">
+                #{cardNotEnough,jdbcType=INTEGER},
+            </if>
+            <if test="shareState != null">
+                #{shareState,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hudongwx.drawlottery.pojo.History">
+        update t_commodity_history
+        <set>
+            <if test="commodityId != null">
+                commodity_id = #{commodityId,jdbcType=BIGINT},
+            </if>
+            <if test="empId != null">
+                temp_id = #{empId,jdbcType=BIGINT},
+            </if>
+            <if test="commodityName != null">
+                commodity_name = #{commodityName,jdbcType=VARCHAR},
+            </if>
+            <if test="genre != null">
+                genre = #{genre,jdbcType=INTEGER},
+            </if>
+            <if test="luckCode != null">
+                luck_code = #{luckCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roundTime != null">
+                round_time = #{roundTime,jdbcType=VARCHAR},
+            </if>
+            <if test="buyNumber != null">
+                buy_number = #{buyNumber,jdbcType=INTEGER},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=BIGINT},
+            </if>
+            <if test="luckUserAccountId != null">
+                luck_user_account_id = #{luckUserAccountId,jdbcType=BIGINT},
+            </if>
+            <if test="coverImgUrl != null">
+                cover_img_url = #{coverImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="buyTotalNumber != null">
+                buy_total_number = #{buyTotalNumber,jdbcType=INTEGER},
+            </if>
+            <if test="exchangeState != null">
+                exchange_state = #{exchangeState,jdbcType=INTEGER},
+            </if>
+            <if test="exchangeWay != null">
+                exchange_way = #{exchangeWay,jdbcType=INTEGER},
+            </if>
+            <if test="cardNotEnough != null">
+                card_not_enough = #{cardNotEnough,jdbcType=INTEGER},
+            </if>
+            <if test="shareState != null">
+                share_state = #{shareState,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hudongwx.drawlottery.pojo.History">
+    update t_commodity_history
+    set commodity_id = #{commodityId,jdbcType=BIGINT},
+      temp_id = #{empId,jdbcType=BIGINT},
+      commodity_name = #{commodityName,jdbcType=VARCHAR},
+      genre = #{genre,jdbcType=INTEGER},
+      luck_code = #{luckCode,jdbcType=VARCHAR},
+      round_time = #{roundTime,jdbcType=VARCHAR},
+      buy_number = #{buyNumber,jdbcType=INTEGER},
+      end_time = #{endTime,jdbcType=BIGINT},
+      luck_user_account_id = #{luckUserAccountId,jdbcType=BIGINT},
+      cover_img_url = #{coverImgUrl,jdbcType=VARCHAR},
+      buy_total_number = #{buyTotalNumber,jdbcType=INTEGER},
+      exchange_state = #{exchangeState,jdbcType=INTEGER},
+      exchange_way = #{exchangeWay,jdbcType=INTEGER},
+      card_not_enough = #{cardNotEnough,jdbcType=INTEGER},
+      share_state = #{shareState,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

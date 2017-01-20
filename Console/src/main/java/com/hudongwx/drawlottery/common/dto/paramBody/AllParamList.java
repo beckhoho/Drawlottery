@@ -51,7 +51,7 @@ public class AllParamList implements Serializable {
      * groundTimeAfter        上架时间（结束）
      * undercarriageTimeFront 下架时间（开始）
      * undercarriageTimeAfter 下架时间（结束）
-     * order                  排序字段
+     * history                  排序字段
      * direction              排序方向（0：降序，1：升序）
      */
 

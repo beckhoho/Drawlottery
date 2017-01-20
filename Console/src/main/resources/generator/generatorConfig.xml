@@ -45,13 +45,7 @@
         <javaClientGenerator targetPackage="com.hudongwx.drawlottery.dao"
                              targetProject="src\main\java" type="XMLMAPPER"/>
 
-        <table tableName="t_exchange_way" modelType="flat" domainObjectName="ExchangeWay"
-               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-            <columnRenamingRule searchString="^t" replaceString=""/>
-        </table>
-        <table tableName="t_commodity_exchange" modelType="flat" domainObjectName="TempExchange"
+        <table tableName="t_commodity_history" modelType="flat" domainObjectName="History"
                enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
