@@ -7,6 +7,8 @@ import com.hudongwx.drawlottery.mobile.utils.LotteryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ public class OrdersServiceImplAsync {
         异步处理方法必须和调用方法不在同一个类
      */
     @Async
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void payAsync(Long accountId, Orders orders,
                          List<CommodityAmount> commodityAmounts
     ) {
@@ -228,6 +231,7 @@ public class OrdersServiceImplAsync {
      */
 
     @Async
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean addHistory(Long commodityId) {
 
         Commoditys key = comMapper.selectByKey(commodityId);
