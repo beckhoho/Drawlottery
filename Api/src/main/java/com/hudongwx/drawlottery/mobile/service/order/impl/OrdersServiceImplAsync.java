@@ -90,16 +90,6 @@ public class OrdersServiceImplAsync {
             Amount = ca.getAmount();
             //计算购买量和剩余量差值
             int sub = Amount - remainingNum;
-//            if (sub >= 0) {
-//                buyNum = remainingNum;
-//            } else {
-//                buyNum = Amount;
-//            }
-
-            /*
-                为用户生成幸运码
-             */
-//            updateLuckCodes(accountId, ca.getCommodityId(), buyNum, orders);
 
             Commoditys commodity = comMapper.selectByKey(ca.getCommodityId());
             Commodity com = new Commodity();//**
@@ -146,19 +136,10 @@ public class OrdersServiceImplAsync {
                     //添加下一期商品到商品表
                     commMapper.insertUseGenerated(comm);
 
-                   //addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
+                    //写下一期商品幸运码
+                    codesMapper.insertLuckCode(commoditys.getBuyTotalNumber(),comm.getId());
+                    //System.out.println(comm.getId());
 
-                    //复用商品幸运码
-                    List<LuckCodes> codes = codesMapper.selectByCommodity(commodity.getId());
-
-                    List<LuckCodes> luckCodes = new ArrayList<>();
-                    for (int f=0;f<commoditys.getBuyTotalNumber();f++){
-                        LuckCodes l = new LuckCodes();
-                        l.setCommodityId(comm.getId());
-                        l.setLuckCodeTemplateId(codes.get(f).getLuckCodeTemplateId());
-                        luckCodes.add(l);
-                    }
-                    codesMapper.insertLuckCode(luckCodes);
 
                     if (remainingNum == 0) {
                         ca.setCommodityId(comm.getId());
@@ -175,6 +156,9 @@ public class OrdersServiceImplAsync {
                     计算开奖幸运码
                  */
                     LotteryInfo raffle = LotteryUtils.raffle(templateMapper, codesMapper, lotteryInfoMapper, userMapper, commodity);
+
+
+                    addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
 
                     //下一期请求
                     continue;
@@ -234,13 +218,8 @@ public class OrdersServiceImplAsync {
         }
         User u = userMapper.selectById(accountId);
         u.setGoldNumber(u.getGoldNumber() + changeNum);
+        userMapper.updateByPrimaryKeySelective(u);
 
-//        if(userMapper.updateByPrimaryKeySelective(u) > 0){
-//            return orders.getId();
-//        }
-//        else{
-//            return 0l;
-//        }
     }
 
     /**
@@ -250,6 +229,7 @@ public class OrdersServiceImplAsync {
      * @return
      */
 
+    @Async
     public boolean addHistory(Long commodityId) {
 
         Commoditys key = comMapper.selectByKey(commodityId);
@@ -269,6 +249,8 @@ public class OrdersServiceImplAsync {
         com.setCommodityName(key.getName());
         com.setCoverImgUrl(key.getCoverImgUrl());
         com.setEndTime(new Date().getTime());
+        com.setExchangeState(0);
+        com.setExchangeWay(0);
         com.setLuckUserAccountId(lotteryInfo.getUserAccountId());
         com.setTempId(key.getTempId());
         //

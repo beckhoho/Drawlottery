@@ -27,6 +27,7 @@
         AND submit_date = #{dateTime}
     </select>
 
+
     <insert id="insertUseGenerated" useGeneratedKeys="true" keyProperty="id" parameterType="com.hudongwx.drawlottery.mobile.entitys.Orders">
       INSERT into
       t_orders(user_account_id,pay_mode_id,submit_date,price,red_packet_id)

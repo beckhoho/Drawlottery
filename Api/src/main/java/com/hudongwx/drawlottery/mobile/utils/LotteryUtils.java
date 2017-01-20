@@ -6,6 +6,7 @@ import com.hudongwx.drawlottery.mobile.mappers.LotteryInfoMapper;
 import com.hudongwx.drawlottery.mobile.mappers.LuckCodeTemplateMapper;
 import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.scheduling.annotation.Async;
 
 import java.text.SimpleDateFormat;

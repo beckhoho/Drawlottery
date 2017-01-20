@@ -69,7 +69,8 @@ public class OrdersServiceImpl implements IOrdersService {
      */
     @Override
     public Long pay(Long accountId, Orders orders, List<CommodityAmount> commodityAmounts) {
-         /*
+
+        /*
            1、直接写入订单信息
          */
         Long date = new Date().getTime();
@@ -117,6 +118,8 @@ public class OrdersServiceImpl implements IOrdersService {
         System.out.println("codes:"+i);
         return i > 0;
     }
+
+
 
 
     /**

@@ -10,6 +10,7 @@
         <result column="sum_date" jdbcType="BIGINT" property="sumDate"/>
         <result column="buy_num" jdbcType="INTEGER" property="buyNum"/>
         <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
 
     </resultMap>
 

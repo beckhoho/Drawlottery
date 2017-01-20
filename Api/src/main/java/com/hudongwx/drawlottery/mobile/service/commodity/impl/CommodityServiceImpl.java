@@ -189,16 +189,20 @@ public class CommodityServiceImpl implements ICommodityService {
         String nextRound = null;
         Long nextRoundId = null;
         if (com.getStateId() == 3 || com.getStateId() == 2) {//如果未开奖
-            List<CommodityHistory> comh = historyMapper.selectByCommName(com.getName(), com.getRoundTime());
-            if (comh.size() == 0) {
+            Commoditys comh = null;
+            List<Long> longs = historyMapper.selectCommodityBefore(com.getTempId(), com.getRoundTime());
+            if(longs.size()!=0){
+                comh = commsMapper.selectByKey(longs.get(0));
+            }
+            if (comh == null) {
                 map.put("beforeLottery", new HashMap<>());
-            } else {
-                map.put("beforeLottery", mapBefore(comh.get(0)));//往期开奖揭晓
+            } else if(com.getStateId()==3){
+                map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
             }
         }
-        if (com.getStateId() == 1) {//如果已开奖
-            CommodityHistory comm = historyMapper.selectByCommId(commodId);
-            map.put("beforeLottery", mapBefore(comm));
+        if (com.getStateId() == 1 ) {//如果已开奖或是在等待开奖
+            Commoditys byKey = commsMapper.selectByKey(commodId);
+            map.put("beforeLottery", mapBefore(byKey));
             Commoditys commoditys = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
             if (null != commoditys) {
                 nextRound = commoditys.getRoundTime() + "期正在火热进行中";
@@ -253,34 +257,40 @@ public class CommodityServiceImpl implements ICommodityService {
         return listImg;
     }
 
-    public Map<String, Object> mapBefore(CommodityHistory comh) {
+    public Map<String, Object> mapBefore(Commoditys comh) {
         Map<String, Object> historyMap = new HashMap<>();
         if (comh == null) {
             return historyMap;
         }
-        User user1 = userMapper.selectById(comh.getLuckUserAccountId());
+        LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comh.getId());//查询中奖信息
+
+        User user1 = userMapper.selectById(lotteryInfo.getUserAccountId());
         historyMap.put("userName", user1.getNickname());//添加用户昵称
         historyMap.put("userHeaderImg", user1.getHeaderUrl());//添加用户头像
         historyMap.put("roundTime", comh.getRoundTime());//添加期数
-        historyMap.put("endTime", comh.getEndTime());//添加揭晓时间
-        historyMap.put("luckCodes", comh.getLuckCode());//添加幸运号
+        historyMap.put("endTime", lotteryInfo.getEndDate());//添加揭晓时间
+        historyMap.put("luckCodes", lotteryInfo.getLotteryId());//添加幸运号
         historyMap.put("userName", user1.getNickname());//添加用户昵称
-        historyMap.put("userAccount", comh.getLuckUserAccountId());//添加用户accountID
-        historyMap.put("endTime", comh.getEndTime());//添加揭晓时间
+        historyMap.put("userAccount", lotteryInfo.getUserAccountId());//添加用户accountID
         return historyMap;
     }
 
     public List<Map<String, Object>> listPartake(Long commodId) {
         List<Map<String, Object>> listMap = new ArrayList<>();
-        List<Long> codes = luckCodeMapper.selectCountByCommodity(commodId);
-        for (Long userLuckCodes : codes) {
-            Long userAccountId = userLuckCodes;
-            Map<String, Object> map = map1(userAccountId);
-            Map<String, Object> map1 = map2(commodId, userAccountId);
-            Map<String, Object> listMapMin = new HashMap<>();
-            listMapMin.putAll(map);
-            listMapMin.putAll(map1);
-            listMap.add(listMapMin);
+        List<Long> userIds = luckCodeMapper.selectCountByCommodity(commodId);
+        System.out.println(userIds.size());
+
+        for (Long userId : userIds) {
+            if(userId != 0) {
+                System.out.println(userId);
+                User user = userMapper.selectById(userId);
+                Map<String, Object> map = map1(user.getAccountId());
+                Map<String, Object> map1 = map2(commodId, user.getAccountId());
+                Map<String, Object> listMapMin = new HashMap<>();
+                listMapMin.putAll(map);
+                listMapMin.putAll(map1);
+                listMap.add(listMapMin);
+            }
         }
         return listMap;
     }
@@ -292,7 +302,7 @@ public class CommodityServiceImpl implements ICommodityService {
         String headerUrl = null;
         if (null != user) {
             name = user.getNickname();
-            headerUrl = Settings.SERVER_URL_PATH + user.getHeaderUrl();
+            headerUrl = user.getHeaderUrl();
         }
         map.put("userName", name);//用户名
         map.put("headerUrl", headerUrl);//头像地址
