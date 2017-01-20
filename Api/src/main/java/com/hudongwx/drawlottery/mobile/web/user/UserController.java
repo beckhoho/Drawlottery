@@ -9,7 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +47,6 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
-    @CachePut()
     @RequestMapping(value = "/api/v1/user/center", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserCenter() {
         Map<String, Object> userInfo = userService.queryPersonalInfo(getUserId());

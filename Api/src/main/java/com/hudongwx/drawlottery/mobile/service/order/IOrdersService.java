@@ -37,7 +37,7 @@ public interface IOrdersService {
     boolean update(Orders oders);
 
     //订单界面需要的数据
-    Map<String,Object> selectOrders(Long accountId, Integer sum);
+    Map<String,Object> selectUsableRedPackets(Long accountId, Integer sum);
 
     //支付成功界面数据
     Map<String,Object> selectPaySuccess(Long accountId,Long orderId, JSONObject jsonObject);

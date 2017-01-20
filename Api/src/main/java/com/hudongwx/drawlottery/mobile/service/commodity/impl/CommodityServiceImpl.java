@@ -477,7 +477,7 @@ public class CommodityServiceImpl implements ICommodityService {
     @Override
     public List<Map<String, Object>> selectAnnounceComm(Long lastCommId) {
         //正在开奖的商品
-        List<Commoditys> lotcommList = null;
+        List<Commoditys> lotcommList = commsMapper.selectOnLottery(10);
         //已开奖的商品
         List<Commoditys> annCommList = commsMapper.selectAnnouncedComm(lastCommId, Settings.PAGE_LOAD_SIZE_10);
 

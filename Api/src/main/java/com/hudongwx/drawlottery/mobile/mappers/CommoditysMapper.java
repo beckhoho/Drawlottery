@@ -143,5 +143,11 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
     Long selectMaxRoundTime();
 
+    /**
+     * 查询下一期商品信息
+     * @param tempId
+     * @param stateId
+     * @return
+     */
     Commoditys selectNextRoundComm(@Param("tempId") Long tempId, @Param("stateId") Integer stateId);
 }

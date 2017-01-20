@@ -115,6 +115,14 @@ public interface IUserService {
      */
     boolean addQQNumber(Long accountId, String qq);
 
+    /**
+     * 夺宝记录
+     *
+     * @param item
+     * @param accountId
+     * @param lastCommId
+     * @return
+     */
     List<Map<String, Object>> selectPurchaseRecords(Integer item, Long accountId, Long lastCommId);
 
     /**
