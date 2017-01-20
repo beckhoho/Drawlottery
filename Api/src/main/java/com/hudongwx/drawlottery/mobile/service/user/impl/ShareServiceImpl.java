@@ -212,7 +212,6 @@ public class ShareServiceImpl implements IShareService {
             share.setUserAccountId(accountid);
             return shareMapper.select(share);
         } else if (tag == Settings.DROP_DOWN_REFRESH) {//下拉刷新
-
             return null;
         }
 

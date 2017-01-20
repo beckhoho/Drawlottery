@@ -15,7 +15,12 @@
 
     </resultMap>
 
-    <select id="selectByUsable" resultMap="BaseResultMap">
+    <!-- 插入下一期商品幸运码 -->
+    <insert id="insertLuckCode">
+        INSERT  INTO  t_luck_codes(luck_code_template_id,commodity_id) select id,#{commId} from t_luck_code_template limit 0,#{endIndex}
+    </insert>
+
+  <select id="selectByUsable" resultMap="BaseResultMap">
     select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
   </select>
     <select id="selectLimit" resultMap="BaseResultMap">
@@ -30,6 +35,10 @@
     <select id="selectBytemplate" resultMap="BaseResultMap">
         SELECT * FROM t_luck_codes WHERE luck_code_template_id = #{tempId} and
         commodity_id = #{commodityId}
+    </select>
+
+    <select id="selectByCommodity" resultMap="BaseResultMap">
+        SELECT * FROM t_luck_codes WHERE commodity_id = #{commodityId}
     </select>
 
 
@@ -75,12 +84,14 @@
     </select>
     <select id="selectUserCommLuckCode" resultType="java.lang.String">
         SELECT tlct.luck_code
-         FROM t_luck_codes AS tlc
-         RIGHT JOIN t_luck_code_template AS tlct
-         ON tlc.luck_code_template_id = tlct.id
+        FROM t_luck_codes AS tlc
+        RIGHT JOIN t_luck_code_template AS tlct
+        ON tlc.luck_code_template_id = tlct.id
         WHERE tlc.user_account_id = #{accountId}
         and tlc.commodity_id = #{commId}
-        and tlct.id &lt; (select id from t_luck_code_template where luck_code= #{lastCode})
+        <if test="lastCode!=0">
+            and tlct.id &lt; (select id from t_luck_code_template where luck_code= #{lastCode})
+        </if>
         order by tlct.id desc
         limit #{pageLoadSize}
     </select>

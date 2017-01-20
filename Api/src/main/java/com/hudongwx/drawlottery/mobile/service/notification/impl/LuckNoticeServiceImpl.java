@@ -46,13 +46,16 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
     UserCodesHistoryMapper codesHistoryMapper;
     @Autowired
     LuckCodeTemplateMapper luckCodeTemplateMapper;
+    @Autowired
+    LotteryInfoMapper lotteryInfoMapper;
 
     @Override
     public Map<String,Object> addUserLuckNotice(Long commodityId) {
 
         Commoditys byKey = commMapper.selectByKey(commodityId);
         CommodityHistory history = historyMapper.selectByCommId(commodityId);
-        User user = userMapper.selectById(history.getLuckUserAccountId());
+        LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(commodityId);
+        User user = userMapper.selectById(lotteryInfo.getUserAccountId());
         Map<String,Object> map = new HashMap<>();
 
         map.put("userName",user.getNickname());//添加用户名

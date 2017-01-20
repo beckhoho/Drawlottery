@@ -6,10 +6,11 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="commodity_id" jdbcType="BIGINT" property="commodityId"/>
         <result column="lottery_id" jdbcType="BIGINT" property="lotteryId"/>
-        <result column="lottery_info" jdbcType="VARCHAR" property="lotteryInfo"/>
+        <!--<result column="lottery_info" jdbcType="STRING" property="lotteryInfo"/>-->
         <result column="sum_date" jdbcType="BIGINT" property="sumDate"/>
         <result column="buy_num" jdbcType="INTEGER" property="buyNum"/>
         <result column="user_account_id" jdbcType="BIGINT" property="userAccountId"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
 
     </resultMap>
 

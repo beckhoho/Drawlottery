@@ -36,11 +36,18 @@
     <select id="selectByCommName" resultMap="BaseResultMap">
         select * from t_commodity_history
         <where>
-            commodity_name = #{commodName}
+            temp_id = #{tempId}
             and round_time &lt; #{roundTime}
         </where>
-        ORDER BY id DESC
+        ORDER BY id DESC limit 1
         <!-- &lt; 小于     &jt; 大于 -->
+    </select>
+
+    <select id="selectCommodityBefore" resultType="java.lang.Long">
+      SELECT commodity_id from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
+      UNION
+      SELECT id as commodity_id  from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime}
+
     </select>
 
     <select id="selectComIdAndUser" resultMap="BaseResultMap">

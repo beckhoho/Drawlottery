@@ -2,9 +2,12 @@ package com.hudongwx.drawlottery.mobile.utils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hudongwx.drawlottery.mobile.entitys.*;
+import com.hudongwx.drawlottery.mobile.mappers.LotteryInfoMapper;
 import com.hudongwx.drawlottery.mobile.mappers.LuckCodeTemplateMapper;
 import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.scheduling.annotation.Async;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,8 +21,8 @@ public class LotteryUtils {
     //    时间格式化样式
     private static String pattern = "yyyy年MM月dd日 HH:mm:ss:SSS";
     private static SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-
-    public static LotteryInfo raffle(LuckCodeTemplateMapper templateMapper, LuckCodesMapper luckCodesMapper, UserMapper userMapper, Commoditys commodity) {
+    @Async
+    public static LotteryInfo raffle(LuckCodeTemplateMapper templateMapper, LuckCodesMapper luckCodesMapper, LotteryInfoMapper lotteryInfoMapper,UserMapper userMapper, Commoditys commodity) {
         Calendar calendar = Calendar.getInstance();
         //查询最后购买的五十条商品信息
         List<LuckCodes> userLuckCodes = luckCodesMapper.selectByBuyDateDesc();
@@ -54,6 +57,7 @@ public class LotteryUtils {
         LuckCodeTemplate template = templateMapper.selectByCode(lotteryId + "");
         LuckCodes codes = luckCodesMapper.selectBytemplate(template.getId(), commodity.getId());
         lotteryInfo.setUserAccountId(codes.getUserAccountId());
+        lotteryInfoMapper.insert(lotteryInfo);//将开奖信息写入数据库
         return lotteryInfo;
     }
 
