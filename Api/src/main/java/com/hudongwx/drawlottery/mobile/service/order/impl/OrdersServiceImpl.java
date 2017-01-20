@@ -174,7 +174,7 @@ public class OrdersServiceImpl implements IOrdersService {
         m.put("remainder", user.getGoldNumber());//获得用户账户余额
         List<RedPackets> list = redMapper.selectByAccount(accountId);
         for (RedPackets r : list) {
-            if (r.getUsePrice() < sum) {
+            if (r.getUsePrice() <= sum) {
                 idList.add(r.getId());//红包ID
             }
         }

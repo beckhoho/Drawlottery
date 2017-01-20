@@ -25,6 +25,7 @@
     <!-- 查询中奖历史-->
     <select id="selectHistoryLottery" resultMap="BaseResultMap">
         select *  from t_commodity_history WHERE luck_user_account_id = #{accountId}
+        order by id desc
     </select>
 
     <!-- 查询单件历史商品信息-->

@@ -193,6 +193,7 @@ public class OrdersServiceImplAsync {
         //红包
         Long packetId = orders.getRedPacketId();
 
+        System.out.println("-------------------------------!!!!!!!");
         if (packetId != 0 && packetId != null) { // 如果红包ID不为空
             RedPackets red = new RedPackets();
             red.setId(orders.getRedPacketId());
@@ -220,6 +221,10 @@ public class OrdersServiceImplAsync {
         User u = userMapper.selectById(accountId);
         u.setGoldNumber(u.getGoldNumber() + changeNum);
         userMapper.updateByPrimaryKeySelective(u);
+
+        //支付成功之后，更改订单支付状态
+        orders.setPayState(1);
+        mapper.updatePayState(orders.getId(),1);
 
     }
 
@@ -253,13 +258,12 @@ public class OrdersServiceImplAsync {
         com.setEndTime(new Date().getTime());
         com.setLuckUserAccountId(lotteryInfo.getUserAccountId());
         com.setTempId(key.getTempId());
-        //
 
         int insert = historyMapper.insertSelective(com);
 
-        int i = userHistoryMapper.insertCopy(commodityId);
+        //int i = userHistoryMapper.insertCopy(commodityId);
 
-        return insert > 0 && i > 0;
+        return insert > 0 ;
     }
 
 }
