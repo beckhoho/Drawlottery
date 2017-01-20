@@ -46,12 +46,14 @@
 
     <select id="selectUserCommLuckCode" resultType="java.lang.String">
         SELECT tlct.luck_code
-         FROM t_user_luck_codes_history AS tulch
-         LEFT JOIN t_luck_code_template AS tlct
-         ON tulch.luck_code_template_id = tlct.id
-        WHERE user_account_id = #{accountId}
-        and commodity_id = #{commId}
-        and tlct.id &lt; (select id from t_luck_code_template where  luck_code = #{lastCode})
+        FROM t_user_luck_codes_history AS tulch
+        LEFT JOIN t_luck_code_template AS tlct
+        ON tulch.luck_code_template_id = tlct.id
+        WHERE tulch.user_account_id = #{accountId}
+        and tulch.commodity_id = #{commId}
+        <if test="lastCode!=0">
+            and tlct.id &lt; (select id from t_luck_code_template where luck_code = #{lastCode})
+        </if>
         order by tlct.id desc
         limit #{pageLoadSize}
     </select>

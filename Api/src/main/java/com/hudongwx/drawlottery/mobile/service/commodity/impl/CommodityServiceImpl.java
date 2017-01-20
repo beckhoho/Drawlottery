@@ -200,8 +200,10 @@ public class CommodityServiceImpl implements ICommodityService {
             CommodityHistory comm = historyMapper.selectByCommId(commodId);
             map.put("beforeLottery", mapBefore(comm));
             Commoditys commoditys = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
-            nextRound = commoditys.getRoundTime() + "期正在火热进行中";
-            nextRoundId = commoditys.getId();
+            if (null != commoditys) {
+                nextRound = commoditys.getRoundTime() + "期正在火热进行中";
+                nextRoundId = commoditys.getId();
+            }
         }
         map.put("nextRound", nextRound);
         map.put("nextRoundId", nextRoundId);

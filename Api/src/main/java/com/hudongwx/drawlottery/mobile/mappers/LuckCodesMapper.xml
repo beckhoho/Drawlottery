@@ -75,12 +75,14 @@
     </select>
     <select id="selectUserCommLuckCode" resultType="java.lang.String">
         SELECT tlct.luck_code
-         FROM t_luck_codes AS tlc
-         RIGHT JOIN t_luck_code_template AS tlct
-         ON tlc.luck_code_template_id = tlct.id
+        FROM t_luck_codes AS tlc
+        RIGHT JOIN t_luck_code_template AS tlct
+        ON tlc.luck_code_template_id = tlct.id
         WHERE tlc.user_account_id = #{accountId}
         and tlc.commodity_id = #{commId}
-        and tlct.id &lt; (select id from t_luck_code_template where luck_code= #{lastCode})
+        <if test="lastCode!=0">
+            and tlct.id &lt; (select id from t_luck_code_template where luck_code= #{lastCode})
+        </if>
         order by tlct.id desc
         limit #{pageLoadSize}
     </select>
