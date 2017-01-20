@@ -9,6 +9,8 @@ import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.utils.LotteryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -68,6 +70,7 @@ public class OrdersServiceImpl implements IOrdersService {
      * @return
      */
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Long pay(Long accountId, Orders orders, List<CommodityAmount> commodityAmounts) {
 
         /*
@@ -108,6 +111,7 @@ public class OrdersServiceImpl implements IOrdersService {
      * @param commodityId
      * @param buyNum
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean updateLuckCodes(Long accountid, long commodityId, int buyNum, Orders orders) {
         //获取商品未使用幸运码
         Date date = new Date();
