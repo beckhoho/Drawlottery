@@ -38,8 +38,8 @@ public class ServiceUtils {
         List<T> newList = new ArrayList<>();
         if (null == page || page <= 0)
             page = 1;
-        int startPosition = Settings.PAGE_LOAD_SIZE * (page - 1);
-        int endPosition = Settings.PAGE_LOAD_SIZE + startPosition;
+        int startPosition = Settings.PAGE_LOAD_SIZE_10 * (page - 1);
+        int endPosition = Settings.PAGE_LOAD_SIZE_10 + startPosition;
         int maxPosition = endPosition >= list.size() ? list.size() : endPosition;
         for (int i = startPosition; i < maxPosition; i++) {
             newList.add(list.get(i));

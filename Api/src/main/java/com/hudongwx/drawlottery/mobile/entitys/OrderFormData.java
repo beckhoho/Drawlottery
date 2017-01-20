@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.entitys;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
@@ -21,10 +22,11 @@ import java.util.List;
  * @email 294786949@qq.co */
 public class OrderFormData implements Serializable {
 
-    @NotEmpty(message = "订单创建错误")
+    @NotNull(message = "订单创建错误")
     private Orders order;
 
     @Size(min = 1,message = "没有购买商品")
+    @NotEmpty(message = "没有购买商品")
     private List<CommodityAmount> caList;
 
     public Orders getOrder() {

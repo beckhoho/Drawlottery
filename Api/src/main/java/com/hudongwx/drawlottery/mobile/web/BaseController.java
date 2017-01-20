@@ -46,8 +46,6 @@ public abstract class BaseController {
     }
 
     public Session getSession() {
-       /* DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
-        securityManager.getRealms();*/
         return getSubject().getSession();
     }
 

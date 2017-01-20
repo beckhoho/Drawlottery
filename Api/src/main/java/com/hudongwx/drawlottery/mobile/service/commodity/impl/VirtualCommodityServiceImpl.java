@@ -81,7 +81,7 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
         vir.setCardNumber(cardNumber);
         VirtualCommodity vc = vcMapper.selectOne(vir);
         vc.setState(state);
-        CommodityHistory commodityHistory = chMapper.selectBycommId(vc.getCommodityId());
+        CommodityHistory commodityHistory = chMapper.selectByCommId(vc.getCommodityId());
         boolean allExchanged=true;
         List<VirtualCommodity> vcList = vcMapper.selectByCommId(vc.getCommodityId());
         for (VirtualCommodity virtualCommodity : vcList) {
