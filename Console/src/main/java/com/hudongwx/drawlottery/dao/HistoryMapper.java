@@ -22,4 +22,10 @@ public interface HistoryMapper {
     List<History> selectList(@Param("param") HistoryParam param);
 
     List<String> selectRoundTimes(@Param("key") String key);
+
+    /**
+     * @param id 商品id
+     * @return 详细信息
+     */
+    History selectHistory(long id);
 }

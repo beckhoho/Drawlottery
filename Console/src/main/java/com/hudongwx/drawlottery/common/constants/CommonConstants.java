@@ -43,10 +43,19 @@ public class CommonConstants {
      */
     private static final int VALID = 1;
     private static final int INVALID = 0;
+
+    /**
+     * 常量字段 空字符串 .
+     */
+    private static final String EMPTY_STRING = "";
     /**
      * 默认分页行数
      */
     private int maxPageSize;
+
+    public String getEmptyString() {
+        return EMPTY_STRING;
+    }
 
     public int getMaxPageSize() {
         return maxPageSize;
@@ -89,7 +98,7 @@ public class CommonConstants {
     }
 
 
-    private Integer convertGenre(String genreLabel) {
+    public Integer convertGenre(String genreLabel) {
         Integer genre = null;
         switch (genreLabel) {
             case "虚拟":
@@ -105,7 +114,9 @@ public class CommonConstants {
         return genre;
     }
 
-    private String convertGenre(Integer genre) {
+    public String convertGenre(Integer genre) {
+        if (null == genre)
+            return getEmptyString();
         String genreLabel = null;
         switch (genre) {
             case 0:

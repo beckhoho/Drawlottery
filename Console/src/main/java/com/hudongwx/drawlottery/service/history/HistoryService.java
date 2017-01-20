@@ -35,4 +35,12 @@ public interface HistoryService {
      * @return 列表
      */
     public List<String> getRoundTimes(int currentPage, int maxPageSize, String key);
+
+    /**
+     * 通过id得到详情
+     *
+     * @param id 商品id
+     * @return 详情
+     */
+    History getHistory(long id);
 }

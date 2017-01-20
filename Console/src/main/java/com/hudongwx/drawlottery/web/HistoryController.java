@@ -2,9 +2,11 @@ package com.hudongwx.drawlottery.web;
 
 import com.github.pagehelper.PageInfo;
 import com.hudongwx.drawlottery.common.constants.CommonConstants;
+import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.dto.Node;
 import com.hudongwx.drawlottery.common.dto.paramBody.HistoryParam;
 import com.hudongwx.drawlottery.common.dto.response.OrderFilters;
+import com.hudongwx.drawlottery.common.exceptions.ControllerException;
 import com.hudongwx.drawlottery.pojo.ExchangeWay;
 import com.hudongwx.drawlottery.pojo.History;
 import com.hudongwx.drawlottery.service.commodity.ExchangeWayService;
@@ -28,13 +30,15 @@ import java.util.List;
  */
 @Api("订单相关接口")
 @RestController
-@RequestMapping("/order")
+@RequestMapping(value = "/order", method = RequestMethod.POST)
 public class HistoryController {
 
     @Resource
     private HistoryService historyService;
     @Resource
     private CommonConstants commonConstants;
+    @Resource
+    private LangConstants langConstants;
     @Resource
     private ExchangeWayService exchangeWayService;
 
@@ -64,4 +68,20 @@ public class HistoryController {
         filters.setExchangeWay(exWays);
         return filters;
     }
+
+    /**
+     * 通过商品id获取订单细节
+     *
+     * @param id 商品id
+     * @return 详细信息
+     */
+    @ApiOperation("订单细节")
+    @RequestMapping(value = "/details")
+    public History details(@RequestParam Long id) {
+        if (null == id)
+            throw new ControllerException(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
+        return historyService.getHistory(id);
+    }
+
+
 }

@@ -19,7 +19,7 @@ import java.util.List;
  * @author <a href="http://userwu.github.io">wuhongxu</a>.
  * @version 1.0.0
  */
-@Service
+@Service("historyService")
 public class HistoryServiceImpl implements HistoryService {
     @Resource
     private HistoryMapper historyMapper;
@@ -52,5 +52,16 @@ public class HistoryServiceImpl implements HistoryService {
     public List<String> getRoundTimes(int currentPage, int maxPageSize, String key) {
         PageHelper.startPage(currentPage,maxPageSize);
         return historyMapper.selectRoundTimes(key);
+    }
+
+    /**
+     * 通过id得到详情
+     *
+     * @param id 商品id
+     * @return 详情
+     */
+    @Override
+    public History getHistory(long id) {
+        return historyMapper.selectHistory(id);
     }
 }

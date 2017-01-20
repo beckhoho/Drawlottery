@@ -1,11 +1,15 @@
 package com.hudongwx.drawlottery.pojo;
 
+import com.hudongwx.drawlottery.common.constants.CommonConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
+import com.hudongwx.drawlottery.common.utils.DateUtils;
 import com.hudongwx.drawlottery.common.utils.SpringUtils;
+
+import java.util.Date;
 
 public class History {
     private LangConstants langConstants = SpringUtils.getBean(LangConstants.class);
-
+    private CommonConstants commonConstants = SpringUtils.getBean(CommonConstants.class);
     private Long id;
 
     private Long commodityId;
@@ -14,7 +18,6 @@ public class History {
 
     private String commodityName;
 
-    private Integer genre;
 
     private String luckCode;
 
@@ -22,7 +25,6 @@ public class History {
 
     private Integer buyNumber;
 
-    private Long endTime;
 
     private Long luckUserAccountId;
 
@@ -30,19 +32,18 @@ public class History {
 
     private Integer buyTotalNumber;
 
-    private Integer exchangeState;
-
-    private Integer exchangeWay;
 
     private Integer cardNotEnough;
 
     private Integer shareState;
 
+    private Integer exchangeWay;
     /**
      * 兑奖方式的显示文字
      */
     private String exchangeWayLabel;
 
+    private Integer exchangeState;
     /**
      * 兑奖状态显示文字
      */
@@ -53,10 +54,60 @@ public class History {
      */
     private String cardNotEnoughLabel;
 
+    private Integer genre;
     /**
      * 属性显示文字
      */
     private String genreLabel;
+
+    private Long endTime;
+    /**
+     * 揭晓时间显示文字，格式化时间后的字符串
+     */
+    private String endTimeLabel;
+
+
+    //-------------------详情字段------------------------//
+    /**
+     * 地址
+     */
+    private String address;
+    /**
+     * 快递状态
+     */
+    private Integer expressState;
+    /**
+     * 快递名
+     */
+    private String deliveryName;
+    /**
+     * 快递单号
+     */
+    private String deliveryNumber;
+    /**
+     * 收件人姓名
+     */
+    private String receiverName;
+    /**
+     * 收件人电话
+     */
+    private String receiverPhone;
+
+    /**
+     * 用户姓名
+     */
+    private String nickname;
+
+    /**
+     * 用户真实姓名
+     */
+    private String realName;
+
+    /**
+     * 用户电话
+     */
+    private String userPhoneNumber;
+
 
     public Long getId() {
         return id;
@@ -196,6 +247,8 @@ public class History {
 
     public String getExchangeStateLabel() {
         exchangeStateLabel = langConstants.getLang(langConstants.EXCHANGE_STATE_NOT);
+        if (null == exchangeState)
+            return commonConstants.getEmptyString();
         if (1 == exchangeState)
             exchangeStateLabel = langConstants.getLang(langConstants.EXCHANGE_STATE_ON);
         return exchangeStateLabel;
@@ -207,6 +260,8 @@ public class History {
 
     public String getCardNotEnoughLabel() {
         cardNotEnoughLabel = "";
+        if (null == cardNotEnough)
+            return commonConstants.getEmptyString();
         if (cardNotEnough == 1)
             cardNotEnoughLabel = "卡数不足";
         return cardNotEnoughLabel;
@@ -217,18 +272,92 @@ public class History {
     }
 
     public String getGenreLabel() {
-        switch (genre) {
-            case 1:
-                genreLabel = "实体";
-            case 2:
-                genreLabel = "实体不可快递";
-            default:
-                genreLabel = "虚拟";
-        }
-        return genreLabel;
+        return commonConstants.convertGenre(genre);
     }
 
     public void setGenreLabel(String genreLabel) {
         this.genreLabel = genreLabel;
+    }
+
+    public String getEndTimeLabel() {
+        if (null == endTime)
+            return commonConstants.getEmptyString();
+        return DateUtils.format(new Date(endTime));
+    }
+
+    public void setEndTimeLabel(String endTimeLabel) {
+        this.endTimeLabel = endTimeLabel;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getExpressState() {
+        return expressState;
+    }
+
+    public void setExpressState(Integer expressState) {
+        this.expressState = expressState;
+    }
+
+    public String getDeliveryName() {
+        return deliveryName;
+    }
+
+    public void setDeliveryName(String deliveryName) {
+        this.deliveryName = deliveryName;
+    }
+
+    public String getDeliveryNumber() {
+        return deliveryNumber;
+    }
+
+    public void setDeliveryNumber(String deliveryNumber) {
+        this.deliveryNumber = deliveryNumber;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
     }
 }
