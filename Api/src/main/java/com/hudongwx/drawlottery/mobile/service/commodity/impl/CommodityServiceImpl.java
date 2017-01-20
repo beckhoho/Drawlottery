@@ -200,6 +200,13 @@ public class CommodityServiceImpl implements ICommodityService {
                 map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
             }
         }
+        if (com.getStateId() == 2) {
+            Commoditys commoditys = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
+            if (null != commoditys) {
+                nextRound = commoditys.getRoundTime() + "期正在火热进行中";
+                nextRoundId = commoditys.getId();
+            }
+        }
         if (com.getStateId() == 1 ) {//如果已开奖或是在等待开奖
             Commoditys byKey = commsMapper.selectByKey(commodId);
             map.put("beforeLottery", mapBefore(byKey));

@@ -153,7 +153,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         map.put("prizeState", "正在兑奖中");//奖品状态
         map.put("size", 0);//几张充值卡
         map.put("worth", 0);//充值卡面额
-        map.put("cardNumberList", new HashMap<>());
+        map.put("cardNumberList", new ArrayList<>());
         map.put("expressNumber", null);//快递单号
         map.put("expressName", null);//获取快递名
         map.put("expressState", 0);//添加快递状态(0,未发奖；1,发货中；2,已收货)
@@ -188,6 +188,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
                 map.put("state", 3);//添加兑换流程状态
             }
         }
+        System.out.println(map);
         return map;
     }
 
@@ -233,10 +234,8 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
                 map.put("cardNumberList", mapList);
                 map.put("worth", money);//添加面额
             } else {
-                Map<String, Object> map1 = new HashMap<>();
-                mapList.add(map1);
                 map.put("size", 0);
-                map.put("cardNumberList", mapList);
+                map.put("cardNumberList", new ArrayList<>());
                 map.put("worth", 0);
             }
         }
@@ -245,7 +244,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             for (Card card : list){
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("cardNumber", card.getCardNum());
-                map1.put("password", null);
+                map1.put("password", card.getPassword());
                 map1.put("state", card.getState());
                 mapList.add(map1);
             }
