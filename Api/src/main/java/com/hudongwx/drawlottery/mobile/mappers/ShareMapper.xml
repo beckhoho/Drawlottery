@@ -24,7 +24,7 @@
   <select id="selectByIssueDate" resultMap="BaseResultMap">
    select * from t_share where issue_date = #{issueDate}
   </select>
-  <insert id="insertByGeneratedKeys"  parameterType="Share" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertByGeneratedKeys"  parameterType="Share" useGeneratedKeys="true" keyProperty="id" >
     INSERT INTO t_share(user_account_id,issue_date,commodity_id,particulars)
     values(#{userAccountId},#{issueDate},#{commodityId},#{particulars})
   </insert>

@@ -15,9 +15,28 @@
 
     </resultMap>
 
+    <!-- 插入下一期商品幸运码 -->
+    <insert id="insertLuckCode">
+
+        INSERT INTO t_luck_codes
+        (luck_code_template_id,commodity_id) VALUES
+        <foreach collection="list" separator="," item="luck">
+            (#{luck.luckCodeTemplateId},#{luck.commodityId})
+        </foreach>
+
+    </insert>
+
+
+
+
   <select id="selectByUsable" resultMap="BaseResultMap">
     select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
   </select>
+
+    <select id="selectByCommodity" resultMap="BaseResultMap">
+        select * from t_luck_codes where commodity_id = #{commodityId}
+    </select>
+
     <select id="selectLimit" resultMap="BaseResultMap">
         select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
     limit 0,#{endNum}

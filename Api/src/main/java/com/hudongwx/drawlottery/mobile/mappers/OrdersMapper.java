@@ -14,4 +14,6 @@ public interface OrdersMapper extends BaseMapper<Orders> {
     List<Orders> selectByUserDate(@Param("userAccount") Long userAccount,@Param("dateTime")Long date);
 
     Orders selectOneByUserDate(@Param("userAccount") Long userAccount,@Param("dateTime")Long date);
+
+    int insertUseGenerated(Orders orders);
 }

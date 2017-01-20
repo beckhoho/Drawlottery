@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
+import com.sun.org.apache.bcel.internal.generic.LUSHR;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,6 +11,8 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
 
     //通过商品名查询luckCode
     List<LuckCodes> selectByUsable(@Param("commodityId") Long commodityId);
+
+    List<LuckCodes> selectByCommodity(@Param("commodityId")Long commodityId);
 
     List<LuckCodes> selectLimit(@Param("commodityId") Long commodityId,@Param("endNum")Integer endNum);
 
@@ -31,6 +34,10 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
                    @Param("buyDate")Long buyDate,
                    @Param("nextCommId")Long nextCommId
                    );
+
+
+    //插入下一期商品幸运码
+    int insertLuckCode(List<LuckCodes> luckCodes);
 
     //查看商品幸运码
     List<Long> selectCountByCommodity(@Param("commId") Long commId);
