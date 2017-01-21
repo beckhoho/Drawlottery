@@ -481,7 +481,7 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectAnnounceComm(Long lastCommId) {
+    public List<Map<String, Object>> selectNewestAnnounceComm(Long lastCommId) {
         return getFormAnnounceCommData(commsMapper.selectPageAnnounceComm(lastCommId, Settings.PAGE_LOAD_SIZE_10));
     }
 

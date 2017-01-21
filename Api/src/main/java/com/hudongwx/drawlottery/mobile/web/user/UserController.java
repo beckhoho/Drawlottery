@@ -99,7 +99,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户夺宝记录中的luckCode带分页")
     @RequestMapping(value = "/api/v1/priv/user/usercomm/code/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserLuckCode(@ApiParam("回传最后一个Code码") @RequestParam("commId") Long commId, @ApiParam("回传最后一个Code码") @RequestParam("lastCode") String lastCode) {
+    public JSONObject queryUserLuckCode(@ApiParam("回传最后一个Code码") @RequestParam("commId") Long commId, @ApiParam("回传最后一个Code码") @RequestParam(name = "lastCode",required = false) String lastCode) {
         return success(userService.selectUserLuckCode(getUserId(), commId, lastCode));
     }
 
