@@ -5,32 +5,20 @@ import java.util.Date;
 
 @Table(name = "t_commodity_history")
 public class CommodityHistory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     /**
      * 商品id
      */
+    @Id
     @Column(name = "commodity_id")
     private Long commodityId;
 
-    /**
-     * 幸运号id
-     */
-    @Column(name = "luck_code")
-    private String luckCode;
 
     /**
      * 模板ID
      */
     @Column(name = "temp_id")
     private Long tempId;
-    /**
-     * 商品名
-     */
-    @Column(name = "commodity_name")
-    private String commodityName;
 
 
     /**
@@ -45,11 +33,6 @@ public class CommodityHistory {
     @Column(name = "buy_number")
     private Integer buyNumber;
 
-    /**
-     * 商品封面图
-     */
-    @Column(name = "cover_img_url")
-    private String coverImgUrl;
 
     /**
      * 揭晓时间
@@ -57,17 +40,7 @@ public class CommodityHistory {
     @Column(name = "end_time")
     private Long endTime;
 
-    /**
-     * 本期中奖用户
-     */
-    @Column(name = "luck_user_account_id")
-    private Long luckUserAccountId;
 
-    /**
-     * 本期总需人数
-     */
-    @Column(name = "buy_total_number")
-    private Integer buyTotalNumber;
 
     /**
      * 兑换状态
@@ -86,6 +59,7 @@ public class CommodityHistory {
      */
     @Column(name="share_state")
     private Integer shareState;
+
 
     public Integer getShareState() {
         return shareState;
@@ -126,29 +100,6 @@ public class CommodityHistory {
      */
     private Integer genre;
 
-    public Integer getBuyTotalNumber() {
-        return buyTotalNumber;
-    }
-
-    public void setBuyTotalNumber(Integer buyTotalNumber) {
-        this.buyTotalNumber = buyTotalNumber;
-    }
-
-    public String getCoverImgUrl() {
-        return coverImgUrl;
-    }
-
-    public void setCoverImgUrl(String coverImgUrl) {
-        this.coverImgUrl = coverImgUrl;
-    }
-
-    public Long getLuckUserAccountId() {
-        return luckUserAccountId;
-    }
-
-    public void setLuckUserAccountId(Long luckUserAccountId) {
-        this.luckUserAccountId = luckUserAccountId;
-    }
 
     public Long getEndTime() {
         return endTime;
@@ -158,27 +109,6 @@ public class CommodityHistory {
         this.endTime = endTime;
     }
 
-    public String getCommodityName() {
-        return commodityName;
-    }
-
-    public void setCommodityName(String commodityName) {
-        this.commodityName = commodityName;
-    }
-
-    /**
-     * @return id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     /**
      * 获取商品id
@@ -196,24 +126,6 @@ public class CommodityHistory {
      */
     public void setCommodityId(Long commodityId) {
         this.commodityId = commodityId;
-    }
-
-    /**
-     * 获取幸运号id
-     *
-     * @return luck_code - 幸运号id
-     */
-    public String getLuckCode() {
-        return luckCode;
-    }
-
-    /**
-     * 设置幸运号id
-     *
-     * @param luckCodeId 幸运号id
-     */
-    public void setLuckCode(String luckCodeId) {
-        this.luckCode = luckCodeId;
     }
 
 

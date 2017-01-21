@@ -139,8 +139,6 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
     int updateCommState(@Param("commId") Long commId, @Param("stateId") Integer stateId);
 
-    int updateById(Commodity commodity);
-
     Long selectMaxRoundTime();
 
     Commoditys selectNextRoundComm(@Param("tempId") Long tempId, @Param("stateId") Integer stateId);

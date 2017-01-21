@@ -23,11 +23,6 @@ import java.util.Map;
  */
 public interface ICommodityHistoryService {
 
-    //添加商品到历史商品
-    boolean addCommodHistory(CommodityHistory commodityHistory);
-
-    //查看历史商品
-    CommodityHistory selectHistoryCommod();
 
     /**
      * 查询指定商品的往期揭晓
@@ -35,11 +30,11 @@ public interface ICommodityHistoryService {
      * @param commId
      * @return
      */
-    List<Map<String,Object>> selectThePastAnnouncedCommList(Long commId);
+    List<Map> selectThePastAnnouncedCommList(Long commId);
 
     /**
      * 查看该期商品中奖信息
      * @return
      */
-    LotteryInfo queryLotteryInfo(Long commId);
+    LotteryInfo selectLotteryInfo(Long commId);
 }

@@ -2,7 +2,11 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Commodity;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -21,7 +25,63 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface CommodityMapper  extends BaseMapper<Commodity>{
 
+    //通过商品ID 查询商品模板ID
     Long selectTempIdByCommId(@Param("commId")Long commId);
 
+    //生成下一期（返回主键ID）
     int insertUseGenerated(Commodity commodity);
+
+    //将开过奖的商品拷贝到商品表
+    int insertHistory();
+
+    //更新商品数据（字段非空处理）
+    int updateById(Commodity commodity);
+
+    //查询往期揭晓数据
+    List<Long> selectBefore(@Param("tempId")Long tempId);
+
+    /**
+     * 查询上期商品开奖信息
+     * @param tempId
+     * @param roundTime
+     * @return
+     */
+    Commodity selectByTempIdOrderRoundTime(@Param("tempId") Long tempId, @Param("roundTime") String roundTime);
+//    List<Long> selectCommodityBefore(@Param("tempId")Long tempId,@Param("roundTime")String roundTime);
+
+
+
+    /**
+     * 查询单件历史商品信息
+     * @return  返回商品信息
+     */
+    //CommodityHistory selectByCommId(@Param("commodityId") Long commodityId);
+
+    /**
+     * 查询中奖历史
+     * @param accountId 用户ID
+     * @return
+     */
+    List<Commodity> selectHistoryLottery(@Param("accountId") Long accountId);
+
+    Commodity selectComIdAndUser(@Param("accountId")Long accountId,@Param("commodityId")Long commodityId);
+
+    List<Commodity> selectByTempId(@Param("tempId")Long tempId);
+
+    //int updateByCommodityIdSelective(@Param("commodityHistory") CommodityHistory commodityHistory);
+
+    /**
+     * 更改商品分享状态
+     * @param commodityId
+     * @return
+     */
+    //int updateShareStateByCommodityId(@Param("commodityId")Long commodityId);
+
+    /**
+     * 查询往期商品中奖信息
+     * @param commodityId
+     * @return
+     */
+    List<Map> selectPastLottery(Long commodityId);
+
 }

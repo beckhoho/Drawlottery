@@ -125,14 +125,14 @@ public class OrdersServiceImplAsync {
                 if (commodity.getAutoRound() == 1 && (remainingNum == 0 || remainingNum - buyNum == 0)) {
                     //如果商品卖光，自动生成下一期
                     Commoditys commoditys = comMapper.selectByKey(ca.getCommodityId());
-                    Long roundTime = Long.valueOf(commoditys.getRoundTime());
                     Commodity comm = new Commodity();
                     comm.setBuyCurrentNumber(0);
                     comm.setStateId(3);
-                    comm.setBuyLastNumber(0);
-                    com.setLastRoundTime(roundTime);
                     comm.setTempId(commodity.getTempId());
                     comm.setRoundTime(commodityService.generateNewRoundTime() + "");
+                    comm.setCardNotEnough(0);
+                    comm.setExchangeState(0);
+                    comm.setExchangeWay(0);
                     comm.setViewNum(0l);
                     //添加下一期商品到商品表
                     commMapper.insertUseGenerated(comm);
@@ -148,7 +148,7 @@ public class OrdersServiceImplAsync {
                     }
 
                     com.setId(commodity.getId());
-                    comMapper.updateById(com);//提交商品信息
+                    commMapper.updateById(com);//提交商品信息
                     TotalNum += buyNum;//累加实际购买量
                     ordersCommoditys.setAmount(buyNum);//设置商品订单表购买数量
                     orderMapper.insert(ordersCommoditys);//添加商品订单信息
@@ -174,15 +174,12 @@ public class OrdersServiceImplAsync {
             }
             com.setId(commodity.getId());
 
-            int updateById = comMapper.updateById(com);//提交商品信息
-            System.out.println(updateById);
+            commMapper.updateById(com);//提交商品信息
             TotalNum = TotalNum + buyNum + extraNum;//累加实际购买量
             ordersCommoditys.setAmount(buyNum);//设置商品订单表购买数量
             int insert = orderMapper.insert(ordersCommoditys);//添加商品订单信息
 
         }
-//        return TotalNum;
-
 
         //余额更改量
         int changeNum;
@@ -193,7 +190,6 @@ public class OrdersServiceImplAsync {
         //红包
         Long packetId = orders.getRedPacketId();
 
-        System.out.println("-------------------------------!!!!!!!");
         if (packetId != 0 && packetId != null) { // 如果红包ID不为空
             RedPackets red = new RedPackets();
             red.setId(orders.getRedPacketId());
@@ -246,24 +242,16 @@ public class OrdersServiceImplAsync {
         LuckCodes luckCodes = codesMapper.selectBytemplate(byCode.getId(), commodityId);
         List<LuckCodes> id = codesMapper.selectByUserAccountId(luckCodes.getUserAccountId(), commodityId);
 
-        CommodityHistory com = new CommodityHistory();
-        com.setLuckCode(lotteryInfo.getLotteryId() + "");
-        com.setRoundTime(key.getRoundTime());
-        com.setGenre(key.getGenre());
+        Commodity com = new Commodity();
+        com.setId(key.getId());
         com.setBuyNumber(id.size());
-        com.setBuyTotalNumber(key.getBuyTotalNumber());
-        com.setCommodityId(commodityId);
-        com.setCommodityName(key.getName());
-        com.setCoverImgUrl(key.getCoverImgUrl());
         com.setEndTime(new Date().getTime());
-        com.setLuckUserAccountId(lotteryInfo.getUserAccountId());
-        com.setTempId(key.getTempId());
-
-        int insert = historyMapper.insertSelective(com);
+        int i = commMapper.updateByPrimaryKeySelective(com);
+        //开奖之后直接更改商品信息
 
         //int i = userHistoryMapper.insertCopy(commodityId);
 
-        return insert > 0 ;
+        return i > 0 ;
     }
 
 }

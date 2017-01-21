@@ -44,21 +44,12 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
     @Autowired
     LotteryInfoMapper lotteryInfoMapper;
 
-    @Override
-    public boolean addCommodHistory(CommodityHistory commodityHistory) {
-        return chMapper.insert(commodityHistory) > 0;
-    }
 
     @Override
-    public CommodityHistory selectHistoryCommod() {
-        /*CommodityHistory history = new CommodityHistory();
-        history.setLuckUserAccountId(10);
-        ceMapper.selectByPrimaryKey(history);*/
-        return null;
-    }
+    public List<Map> selectThePastAnnouncedCommList(Long commId) {
+        List<Map> maps = commodityMapper.selectPastLottery(commId);
 
-    @Override
-    public List<Map<String, Object>> selectThePastAnnouncedCommList(Long commId) {
+      /*
         List<Map<String, Object>> infoList = null;
         Long aLong = commodityMapper.selectTempIdByCommId(commId);
         List<CommodityHistory> chList = chMapper.selectByTempId(aLong);
@@ -72,21 +63,20 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
             map.put("endTime", history.getEndTime());//揭晓时间
             map.put("UserImgUrl", user.getHeaderUrl());
             map.put("luckUserName", user.getNickname());//用户昵称
-            map.put("ip", "127.0.0.1");//用户IP // TODO: 2017/1/16 getUserIP？？？
+            map.put("ip", "127.0.0.1");//用户IP
             map.put("luckCode", history.getLuckCode());//中奖码
             map.put("userByNum", history.getBuyNumber());//用户当期参与购买量
             infoList.add(map);
-        }
-        return infoList;
+        }*/
+        return maps;
     }
 
     /**
      * 查看该期商品中奖信息
-     *
      * @return
      */
     @Override
-    public LotteryInfo queryLotteryInfo(Long commId) {
+    public LotteryInfo selectLotteryInfo(Long commId) {
         return lotteryInfoMapper.selectByComId(commId);
     }
 
