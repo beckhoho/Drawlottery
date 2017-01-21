@@ -55,18 +55,22 @@ public class AuthorController extends BaseController {
             {
                     @ApiImplicitParam(name = "openid", value = "openid", paramType = "query", dataType = "string"),
                     @ApiImplicitParam(name = "access_token", value = "access_token", paramType = "query", dataType = "string"),
-                    @ApiImplicitParam(name = "platform", value = "平台类型,1=QQ,2=微信", paramType = "query", dataType = "int")
+                    @ApiImplicitParam(name = "platform", value = "平台类型,1=QQ,2=微信", paramType = "query", dataType = "int"),
+                    @ApiImplicitParam(name = "nickName", value = "昵称", paramType = "query", dataType = "string"),
+                    @ApiImplicitParam(name = "headImg", value = "平台类型,1=QQ,2=微信", paramType = "query", dataType = "string")
             }
     )
     @RequestMapping(value = "/api/v1/pub/party/login", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject partyLogin(
             @RequestParam(value = "openid", required = true) String openid,
             @RequestParam(value = "access_token", required = true) String accessToken,
-            @RequestParam(value = "platform", required = true) int platform
+            @RequestParam(value = "platform", required = true) int platform,
+            @RequestParam(value = "nickName", required = true) String nickName,
+            @RequestParam(value = "headImg", required = true) String headImg
     ) {
         Subject subject = SecurityUtils.getSubject();
         if(!subject.isAuthenticated()){
-            ThirdPartyLoginToken token = new ThirdPartyLoginToken(openid, accessToken, platform);
+            ThirdPartyLoginToken token = new ThirdPartyLoginToken(openid, accessToken, platform,nickName,headImg);
             token.setPassword(openid.toCharArray());
             //判断是否来自QQ或微信平台
             if(token.isQQPlatform() || token.isWeixinPlatform()){

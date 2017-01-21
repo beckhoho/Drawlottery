@@ -395,6 +395,11 @@ public class UserServiceImpl implements IUserService {
     }
 
 
+    /**
+     * 第三方注册登录
+     * @param token
+     * @return
+     */
     @Override
     public User registerAndLoginThirdParty(ThirdPartyLoginToken token) {
         User user = null;
@@ -404,6 +409,8 @@ public class UserServiceImpl implements IUserService {
                 if (validatorQQOpenId(token)) {//注册
                     user = new User();
                     user.setQqOpenId(token.getOpenid());
+                    user.setHeaderUrl(token.getHeadImg());
+                    user.setNickname(token.getNickName());
                     insertUser(user, token);
                     return userMapper.selectByQQOpenId(token.getOpenid());//重新查询携带自增id
                 }
@@ -414,6 +421,9 @@ public class UserServiceImpl implements IUserService {
                 if (validatorWeiXinOpenId(token)) {
                     user = new User();
                     user.setWeixinOpenId(token.getOpenid());
+                    user.setHeaderUrl(token.getHeadImg());
+                    user.setNickname(token.getNickName());
+
                     insertUser(user, token);
                     return userMapper.selectByWxOpenId(token.getOpenid());//重新查询携带自增id
                 }

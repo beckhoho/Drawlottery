@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.mobile;
 
 import com.hudongwx.drawlottery.mobile.conf.spring.ApplicationStopListener;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.CacheConfig;
@@ -13,7 +14,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 @EnableCaching
 public class ApiApplication {
+
 	public static void main(String[] args) {
         SpringApplication.run(ApiApplication.class, args);
 	}
+
 }

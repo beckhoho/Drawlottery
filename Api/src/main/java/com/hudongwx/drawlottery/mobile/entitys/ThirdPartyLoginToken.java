@@ -22,11 +22,32 @@ public class ThirdPartyLoginToken extends UsernamePasswordToken {
     private String openid; //第三方登录openid
     private String accessToken; //第三方登录accessToken
     private int platform = -1;//第三方登录平台id,1=qq,2=weixin
+    private String nickName;
+    private String headImg;
 
-    public ThirdPartyLoginToken(String openid,String accessToken,int platform){
+
+    public ThirdPartyLoginToken(String openid,String accessToken,int platform,String nickName,String headImg){
         this.openid = openid;
         this.accessToken = accessToken;
         this.platform = platform;
+        this.headImg = headImg;
+        this.nickName = nickName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 
     public String getOpenid() {

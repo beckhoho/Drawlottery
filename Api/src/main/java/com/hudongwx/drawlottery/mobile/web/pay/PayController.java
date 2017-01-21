@@ -16,8 +16,10 @@ import com.hudongwx.drawlottery.mobile.web.BaseController;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.config.AlipayConfig;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.sign.RSA;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.AlipayCore;
+import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.AlipayNotify;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.UtilDate;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +49,8 @@ import java.util.*;
  * <p>
  * @email 346905702@qq.com
  */
-@RestController
 @Api(value = "PayController", description = "支付管理")
+@RestController
 public class PayController extends BaseController {
 
     private static final Logger LOG = Logger.getLogger(PayController.class);
@@ -56,24 +58,21 @@ public class PayController extends BaseController {
     @Autowired
     IAliPayService aliPayService;
 
-    @ResponseBody
+
     @ApiOperation(value = "支付宝支付,创建订单接口")
     @RequestMapping(value = "/api/v1/user/order/alipay", method = RequestMethod.POST)
-    //@ApiParam("订单信息") @RequestBody OrderFormData orderFormData
-    public JSONObject createOrderByAlipay(@Valid OrderFormData data, BindingResult result){
-        if(result.hasErrors()){
-            LOG.debug(result.getAllErrors());
+    public JSONObject createOrderByAlipay(@Valid @RequestBody OrderFormData param, BindingResult br){
+        if(br.hasErrors()){
+            LOG.debug(br.getAllErrors());
             return fail(-1,"参数错误");
         }
-        //// TODO: 支付宝订单实现
-        String info = null;
         try {
-            info = OrderUtils.createAlipayInfo("订单详细信息json","订单信息", OrderUtils.getOrderId()+"","主题信息","商品详情");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return fail(-1,"创建订单失败,请重新尝试");
+            param.getOrder().setUserAccountId(getUserId());//设置当前的用户id
+            JSONObject result = aliPayService.createTemporaryOrder(param);
+            return success("",result.toString());
+        }catch (Exception e){
+            return fail(-1,"订单创建失败");
         }
-        JSONObject json = success("操作成功", info);
 
         /*//创建临时订单
         OrderFormData order = new OrderFormData();
@@ -119,28 +118,33 @@ public class PayController extends BaseController {
         String retrnStr = paramStr + "&sign=\"" + signStr + "\"&sign_type=\"RSA\"";
         JSONObject json = success("操作成功", getTest());
         System.out.println(JSON.toJSONString(json,true));*/
-        return json;
     }
 
     /**
-     * 支付成功,支付宝回调界面
+     *
+     * 支付成功,支付宝异步通知界面
      */
-    @ResponseBody
-    @ApiOperation(value = "支付宝APP支付成功通知")
-    @RequestMapping(value = "/api/v1/user/order/alipay/callback")
-    public String alipayNotify(ModelMap map) throws Exception {
-        System.out.println("===================淘宝调回调了...."+map.toString());
-        //boolean isCheckOk = AlipaySignature.rsaCheckV1((Map)map, AlipayConfig.alipay_public_key, "utf-8");
-        //if(isCheckOk){
-            //验证签名是否正确
-            //1.验证订单是否是系统的订单
-            //2.验证金额是否正确
-            //3.校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方
-            //4.验证app_id是否为该商户本身
+    @ApiOperation(value = "支付成功,支付宝异步通知接口")
+    @RequestMapping(value = "/api/v1/pub/user/order/alipay/callback",method = RequestMethod.POST)
+    public void alipayCallback(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        Map params = request.getParameterMap();//获取传递过来的参数
+        String notify_id = (String) params.get("notify_id"); //异步通知id
+        //是否是支付宝异步通知
+        if(notify_id!="" && notify_id!=null){
+            //交易状态
+            String trade_status = (String) params.get("trade_status"); //TRADE_FINISHED 不支持退款
+            if(trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")){
+                //// TODO: 2017/1/20 0020 支付订单完成了,需要去生成订单信息
 
-        //}
-        //返回交易关闭
-        return "TRADE_CLOSED";
+                response.getWriter().print("success");
+            } else if (trade_status.equals("WAIT_BUYER_PAY")){ //交易创建的时候触发
+                boolean b = aliPayService.checkAliPayOrderValidator(params);
+                response.getWriter().print(b?"success":"fail");
+            }
+        }else{
+            LOG.debug("订单支付失败,不是异步消息通知,notify_id等于空");
+            response.getWriter().print("fail");
+        }
     }
 
 

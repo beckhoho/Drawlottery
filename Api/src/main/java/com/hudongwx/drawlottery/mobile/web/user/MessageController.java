@@ -35,7 +35,7 @@ public class MessageController extends BaseController {
      *
      * @return
      */
-    @ApiOperation(value = "queryAllMessageSize", notes = "查询所有的消息未读取消息数", httpMethod = "POST,GET", responseContainer = "{object.put(\"0\", 20);//系统消息\n" +
+    @ApiOperation(value = "queryAllMessageSize", notes = "查询所有的消息未读取消息数", responseContainer = "{object.put(\"0\", 20);//系统消息\n" +
             "        object.put(\"1\", 10);//中奖消息\n" +
             "        object.put(\"2\", 0);//发货消息}")
     @RequestMapping(value = "/query/count", method = {RequestMethod.POST, RequestMethod.GET})

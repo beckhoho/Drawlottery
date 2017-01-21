@@ -68,6 +68,17 @@ public abstract class TestBaseWeb extends AbstractTestNGSpringContextTests {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    public void post(String url, String content,MediaType contentType) throws Exception {
+        mvc.perform(
+                MockMvcRequestBuilders.post(url)
+                        .contentType(contentType)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .content(content)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
     public abstract Object getController();
 
 }

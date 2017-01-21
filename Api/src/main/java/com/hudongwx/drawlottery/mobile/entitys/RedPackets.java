@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
@@ -179,4 +181,36 @@ public class RedPackets {
     public void setWorth(Integer worth) {
         this.worth = worth;
     }
+
+    /**
+     * 红包是否过期
+     * @return
+     */
+    @JSONField(serialize = false)
+    public boolean isExpired(){
+        if(validDate != null && overdueDate != null){
+            long time = System.currentTimeMillis();
+            if(time>overdueDate || validDate<time){//是否在日期使用范围内
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 红包是否可以使用
+     * @return
+     */
+    @JSONField(serialize = false)
+    public boolean isCanUse(Integer miniPrice){
+        boolean expired = isExpired();
+        if(usePrice>=miniPrice && !expired){//使用最低价格和使用日期
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

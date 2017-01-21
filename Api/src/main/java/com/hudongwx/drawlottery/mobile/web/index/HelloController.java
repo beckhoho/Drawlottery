@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(value = "HelloController",description = "首页所有Api",position = 0)
 @RestController
-@EnableAutoConfiguration
 public class HelloController {
 
     @ApiOperation(value = "显示首页",notes = "显示首页notes")

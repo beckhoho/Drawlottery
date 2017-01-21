@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(value = "IndexController",description = "首页功能",position = 1)
 @RestController
-@EnableAutoConfiguration
 public class IndexController {
     @ApiOperation(value = "index",notes = "显示首页",httpMethod = "POST",response = User.class)
     @ApiImplicitParams(@ApiImplicitParam(name=""))

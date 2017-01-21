@@ -26,6 +26,7 @@ import java.util.*;
  */
 @Service
 public class RedPacketsServiceImpl implements IRedPacketsService {
+
     @Autowired
     RedPacketsMapper mapper;
 
@@ -50,7 +51,7 @@ public class RedPacketsServiceImpl implements IRedPacketsService {
             map.put("worth", r.getWorth());//获取红包大小
             Integer useState = r.getUseState();
             map.put("useState", useState);//获取红包状态（1.已使用，0.未使用）
-            if (overdue(r)) {
+            if (r.isExpired()) {
                 map.put("overdue", Settings.RED_PACKET_overdue);//是否过期？0：未过期
             } else {
                 map.put("overdue", Settings.RED_PACKET_overdue_not);//是否过期？1：已过期
@@ -74,6 +75,15 @@ public class RedPacketsServiceImpl implements IRedPacketsService {
         redPacket.setUseState(Settings.RED_PACKET_USE_STATE_USED);//1、已使用；0、未使用
         return mapper.updateByPrimaryKey(redPacket) > 0;
     }
+
+    @Override
+    public RedPackets selectOne(Long accountId,Long rpId) {
+        RedPackets packets = new RedPackets();
+        packets.setUserAccountId(accountId);
+        packets.setId(rpId);
+        return mapper.selectOne(packets);
+    }
+
 
     public boolean overdue(RedPackets r) {
         Date date = new Date();

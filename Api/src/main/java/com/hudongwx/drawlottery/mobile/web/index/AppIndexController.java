@@ -30,8 +30,8 @@ import java.util.Map;
  * <p>
  * @email 294786949@qq.com
  */
-@RestController
 @Api(value = "AppIndexController", description = "android APP 首页信息")
+@RestController
 public class AppIndexController extends BaseController {
 
     @Autowired
@@ -48,7 +48,6 @@ public class AppIndexController extends BaseController {
      *
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/index/banner", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject banner() {
         List<Map<String, Object>> infoList = adService.selectAdvertisement();
@@ -60,7 +59,6 @@ public class AppIndexController extends BaseController {
      *
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/index/quick", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject quick() {
         List<Map<String, Object>> infoList = iService.selectIcon();
@@ -72,7 +70,6 @@ public class AppIndexController extends BaseController {
      *
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/index/notice", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject notice() {
         return success(npService.selectByNew());
@@ -83,7 +80,6 @@ public class AppIndexController extends BaseController {
      *
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/index/announce", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject announceCommodityInfo() {
         List<Map<String, Object>> infoList = cService.selectOnLottery(1);
@@ -96,11 +92,9 @@ public class AppIndexController extends BaseController {
      * @param type 排序类型(1、按人气，2、按最快，3、最新，4、高价，5高中奖率)
      * @return JSONObject
      */
-    @ResponseBody
     @ApiOperation("客户端首页商品板块信息（默认人气搜索）参数：type 排序类型(1、按人气，2、按最快，3、最新，4、高价，5高中奖率，其他数字默认人气)")
     @RequestMapping(value = "/api/v1/index/commodity", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject orderCommodityInfo(@ApiParam("排序类型") @RequestParam(name = "type",required = false) Integer type, @ApiParam("当前页最后一个item的id") @RequestParam(name = "lastCommId",required = false) Long lastCommId) {
-        System.out.println("type------------->"+type+"------------lastCommId--------------->"+lastCommId);
         List<Map<String, Object>> infoList = cService.selectByStyle(type, lastCommId);
         return success(infoList);
     }

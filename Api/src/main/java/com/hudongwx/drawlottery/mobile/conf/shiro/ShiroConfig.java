@@ -203,9 +203,7 @@ public class ShiroConfig {
     @Profile("dev")
     public SecurityManager securityManager(){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-//        securityManager.setRememberMeManager(new CookieRememberMeManager().);
         securityManager.setSessionManager(getWebSessionManager());
-
         //管理认证器
         securityManager.setRealm(getRealm());
         return securityManager;
@@ -228,7 +226,6 @@ public class ShiroConfig {
         sessionManager.setGlobalSessionTimeout(AbstractSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT*2*24*60);
         sessionManager.setSessionValidationSchedulerEnabled(true);//定期检查失效session
 
-
         //设置cookie
         SimpleCookie token = new SimpleCookie("token");
         token.setMaxAge(86400000*60);//缓存时间60天
@@ -238,29 +235,16 @@ public class ShiroConfig {
         return sessionManager;
     }
 
- /*   @Bean
-    public CookieRememberMeManager getRememberMeManager(){
-        CookieRememberMeManager manager = new CookieRememberMeManager();
-        SimpleCookie token = new SimpleCookie("token");
-        token.setMaxAge(86400000*60);//缓存时间60天
-        token.setVersion(1);
-        token.setHttpOnly(true);
-        manager.setCookie(token);
-        return  manager;
-    }*/
-
 
     @Bean(name = "securityManager")
     @Profile("test")
     public SecurityManager securityManagerTest(){
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        //securityManager.setRememberMeManager(getRememberMeManager());
-
+        securityManager.setSessionManager(getWebSessionManager());
         //管理认证器
         securityManager.setRealm(getRealm());
         return securityManager;
     }
-
 
     /*
     * shiro生命周期的管理
@@ -304,8 +288,6 @@ public class ShiroConfig {
     @Bean
     public net.sf.ehcache.CacheManager getCacheManager(){
         net.sf.ehcache.CacheManager object = getManagerFactoryBean().getObject();
-        //List activeSessionCache = object.getCache("ActiveSessionCache").getKeys();
-        //System.out.println(Arrays.toString(activeSessionCache.toArray()));
         return object;
     }
 
