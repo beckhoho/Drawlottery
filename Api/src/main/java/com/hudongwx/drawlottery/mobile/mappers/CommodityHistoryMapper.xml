@@ -22,16 +22,15 @@
         <result column="share_state" jdbcType="INTEGER" property="shareState"/>
     </resultMap>
 
-    <!-- 查询中奖历史-->
-    <select id="selectHistoryLottery" resultMap="BaseResultMap">
-        select *  from t_commodity_history WHERE luck_user_account_id = #{accountId}
-        order by id desc
-    </select>
+
+
+
 
     <!-- 查询单件历史商品信息-->
     <select id="selectByCommId" resultMap="BaseResultMap">
         select * from t_commodity_history where commodity_id = #{commodityId}
     </select>
+
 
     <!-- 查询商品上期开奖信息 -->
     <select id="selectByCommName" resultMap="BaseResultMap">
@@ -44,17 +43,18 @@
         <!-- &lt; 小于     &jt; 大于 -->
     </select>
 
+<!--
     <select id="selectCommodityBefore" resultType="java.lang.Long">
       SELECT commodity_id from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
       UNION
       SELECT id as commodity_id  from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime}
-
-    </select>
+    </select>-->
 
     <select id="selectComIdAndUser" resultMap="BaseResultMap">
         SELECT * FROM t_commodity_history
         WHERE commodity_id = #{commodityId} AND luck_user_account_id = #{accountId}
     </select>
+
 
     <update id="updateByCommodityIdSelective" parameterType="com.hudongwx.drawlottery.mobile.entitys.CommodityHistory">
         UPDATE t_commodity_history
@@ -75,6 +75,7 @@
         </trim>
         WHERE commodity_id = #{commodityId}
     </update>
+
     <update id="updateShareStateByCommodityId">
         UPDATE t_commodity_history SET share_state = 1
         where commodity_id = #{commodityId}
@@ -82,5 +83,12 @@
 
     <select id="selectByTempId" resultMap="BaseResultMap">
       SELECT * FROM t_commodity_history WHERE temp_id = #{tempId}
+    </select>
+
+    <!--查询已揭晓的商品-->
+    <select id="selectAllWithPage" resultMap="BaseResultMap">
+        SELECT * FROM t_commodity_history
+        WHERE end_time &lt; (SELECT end_time FROM t_commodity_history WHERE commodity_id=#{lastCommId})
+        ORDER BY end_time DESC limit #{pageLoadSize}
     </select>
 </mapper>

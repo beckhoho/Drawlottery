@@ -213,7 +213,21 @@ public class LangConstants {
      * 常量字段 已兑奖 .
      */
     public final String EXCHANGE_STATE_ON = "EXCHANGE_STATE_ON";
+    
+    /**
+     * 常量字段 快递名不能为空 .
+     */
+    public final String DELIVERY_NAME_CAN_NOT_NULL = "DELIVERY_NAME_CAN_NOT_NULL";
+    
+    /**
+     * 常量字段 快递单号不能为空 .
+     */
+    public final String DELIVERY_NUMBER_CAN_NOT_NULL = "DELIVERY_NUMBER_CAN_NOT_NULL";
 
+    /**
+     * 常量字段 发货成功 .
+     */
+    public final String DELIVERY_SUCCESS = "DELIVERY_SUCCESS";
 }
 
 

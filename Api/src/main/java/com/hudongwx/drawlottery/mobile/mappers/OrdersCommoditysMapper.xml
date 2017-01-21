@@ -14,4 +14,12 @@
     <select id="selectByOrderId" resultMap="BaseResultMap">
         SELECT * FROM t_orders_commoditys WHERE orders_id = #{orderId}
     </select>
+    <select id="countUserCommAmount" resultType="java.lang.Integer">
+        SELECT SUM(amount) FROM t_orders_commoditys
+        WHERE orders_id IN
+        <foreach collection="orderIdList" open="(" separator="," close=")" item="orderId">
+            #{orderId}
+        </foreach>
+        AND commodity_id=#{commId};
+    </select>
 </mapper>

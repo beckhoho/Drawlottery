@@ -9,7 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +47,6 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
-    @CachePut()
     @RequestMapping(value = "/api/v1/user/center", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserCenter() {
         Map<String, Object> userInfo = userService.queryPersonalInfo(getUserId());
@@ -101,7 +99,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户夺宝记录中的luckCode带分页")
     @RequestMapping(value = "/api/v1/priv/user/usercomm/code/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserLuckCode(@ApiParam("回传最后一个Code码") @RequestParam("commId") Long commId, @ApiParam("回传最后一个Code码") @RequestParam("lastCode") String lastCode) {
+    public JSONObject queryUserLuckCode(@ApiParam("回传最后一个Code码") @RequestParam("commId") Long commId, @ApiParam("回传最后一个Code码") @RequestParam(name = "lastCode",required = false) String lastCode) {
         return success(userService.selectUserLuckCode(getUserId(), commId, lastCode));
     }
 
@@ -146,8 +144,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/update/nickname", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateUserNickName(@RequestParam("nickname") String nickname) {
-
-        return response(true);
+        return response(userService.updateUserNickname(getUserId(), nickname));
     }
 
     /**
@@ -183,7 +180,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/promoter/profit/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryPromoterProfit() {
-        return success(promoterProfitService.selectPromoterProfitInfo(getUserId()));
+        return success(promoterProfitService.selectPromoterProfitInfo(getUserId(), 0L));
     }
 
     /**

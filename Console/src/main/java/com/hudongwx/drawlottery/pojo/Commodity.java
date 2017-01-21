@@ -19,7 +19,7 @@ public class Commodity {
     public static final int DID_SALE = 5;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long commodityId;
 
     /**
      * 上一次购买人次
@@ -225,13 +225,13 @@ public class Commodity {
         this.buyNowNumber = buyNowNumber;
     }
 
-    public Long getId() {
-        return id;
+    public Long getCommodityId() {
+        return commodityId;
     }
 
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCommodityId(Long commodityId) {
+        this.commodityId = commodityId;
     }
 
 

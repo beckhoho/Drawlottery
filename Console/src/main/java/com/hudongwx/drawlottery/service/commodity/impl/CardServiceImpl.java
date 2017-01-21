@@ -2,14 +2,17 @@ package com.hudongwx.drawlottery.service.commodity.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hudongwx.drawlottery.common.constants.CommonConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.exceptions.ServiceException;
 import com.hudongwx.drawlottery.dao.CardMapper;
 import com.hudongwx.drawlottery.pojo.Card;
+import com.hudongwx.drawlottery.pojo.CardExample;
 import com.hudongwx.drawlottery.service.commodity.CardService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +29,8 @@ public class CardServiceImpl implements CardService {
     private CardMapper cardMapper;
     @Resource
     private LangConstants langConstants;
+    @Resource
+    private CommonConstants commonConstants;
 
     /**
      * 添加卡密
@@ -80,5 +85,28 @@ public class CardServiceImpl implements CardService {
         PageHelper.startPage(currentPage, pageSize);
         List<Card> cards = cardMapper.selectAll(corporation, order, direction);
         return new PageInfo<>(cards);
+    }
+
+    /**
+     * 获取统计信息
+     *
+     * @return 统计信息集合
+     */
+    @Override
+    public List<Integer> getCounts() {
+        final List<Integer> counts = new ArrayList<>();
+        final int[] cors = Card.CORS;
+        final int[] moneys = Card.MONEYS;
+        for (int cor : cors) {
+            for (int money : moneys) {
+                CardExample cardExample = new CardExample();
+                cardExample.createCriteria()
+                        .andCorporationEqualTo(cor)
+                        .andMoneyEqualTo(money)
+                        .andStateEqualTo(commonConstants.getINVALID());
+                counts.add(cardMapper.countByExample(cardExample));
+            }
+        }
+        return counts;
     }
 }

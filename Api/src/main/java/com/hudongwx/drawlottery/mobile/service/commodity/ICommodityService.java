@@ -85,5 +85,14 @@ public interface ICommodityService {
      * @param lastCommId
      * @return
      */
-    List<Map<String, Object>> selectAnnounceComm(Long lastCommId);
+    List<Map<String, Object>> selectNewestAnnounceComm(Long lastCommId);
+
+    List<Map> selectThePastAnnouncedCommList(Long commId);
+
+    /**
+     * 通过商品id 得到商品图文详情
+     * @param commodityId 商品id
+     * @return 模板中的图文详情
+     */
+    String selectContent(Long commodityId);
 }

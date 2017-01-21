@@ -1,6 +1,20 @@
 package com.hudongwx.drawlottery.pojo;
 
 public class Card {
+    public static Integer CORPORATION_CMCC = 0;
+    public static Integer CORPORATION_CUCC = 1;
+    public static Integer CORPORATION_CTCC = 2;
+
+    public static int[] CORS = new int[]{CORPORATION_CMCC, CORPORATION_CUCC, CORPORATION_CTCC};
+
+    public static Integer MONEY_10 = 10;
+    //    public static Integer MONEY_20 = 20;
+    public static Integer MONEY_30 = 30;
+    public static Integer MONEY_50 = 50;
+    public static Integer MONEY_100 = 100;
+    public static int[] MONEYS = new int[]{MONEY_10, MONEY_30, MONEY_50, MONEY_100};
+
+
     private Integer id;
 
     private String cardNum;
@@ -10,6 +24,10 @@ public class Card {
     private Integer corporation;
 
     private Integer money;
+
+    private Integer state;
+
+    private Long commodityId;
 
     public Integer getId() {
         return id;
@@ -49,5 +67,21 @@ public class Card {
 
     public void setMoney(Integer money) {
         this.money = money;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Long getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(Long commodityId) {
+        this.commodityId = commodityId;
     }
 }

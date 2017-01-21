@@ -111,7 +111,7 @@ public class CommodityServiceImpl implements CommodityService {
             commodity.setStateId(Commodity.ON_SALE);
             addCommodity(commodity);
             //关联幸运码
-            luckCodeService.connect(commodity.getId(), luckCodeCount);
+            luckCodeService.connect(commodity.getCommodityId(), luckCodeCount);
             logger.info("生成结束："+(System.currentTimeMillis()-start));
         }
     }

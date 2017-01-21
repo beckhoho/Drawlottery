@@ -106,15 +106,16 @@ public interface IUserService {
      */
     int addPromoter(Long promId, Long accountId);
 
+
+
     /**
-     * 添加QQ号
+     * 夺宝记录
      *
+     * @param item
      * @param accountId
-     * @param qq
+     * @param lastCommId
      * @return
      */
-    boolean addQQNumber(Long accountId, String qq);
-
     List<Map<String, Object>> selectPurchaseRecords(Integer item, Long accountId, Long lastCommId);
 
     /**
@@ -126,5 +127,9 @@ public interface IUserService {
      * @return
      */
     List<String> selectUserLuckCode(Long accountId, Long commId, String lastCode);
+
+    boolean updateUserNickname(Long accountId, String nickname);
+
+    boolean addQQNumber(Long accountId, String qq);
 }
 

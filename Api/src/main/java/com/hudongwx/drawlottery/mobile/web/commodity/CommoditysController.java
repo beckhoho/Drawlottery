@@ -74,6 +74,7 @@ public class CommoditysController extends BaseController {
 
     /**
      * 按商品类型category搜索
+     *
      * @param categoryId 商品类别
      * @return JSONObject
      */
@@ -146,8 +147,22 @@ public class CommoditysController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/announce", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryNewestAnnounced(@RequestParam("lastCommId") Long lastCommId) {
-        List<Map<String, Object>> mapList = cService.selectAnnounceComm(lastCommId);
+        List<Map<String, Object>> mapList = cService.selectNewestAnnounceComm(lastCommId);
         return success(mapList);
+    }
+
+    /**
+     * 商品图文详情
+     *
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("/web/commodityInfo/{id}")
+    public String commodityInfo(@PathVariable("id") Long id, Map<String, Object> model) {
+        final String s = cService.selectContent(id);
+        model.put("content", s);
+        return "commodity";
     }
 
 }

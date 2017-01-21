@@ -24,6 +24,11 @@ public class Settings {
      */
     public static final int MAX_INFO_SIZE = 100;
 
+    /**
+     * 最大信息条数
+     */
+    public static final int MAX_INFO_SIZE_05 = 5;
+
     /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*收貨地址*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
     /**
      * 默认收货地址
@@ -66,12 +71,22 @@ public class Settings {
     public static final int ADDRESS_ADD_MAX = 3;
 
     /**
-     * 上拉加载每页的最大小数
+     * 上拉加载每页的最大条数6
+     */
+    public static final int PAGE_LOAD_SIZE_06 = 6;
+
+    /**
+     * 上拉加载每页的最大条数8
+     */
+    public static final int PAGE_LOAD_SIZE_08 = 8;
+
+    /**
+     * 上拉加载每页的最大条数10
      */
     public static final int PAGE_LOAD_SIZE_10 = 10;
 
     /**
-     * 上拉加载每页的最大小数
+     * 上拉加载每页的最大条数16
      */
     public static final int PAGE_LOAD_SIZE_16 = 16;
 

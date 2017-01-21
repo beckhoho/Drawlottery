@@ -45,7 +45,7 @@
                              targetProject="src\main\java" type="XMLMAPPER" />
 
         <table tableName="t_users" modelType="flat" domainObjectName="User">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <generatedKey column="commodityId" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
 
@@ -80,7 +80,7 @@
         </table>
 
         <table tableName="t_commoditys" modelType="flat" domainObjectName="Commoditys">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <generatedKey column="commodityId" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
 
@@ -95,7 +95,7 @@
         </table>
 
         <table tableName="t_commodity_history" modelType="flat" domainObjectName="CommodityHistory">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <generatedKey column="commodityId" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
 
@@ -105,7 +105,7 @@
         </table>
 
         <table tableName="t_user_luck_codes" modelType="flat" domainObjectName="UserLuckCodes">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <generatedKey column="commodityId" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
 
@@ -120,7 +120,7 @@
         </table>
 
         <table tableName="t_notification" modelType="flat" domainObjectName="Notification">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <generatedKey column="commodityId" sqlStatement="Mysql" identity="true"/>
             <columnRenamingRule searchString="^t" replaceString=""/>
         </table>
 

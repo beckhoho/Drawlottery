@@ -6,7 +6,7 @@ import com.hudongwx.drawlottery.common.constants.CommonConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.exceptions.ServiceException;
 import com.hudongwx.drawlottery.common.exceptions.ValidateException;
-import com.hudongwx.drawlottery.common.utils.ArrayUtils;
+import com.hudongwx.drawlottery.common.utils.ValiDateUtils;
 import com.hudongwx.drawlottery.common.utils.TimerUtil;
 import com.hudongwx.drawlottery.dao.CommodityImagesMapper;
 import com.hudongwx.drawlottery.dao.CommodityMapper;
@@ -99,7 +99,7 @@ public class ITempServiceImpl implements ITempService {
             throw new ServiceException(langConstants.getLang(langConstants.GENRE_NOT_NULL));
         if (null == temp.getCommodityTypeId())
             throw new ServiceException(langConstants.getLang(langConstants.TYPE_NOT_NULL));
-        if (ArrayUtils.isEmpty(temp.getExchangeWay()))
+        if (ValiDateUtils.isEmpty(temp.getExchangeWay()))
             throw new ValidateException(langConstants.getLang(langConstants.NOT_CHOOSE_ANY_ONE));
 
         //字段补充
@@ -250,7 +250,7 @@ public class ITempServiceImpl implements ITempService {
      */
     @Override
     public void connectExchangeWay(long id, List<Integer> exchangeWayIds) {
-        if (ArrayUtils.isEmpty(exchangeWayIds))
+        if (ValiDateUtils.isEmpty(exchangeWayIds))
             return;
         exchangeWayService.addCommodityExchange(id, exchangeWayIds);
     }

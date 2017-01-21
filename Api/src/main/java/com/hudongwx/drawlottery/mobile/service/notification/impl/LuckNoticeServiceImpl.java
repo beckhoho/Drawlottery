@@ -52,17 +52,16 @@ public class LuckNoticeServiceImpl implements ILuckNoticeService{
     @Override
     public Map<String,Object> addUserLuckNotice(Long commodityId) {
 
-        Commoditys byKey = commMapper.selectByKey(commodityId);
-        CommodityHistory history = historyMapper.selectByCommId(commodityId);
+        Commodity commodity = comMapper.selectByKey(commodityId);
         LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(commodityId);
         User user = userMapper.selectById(lotteryInfo.getUserAccountId());
         Map<String,Object> map = new HashMap<>();
 
         map.put("userName",user.getNickname());//添加用户名
-        map.put("buyNum",history.getBuyNumber());//添加购买数量
-        map.put("endTime",history.getEndTime());//添加揭晓时间
+        map.put("buyNum",commodity.getBuyNumber());//添加购买数量
+        map.put("endTime",commodity.getEndTime());//添加揭晓时间
 
-        if(byKey.getStateId()!=1){
+        if(commodity.getStateId()!=1){
             Commodity com = new Commodity();
             com.setId(commodityId);
             com.setStateId(1);

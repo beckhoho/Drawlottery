@@ -2,6 +2,7 @@ package com.hudongwx.drawlottery.service.history;
 
 import com.github.pagehelper.PageInfo;
 import com.hudongwx.drawlottery.common.dto.paramBody.HistoryParam;
+import com.hudongwx.drawlottery.pojo.Express;
 import com.hudongwx.drawlottery.pojo.History;
 
 import java.util.List;
@@ -43,4 +44,16 @@ public interface HistoryService {
      * @return 详情
      */
     History getHistory(long id);
+
+    /**
+     * 发货
+     * @param express 发货信息
+     */
+    void delivery(Express express);
+
+    /**
+     * 删除记录
+     * @param id 商品id
+     */
+    void delete(Long id);
 }

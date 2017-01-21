@@ -13,7 +13,7 @@ import javax.persistence.*;
  * <p>
  * 创建　kiter　2017/1/14 18:48　<br/>
  * <p>
- * 什么类？
+ *        商品表（用作生成下一期，和写入历史信息用）
  * <p>
  * @email 346905702@qq.com
  */
@@ -21,16 +21,11 @@ import javax.persistence.*;
 public class Commodity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "commodity_id")
     private Long id;
-
-    @Column(name = "buy_last_number")
-    private Integer buyLastNumber;
 
     @Column(name = "buy_current_number")
     private Integer buyCurrentNumber;
-
-    @Column(name = "luck_code_id")
-    private Long luckCodeId;
 
     @Column(name = "round_time")
     private String roundTime;
@@ -50,15 +45,70 @@ public class Commodity {
     @Column(name = "undercarriage_time")
     private Long undercarriageTime;
 
-    @Column(name = "last_round_time")
-    private Long lastRoundTime;
+    @Column(name = "share_state")
+    private Integer shareState;
 
-    public Long getLastRoundTime() {
-        return lastRoundTime;
+    @Column(name = "exchange_state")
+    private Integer exchangeState;
+
+    @Column(name = "exchange_way")
+    private Integer exchangeWay;
+
+    @Column(name = "end_time")
+    private Long endTime;
+
+    @Column(name = "card_not_enough")
+    private Integer cardNotEnough;
+
+    @Column(name = "buy_number")
+    private Integer buyNumber;
+
+    public Integer getShareState() {
+        return shareState;
     }
 
-    public void setLastRoundTime(Long lastRoundTime) {
-        this.lastRoundTime = lastRoundTime;
+    public void setShareState(Integer shareState) {
+        this.shareState = shareState;
+    }
+
+    public Integer getExchangeState() {
+        return exchangeState;
+    }
+
+    public void setExchangeState(Integer exchangeState) {
+        this.exchangeState = exchangeState;
+    }
+
+    public Integer getExchangeWay() {
+        return exchangeWay;
+    }
+
+    public void setExchangeWay(Integer exchangeWay) {
+        this.exchangeWay = exchangeWay;
+    }
+
+    public Long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+    }
+
+    public Integer getCardNotEnough() {
+        return cardNotEnough;
+    }
+
+    public void setCardNotEnough(Integer cardNotEnough) {
+        this.cardNotEnough = cardNotEnough;
+    }
+
+    public Integer getBuyNumber() {
+        return buyNumber;
+    }
+
+    public void setBuyNumber(Integer buyNumber) {
+        this.buyNumber = buyNumber;
     }
 
     public Long getId() {
@@ -69,28 +119,12 @@ public class Commodity {
         this.id = id;
     }
 
-    public Integer getBuyLastNumber() {
-        return buyLastNumber;
-    }
-
-    public void setBuyLastNumber(Integer buyLastNumber) {
-        this.buyLastNumber = buyLastNumber;
-    }
-
     public Integer getBuyCurrentNumber() {
         return buyCurrentNumber;
     }
 
     public void setBuyCurrentNumber(Integer buyCurrentNumber) {
         this.buyCurrentNumber = buyCurrentNumber;
-    }
-
-    public Long getLuckCodeId() {
-        return luckCodeId;
-    }
-
-    public void setLuckCodeId(Long luckCodeId) {
-        this.luckCodeId = luckCodeId;
     }
 
     public String getRoundTime() {

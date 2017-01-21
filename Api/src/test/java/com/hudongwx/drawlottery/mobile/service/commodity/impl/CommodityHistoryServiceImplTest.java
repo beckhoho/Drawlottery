@@ -1,11 +1,15 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
-import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
+import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.testng.Assert.*;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -13,33 +17,28 @@ import org.testng.annotations.Test;
  * <p>
  *
  * @author Kiter
- * @version 1.0, 2017/1/12 <br/>
+ * @version 1.0, 2017/1/21 <br/>
  * @desc <p>
  * <p>
- * 创建　kiter　2017/1/12 9:33　<br/>
+ * 创建　kiter　2017/1/21 19:21　<br/>
  * <p>
  * 什么类？
  * <p>
  * @email 346905702@qq.com
  */
 public class CommodityHistoryServiceImplTest extends TestBaseMapper {
-    @Test
-    public void testSelectThePastAnnouncedCommList() throws Exception {
-        service.selectThePastAnnouncedCommList(43L);
-    }
 
     @Autowired
     ICommodityHistoryService service;
     @Test
-    public void testAddCommodHistory() throws Exception {
-
+    public void testSelectThePastAnnouncedCommList() throws Exception {
+//        List<Map> maps = service.selectThePastAnnouncedCommList(11l);
+//        System.out.println(maps);
     }
 
     @Test
-    public void testSelectHistoryCommod() throws Exception {
-        CommodityHistory history = service.selectHistoryCommod();
-        System.out.println(history.getCommodityName());
-        Assert.assertNotNull(history);
+    public void testSelectLotteryInfo() throws Exception {
+        LotteryInfo info = service.selectLotteryInfo(11l);
     }
 
 }
