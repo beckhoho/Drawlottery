@@ -121,16 +121,21 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<Map<String, Object>> selectHistoryLottery(Long accountId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        List<Commodity> histories = cMapper.selectHistoryLottery(accountId);
-        //List<CommodityHistory> histories = comHistoryMapper.selectHistoryLottery(accountId);
+        List<LotteryInfo> infos = lotteryInfoMapper.selectByUser(accountId);
 
-        for (Commodity com : histories) {
-            CommodityTemplate template = tempMapper.selectById(com.getTempId());
-            LotteryInfo info = lotteryInfoMapper.selectByComId(com.getId());
+        for (LotteryInfo com : infos) {
+            Commodity key = cMapper.selectByKey(com.getCommodityId());
+            //查询商品
+
+            CommodityTemplate template = tempMapper.selectById(key.getTempId());
+            //查询商品模板
+
             Share s = new Share();
             s.setCommodityId(com.getId());
             s.setUserAccountId(accountId);
             List<Share> shares = shareMapper.select(s);
+            //查询是否已晒单
+
             Map<String, Object> map = new HashMap<>();
             if (shares.size() > 0) {
                 map.put("shareState", 1);//是否晒单（0、未晒单；1、已晒单）
@@ -139,16 +144,16 @@ public class UserServiceImpl implements IUserService {
             }
             map.put("id", com.getId());//添加商品id
             map.put("commodityName", template.getName());//添加商品名
-            map.put("roundTime", com.getRoundTime());//添加期数
-            map.put("endTime", com.getEndTime());//揭晓时间
-            map.put("buyNumber", com.getBuyNumber());//购买人次
-            map.put("luckCode", info.getLotteryId());//添加幸运码
+            map.put("roundTime", key.getRoundTime());//添加期数
+            map.put("endTime", key.getEndTime());//揭晓时间
+            map.put("buyNumber", key.getBuyNumber());//购买人次
+            map.put("luckCode", com.getLotteryId());//添加幸运码
             map.put("imgUrl", template.getCoverImgUrl());//中奖商品图片地址
             map.put("exchangeId", selectExchange(com.getId()));//添加兑换方式
             map.put("withdrawalsMoney", template.getWithdrawalsMoney());//折换现金金额
             map.put("exchangeMoney", template.getExchangeMoney());//折换闪币
-            map.put("state", com.getExchangeState());//添加兑换状态
-            map.put("exchangeWay", com.getExchangeWay());//添加已选择兑奖方式
+            map.put("state", key.getExchangeState());//添加兑换状态
+            map.put("exchangeWay", key.getExchangeWay());//添加已选择兑奖方式
             mapList.add(map);
         }
         return mapList;
@@ -416,7 +421,6 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 第三方注册登录
-     *
      * @param token
      * @return
      */

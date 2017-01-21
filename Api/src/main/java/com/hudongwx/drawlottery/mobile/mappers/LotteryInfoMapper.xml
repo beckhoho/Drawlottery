@@ -17,4 +17,9 @@
     <select id="selectByComId" resultMap="BaseResultMap">
         SELECT * FROM t_lottery_info WHERE commodity_id = #{commodityId}
     </select>
+
+    <select id="selectByUser" resultMap="BaseResultMap">
+        SELECT * FROM t_lottery_info WHERE user_account_id = #{accountId}
+        order by commodity_id desc
+    </select>
 </mapper>

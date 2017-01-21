@@ -4,6 +4,8 @@ import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -22,5 +24,7 @@ import org.apache.ibatis.annotations.Param;
 public interface LotteryInfoMapper extends BaseMapper<LotteryInfo>{
 
     LotteryInfo selectByComId(@Param("commodityId")Long commodityId);
+
+    List<LotteryInfo> selectByUser(@Param("accountId")Long accountId);
 
 }

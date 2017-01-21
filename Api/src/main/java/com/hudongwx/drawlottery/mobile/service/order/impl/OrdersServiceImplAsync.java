@@ -2,6 +2,8 @@ package com.hudongwx.drawlottery.mobile.service.order.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
+import com.hudongwx.drawlottery.mobile.schedule.DelayTask;
+import com.hudongwx.drawlottery.mobile.schedule.updateTiming;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import com.hudongwx.drawlottery.mobile.utils.LotteryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +136,7 @@ public class OrdersServiceImplAsync {
                     //添加下一期商品到商品表
                     commMapper.insertUseGenerated(comm);
 
+
                     //写下一期商品幸运码
                     codesMapper.insertLuckCode(byKey.getBuyTotalNumber(),comm.getId());
 
@@ -152,6 +155,8 @@ public class OrdersServiceImplAsync {
                     计算开奖幸运码
                  */
                     LotteryInfo raffle = LotteryUtils.raffle(mapper,templateMapper, codesMapper, lotteryInfoMapper, userMapper, byKey);
+
+
 
 
                     addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库

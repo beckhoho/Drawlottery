@@ -37,7 +37,7 @@ public interface CommodityMapper  extends BaseMapper<Commodity>{
     int updateById(Commodity commodity);
 
     //查询往期揭晓数据
-    List<Long> selectBefore(@Param("tempId")Long tempId,@Param("roundTime")String roundTime);
+    List<Long> selectBefore(@Param("tempId")Long tempId,@Param("commodityId")Long commodityId);
 
     /**
      * 查询上期商品开奖信息

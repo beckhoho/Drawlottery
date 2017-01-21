@@ -190,8 +190,8 @@ public class CommodityServiceImpl implements ICommodityService {
         Long nextRoundId = null;
         if (com.getStateId() == 3 || com.getStateId() == 2) {//如果未开奖
             Commoditys comh = null;
-            List<Long> longs = commMapper.selectBefore(com.getTempId(), com.getRoundTime());
-            if (longs.size() != 0) {
+            List<Long> longs = commMapper.selectBefore(com.getTempId(), com.getId());
+            if(longs.size()!=0){
                 comh = commsMapper.selectByKey(longs.get(0));
             }
             if (comh == null) {

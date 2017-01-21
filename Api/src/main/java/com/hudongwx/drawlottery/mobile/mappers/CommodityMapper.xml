@@ -73,15 +73,13 @@
 
     <!-- 查看往期揭晓数据 -->
     <select id="selectBefore" resultType="java.lang.Long">
-        SELECT commodity_id from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
+        SELECT commodity_id from t_commodity_history where temp_id=#{tempId} and commodity_id &lt; #{commodityId}
         UNION
-        SELECT commodity_id from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime}
+        SELECT commodity_id from t_commoditys where temp_id=#{tempId} and commodity_id &lt; #{commodityId} order by commodity_id desc
     </select>
 
     <select id="selectByKey" resultMap="BaseResultMap">
-        SELECT commodity_id from t_commodity_history where commodity_id=#{commodityId}
-        UNION
-        SELECT commodity_id from t_commoditys where commodity_id=#{commodityId}
+        SELECT * FROM v_commoditys WHERE commodity_id = #{commodityId}
     </select>
 
 
@@ -89,7 +87,7 @@
     <select id="selectByTempIdOrderRoundTime" resultMap="BaseResultMap">
         SELECT * from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
         UNION
-        SELECT * from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime} ORDER BY commodity_id DESC limit 1
+        SELECT * from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime} ORDER BY commodity_id  limit 1
         <!-- &lt; 小于     &jt; 大于 -->
     </select>
 
@@ -131,7 +129,7 @@
     <resultMap id="PastLotteryMap" type="map"></resultMap>
 
     <select id="selectPastLottery" resultMap="PastLotteryMap">
-        SELECT tu.header_url,tu.nickname,tu.account_id,vc.commodity_id,temp_id,buy_num,user_account_id,end_date,round_time
+        SELECT tli.lottery_id,tu.header_url,tu.nickname,tu.account_id,vc.commodity_id,temp_id,buy_num,user_account_id,end_date,round_time
         from
             t_lottery_info tli,
             v_commoditys vc,
@@ -140,10 +138,10 @@
             tli.commodity_id = vc.commodity_id and
             tu.account_id=tli.user_account_id
             and
-            tli.commodity_id > #{commodityId}
+            tli.commodity_id &lt; #{commodityId}
             and
             temp_id= (select temp_id from t_commoditys where commodity_id=#{commodityId} limit 1)
-        limit 10
+        order by vc.commodity_id desc limit 10
     </select>
 
 
