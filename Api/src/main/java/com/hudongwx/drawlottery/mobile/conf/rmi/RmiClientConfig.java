@@ -13,9 +13,9 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
  * @version 1.0.0
  */
 public class RmiClientConfig {
+
     /**
      * //TODO  客户端RMI配置
-     *
      * @return 生成bean
      */
     @Bean(name = "goodsService")
@@ -25,4 +25,5 @@ public class RmiClientConfig {
         factoryBean.setServiceInterface(GoodsService.class);
         return factoryBean;
     }
+
 }
