@@ -73,7 +73,7 @@
     </update>
 
     <!-- 查看往期揭晓数据 -->
-    <select id="selectBefore" resultMap="BaseResultMap">
+    <select id="selectBefore" resultType="java.lang.Long">
         SELECT commodity_id from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
         UNION
         SELECT commodity_id from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime}

@@ -2,7 +2,6 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.Commodity;
-import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -38,7 +37,7 @@ public interface CommodityMapper  extends BaseMapper<Commodity>{
     int updateById(Commodity commodity);
 
     //查询往期揭晓数据
-    List<Long> selectBefore(@Param("tempId")Long tempId);
+    List<Long> selectBefore(@Param("tempId")Long tempId,@Param("roundTime")String roundTime);
 
     /**
      * 查询上期商品开奖信息

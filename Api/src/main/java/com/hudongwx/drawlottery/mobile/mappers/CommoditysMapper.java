@@ -91,7 +91,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @param pageLoadSize
      * @return
      */
-    List<Commoditys> selectAnnouncedCommWithPage(@Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
+    List<Commoditys> selectPageAnnounceComm(@Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 
     /**
      * 通过商品类型ID查询商品
@@ -155,4 +155,6 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @return
      */
     Commoditys selectNextRoundComm(@Param("tempId") Long tempId, @Param("stateId") Integer stateId);
+
+    String selectContent(@Param("tempId")Long tempId);
 }
