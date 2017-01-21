@@ -1,11 +1,9 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
+import com.hudongwx.drawlottery.mobile.entitys.Commodity;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import com.hudongwx.drawlottery.mobile.entitys.VirtualCommodity;
-import com.hudongwx.drawlottery.mobile.mappers.CommodityHistoryMapper;
-import com.hudongwx.drawlottery.mobile.mappers.CommodityTemplateMapper;
-import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
-import com.hudongwx.drawlottery.mobile.mappers.VirtualCommodityMapper;
+import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.IVirtualCommodityService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +40,8 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
     CommodityTemplateMapper tempMapper;
     @Autowired
     LuckCodesMapper codesMapper;
+    @Autowired
+    CommodityMapper comMapper;
 
     @Override
     public boolean addCard(VirtualCommodity card) {
@@ -81,7 +81,7 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
         vir.setCardNumber(cardNumber);
         VirtualCommodity vc = vcMapper.selectOne(vir);
         vc.setState(state);
-        CommodityHistory commodityHistory = chMapper.selectByCommId(vc.getCommodityId());
+        Commodity commodity = comMapper.selectByPrimaryKey(vc.getCommodityId());
         boolean allExchanged=true;
         List<VirtualCommodity> vcList = vcMapper.selectByCommId(vc.getCommodityId());
         for (VirtualCommodity virtualCommodity : vcList) {
@@ -89,8 +89,8 @@ public class VirtualCommodityServiceImpl implements IVirtualCommodityService {
                 allExchanged=false;
         }
         if(allExchanged){
-            commodityHistory.setExchangeState(Settings.COMMODITY_STATE_EXCHANGED);
-            chMapper.updateByPrimaryKeySelective(commodityHistory);
+            commodity.setExchangeState(Settings.COMMODITY_STATE_EXCHANGED);
+            comMapper.updateByPrimaryKeySelective(commodity);
         }
         String pwd = null;
         if (vcMapper.updateByPrimaryKeySelective(vc) > 0)

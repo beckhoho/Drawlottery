@@ -24,7 +24,7 @@
 
     <!-- 通过商品ID查询模板ID -->
     <select id="selectTempIdByCommId" resultType="java.lang.Long">
-        SELECT temp_id FROM t_commoditys WHERE id = #{commId}
+        SELECT temp_id FROM t_commoditys WHERE commodity_id = #{commId}
     </select>
 
     <!--  写入下一期商品，返回主键ID -->
@@ -43,7 +43,6 @@
             #{exchangeWay},#{endTime},#{cardNotEnough},#{buyNumber}
         )
     </insert>
-
 
     <!-- 将已开奖的商品拷贝到历史表 -->
     <insert id="insertHistory">
@@ -79,6 +78,12 @@
         SELECT commodity_id from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime}
     </select>
 
+    <select id="selectByKey" resultMap="BaseResultMap">
+        SELECT commodity_id from t_commodity_history where commodity_id=#{commodityId}
+        UNION
+        SELECT commodity_id from t_commoditys where commodity_id=#{commodityId}
+    </select>
+
 
     <!-- 查询商品上期开奖信息-->
     <select id="selectByTempIdOrderRoundTime" resultMap="BaseResultMap">
@@ -94,6 +99,7 @@
         UNION
         SELECT * from t_commoditys where luck_user_account_id = #{accountId}
     </select>
+
 
     <select id="selectComIdAndUser" resultMap="BaseResultMap">
         SELECT * from t_commodity_history where commodity_id = #{commodityId} AND luck_user_account_id = #{accountId}
@@ -122,9 +128,8 @@
 
 
     <!--查询往期中奖信息-->
-    <resultMap id="PastLotteryMap" type="map">
+    <resultMap id="PastLotteryMap" type="map"></resultMap>
 
-    </resultMap>
     <select id="selectPastLottery" resultMap="PastLotteryMap">
         SELECT tu.header_url,tu.nickname,tu.account_id,vc.commodity_id,temp_id,buy_num,user_account_id,end_date,round_time
         from

@@ -49,13 +49,6 @@ public interface CommodityMapper  extends BaseMapper<Commodity>{
 //    List<Long> selectCommodityBefore(@Param("tempId")Long tempId,@Param("roundTime")String roundTime);
 
 
-
-    /**
-     * 查询单件历史商品信息
-     * @return  返回商品信息
-     */
-    //CommodityHistory selectByCommId(@Param("commodityId") Long commodityId);
-
     /**
      * 查询中奖历史
      * @param accountId 用户ID
@@ -63,11 +56,11 @@ public interface CommodityMapper  extends BaseMapper<Commodity>{
      */
     List<Commodity> selectHistoryLottery(@Param("accountId") Long accountId);
 
+
+    //查看用户单个中奖信息
     Commodity selectComIdAndUser(@Param("accountId")Long accountId,@Param("commodityId")Long commodityId);
 
     List<Commodity> selectByTempId(@Param("tempId")Long tempId);
-
-    //int updateByCommodityIdSelective(@Param("commodityHistory") CommodityHistory commodityHistory);
 
     /**
      * 更改商品分享状态
@@ -82,5 +75,7 @@ public interface CommodityMapper  extends BaseMapper<Commodity>{
      * @return
      */
     List<Map> selectPastLottery(Long commodityId);
+
+    Commodity selectByKey(@Param("commodityId")Long commodityId);
 
 }

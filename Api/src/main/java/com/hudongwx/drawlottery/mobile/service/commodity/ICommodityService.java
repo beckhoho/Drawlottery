@@ -89,5 +89,10 @@ public interface ICommodityService {
 
     List<Map> selectThePastAnnouncedCommList(Long commId);
 
+    /**
+     * 通过商品id 得到商品图文详情
+     * @param commodityId 商品id
+     * @return 模板中的图文详情
+     */
     String selectContent(Long commodityId);
 }

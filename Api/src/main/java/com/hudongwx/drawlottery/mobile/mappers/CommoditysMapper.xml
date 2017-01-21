@@ -34,14 +34,14 @@
 
     <select id="selectByKey" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
-        WHERE commodity.id = #{commodityId}
+        WHERE commodity.commodity_id = #{commodityId}
     </select>
 
     <select id="selectCommNameListByCommId" resultType="java.lang.String">
         SELECT template.name FROM t_commoditys as commodity
         LEFT JOIN t_commodity_template as template ON
         commodity.temp_id = template.id
-        WHERE commodity.id IN
+        WHERE commodity.commodity_id IN
         <foreach collection="commIdList" open="(" separator="," close=")" item="id">
             #{id}
         </foreach>
@@ -51,7 +51,7 @@
         SELECT template.name FROM t_commoditys as commodity
         LEFT JOIN t_commodity_template as template ON
         commodity.temp_id = template.id
-        WHERE commodity.id = #{commIdList}
+        WHERE commodity.commodity_id = #{commIdList}
     </select>
 
 
@@ -255,7 +255,7 @@
     </select>
     <select id="selectNextRoundComm" resultMap="BaseResultMap">
         SELECT
-            id,
+            commodity_id,
             round_time
         FROM t_commoditys
         WHERE temp_id = #{tempId}

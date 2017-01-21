@@ -423,6 +423,126 @@ public class CardExample {
             addCriterion("money not between", value1, value2, "money");
             return (Criteria) this;
         }
+
+        public Criteria andStateIsNull() {
+            addCriterion("state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNotNull() {
+            addCriterion("state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateEqualTo(Integer value) {
+            addCriterion("state =", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotEqualTo(Integer value) {
+            addCriterion("state <>", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThan(Integer value) {
+            addCriterion("state >", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("state >=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThan(Integer value) {
+            addCriterion("state <", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThanOrEqualTo(Integer value) {
+            addCriterion("state <=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIn(List<Integer> values) {
+            addCriterion("state in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotIn(List<Integer> values) {
+            addCriterion("state not in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateBetween(Integer value1, Integer value2) {
+            addCriterion("state between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("state not between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdIsNull() {
+            addCriterion("commodity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdIsNotNull() {
+            addCriterion("commodity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdEqualTo(Long value) {
+            addCriterion("commodity_id =", value, "commodityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdNotEqualTo(Long value) {
+            addCriterion("commodity_id <>", value, "commodityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdGreaterThan(Long value) {
+            addCriterion("commodity_id >", value, "commodityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("commodity_id >=", value, "commodityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdLessThan(Long value) {
+            addCriterion("commodity_id <", value, "commodityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdLessThanOrEqualTo(Long value) {
+            addCriterion("commodity_id <=", value, "commodityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdIn(List<Long> values) {
+            addCriterion("commodity_id in", values, "commodityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdNotIn(List<Long> values) {
+            addCriterion("commodity_id not in", values, "commodityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdBetween(Long value1, Long value2) {
+            addCriterion("commodity_id between", value1, value2, "commodityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommodityIdNotBetween(Long value1, Long value2) {
+            addCriterion("commodity_id not between", value1, value2, "commodityId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

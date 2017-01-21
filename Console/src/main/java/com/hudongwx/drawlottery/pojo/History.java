@@ -2,8 +2,8 @@ package com.hudongwx.drawlottery.pojo;
 
 import com.hudongwx.drawlottery.common.constants.CommonConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
-import com.hudongwx.drawlottery.common.utils.DateUtils;
 import com.hudongwx.drawlottery.common.utils.SpringUtils;
+import com.hudongwx.drawlottery.common.utils.toolbox.DateUtil;
 
 import java.util.Date;
 
@@ -76,6 +76,11 @@ public class History {
      * 快递状态
      */
     private Integer expressState;
+
+    /**
+     * 发货信息id
+     */
+    private Long expressId;
     /**
      * 快递名
      */
@@ -282,7 +287,7 @@ public class History {
     public String getEndTimeLabel() {
         if (null == endTime)
             return commonConstants.getEmptyString();
-        return DateUtils.format(new Date(endTime));
+        return DateUtil.format(new Date(endTime));
     }
 
     public void setEndTimeLabel(String endTimeLabel) {
@@ -359,5 +364,13 @@ public class History {
 
     public void setUserPhoneNumber(String userPhoneNumber) {
         this.userPhoneNumber = userPhoneNumber;
+    }
+
+    public Long getExpressId() {
+        return expressId;
+    }
+
+    public void setExpressId(Long expressId) {
+        this.expressId = expressId;
     }
 }

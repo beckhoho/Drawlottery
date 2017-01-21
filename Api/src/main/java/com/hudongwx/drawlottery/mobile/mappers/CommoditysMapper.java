@@ -63,7 +63,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     @Select("select id from t_commodity_type where name = #{commodType} ")
     Long selectType(@Param("commodType") String commodType);
 
-    List<Commoditys> testPage(@Param("state")Integer state,@Param("option")Integer option,@Param("lastCommId")Long lastCommId,@Param("pageLoadSize")Integer pageLoadSize);
+    List<Commoditys> testPage(@Param("state") Integer state, @Param("option") Integer option, @Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 
     //人气
     List<Commoditys> selectByTemp1(@Param("lastCommId") Long lastCommId, @Param("maxInfoSize") Integer maxInfoSize);
@@ -156,5 +156,11 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      */
     Commoditys selectNextRoundComm(@Param("tempId") Long tempId, @Param("stateId") Integer stateId);
 
-    String selectContent(@Param("tempId")Long tempId);
+    /**
+     * 查询详情
+     *
+     * @param tempId
+     * @return
+     */
+    String selectContent(@Param("tempId") Long tempId);
 }

@@ -46,4 +46,11 @@ public interface CardService {
      * @return 分页
      */
     public PageInfo<Card> getCards(final int currentPage, final int pageSize, final List<Integer> corporation, final int order, final int direction);
+
+    /**
+     * 获取统计信息
+     *
+     * @return 统计信息集合
+     */
+    List<Integer> getCounts();
 }

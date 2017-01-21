@@ -32,19 +32,25 @@
     </select>
     <select id="selectList" resultType="com.hudongwx.drawlottery.pojo.History">
         select
+        delivery.id as expressId,
         history.commodity_id as commodityId,
-        history.luck_user_account_id luckUserAccountId,
+        info.user_account_id luckUserAccountId,
         history.end_time endTime,
         history.round_time roundTime,
-        history.commodity_name commodityName,
+        temp.name commodityName,
         history.exchange_way exchangeWay,
-        history.genre,
+        temp.genre,
         history.exchange_state exchangeState,
         history.card_not_enough cardNotEnough,
         eWay.name exchangeWayLabel
-        from draw_lottery.t_commodity_history as history
+        from draw_lottery.v_commoditys as history
         LEFT JOIN draw_lottery.t_exchange_way as eWay
         ON eWay.id = history.exchange_way
+        LEFT JOIN draw_lottery.t_express_delivery as delivery
+        on delivery.commodity_id = history.commodity_id
+        INNER JOIN draw_lottery.t_lottery_info as info ON info.commodity_id = history.commodity_id
+        INNER JOIN draw_lottery.t_commoditys commodity on commodity.commodity_id = history.commodity_id
+        LEFT JOIN draw_lottery.t_commodity_template as temp ON temp.id = commodity.temp_id
         <where>
             <if test="param.roundTime != null">
                 and history.round_time = #{param.roundTime}
@@ -56,15 +62,9 @@
                 </foreach>
             </if>
             <if test="param.genre != null and param.genre.size() > 0">
-                and history.genre in
+                and temp.genre in
                 <foreach collection="param.state" open="(" separator="," close=")" item="g">
                     #{g}
-                </foreach>
-            </if>
-            <if test="param.state != null and param.state.size() > 0">
-                and history.exchange_state in
-                <foreach collection="param.state" open="(" separator="," close=")" item="s">
-                    #{s}
                 </foreach>
             </if>
             <if test="param.state != null and param.state.size() > 0">
@@ -77,13 +77,13 @@
         order BY
         <choose>
             <when test="param.order == 1">
-                luck_user_account_id
+                info.user_account_id
             </when>
             <when test="param.order == 2">
-                round_time
+                history.round_time
             </when>
             <otherwise>
-                end_time
+                history.end_time
             </otherwise>
         </choose>
         <choose>
@@ -96,12 +96,12 @@
         </choose>
     </select>
     <select id="selectRoundTimes" resultType="java.lang.String">
-        <bind name="pattern" value="'%' + text + '%'"/>
-        select round_time from draw_lottery.t_commodity_history where round_time LIKE #{pattern}
+        <bind name="pattern" value="'%' + key + '%'"/>
+        select round_time from draw_lottery.v_commoditys where round_time LIKE #{pattern}
     </select>
     <select id="selectHistory" resultType="com.hudongwx.drawlottery.pojo.History">
       select
-  history.id,
+  history.commodity_id as commodityId,
   users.nickname as nickname,
   users.real_name as realName,
   users.phone_number as userPhoneNumber,
@@ -110,33 +110,18 @@
   delivery_name as deliveryName,
   delivery_number as deliveryNumber,
   receiver_name as receiverName,
-  phone as receiverPhone
-from draw_lottery.t_commodity_history as history
+  phone as receiverPhone,
+  express.id as expressId
+from draw_lottery.v_commoditys as history
   LEFT JOIN draw_lottery.t_express_delivery as express ON history.commodity_id = express.commodity_id
   LEFT JOIN draw_lottery.t_delivery_address as dAddress ON dAddress.id = express.address_id
-  LEFT JOIN draw_lottery.t_users as users ON luck_user_account_id = users.account_id
+  INNER JOIN draw_lottery.t_lottery_info as info on info.commodity_id = history.commodity_id
+  LEFT JOIN draw_lottery.t_users as users ON info.user_account_id  = users.account_id
 WHERE history.commodity_id = #{id}
-UNION select
-        history.id,
-        users.nickname as nickname,
-        users.real_name as realName,
-        users.phone_number as userPhoneNumber,
-        address,
-        express.state as expressState,
-        delivery_name as deliveryName,
-        delivery_number as deliveryNumber,
-        receiver_name as receiverName,
-        phone as receiverPhone
-      from draw_lottery.t_commoditys as history
-        LEFT JOIN draw_lottery.t_express_delivery as express ON history.id = express.commodity_id
-        LEFT JOIN draw_lottery.t_delivery_address as dAddress ON dAddress.id = express.address_id
-        LEFT JOIN draw_lottery.t_lottery_info as info ON info.commodity_id = history.id
-        LEFT JOIN draw_lottery.t_users as users ON info.user_account_id = users.account_id
-      WHERE history.id = #{id}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from t_commodity_history
-    where id = #{id,jdbcType=BIGINT}
+    delete from draw_lottery.v_commoditys
+    where commodity_id = #{id,jdbcType=BIGINT}
   </delete>
     <insert id="insert" parameterType="com.hudongwx.drawlottery.pojo.History">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">

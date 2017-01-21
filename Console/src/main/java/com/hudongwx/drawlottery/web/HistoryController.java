@@ -1,13 +1,16 @@
 package com.hudongwx.drawlottery.web;
 
 import com.github.pagehelper.PageInfo;
+import com.hudongwx.drawlottery.common.base.BaseController;
 import com.hudongwx.drawlottery.common.constants.CommonConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.dto.Node;
 import com.hudongwx.drawlottery.common.dto.paramBody.HistoryParam;
+import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.response.OrderFilters;
 import com.hudongwx.drawlottery.common.exceptions.ControllerException;
 import com.hudongwx.drawlottery.pojo.ExchangeWay;
+import com.hudongwx.drawlottery.pojo.Express;
 import com.hudongwx.drawlottery.pojo.History;
 import com.hudongwx.drawlottery.service.commodity.ExchangeWayService;
 import com.hudongwx.drawlottery.service.history.HistoryService;
@@ -31,7 +34,7 @@ import java.util.List;
 @Api("订单相关接口")
 @RestController
 @RequestMapping(value = "/order", method = RequestMethod.POST)
-public class HistoryController {
+public class HistoryController extends BaseController {
 
     @Resource
     private HistoryService historyService;
@@ -54,6 +57,11 @@ public class HistoryController {
         return roundTimes;
     }
 
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public AjaxResult delete(@ApiParam @RequestParam Long id){
+        historyService.delete(id);
+        return success(langConstants.getLang(langConstants.DELETE_SUCCESS));
+    }
     @RequestMapping(value = "/filters", method = RequestMethod.POST)
     public OrderFilters getFilters() {
         OrderFilters filters = new OrderFilters();
@@ -83,5 +91,10 @@ public class HistoryController {
         return historyService.getHistory(id);
     }
 
-
+    @ApiOperation("发货")
+    @RequestMapping("/delivery")
+    public AjaxResult delivery(@RequestBody Express express) {
+        historyService.delivery(express);
+        return success(langConstants.getLang(langConstants.DELIVERY_SUCCESS));
+    }
 }

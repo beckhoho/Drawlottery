@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface HistoryMapper {
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(@Param("id") Long id);
 
     int insert(History record);
 

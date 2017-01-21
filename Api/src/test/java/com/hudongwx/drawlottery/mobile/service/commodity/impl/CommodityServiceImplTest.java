@@ -30,7 +30,8 @@ import java.util.Map;
 public class CommodityServiceImplTest extends TestBaseMapper {
     @Test
     public void testSelectCommodity() throws Exception {
-        service.selectCommodity(46L);
+        Map<String, Object> map = service.selectCommodity(11L);
+        System.out.println(map);
     }
 
     @Autowired
