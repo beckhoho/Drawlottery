@@ -25,6 +25,5 @@ public interface LotteryInfoMapper extends BaseMapper<LotteryInfo>{
 
     LotteryInfo selectByComId(@Param("commodityId")Long commodityId);
 
-    List<LotteryInfo> selectByUser(@Param("accountId")Long accountId);
-
+    List<LotteryInfo> selectByUserAccountId(@Param("accountId")Long accountId,@Param("lastCommId")Long lastCommId,@Param("pageLoadSize")Integer pageLoadSize);
 }

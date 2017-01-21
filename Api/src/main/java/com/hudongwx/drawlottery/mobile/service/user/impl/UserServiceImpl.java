@@ -119,9 +119,9 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectHistoryLottery(Long accountId) {
+    public List<Map<String, Object>> selectHistoryLottery(Long accountId, Long lastCommId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        List<LotteryInfo> infos = lotteryInfoMapper.selectByUser(accountId);
+        List<LotteryInfo> infos = lotteryInfoMapper.selectByUserAccountId(accountId,lastCommId,Settings.PAGE_LOAD_SIZE_10);
 
         for (LotteryInfo com : infos) {
             Commodity key = cMapper.selectByKey(com.getCommodityId());
@@ -532,10 +532,10 @@ public class UserServiceImpl implements IUserService {
                     map.put("coverImgUrl", comm.getCoverImgUrl());//添加封面图URL
                     map.put("commName", comm.getName());//添加商品名
                     map.put("userAccountId", accountId);//添加用户ID
+                    map.put("userBuyNumber", ordersCommoditysMapper.countUserCommAmount(orderIdList, comm.getId()));//添加用户本商品购买人次；
                     LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comm.getId());
                     if (null != lotteryInfo) {
                         map.put("endTime", lotteryInfo.getEndDate().getTime());//添加揭晓时间
-                        map.put("userBuyNumber", lotteryInfo.getBuyNum());//添加用户本商品购买人次；
                         User user = userMapper.selectById(lotteryInfo.getUserAccountId());
                         map.put("userNickname", user.getNickname());//中奖者昵称
                     }

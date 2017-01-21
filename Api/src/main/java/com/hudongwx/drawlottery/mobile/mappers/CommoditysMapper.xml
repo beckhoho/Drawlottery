@@ -67,7 +67,7 @@
         WHERE commodity.state_id = #{state}
         <choose>
             <when test="option = 1 ">
-                <if test="lastCommId!=null and lastCommId!=0">
+                <if test="lastCommId!=null and lastCommId!= 0">
                     and commodity.view_num &lt;=
                     (SELECT view_num FROM t_commoditys WHERE id = #{lastCommId} )
                 </if>
@@ -80,7 +80,7 @@
                     and commodity.buy_current_number-commodity.buy_last_number &gt;=
                     (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE
                     t_commoditys.id
-                    = #{lastCommId} )
+                    = #{lastCommId})
                 </if>
                 ORDER BY
                 commodity.buy_current_number-commodity.buy_last_number
@@ -116,7 +116,7 @@
         WHERE commodity.state_id = 3
         <if test="lastCommId != 0">
             and commodity.view_num &lt;=
-            (SELECT view_num FROM t_commoditys WHERE id = #{lastCommId} )
+            (SELECT view_num FROM t_commoditys WHERE commodity_id = #{lastCommId} )
         </if>
         ORDER BY
         commodity.view_num DESC LIMIT #{maxInfoSize}
@@ -128,9 +128,9 @@
         WHERE commodity.state_id = 3
         <if test="lastCommId != 0">
             and commodity.buy_current_number-commodity.buy_last_number &gt;=
-            (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE t_commoditys.id
-            =
-            #{lastCommId} )
+            (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE
+            t_commoditys.commodity_id
+            = #{lastCommId} )
         </if>
         ORDER BY
         commodity.buy_current_number-commodity.buy_last_number limit #{maxInfoSize}
@@ -143,7 +143,7 @@
         <if test="lastCommId != 0">
             and commodity.ground_time &gt;=
             (SELECT t_commoditys.ground_time FROM t_commoditys
-            WHERE t_commoditys.id = (SELECT temp_id FROM t_commoditys WHERE commodity_id=#{lastCommId}) )
+            WHERE t_commoditys.commodity_id = (SELECT temp_id FROM t_commoditys WHERE commodity_id=#{lastCommId}) )
         </if>
         ORDER BY
         ground_time DESC limit #{maxInfoSize}

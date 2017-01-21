@@ -71,8 +71,8 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户中奖记录（带分页）")
     @RequestMapping(value = "/api/v1/user/win", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserWinningHistory(@ApiParam("当前页最后一item的实际id") @RequestParam("lastItemId") Long lastItemId) {
-        List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(getUserId());
+    public JSONObject queryUserWinningHistory(@ApiParam("当前页最后一item的实际id") @RequestParam("lastCommId") Long lastCommId) {
+        List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(getUserId(),lastCommId);
         return success(historyLottery);
     }
 
