@@ -106,14 +106,7 @@ public interface IUserService {
      */
     int addPromoter(Long promId, Long accountId);
 
-    /**
-     * 添加QQ号
-     *
-     * @param accountId
-     * @param qq
-     * @return
-     */
-    boolean updateQQNumber(Long accountId, String qq);
+
 
     /**
      * 夺宝记录
@@ -136,5 +129,7 @@ public interface IUserService {
     List<String> selectUserLuckCode(Long accountId, Long commId, String lastCode);
 
     boolean updateUserNickname(Long accountId, String nickname);
+
+    boolean addQQNumber(Long accountId, String qq);
 }
 

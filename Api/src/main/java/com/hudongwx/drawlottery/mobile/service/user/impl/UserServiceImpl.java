@@ -245,6 +245,7 @@ public class UserServiceImpl implements IUserService {
         for (Long commId : commIdList) {
             Map<String, Object> map = new HashMap<>();
             Commoditys com = comMapper.selectByKey(commId);
+
             List<String> integers = luckUserList(accountId, com.getId());
             //CommodityHistory history = comHistoryMapper.selectByCommId(commId);
            // User user = userMapper.selectById(history.getLuckUserAccountId());
@@ -260,7 +261,7 @@ public class UserServiceImpl implements IUserService {
             map.put("userBuyNumber", integers.size());//添加用户本商品购买人次；
             map.put("isWinner", 0);
            //map.put("userNickname", user.getNickname());//中奖者昵称
-            map.put("endTime", history.getEndTime());//添加揭晓时间
+            //map.put("endTime", com.getEndTime());//添加揭晓时间
             list.add(map);
         }
         return list;
@@ -481,6 +482,7 @@ public class UserServiceImpl implements IUserService {
         return -2;
     }
 
+
     /**
      * 添加QQ号
      *
@@ -489,7 +491,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public boolean updateQQNumber(Long accountId, String qq) {
+    public boolean addQQNumber(Long accountId, String qq) {
         return userMapper.updateUserQQ(accountId, qq) > 0;
     }
 

@@ -32,8 +32,8 @@ public class CommodityHistoryServiceImplTest extends TestBaseMapper {
     ICommodityHistoryService service;
     @Test
     public void testSelectThePastAnnouncedCommList() throws Exception {
-        List<Map> maps = service.selectThePastAnnouncedCommList(11l);
-        System.out.println(maps);
+//        List<Map> maps = service.selectThePastAnnouncedCommList(11l);
+//        System.out.println(maps);
     }
 
     @Test
