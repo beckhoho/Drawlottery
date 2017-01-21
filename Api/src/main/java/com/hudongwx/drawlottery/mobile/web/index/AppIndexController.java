@@ -45,7 +45,6 @@ public class AppIndexController extends BaseController {
 
     /**
      * 客户端首页的banner（广告栏）图片
-     *
      * @return JSONObject
      */
     @RequestMapping(value = "/api/v1/index/banner", method = {RequestMethod.POST, RequestMethod.GET})

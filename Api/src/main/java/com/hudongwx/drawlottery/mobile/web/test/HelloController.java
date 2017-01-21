@@ -1,8 +1,9 @@
-package com.hudongwx.drawlottery.mobile.web.index;
+package com.hudongwx.drawlottery.mobile.web.test;
 
-import io.swagger.annotations.*;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Created by Administrator on 2016/12/9 0009.
@@ -29,5 +30,4 @@ public class HelloController {
     }
 
     //需要重新编译文件 ctl+shift+f9
-
 }
