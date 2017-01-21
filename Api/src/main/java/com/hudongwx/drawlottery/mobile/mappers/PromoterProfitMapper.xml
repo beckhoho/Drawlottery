@@ -11,11 +11,17 @@
         <result column="operate_time" jdbcType="BIGINT" property="operateTime"/>
     </resultMap>
 
-    <select id="selectByAccountId" resultMap="BaseResultMap">
-        SELECT * FROM t_promoter_profit WHERE account_id = #{accountId} order by operate_time desc
+    <select id="selectPageProfitByAccountId" resultMap="BaseResultMap">
+        SELECT * FROM t_promoter_profit
+        WHERE account_id = #{accountId}
+        <if test="lastTime!=null and lastTime !=0 ">
+            and operate_time &lt; #{lastTime}
+        </if>
+        order by operate_time desc
+        limit #{pageLoadSize}
     </select>
 
-    <select id="c" resultMap="BaseResultMap">
-        SELECT * FROM t_promoter_profit WHERE account_id = #{accountId}
+    <select id="countUserIncome" resultType="java.math.BigDecimal">
+      SELECT sum(income) FROM t_promoter_profit WHERE account_id = #{accountId}
     </select>
 </mapper>

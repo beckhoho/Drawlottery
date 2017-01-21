@@ -196,7 +196,7 @@ public class CommodityServiceImpl implements ICommodityService {
             }
             if (comh == null) {
                 map.put("beforeLottery", new HashMap<>());
-            } else if(com.getStateId()==3){
+            } else if (com.getStateId() == 3) {
                 map.put("beforeLottery", mapBefore(comh));//往期开奖揭晓
             }
         }
@@ -207,7 +207,7 @@ public class CommodityServiceImpl implements ICommodityService {
                 nextRoundId = commoditys.getId();
             }
         }
-        if (com.getStateId() == 1 ) {//如果已开奖或是在等待开奖
+        if (com.getStateId() == 1) {//如果已开奖或是在等待开奖
             Commoditys byKey = commsMapper.selectByKey(commodId);
             map.put("beforeLottery", mapBefore(byKey));
             Commoditys commoditys = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
@@ -288,7 +288,7 @@ public class CommodityServiceImpl implements ICommodityService {
         System.out.println(userIds.size());
 
         for (Long userId : userIds) {
-            if(userId != 0) {
+            if (userId != 0) {
                 System.out.println(userId);
                 User user = userMapper.selectById(userId);
                 Map<String, Object> map = map1(user.getAccountId());
@@ -411,7 +411,7 @@ public class CommodityServiceImpl implements ICommodityService {
         List<Map<String, Object>> infoList = new ArrayList<>();
         List<Commoditys> onLotteryList = null;
         if (null == commId && null != page) {
-            List<Commoditys> list = commsMapper.selectOnLottery(Settings.MAX_INFO_SIZE);
+            List<Commoditys> list = commsMapper.selectOnLottery();
             list.addAll(commsMapper.selectHasTheLotteryComm());
             onLotteryList = ServiceUtils.getPageList(list, page);
         } else if (null != commId && null == page) {
@@ -483,9 +483,68 @@ public class CommodityServiceImpl implements ICommodityService {
     @Override
     public List<Map<String, Object>> selectAnnounceComm(Long lastCommId) {
         //正在开奖的商品
-        List<Commoditys> lotcommList = null;
+        List<Commoditys> lotcommList = commsMapper.selectOnLottery();
         //已开奖的商品
-        List<Commoditys> annCommList = commsMapper.selectAnnouncedComm(lastCommId, Settings.PAGE_LOAD_SIZE_10);
+        List<Commoditys> annCommList = commsMapper.selectAnnouncedCommWithPage(lastCommId, Settings.PAGE_LOAD_SIZE_10);
+        List<CommodityHistory> historyList = historyMapper.selectAllWithPage(lastCommId, Settings.PAGE_LOAD_SIZE_10);
+
+        return null;
+    }
+
+    private <T> List<Map<String, Object>> getFormAnnounceCommData(List<T> list) {
+        List<Map<String, Object>> mapList = new ArrayList<>();
+
+        for (T t : list) {
+            int residualMinutes = 0;
+            String userHeadImgUrl = null;
+            String userNickname = null;
+            int userPayNum = 0;
+            long id = 0;
+            int minNum = 0;
+            String imgUrl = null;
+            long currentTime = 0;
+            long endTime = 0;
+            String detailUrl = null;
+            String desc = null;
+            int state = 0;
+            int totalNumber = 0;
+            long roundTime = 0;
+            if (t instanceof Commoditys) {
+                Commoditys comm=(Commoditys)t;
+                residualMinutes = 0;
+                userHeadImgUrl = null;
+                userNickname = null;
+                userPayNum = 0;
+                id = 0;
+                minNum = 0;
+                imgUrl = null;
+                currentTime = 0;
+                endTime = 0;
+                detailUrl = null;
+                desc = null;
+                state = 0;
+                totalNumber = 0;
+                roundTime = 0;
+            }
+        }
+
+
+        Map<String, Object> map = new HashMap<>();
+//        map.put("residualMinutes", residualMinutes);//剩余开奖秒数
+//        map.put("userHeadImgUrl", Settings.SERVER_URL_PATH + userHeadImgUrl);//中奖者头像
+//        map.put("userNickname", userNickName);// 中奖者昵称
+//        map.put("userPayNum", userPayNum);//中奖者购买数量
+//        map.put("id", comm.getId());//商品id
+//        map.put("minNum", comm.getMinimum());//商品id
+//        map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
+//        map.put("currentTime", nowTime);//当前时间
+//        map.put("endTime", endTime);//当前时间
+//        map.put("detailUrl", comm.getCommodityDescUrl());//详情url
+//        map.put("desc", comm.getCommodityDesc());//商品描述
+//        map.put("state", comm.getStateId());//上商状态
+//        map.put("totalNumber", comm.getBuyTotalNumber());//所需总人次
+//        map.put("roundTime", comm.getRoundTime());//期数
+        mapList.add(map);
 
         return null;
     }

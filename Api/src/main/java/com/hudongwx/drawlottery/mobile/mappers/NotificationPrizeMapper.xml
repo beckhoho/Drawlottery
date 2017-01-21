@@ -18,7 +18,7 @@
     </resultMap>
 
     <select id="selectByNewPrizeNotify" resultMap="BaseResultMap">
-    SELECT commodity_id,notice_content FROM t_notification_prize ORDER BY on_prize_date DESC limit 5;
+    SELECT commodity_id,notice_content FROM t_notification_prize ORDER BY on_prize_date DESC limit #{maxInfoSize};
   </select>
     <select id="countUnreadMsg" resultType="INTEGER">
     select count(*) from t_notification_prize where user_account_id = #{UserId} and state = 0

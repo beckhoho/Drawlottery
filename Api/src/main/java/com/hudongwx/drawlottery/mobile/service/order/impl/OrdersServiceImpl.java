@@ -6,7 +6,6 @@ import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
-import com.hudongwx.drawlottery.mobile.utils.LotteryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -166,12 +165,12 @@ public class OrdersServiceImpl implements IOrdersService {
      * @return
      */
     @Override
-    public Map<String, Object> selectOrders(Long accountId, Integer sum) {
+    public Map<String, Object> selectUsableRedPackets(Long accountId, Integer sum) {
         Map<String, Object> m = new HashMap<>();
         List<Long> idList = new ArrayList<>();
         User user = userMapper.selectById(accountId);
         m.put("remainder", user.getGoldNumber());//获得用户账户余额
-        List<RedPackets> list = redMapper.selectByAccount(accountId);
+        List<RedPackets> list = redMapper.selectByState(accountId,0);
         for (RedPackets r : list) {
             if (r.getUsePrice() <= sum) {
                 idList.add(r.getId());//红包ID

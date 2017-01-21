@@ -82,7 +82,7 @@ public class UserServiceImpl implements IUserService {
         if (length == 11) {
             user.setNickname(phone.substring(0, 3) + "*****" + phone.substring(length - 3, length));
         } else {
-            user.setNickname("用户"+userMapper.countUsers());
+            user.setNickname("用户" + userMapper.countUsers());
         }
         user.setUserIntegral(0);
         user.setHeaderUrl(Settings.USER_PORTRAIT_URL_DEFAULT);
@@ -260,7 +260,7 @@ public class UserServiceImpl implements IUserService {
             map.put("userBuyNumber", integers.size());//添加用户本商品购买人次；
             map.put("isWinner", 0);
            //map.put("userNickname", user.getNickname());//中奖者昵称
-            //map.put("endTime", history.getEndTime());//添加揭晓时间
+            map.put("endTime", history.getEndTime());//添加揭晓时间
             list.add(map);
         }
         return list;
@@ -489,7 +489,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public boolean addQQNumber(Long accountId, String qq) {
+    public boolean updateQQNumber(Long accountId, String qq) {
         return userMapper.updateUserQQ(accountId, qq) > 0;
     }
 
@@ -502,7 +502,8 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public List<Map<String, Object>> selectPurchaseRecords(Integer item, Long accountId, Long lastCommId) {
-        List<Orders> orderList = ordersMapper.selectUserOrdersByPayState(accountId, Settings.ORDERS_ALREADY_PAID);
+        //查询已支付的订单
+        List<Long> orderIdList = ordersMapper.selectUserOrderIdByPayState(accountId, Settings.ORDERS_ALREADY_PAID);
         List<Map<String, Object>> mapList = new ArrayList<>();
 //        for (Orders orders : orderList) {
 //            Long orderId = orders.getId();
@@ -558,6 +559,14 @@ public class UserServiceImpl implements IUserService {
         if (!onList.isEmpty())
             return onList;
         return userCodeHistMapper.selectUserCommLuckCode(accountId, commId, lastCode, Settings.PAGE_LOAD_SIZE_16);
+    }
+
+    @Override
+    public boolean updateUserNickname(Long accountId, String nickname) {
+        User user = new User();
+        user.setAccountId(accountId);
+        user.setNickname(nickname);
+        return userMapper.updateByPrimaryKey(user) > 0;
     }
 
     /**

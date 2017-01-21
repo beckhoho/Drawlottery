@@ -18,4 +18,9 @@
   <select id="selectByAccount" resultMap="BaseResultMap">
     SELECT * FROM t_red_packets WHERE user_account_id = #{accountId}
   </select>
+
+  <select id="selectByState" resultMap="BaseResultMap">
+    SELECT * FROM t_red_packets WHERE user_account_id = #{accountId}
+    And use_state = #{state}
+  </select>
 </mapper>

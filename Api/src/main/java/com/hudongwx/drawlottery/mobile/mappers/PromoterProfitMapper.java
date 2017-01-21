@@ -5,6 +5,7 @@ import com.hudongwx.drawlottery.mobile.entitys.Approve;
 import com.hudongwx.drawlottery.mobile.entitys.PromoterProfit;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface PromoterProfitMapper extends BaseMapper<Approve> {
@@ -15,5 +16,8 @@ public interface PromoterProfitMapper extends BaseMapper<Approve> {
      * @param accountId
      * @return
      */
-    List<PromoterProfit> selectByAccountId(@Param("accountId") Long accountId);
+    List<PromoterProfit> selectPageProfitByAccountId(@Param("accountId") Long accountId, @Param("lastTime") Long lastTime, @Param("pageLoadSize") Integer pageLoadSize);
+
+    BigDecimal countUserIncome(@Param("accountId")Long accountId);
+
 }

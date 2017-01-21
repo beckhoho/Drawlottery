@@ -9,7 +9,6 @@ import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -43,30 +42,28 @@ public class PromoterProfitServiceImpl implements IPromoterProfitService {
      * @return
      */
     @Override
-    public Map<String, Object> selectPromoterProfitInfo(Long accountId) {
+    public Map<String, Object> selectPromoterProfitInfo(Long accountId, Long lastTime) {
         Map<String, Object> map = new HashMap<>();
         //基本数据
         User user = userMapper.selectById(accountId);
         map.put("accountId", accountId);//推广Id
         map.put("lv", user.getLv());//等级
         map.put("balance", user.getBalance());//余额
-        List<PromoterProfit> profitList = promProfMapper.selectByAccountId(accountId);
+        map.put("amIncome", promProfMapper.countUserIncome(accountId).doubleValue());//累计收益
+        List<PromoterProfit> profitList = promProfMapper.selectPageProfitByAccountId(accountId, lastTime, Settings.PAGE_LOAD_SIZE_06);
         if (profitList.isEmpty())
             return null;
         PromoterProfit pp = profitList.get(0);
-        BigDecimal amIncome = new BigDecimal(0);
-        map.put("YIncome", new Date().getTime() - pp.getOperateTime() > (Settings.ONE_DAY_LONG_VALUE) ? 0.00d : pp.getIncome().doubleValue());//昨日收益
         List<Map<String, Object>> list = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        map.put("YIncome", new Date().getTime() - pp.getOperateTime() > (Settings.ONE_DAY_LONG_VALUE) ? 0.00d : pp.getIncome().doubleValue());//昨日收益
         for (PromoterProfit profit : profitList) {
-            amIncome = amIncome.add(profit.getIncome());
             Map<String, Object> map1 = new HashMap<>();
             map1.put("date", sdf.format(profit.getOperateTime()));
             map1.put("income", profit.getIncome().doubleValue());
             list.add(map1);
         }
         map.put("incomeHistory", list);
-        map.put("amIncome", amIncome.doubleValue());//累计收益
         return map;
     }
 }

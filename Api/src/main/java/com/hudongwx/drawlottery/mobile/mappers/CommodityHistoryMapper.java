@@ -10,8 +10,16 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
 
     /**
      * 更改商品分享状态
+     *
      * @param commodityId
      * @return
      */
-    int updateShareStateByCommodityId(@Param("commodityId")Long commodityId);
+    int updateShareStateByCommodityId(@Param("commodityId") Long commodityId);
+
+    /**
+     * 查询所有(查询已揭晓的商品)
+     *
+     * @return
+     */
+    List<CommodityHistory> selectAllWithPage(@Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 }
