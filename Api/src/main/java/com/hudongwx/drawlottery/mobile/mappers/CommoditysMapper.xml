@@ -5,7 +5,7 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <id column="id" jdbcType="BIGINT" property="id"/>
+        <id column="commodity_id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="commodity_desc" jdbcType="VARCHAR" property="commodityDesc"/>
         <result column="commodity_type_id" jdbcType="BIGINT" property="commodityTypeId"/>
@@ -35,14 +35,14 @@
 
     <select id="selectByKey" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
-        WHERE commodity.id = #{commodityId}
+        WHERE commodity.commodity_id = #{commodityId}
     </select>
 
     <select id="selectCommNameListByCommId" resultType="java.lang.String">
         SELECT template.name FROM t_commoditys as commodity
         LEFT JOIN t_commodity_template as template ON
         commodity.temp_id = template.id
-        WHERE commodity.id IN
+        WHERE commodity.commodity_id IN
         <foreach collection="commIdList" open="(" separator="," close=")" item="id">
             #{id}
         </foreach>
@@ -52,7 +52,7 @@
         SELECT template.name FROM t_commoditys as commodity
         LEFT JOIN t_commodity_template as template ON
         commodity.temp_id = template.id
-        WHERE commodity.id = #{commIdList}
+        WHERE commodity.commodity_id = #{commIdList}
     </select>
 
 
@@ -166,9 +166,9 @@
         WHERE template.commodity_type_id = #{typeId}
         and template.name like #{name}
         and commodity.state_id = #{stateId}
-        and commodity.id &gt; #{lastCommId}
+        and commodity.commodity_id &gt; #{lastCommId}
         ORDER BY
-        commodity.id limit #{pageLoadSize}
+        commodity.commodity_id limit #{pageLoadSize}
     </select>
 
     <!-- 模糊查询 -->
@@ -176,8 +176,8 @@
         <include refid="selectSql2"></include>
         WHERE template.name like #{name}
         and commodity.state_id = #{stateId}
-        and commodity.id &gt; #{lastCommId}
-        order by commodity.id limit #{pageLoadSize}
+        and commodity.commodity_id &gt; #{lastCommId}
+        order by commodity.commodity_id limit #{pageLoadSize}
     </select>
 
     <!-- 根据商品类型查询 -->
@@ -185,8 +185,8 @@
         <include refid="selectSql2"></include>
         WHERE template.commodity_type_id = #{typeId}
         and commodity.state_id = #{stateId}
-        and commodity.id &gt; #{lastCommId}
-        order by commodity.id limit #{pageLoadSize}
+        and commodity.commodity_id &gt; #{lastCommId}
+        order by commodity.commodity_id limit #{pageLoadSize}
     </select>
     <select id="selectMaxRoundTime" resultType="java.lang.Long">
         SELECT IFNULL(max(round_time * 1), 100000000)
@@ -194,7 +194,7 @@
     </select>
     <select id="selectNextRoundComm" resultMap="BaseResultMap">
         SELECT
-            id,
+            commodity_id,
             round_time
         FROM t_commoditys
         WHERE temp_id = #{tempId}
@@ -210,7 +210,7 @@
     <!-- 商品通用查询语句 -->
     <sql id="selectSql">
         SELECT
-            commodity.id,
+            commodity.commodity_id,
             template.name,
             template.withdrawals_money,
             template.exchange_money,
@@ -230,7 +230,6 @@
             commodity.buy_current_number,
             template.buy_total_number,
             template.ground_time,
-            commodity.luck_code_id,
             commodity.round_time,
             template.cover_img_url,
             template.auto_round,
@@ -245,7 +244,7 @@
     <!-- 商品通用查询语句2（少字段） -->
     <sql id="selectSql2">
         SELECT
-            commodity.id,
+            commodity.commodity_id,
             template.name,
             template.minimum,
             commodity.temp_id,

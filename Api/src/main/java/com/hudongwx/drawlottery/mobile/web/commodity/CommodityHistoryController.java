@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;
 import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityHistoryService;
+import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import com.hudongwx.drawlottery.mobile.service.notification.ILuckNoticeService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
@@ -38,6 +39,9 @@ public class CommodityHistoryController extends BaseController {
     ICommodityHistoryService chService;
 
     @Autowired
+    ICommodityService commodityService;
+
+    @Autowired
     ILuckNoticeService noticeService;
 
     /**
@@ -70,7 +74,7 @@ public class CommodityHistoryController extends BaseController {
     @ApiOperation("通过商品Id(commId)浏览往期揭晓")
     @RequestMapping(value = "/api/v1/user/commhistory/announced/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryThePastAnnouncedCommList(@ApiParam("商品Id")@RequestParam("commId") Long commId) {
-        return success(chService.selectThePastAnnouncedCommList(commId));
+        return success(commodityService.selectThePastAnnouncedCommList(commId));
     }
 
     /**

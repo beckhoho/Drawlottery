@@ -66,6 +66,8 @@ public class ShareServiceImpl implements IShareService {
     @Autowired
     CommoditysMapper commMapper;
     @Autowired
+    CommodityMapper commodity;
+    @Autowired
     CommodityHistoryMapper commodityHistoryMapper;
     /**
      * 得到七牛的upToken
@@ -161,8 +163,8 @@ public class ShareServiceImpl implements IShareService {
     @Override
     public boolean addShare(Long accountId, Long commId, String desc, List<MultipartFile> imgs) {
         //判断是否晒过单
-        CommodityHistory commodityHistory = commodityHistoryMapper.selectByCommId(commId);
-        if(commodityHistory.getShareState()==1){
+        Commodity com = commodity.selectByKey(commId);
+        if(com.getShareState()==1){
             return  false;
         }
         Share share = new Share();
@@ -180,7 +182,7 @@ public class ShareServiceImpl implements IShareService {
             shareImg.setShareImgUrl(url);
             shareImgMapper.insert(shareImg);
         }
-        commodityHistoryMapper.updateShareStateByCommodityId(commodityHistory.getCommodityId());
+        commodityHistoryMapper.updateShareStateByCommodityId(com.getId());
         return true;
     }
 

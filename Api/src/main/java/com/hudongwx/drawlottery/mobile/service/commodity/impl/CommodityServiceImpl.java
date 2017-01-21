@@ -190,7 +190,7 @@ public class CommodityServiceImpl implements ICommodityService {
         Long nextRoundId = null;
         if (com.getStateId() == 3 || com.getStateId() == 2) {//如果未开奖
             Commoditys comh = null;
-            List<Long> longs = historyMapper.selectCommodityBefore(com.getTempId(), com.getRoundTime());
+            List<Long> longs = commMapper.selectBefore(com.getTempId(), com.getRoundTime());
             if(longs.size()!=0){
                 comh = commsMapper.selectByKey(longs.get(0));
             }
@@ -269,7 +269,6 @@ public class CommodityServiceImpl implements ICommodityService {
         if (comh == null) {
             return historyMap;
         }
-        System.out.println("id::::"+comh.getId());
         LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comh.getId());//查询中奖信息
 
         User user1 = userMapper.selectById(lotteryInfo.getUserAccountId());
@@ -489,6 +488,18 @@ public class CommodityServiceImpl implements ICommodityService {
         List<Commoditys> annCommList = commsMapper.selectAnnouncedComm(lastCommId, Settings.PAGE_LOAD_SIZE_10);
 
         return null;
+    }
+
+
+    /**
+     * 往期揭晓
+     * @param commId   商品ID
+     * @return
+     */
+    @Override
+    public List<Map> selectThePastAnnouncedCommList(Long commId) {
+        List<Map> maps = commMapper.selectPastLottery(commId);
+        return maps;
     }
 
 }

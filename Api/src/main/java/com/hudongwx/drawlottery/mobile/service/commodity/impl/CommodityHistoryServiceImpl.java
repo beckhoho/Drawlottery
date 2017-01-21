@@ -45,31 +45,31 @@ public class CommodityHistoryServiceImpl implements ICommodityHistoryService {
     LotteryInfoMapper lotteryInfoMapper;
 
 
-    @Override
-    public List<Map> selectThePastAnnouncedCommList(Long commId) {
-        List<Map> maps = commodityMapper.selectPastLottery(commId);
-
-      /*
-        List<Map<String, Object>> infoList = null;
-        Long aLong = commodityMapper.selectTempIdByCommId(commId);
-        List<CommodityHistory> chList = chMapper.selectByTempId(aLong);
-        if (!chList.isEmpty())
-            infoList = new ArrayList<>();
-        for (CommodityHistory history : chList) {
-            User user = userMapper.selectById(history.getLuckUserAccountId());
-            Map<String, Object> map = new HashMap<>();
-            map.put("commId", history.getCommodityId());//商品id
-            map.put("roundTime", history.getRoundTime());//商品期数
-            map.put("endTime", history.getEndTime());//揭晓时间
-            map.put("UserImgUrl", user.getHeaderUrl());
-            map.put("luckUserName", user.getNickname());//用户昵称
-            map.put("ip", "127.0.0.1");//用户IP
-            map.put("luckCode", history.getLuckCode());//中奖码
-            map.put("userByNum", history.getBuyNumber());//用户当期参与购买量
-            infoList.add(map);
-        }*/
-        return maps;
-    }
+//    @Override
+//    public List<Map> selectThePastAnnouncedCommList(Long commId) {
+//        List<Map> maps = commodityMapper.selectPastLottery(commId);
+//
+//      /*
+//        List<Map<String, Object>> infoList = null;
+//        Long aLong = commodityMapper.selectTempIdByCommId(commId);
+//        List<CommodityHistory> chList = chMapper.selectByTempId(aLong);
+//        if (!chList.isEmpty())
+//            infoList = new ArrayList<>();
+//        for (CommodityHistory history : chList) {
+//            User user = userMapper.selectById(history.getLuckUserAccountId());
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("commId", history.getCommodityId());//商品id
+//            map.put("roundTime", history.getRoundTime());//商品期数
+//            map.put("endTime", history.getEndTime());//揭晓时间
+//            map.put("UserImgUrl", user.getHeaderUrl());
+//            map.put("luckUserName", user.getNickname());//用户昵称
+//            map.put("ip", "127.0.0.1");//用户IP
+//            map.put("luckCode", history.getLuckCode());//中奖码
+//            map.put("userByNum", history.getBuyNumber());//用户当期参与购买量
+//            infoList.add(map);
+//        }*/
+//        return maps;
+//    }
 
     /**
      * 查看该期商品中奖信息
