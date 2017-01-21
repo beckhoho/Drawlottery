@@ -19,5 +19,5 @@ import java.util.Map;
  */
 public interface IPromoterProfitService {
 
-    Map<String, Object> selectPromoterProfitInfo(Long accountId);
+    Map<String, Object> selectPromoterProfitInfo(Long accountId, Long lastTime);
 }

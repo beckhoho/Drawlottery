@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
-import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,7 +23,7 @@ public interface OrdersMapper extends BaseMapper<Orders> {
     Long updatePayState(@Param("orderId") Long orderId, @Param("state") Integer state);
 
     //更新订单付款状态
-    List<Orders> selectUserOrdersByPayState(@Param("userAccountId") Long userAccountId, @Param("state") Integer state);
+    List<Long> selectUserOrderIdByPayState(@Param("userAccountId") Long userAccountId, @Param("state") Integer state);
 
     //查看最后购买商品的五十条信息
     List<Orders> selectByBuyDateDesc();

@@ -32,7 +32,6 @@
 
     </resultMap>
 
-
     <select id="selectByKey" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.id = #{commodityId}
@@ -62,6 +61,54 @@
     <select id="selectPaging" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity_type_id = #{commodTypeId} limit #{startNum},#{endNum}
+    </select>
+
+    <!--分页测试-->
+    <select id="testPage" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE commodity.state_id = #{state}
+        <choose>
+            <when test="option = 1 ">
+                <if test="lastCommId!=null and lastCommId!=0">
+                    and commodity.view_num &lt;=
+                    (SELECT view_num FROM t_commoditys WHERE id = #{lastCommId} )
+                </if>
+                ORDER BY
+                commodity.view_num DESC
+            </when>
+
+            <when test="option = 2">
+                <if test="lastCommId!=null and lastCommId!=0">
+                    and commodity.buy_current_number-commodity.buy_last_number &gt;=
+                    (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE
+                    t_commoditys.id
+                    = #{lastCommId} )
+                </if>
+                ORDER BY
+                commodity.buy_current_number-commodity.buy_last_number
+            </when>
+
+            <when test="option = 3">
+                <if test="lastCommId!=null and lastCommId!=0">
+                    and commodity.ground_time &gt;=
+                    (SELECT t_commoditys.ground_time FROM t_commoditys
+                    WHERE t_commoditys.id = (SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId}) )
+                </if>
+                ORDER BY
+                ground_time DESC
+            </when>
+
+            <when test="option = 4">
+                <if test="lastCommId!=null and lastCommId!=0">
+                    and template.buy_total_number &lt;=
+                    (SELECT buy_total_number FROM t_commodity_template
+                    WHERE id=(SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId})
+                </if>
+                ORDER BY
+                template.buy_total_number DESC
+            </when>
+        </choose>
+        limit #{pageLoadSize}
     </select>
 
 
@@ -120,15 +167,14 @@
     <!-- 查询开奖中的商品 -->
     <select id="selectOnLottery" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
-        WHERE template.buy_total_number - commodity.buy_current_number = 0
+        WHERE template.buy_total_number = commodity.buy_current_number
         AND commodity.state_id = 2 ORDER BY
-        commodity.sell_out_time DESC limit #{maxInfo}
+        commodity.sell_out_time DESC
     </select>
-
-
-    <select id="selectAnnouncedComm" resultMap="BaseResultMap">
+    <!--查询已揭晓的商品-->
+    <select id="selectAnnouncedCommWithPage" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
-        WHERE template.buy_total_number - commodity.buy_current_number = 0
+        WHERE template.buy_total_number = commodity.buy_current_number
         AND commodity.state_id=1
         AND commodity.sell_out_time &lt; (SELECT sell_out_time FROM t_commoditys WHERE id=#{lastCommId})
         ORDER BY commodity.sell_out_time DESC limit #{pageLoadSize}

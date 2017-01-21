@@ -84,4 +84,11 @@
     <select id="selectByTempId" resultMap="BaseResultMap">
       SELECT * FROM t_commodity_history WHERE temp_id = #{tempId}
     </select>
+
+    <!--查询已揭晓的商品-->
+    <select id="selectAllWithPage" resultMap="BaseResultMap">
+        SELECT * FROM t_commodity_history
+        WHERE end_time &lt; (SELECT end_time FROM t_commodity_history WHERE commodity_id=#{lastCommId})
+        ORDER BY end_time DESC limit #{pageLoadSize}
+    </select>
 </mapper>

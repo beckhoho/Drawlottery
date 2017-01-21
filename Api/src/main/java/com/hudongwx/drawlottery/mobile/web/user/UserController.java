@@ -144,8 +144,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/update/nickname", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateUserNickName(@RequestParam("nickname") String nickname) {
-
-        return response(true);
+        return response(userService.updateUserNickname(getUserId(), nickname));
     }
 
     /**
@@ -170,7 +169,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/update/qq", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateQQNumber(@RequestParam("qq") String QQ) {
-        return response(userService.addQQNumber(getUserId(), QQ));
+        return response(userService.updateQQNumber(getUserId(), QQ));
     }
 
     /**
@@ -181,7 +180,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/promoter/profit/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryPromoterProfit() {
-        return success(promoterProfitService.selectPromoterProfitInfo(getUserId()));
+        return success(promoterProfitService.selectPromoterProfitInfo(getUserId(), 0L));
     }
 
     /**

@@ -113,7 +113,7 @@ public interface IUserService {
      * @param qq
      * @return
      */
-    boolean addQQNumber(Long accountId, String qq);
+    boolean updateQQNumber(Long accountId, String qq);
 
     /**
      * 夺宝记录
@@ -134,5 +134,7 @@ public interface IUserService {
      * @return
      */
     List<String> selectUserLuckCode(Long accountId, Long commId, String lastCode);
+
+    boolean updateUserNickname(Long accountId, String nickname);
 }
 
