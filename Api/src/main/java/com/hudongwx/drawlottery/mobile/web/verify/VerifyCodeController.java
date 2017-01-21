@@ -26,10 +26,10 @@ public class VerifyCodeController extends BaseController {
 
     /**
      * 图形验证码
-     *
      * @param req  请求
      * @param resp 响应
      * @throws IOException
+     *
      */
     @RequestMapping(value = "/api/v1/user/register/imgcode", method = {RequestMethod.POST, RequestMethod.GET})
     public void queryVerifyCode(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -51,7 +51,6 @@ public class VerifyCodeController extends BaseController {
 
     /**
      * 验证图形验证码
-     *
      * @param imgCode
      * @throws IOException
      */

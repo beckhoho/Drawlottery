@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.captcha.impl;
 import com.hudongwx.drawlottery.mobile.service.captcha.ICaptchaService;
 import com.octo.captcha.component.word.wordgenerator.RandomWordGenerator;
 import com.octo.captcha.service.image.DefaultManageableImageCaptchaService;
+import com.octo.captcha.service.image.ImageCaptchaService;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -36,10 +38,11 @@ import java.security.SecureRandom;
 @CacheConfig(cacheNames="phone_captcha_cache")
 public class CaptchaServiceImpl implements ICaptchaService {
 
-    //手机随机验证码
-    final RandomWordGenerator randomWordGenerator = new RandomWordGenerator("0123456789");
-
-    final DefaultManageableImageCaptchaService captchaService = new DefaultManageableImageCaptchaService();
+    // super(new FastHashMapCaptchaStore(), new DefaultGimpyEngine(), 180,
+    //            100000, 75000);
+    //验证码失效时间,最大存储数量,少于多时候生成
+    @Autowired
+    ImageCaptchaService captchaService;
 
     /*
     获取验证图片信息
@@ -57,8 +60,11 @@ public class CaptchaServiceImpl implements ICaptchaService {
     @CachePut(key = "#id")
     @Override
     public String sendPhoneCaptchCode(String id) {
-        return randomWordGenerator.getWord(4);
+        ThreadLocalRandom current = ThreadLocalRandom.current();
+        int i = current.nextInt(1000, 9999);
+        return String.valueOf(i);
     }
+
 
     @Override
     public boolean validatorPhoneCaptchCode(String id) {

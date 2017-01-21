@@ -2,7 +2,6 @@ package com.hudongwx.drawlottery.mobile.web.commodity;
 
 import com.hudongwx.drawlottery.mobile.TestBaseWeb;
 import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
-import com.hudongwx.drawlottery.mobile.web.Commodity.CommodityHistoryController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Created by Administrator on 2016/12/9 0009.
  */
-@Api(value = "HelloController",description = "首页所有Api",position = 0)
-@RestController
+//@Api(value = "HelloController",description = "首页所有Api",position = 0)
+//@RestController
 public class HelloController {
 
     @ApiOperation(value = "显示首页",notes = "显示首页notes")

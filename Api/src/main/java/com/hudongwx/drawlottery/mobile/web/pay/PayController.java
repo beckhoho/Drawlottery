@@ -7,33 +7,24 @@ import com.alipay.api.AlipayConstants;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeRefundResponse;
-import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
 import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
-import com.hudongwx.drawlottery.mobile.entitys.Orders;
 import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
-import com.hudongwx.drawlottery.mobile.utils.OrderUtils;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.config.AlipayConfig;
-import com.hudongwx.drawlottery.mobile.web.pay.alipay.sign.RSA;
-import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.AlipayCore;
-import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.AlipayNotify;
-import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.UtilDate;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.*;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>

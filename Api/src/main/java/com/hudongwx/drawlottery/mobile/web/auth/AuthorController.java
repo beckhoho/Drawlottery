@@ -2,28 +2,22 @@ package com.hudongwx.drawlottery.mobile.web.auth;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.ThirdPartyLoginToken;
-import com.hudongwx.drawlottery.mobile.entitys.User;
 import com.hudongwx.drawlottery.mobile.service.captcha.ICaptchaService;
-import com.hudongwx.drawlottery.mobile.service.captcha.impl.CaptchaServiceImpl;
 import com.hudongwx.drawlottery.mobile.service.user.IUserService;
 import com.hudongwx.drawlottery.mobile.shiro.CaptchaUsernamePasswordToken;
-import com.hudongwx.drawlottery.mobile.utils.Settings;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
-import com.octo.captcha.service.CaptchaService;
-import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.session.Session;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.spring.web.json.Json;
 
 /**
  * 用户认证
