@@ -1,24 +1,18 @@
 package com.hudongwx.drawlottery.web;
 
 import com.hudongwx.drawlottery.common.base.BaseController;
-import com.hudongwx.drawlottery.common.constants.ConfigConstants;
 import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.response.MenuResult;
-import com.hudongwx.drawlottery.pojo.User;
-import com.hudongwx.drawlottery.service.commodity.IFileService;
+import com.hudongwx.drawlottery.service.commodity.CardService;
 import com.hudongwx.drawlottery.service.conf.QiniuService;
-import com.hudongwx.drawlottery.service.user.IUserService;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Drawlottery.
@@ -28,33 +22,18 @@ import java.util.Map;
  * @author <a href="http://userwu.github.io">wuhongxu</a>.
  * @version 1.0.0
  */
-@Controller
+@RestController
+@RequestMapping(method = RequestMethod.POST)
 public class MainController extends BaseController {
-    @Resource
-    private IUserService userService;
     @Resource
     private LangConstants langConstants;
     @Resource
-    private ResourceLoader resourceLoader;
-    @Resource
-    private ConfigConstants configConstants;
-    @Resource
-    private IFileService fileService;
+    private CardService cardService;
 
     @Resource
     private QiniuService qiniuService;
 
-    @RequestMapping("/")
-    public ModelAndView main() {
-        final ModelAndView modelAndView = new ModelAndView("index");
-        final User user = userService.queryUserByPhoneNum("13990949387");
-        final Map<String, Object> model = modelAndView.getModel();
-        model.put("user", user);
-        return modelAndView;
-    }
-
     @RequestMapping("/getMenuResult")
-    @ResponseBody
     public MenuResult getMenuResult() {
         return new MenuResult(new String[]{
                 langConstants.getLang(langConstants.MAIN),
@@ -69,22 +48,13 @@ public class MainController extends BaseController {
         });
     }
 
-    /*@RequestMapping(method = RequestMethod.GET, value = "/{filename:.+}")
-    public ResponseEntity<?> getFile(@PathVariable String filename) {
-        //return ResponseEntity.notFound().build();
-        final String path = fileService.getPath(filename);
-        if (path == null)
-            return ResponseEntity.notFound().build();
-        try {
-            return ResponseEntity.ok(resourceLoader.getResource("file:" + configConstants.getUploadPath() + filename));
-        } catch (RuntimeException ignored) {
-            return ResponseEntity.notFound().build();
-        }
-    }*/
-
     @RequestMapping(method = RequestMethod.POST, value = "/getUploadToken")
-    @ResponseBody
     public AjaxResult getQiniuUploadToken(@RequestBody String suffix) {
         return success(qiniuService.getUpToken(suffix));
+    }
+
+    @RequestMapping("/cardCount")
+    public List<Integer> getCardCount() {
+        return cardService.getCounts();
     }
 }

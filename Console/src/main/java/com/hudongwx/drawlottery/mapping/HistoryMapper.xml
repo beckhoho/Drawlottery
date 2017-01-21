@@ -32,6 +32,7 @@
     </select>
     <select id="selectList" resultType="com.hudongwx.drawlottery.pojo.History">
         select
+        delivery.id as expressId,
         history.commodity_id as commodityId,
         history.luck_user_account_id luckUserAccountId,
         history.end_time endTime,
@@ -45,6 +46,8 @@
         from draw_lottery.t_commodity_history as history
         LEFT JOIN draw_lottery.t_exchange_way as eWay
         ON eWay.id = history.exchange_way
+        LEFT JOIN draw_lottery.t_express_delivery as delivery
+        on delivery.commodity_id = history.commodity_id
         <where>
             <if test="param.roundTime != null">
                 and history.round_time = #{param.roundTime}
@@ -101,7 +104,7 @@
     </select>
     <select id="selectHistory" resultType="com.hudongwx.drawlottery.pojo.History">
       select
-  history.id,
+  history.commodity_id as commodityId,
   users.nickname as nickname,
   users.real_name as realName,
   users.phone_number as userPhoneNumber,
@@ -110,14 +113,15 @@
   delivery_name as deliveryName,
   delivery_number as deliveryNumber,
   receiver_name as receiverName,
-  phone as receiverPhone
+  phone as receiverPhone,
+  express.id as expressId
 from draw_lottery.t_commodity_history as history
   LEFT JOIN draw_lottery.t_express_delivery as express ON history.commodity_id = express.commodity_id
   LEFT JOIN draw_lottery.t_delivery_address as dAddress ON dAddress.id = express.address_id
   LEFT JOIN draw_lottery.t_users as users ON luck_user_account_id = users.account_id
 WHERE history.commodity_id = #{id}
 UNION select
-        history.id,
+        history.id as commodityId,
         users.nickname as nickname,
         users.real_name as realName,
         users.phone_number as userPhoneNumber,
@@ -126,12 +130,13 @@ UNION select
         delivery_name as deliveryName,
         delivery_number as deliveryNumber,
         receiver_name as receiverName,
-        phone as receiverPhone
+        phone as receiverPhone,
+  express.id as expressId
       from draw_lottery.t_commoditys as history
         LEFT JOIN draw_lottery.t_express_delivery as express ON history.id = express.commodity_id
         LEFT JOIN draw_lottery.t_delivery_address as dAddress ON dAddress.id = express.address_id
         LEFT JOIN draw_lottery.t_lottery_info as info ON info.commodity_id = history.id
-        LEFT JOIN draw_lottery.t_users as users ON info.user_account_id = users.account_id
+        INNER JOIN draw_lottery.t_users as users ON info.user_account_id = users.account_id
       WHERE history.id = #{id}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

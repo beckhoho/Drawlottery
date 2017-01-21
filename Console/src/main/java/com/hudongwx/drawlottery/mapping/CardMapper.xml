@@ -7,6 +7,8 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="corporation" jdbcType="INTEGER" property="corporation" />
     <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -37,6 +39,41 @@
       </foreach>
     </where>
   </sql>
+  <delete id="delete">
+    delete from t_card
+    where id in
+    <foreach close=")" collection="list" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from t_card
+    <where>
+      <if test="corporation != null and corporation.size() &gt; 0">
+        and corporation in
+        <foreach close=")" collection="corporation" item="cor" open="(" separator=",">
+          #{cor}
+        </foreach>
+      </if>
+    </where>
+    ORDER BY
+    <choose>
+      <when test="order == 1">
+        card_num
+      </when>
+      <otherwise>
+        id
+      </otherwise>
+    </choose>
+    <choose>
+      <when test="direction == 0">
+        desc
+      </when>
+      <otherwise>
+        asc
+      </otherwise>
+    </choose>
+  </select>
   <sql id="Update_By_Example_Where_Clause">
     <where>
       <foreach collection="example.oredCriteria" item="criteria" separator="or">
@@ -67,7 +104,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, card_num, password, corporation, money
+    id, card_num, password, corporation, money, state, commodity_id
   </sql>
   <select id="selectByExample" parameterType="com.hudongwx.drawlottery.pojo.CardExample" resultMap="BaseResultMap">
     select
@@ -83,36 +120,8 @@
       order by ${orderByClause}
     </if>
   </select>
-    <select id="selectAll" resultMap="BaseResultMap">
-        select * from t_card
-        <where>
-            <if test="corporation != null and corporation.size() &gt; 0">
-                and corporation in
-                <foreach close=")" collection="corporation" item="cor" open="(" separator=",">
-                    #{cor}
-                </foreach>
-            </if>
-        </where>
-        ORDER BY
-        <choose>
-            <when test="order == 1">
-                card_num
-            </when>
-            <otherwise>
-                id
-            </otherwise>
-        </choose>
-        <choose>
-            <when test="direction == 0">
-                desc
-            </when>
-            <otherwise>
-                asc
-            </otherwise>
-        </choose>
-    </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from t_card
     where id = #{id,jdbcType=INTEGER}
@@ -131,18 +140,13 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_card (card_num, password, corporation,
-      money)
-    values (#{cardNum,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{corporation,jdbcType=INTEGER},
-      #{money,jdbcType=INTEGER})
+    insert into t_card (card_num, password, corporation, 
+      money, state, commodity_id
+      )
+    values (#{cardNum,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{corporation,jdbcType=INTEGER}, 
+      #{money,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{commodityId,jdbcType=BIGINT}
+      )
   </insert>
-    <delete id="delete">
-        delete from t_card
-        where id in
-        <foreach close=")" collection="list" item="id" open="(" separator=",">
-            #{id}
-        </foreach>
-    </delete>
   <insert id="insertSelective" parameterType="com.hudongwx.drawlottery.pojo.Card">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
@@ -161,6 +165,12 @@
       <if test="money != null">
         money,
       </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="cardNum != null">
@@ -174,6 +184,12 @@
       </if>
       <if test="money != null">
         #{money,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -201,6 +217,12 @@
       <if test="record.money != null">
         money = #{record.money,jdbcType=INTEGER},
       </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.commodityId != null">
+        commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +234,9 @@
       card_num = #{record.cardNum,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       corporation = #{record.corporation,jdbcType=INTEGER},
-      money = #{record.money,jdbcType=INTEGER}
+      money = #{record.money,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      commodity_id = #{record.commodityId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -232,6 +256,12 @@
       <if test="money != null">
         money = #{money,jdbcType=INTEGER},
       </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -240,7 +270,9 @@
     set card_num = #{cardNum,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       corporation = #{corporation,jdbcType=INTEGER},
-      money = #{money,jdbcType=INTEGER}
+      money = #{money,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      commodity_id = #{commodityId,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -2,8 +2,13 @@ package com.hudongwx.drawlottery.service.history.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.StringUtil;
+import com.hudongwx.drawlottery.common.constants.LangConstants;
 import com.hudongwx.drawlottery.common.dto.paramBody.HistoryParam;
+import com.hudongwx.drawlottery.common.exceptions.ServiceException;
+import com.hudongwx.drawlottery.dao.ExpressMapper;
 import com.hudongwx.drawlottery.dao.HistoryMapper;
+import com.hudongwx.drawlottery.pojo.Express;
 import com.hudongwx.drawlottery.pojo.History;
 import com.hudongwx.drawlottery.service.history.HistoryService;
 import org.springframework.stereotype.Service;
@@ -23,7 +28,10 @@ import java.util.List;
 public class HistoryServiceImpl implements HistoryService {
     @Resource
     private HistoryMapper historyMapper;
-
+    @Resource
+    private ExpressMapper expressMapper;
+    @Resource
+    private LangConstants langConstants;
 
     /**
      * 得到历史集合.
@@ -50,7 +58,7 @@ public class HistoryServiceImpl implements HistoryService {
      */
     @Override
     public List<String> getRoundTimes(int currentPage, int maxPageSize, String key) {
-        PageHelper.startPage(currentPage,maxPageSize);
+        PageHelper.startPage(currentPage, maxPageSize);
         return historyMapper.selectRoundTimes(key);
     }
 
@@ -63,5 +71,20 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public History getHistory(long id) {
         return historyMapper.selectHistory(id);
+    }
+
+    /**
+     * 发货
+     *
+     * @param express 发货信息
+     */
+    @Override
+    public void delivery(Express express) {
+        if (StringUtil.isEmpty(express.getDeliveryName()))
+            throw new ServiceException(langConstants.getLang(langConstants.DELIVERY_NAME_CAN_NOT_NULL));
+        if (StringUtil.isEmpty(express.getDeliveryNumber()))
+            throw new ServiceException(langConstants.getLang(langConstants.DELIVERY_NUMBER_CAN_NOT_NULL));
+        express.setState(1);
+        expressMapper.updateByPrimaryKeySelective(express);
     }
 }
