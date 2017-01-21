@@ -25,22 +25,30 @@
     <!-- 查询中奖历史-->
     <select id="selectHistoryLottery" resultMap="BaseResultMap">
         select *  from t_commodity_history WHERE luck_user_account_id = #{accountId}
+        order by id desc
     </select>
 
     <!-- 查询单件历史商品信息-->
-    <select id="selectBycommId" resultMap="BaseResultMap">
+    <select id="selectByCommId" resultMap="BaseResultMap">
         select * from t_commodity_history where commodity_id = #{commodityId}
     </select>
 
     <!-- 查询商品上期开奖信息 -->
-    <select id="selectBycommodName" resultMap="BaseResultMap">
+    <select id="selectByCommName" resultMap="BaseResultMap">
         select * from t_commodity_history
         <where>
-            commodity_name = #{commodName}
+            temp_id = #{tempId}
             and round_time &lt; #{roundTime}
         </where>
-        ORDER BY id DESC
+        ORDER BY id DESC limit 1
         <!-- &lt; 小于     &jt; 大于 -->
+    </select>
+
+    <select id="selectCommodityBefore" resultType="java.lang.Long">
+      SELECT commodity_id from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
+      UNION
+      SELECT id as commodity_id  from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime}
+
     </select>
 
     <select id="selectComIdAndUser" resultMap="BaseResultMap">

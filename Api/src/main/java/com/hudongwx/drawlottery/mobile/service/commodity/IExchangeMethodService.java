@@ -68,4 +68,7 @@ public interface IExchangeMethodService {
 
     //到店领取
     Map<String,Object> temp5(Long accountId,Long commodityId);
+
+    //查看卡密
+    String cardPassword(String cardNumber);
 }

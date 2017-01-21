@@ -41,7 +41,7 @@
         WHERE commodity.id = #{commodityId}
     </select>
 
-    <select id="selectCommNameByCommId" resultType="java.lang.String">
+    <select id="selectCommNameListByCommId" resultType="java.lang.String">
         SELECT template.name FROM t_commoditys as commodity
         LEFT JOIN t_commodity_template as template ON
         commodity.temp_id = template.id
@@ -49,6 +49,13 @@
         <foreach collection="commIdList" open="(" separator="," close=")" item="id">
             #{id}
         </foreach>
+    </select>
+
+    <select id="selectCommNameByCommId" resultType="java.lang.String">
+        SELECT template.name FROM t_commoditys as commodity
+        LEFT JOIN t_commodity_template as template ON
+        commodity.temp_id = template.id
+        WHERE commodity.id = #{commIdList}
     </select>
 
     <update id="updateById" parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">

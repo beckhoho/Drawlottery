@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.common.dto.paramBody;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,15 +33,21 @@ public class HistoryParam {
      * 发卡数量是否充足
      */
     private List<Integer> cardNotEnough;
+    /**
+     * 时间筛选
+     */
+    private Date endTimeBefore;
+    private Date endTimeAfter;
 
+    /**
+     * 排序字段
+     */
+    private Integer order;
 
-    public HistoryParam(String roundTime, List<Integer> exchangeWay, List<Integer> genre, List<Integer> state, List<Integer> cardNotEnough) {
-        this.roundTime = roundTime;
-        this.exchangeWay = exchangeWay;
-        this.genre = genre;
-        this.state = state;
-        this.cardNotEnough = cardNotEnough;
-    }
+    /**
+     * 排序方向
+     */
+    private Integer direction;
 
     public String getRoundTime() {
         return roundTime;
@@ -80,5 +87,21 @@ public class HistoryParam {
 
     public void setCardNotEnough(List<Integer> cardNotEnough) {
         this.cardNotEnough = cardNotEnough;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
+    public Integer getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Integer direction) {
+        this.direction = direction;
     }
 }

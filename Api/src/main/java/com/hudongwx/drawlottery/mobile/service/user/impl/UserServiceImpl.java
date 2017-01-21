@@ -35,6 +35,10 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements IUserService {
 
+    private Long overTime = 1000L * 60 * 60 * 24 * 7;//过期时间
+    private Integer[] worths = {1, 1, 2, 5, 10, 15, 20, 45};//价值
+    private Integer[] prices = {10, 10, 20, 50, 100, 150, 200, 450};//满减
+
     @Autowired
     UserMapper userMapper;
     @Autowired
@@ -57,13 +61,15 @@ public class UserServiceImpl implements IUserService {
     LuckCodeTemplateMapper luckTemplateMapper;
     @Autowired
     OrdersMapper ordersMapper;
+    @Autowired
+    OrdersCommoditysMapper ordersCommoditysMapper;
+    @Autowired
+    RedPacketsMapper redPacketsMapper;
 
     @Override
     public boolean register(String phone, String password) {
         if (null != userMapper.selectByPhoneNumber(phone))
             return false;
-//        if (!verifyCode.toUpperCase().equals(code.toUpperCase()))
-//            return false;
         User user = new User();
         user.setPhoneNumber(phone);
         user.setPassword(password);
@@ -72,14 +78,17 @@ public class UserServiceImpl implements IUserService {
         if (length == 11) {
             user.setNickname(phone.substring(0, 3) + "*****" + phone.substring(length - 3, length));
         } else {
-            user.setNickname("未设置");
+            user.setNickname("用户"+userMapper.countUsers());
         }
         user.setUserIntegral(0);
-        user.setHeaderUrl(Settings.SERVER_URL_PATH + Settings.USER_PORTRAIT_URL_DEFAULT);
+        user.setHeaderUrl(Settings.USER_PORTRAIT_URL_DEFAULT);
         user.setGoldNumber(0);
+        user.setRegistDate(new Date().getTime());
         user.setCurrentState(Settings.USER_STATE_NORMAL);
         PasswordUtils.encryptPassword(user);//加密用户密码
-        return userMapper.insert(user) > 0;
+        boolean rs = userMapper.insert(user) > 0;
+        giveRegisterRedPackets(user.getAccountId());
+        return rs;
     }
 
     @Override
@@ -141,7 +150,8 @@ public class UserServiceImpl implements IUserService {
 
     public Map<String, Object> selectExchange(Long commodityId) {
         Map<String, Object> map = new HashMap<>();
-        List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commodityId);
+        Commoditys commoditys = comMapper.selectByKey(commodityId);
+        List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commoditys.getTempId());
         for (CommodityExchange ex : exchanges) {
             ExchangeWay way = wayMapper.selectById(ex.getExchangeWayId());
             map.put(way.getId() + "", way.getName());
@@ -196,7 +206,7 @@ public class UserServiceImpl implements IUserService {
         List<UserCodesHistory> s1 = userCodeHistMapper.selectByUserAccountId(accountId);
         for (UserCodesHistory u : s1) {
             Map<String, Object> map = new HashMap<>();
-            CommodityHistory history = comHistoryMapper.selectBycommId(u.getCommodityId());
+            CommodityHistory history = comHistoryMapper.selectByCommId(u.getCommodityId());
             User user1 = userMapper.selectById(history.getLuckUserAccountId());
             List<String> integers = luckUserList(accountId, history.getCommodityId());
             map.put("id", history.getCommodityId());//商品ID
@@ -229,7 +239,7 @@ public class UserServiceImpl implements IUserService {
             Map<String, Object> map = new HashMap<>();
             Commoditys com = comMapper.selectByKey(commId);
             List<String> integers = luckUserList(accountId, com.getId());
-            CommodityHistory history = comHistoryMapper.selectBycommId(commId);
+            CommodityHistory history = comHistoryMapper.selectByCommId(commId);
             User user = userMapper.selectById(history.getLuckUserAccountId());
             map.put("id", com.getId());//添加商品ID
             map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买人次
@@ -321,7 +331,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<String> selectGroupLuckCode(Long accountId, String lastCode) {
-        return userCodeHistMapper.selectLimitCodeNum(accountId, lastCode, Settings.PAGE_LOAD_SIZE);
+        return userCodeHistMapper.selectLimitCodeNum(accountId, lastCode, Settings.PAGE_LOAD_SIZE_10);
     }
 
 
@@ -371,6 +381,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 验证微信
+     *
      * @param token
      * @return
      */
@@ -475,33 +486,90 @@ public class UserServiceImpl implements IUserService {
         return userMapper.updateUserQQ(accountId, qq) > 0;
     }
 
+    /**
+     * 夺宝记录
+     *
+     * @param accountId
+     * @param item      （显示形式：1、进行中；2、已揭晓；其他数字、显示全部）
+     * @return
+     */
     @Override
-    public List<Map<String, Object>> selectPurchaseRecords(Long accountId) {
-        List<Orders> orderList = ordersMapper.selectUserOrdersByPayState(accountId,Settings.ORDERS_ALREADY_PAID);
-        for (Orders order : orderList) {
-            Map<String,Object>map =new HashMap<>();
-//            map.put("id", order.getId());//添加商品ID
-//            map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买人次
-//            map.put("buyTotalNumber", com.getBuyTotalNumber());//添加总购买人次
-//            map.put("commState", com.getStateId());//商品状态
-//            map.put("roundTime", com.getRoundTime());//添加期数
-//            map.put("coverImgUrl", com.getCoverImgUrl());//添加封面图URL
-//            map.put("commName", com.getName());//添加商品名
-//            map.put("userAccountId", accountId);//添加用户ID
-//            map.put("userCodesList", integers);//添加用户参与购买的幸运码集合
-//            map.put("userBuyNumber", integers.size());//添加用户本商品购买人次；
-//            map.put("isWinner", 0);
-//            map.put("userNickname", user.getNickname());//中奖者昵称
-//            map.put("endTime", history.getEndTime());//添加揭晓时间
-
-
+    public List<Map<String, Object>> selectPurchaseRecords(Integer item, Long accountId, Long lastCommId) {
+        List<Orders> orderList = ordersMapper.selectUserOrdersByPayState(accountId, Settings.ORDERS_ALREADY_PAID);
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        for (Orders orders : orderList) {
+            Long orderId = orders.getId();
+            List<OrdersCommoditys> ordersCommodityses = ordersCommoditysMapper.selectByOrderId(orderId);
+            for (OrdersCommoditys ordersCommoditys : ordersCommodityses) {
+                Commoditys comm = comMapper.selectByKey(ordersCommoditys.getCommodityId());
+                if (null == comm)
+                    continue;
+                if (item == 1 && comm.getStateId() == Settings.COMMODITY_STATE_HAS_LOTTERY) {
+                    continue;
+                } else if (item == 2 && (comm.getStateId() == Settings.COMMODITY_STATE_ON_SALE || comm.getStateId() == Settings.COMMODITY_STATE_ON_LOTTERY)) {
+                    continue;
+                } else {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("id", comm.getId());//添加商品ID
+                    map.put("buyCurrentNumber", comm.getBuyTotalNumber() - comm.getBuyCurrentNumber());//添加当前购买人次
+                    map.put("buyTotalNumber", comm.getBuyTotalNumber());//添加总购买人次
+                    map.put("commState", comm.getStateId());//商品状态
+                    map.put("roundTime", comm.getRoundTime());//添加期数
+                    map.put("coverImgUrl", comm.getCoverImgUrl());//添加封面图URL
+                    map.put("commName", comm.getName());//添加商品名
+                    map.put("userAccountId", accountId);//添加用户ID
+                    CommodityHistory commHistory = comHistoryMapper.selectComIdAndUser(accountId, comm.getId());
+                    if (null != commHistory) {
+                        map.put("endTime", commHistory.getEndTime());//添加揭晓时间
+                        map.put("userBuyNumber", commHistory.getBuyNumber());//添加用户本商品购买人次；
+                    }
+                    map.put("isWinner", commHistory == null ? 0 : 1);
+                    CommodityHistory history = comHistoryMapper.selectByCommId(comm.getId());
+                    if (history != null) {
+                        User user = userMapper.selectById(history.getLuckUserAccountId());
+//                        map.put("userCodesList", userCodeHistMapper.selectUserCommLuckCode(accountId, comm.getId(), lastCode, Settings.PAGE_LOAD_SIZE_16));//添加用户参与购买的幸运码集合
+                        map.put("userNickname", user.getNickname());//中奖者昵称
+                    }
+                    mapList.add(map);
+                }
+            }
 
         }
-
-
-        return null;
+        return mapList;
     }
 
+    /**
+     * 查询用户夺宝记录中的Code码
+     *
+     * @param accountId 用户id
+     * @param commId    商品id
+     * @param lastCode  回传的前端显示的最后一个code码
+     * @return
+     */
+    public List<String> selectUserLuckCode(Long accountId, Long commId, String lastCode) {
+        List<String> onList = codesMapper.selectUserCommLuckCode(accountId, commId, lastCode, Settings.PAGE_LOAD_SIZE_16);
+        if (!onList.isEmpty())
+            return onList;
+        return userCodeHistMapper.selectUserCommLuckCode(accountId, commId, lastCode, Settings.PAGE_LOAD_SIZE_16);
+    }
 
-
+    /**
+     * 新注册用户送红包
+     *
+     * @param accountId
+     */
+    public void giveRegisterRedPackets(Long accountId) {
+        Long registerDate = userMapper.selectUserRegisterDate(accountId);
+        for (int i = 0; i < worths.length; i++) {
+            RedPackets rp = new RedPackets();
+            rp.setUserAccountId(accountId);
+            rp.setUseState(0);
+            rp.setName("新用户红包");
+            rp.setValidDate(registerDate);
+            rp.setUsePrice(prices[i]);
+            rp.setWorth(worths[i]);
+            rp.setOverdueDate(registerDate + overTime);
+            redPacketsMapper.insert(rp);
+        }
+    }
 }

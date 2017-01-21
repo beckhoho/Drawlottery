@@ -22,4 +22,6 @@ import org.apache.ibatis.annotations.Param;
 public interface CommodityMapper  extends BaseMapper<Commodity>{
 
     Long selectTempIdByCommId(@Param("commId")Long commId);
+
+    int insertUseGenerated(Commodity commodity);
 }

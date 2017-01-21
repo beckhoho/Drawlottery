@@ -55,7 +55,7 @@ public class RedPacketsController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/redpacket/use", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateUserRedPacket(@RequestParam("price") Integer price) {
-        return success(oService.selectOrders(getUserId(),price));
+        return success(oService.selectOrders(100008l,price));
     }
 
 }

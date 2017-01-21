@@ -31,10 +31,10 @@ public interface INotificationPrizeService {
    //通过用户accountID查看中奖通知
    List<NotificationPrize> selectByAccount(Long account, Long commodId);
 
-    //删除用户通知
-    boolean delete(Long id);
-
     //查看最新的中奖通知
     List<Map<String,Object>> selectByNew();
+
+    //查询用户中奖消息（APP首页提示）
+    List<Map<String, Object>> selectUserPrizeNotify(Long accountId);
 
 }

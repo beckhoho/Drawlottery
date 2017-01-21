@@ -146,7 +146,7 @@ public class CommoditysController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/announce", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryNewestAnnounced(@RequestParam("lastCommId") Long lastCommId) {
-        List<Map<String, Object>> mapList = cService.selectOneOnLottery(lastCommId);
+        List<Map<String, Object>> mapList = cService.selectAnnounceComm(lastCommId);
         return success(mapList);
     }
 

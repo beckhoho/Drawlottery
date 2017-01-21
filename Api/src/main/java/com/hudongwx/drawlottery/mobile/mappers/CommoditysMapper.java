@@ -25,7 +25,15 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @param commIdList 商品ID
      * @return
      */
-    List<String> selectCommNameByCommId(@Param("commIdList") List<Long> commIdList);
+    List<String> selectCommNameListByCommId(@Param("commIdList") List<Long> commIdList);
+
+    /**
+     * 根据主键ID查询商品信息
+     *
+     * @param commId 商品ID
+     * @return
+     */
+    String selectCommNameByCommId(@Param("commIdList") Long commId);
 
     /**
      * 根据商品类型ID查询指定区域的商品信息

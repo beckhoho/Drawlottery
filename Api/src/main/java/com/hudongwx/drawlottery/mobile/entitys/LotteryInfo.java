@@ -1,6 +1,8 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
+import javax.xml.crypto.Data;
+import java.util.Date;
 
 /**
  * Created by 11 on 2017/1/14.
@@ -29,6 +31,7 @@ public class LotteryInfo {
     @Column(name = "lottery_info")
     private String lotteryInfo;
 
+
     /**
      * 最后五十商品毫秒和
      */
@@ -43,6 +46,17 @@ public class LotteryInfo {
 
     @Column(name = "user_account_id")
     private Long userAccountId;
+
+    @Column(name = "end_date")
+    private Date endDate;
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
     public Long getUserAccountId() {
         return userAccountId;

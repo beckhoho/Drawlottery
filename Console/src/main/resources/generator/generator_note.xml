@@ -24,7 +24,7 @@
         defaultModelType:指定生成对象的样式
             1，conditional：conditional 默认策略，为每个表生成一个Model class ；
             2，flat：所有内容（主键，blob）等全部生成在一个对象中；
-            3，hierarchical：主键生成一个XXKey对象(key class)，Blob等单独生成一个对象，其他简单属性在一个对象中(record class)
+            3，hierarchical：主键生成一个XXKey对象(text class)，Blob等单独生成一个对象，其他简单属性在一个对象中(record class)
         targetRuntime:
             1，MyBatis3：默认的值，生成基于MyBatis3.x以上版本的内容，包括XXXBySample；
             2，MyBatis3Simple：类似MyBatis3，只是不生成XXXBySample；

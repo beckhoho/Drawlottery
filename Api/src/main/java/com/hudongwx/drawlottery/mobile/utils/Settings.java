@@ -22,7 +22,7 @@ public class Settings {
     /**
      * 最大信息条数
      */
-    public static final int MAX_INFO_SIZE = 500;
+    public static final int MAX_INFO_SIZE = 100;
 
     /**↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*收貨地址*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓**/
     /**
@@ -66,9 +66,14 @@ public class Settings {
     public static final int ADDRESS_ADD_MAX = 3;
 
     /**
-     * 下拉刷新每页的最大小数
+     * 上拉加载每页的最大小数
      */
-    public static final int PAGE_LOAD_SIZE = 10;
+    public static final int PAGE_LOAD_SIZE_10 = 10;
+
+    /**
+     * 上拉加载每页的最大小数
+     */
+    public static final int PAGE_LOAD_SIZE_16 = 16;
 
     /**
      * 首页显示通知的最大条数
@@ -304,5 +309,6 @@ public class Settings {
     public static final int ORDERS_ALREADY_PAID = 1;
 
     /**↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*订单状态*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑**/
+
 
 }

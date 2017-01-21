@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,16 +78,6 @@ public class NotificationPrizeServiceImpl implements INotificationPrizeService {
         return mapper.select(no);
     }
 
-    /**
-     * 删除单个开奖通知
-     *
-     * @param id 开奖id
-     * @return 返回一个开奖结果
-     */
-    @Override
-    public boolean delete(Long id) {
-        return mapper.deleteByPrimaryKey(id) > 0;
-    }
 
     /**
      * 查询最新的中奖通知
@@ -95,18 +86,38 @@ public class NotificationPrizeServiceImpl implements INotificationPrizeService {
      */
     @Override
     public List<Map<String, Object>> selectByNew() {
-        List<NotificationPrize> no = mapper.selectByNew();
-        List<String> noti = new ArrayList<>();
+        List<NotificationPrize> no = mapper.selectByNewPrizeNotify();
         int s = Settings.NOTIFY_SHOW_MAX >= no.size() ? no.size() : Settings.NOTIFY_SHOW_MAX;
         List<Map<String, Object>> mapList = null;
         for (int i = 0; i < s; i++) {
+            Map<String,Object> map=new HashMap<>();
             NotificationPrize notifi = no.get(i);
             User select = userMapper.selectById(notifi.getAccountId());
-            Commoditys select1 = commodMapper.selectByKey(notifi.getCommodityId());
-            noti.add("恭喜：" + select.getNickname() + "获得" + select1.getName());
+            Commoditys comm = commodMapper.selectByKey(notifi.getCommodityId());
+            map.put("commId",comm.getId());
+            map.put("msg","恭喜：" + select.getNickname() + "获得" + comm.getName());
+            mapList.add(map);
         }
         return mapList;
     }
 
+    /**
+     *
+     * @param accountId
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> selectUserPrizeNotify(Long accountId){
+        //消息
+        List<NotificationPrize> npList = mapper.selectByNewPrizeNotify();
+        List<Map<String, Object>> mapList=new ArrayList<>();
+        for (NotificationPrize np : npList) {
+            Map<String,Object>map=new HashMap();
+            map.put("commId",np.getCommodityId());
+            map.put("content",np.getNoticeContent());
+            mapList.add(map);
+        }
+        return mapList;
+    }
 
 }

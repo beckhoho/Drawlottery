@@ -10,7 +10,7 @@ public interface NotificationPrizeMapper extends BaseMapper<NotificationPrize> {
 
 
     //查询中奖通知
-    List<NotificationPrize> selectByNew();
+    List<NotificationPrize> selectByNewPrizeNotify();
 
     //查询用户未读信息条数
     Integer countUnreadMsg(@Param("UserId") Long UserId);

@@ -10,18 +10,20 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
 
     /**
      * 查询上期商品开奖信息
-     * @param commodName
+     * @param tempId
      * @param roundTime
      * @return
      */
-    List<CommodityHistory> selectBycommodName(@Param("commodName") String commodName, @Param("roundTime") String roundTime);
+    CommodityHistory selectByTempIdOrderRoundTime(@Param("tempId") Long tempId, @Param("roundTime") String roundTime);
 
+
+    List<Long> selectCommodityBefore(@Param("tempId")Long tempId,@Param("roundTime")String roundTime);
 
     /**
      * 查询单件历史商品信息
      * @return  返回商品信息
      */
-    CommodityHistory selectBycommId(@Param("commodityId") Long commodityId);
+    CommodityHistory selectByCommId(@Param("commodityId") Long commodityId);
 
     /**
      * 查询中奖历史
@@ -30,7 +32,7 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
      */
     List<CommodityHistory> selectHistoryLottery(@Param("accountId") Long accountId);
 
-    List<CommodityHistory> selectComIdAndUser(@Param("accountId")Long accountId,@Param("commodityId")Long commodityId);
+    CommodityHistory selectComIdAndUser(@Param("accountId")Long accountId,@Param("commodityId")Long commodityId);
 
     List<CommodityHistory> selectByTempId(@Param("tempId")Long tempId);
 

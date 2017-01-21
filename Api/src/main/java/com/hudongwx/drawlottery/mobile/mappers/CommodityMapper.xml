@@ -21,4 +21,14 @@
     <select id="selectTempIdByCommId" resultType="java.lang.Long">
         SELECT temp_id FROM t_commoditys WHERE id = #{commId}
     </select>
+
+    <insert id="insertUseGenerated" useGeneratedKeys="true" keyProperty="id" parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">
+        INSERT into
+        t_commoditys(buy_last_number,buy_current_number,luck_code_id,round_time,sell_out_time,
+        view_num,temp_id,state_id,last_round_time,undercarriage_time)
+        VALUES (#{buyLastNumber},#{buyCurrentNumber},#{luckCodeId},
+        #{roundTime},#{sellOutTime},#{viewNum},#{tempId},#{stateId},
+        #{lastRoundTime},#{undercarriageTime})
+    </insert>
+
 </mapper>

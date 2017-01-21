@@ -2,9 +2,10 @@ package com.hudongwx.drawlottery.mobile.utils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hudongwx.drawlottery.mobile.entitys.*;
-import com.hudongwx.drawlottery.mobile.mappers.LuckCodeTemplateMapper;
-import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
-import com.hudongwx.drawlottery.mobile.mappers.UserMapper;
+import com.hudongwx.drawlottery.mobile.mappers.*;
+import org.apache.commons.collections.OrderedMap;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.scheduling.annotation.Async;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,11 +19,11 @@ public class LotteryUtils {
     //    时间格式化样式
     private static String pattern = "yyyy年MM月dd日 HH:mm:ss:SSS";
     private static SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-
-    public static LotteryInfo raffle(LuckCodeTemplateMapper templateMapper, LuckCodesMapper luckCodesMapper, UserMapper userMapper, Commoditys commodity) {
+    @Async
+    public static LotteryInfo raffle(OrdersMapper ordersMapper, LuckCodeTemplateMapper templateMapper, LuckCodesMapper luckCodesMapper, LotteryInfoMapper lotteryInfoMapper, UserMapper userMapper, Commoditys commodity) {
         Calendar calendar = Calendar.getInstance();
         //查询最后购买的五十条商品信息
-        List<LuckCodes> userLuckCodes = luckCodesMapper.selectByBuyDateDesc();
+        List<Orders> orderses = ordersMapper.selectByBuyDateDesc();
         //开奖信息
         LotteryInfo lotteryInfo = new LotteryInfo();
         //最后五十商品毫秒和
@@ -30,10 +31,10 @@ public class LotteryUtils {
         //时分秒毫秒拼接值
         String subTime;
         JSONArray array = new JSONArray();
-        for (LuckCodes userLuckCode : userLuckCodes) {
-            Long buyDate = userLuckCode.getBuyDate();
+        for (Orders orders : orderses) {
+            Long buyDate = orders.getSubmitDate();
             calendar.setTimeInMillis(buyDate);
-            User user = userMapper.selectById(userLuckCode.getUserAccountId());
+            User user = userMapper.selectById(orders.getUserAccountId());
             String date = formatDate(buyDate);
             //计算毫秒值
             subTime = substringTime(date);
@@ -42,7 +43,7 @@ public class LotteryUtils {
         }
         lotteryInfo.setCommodityId(commodity.getId());//商品id
         lotteryInfo.setBuyNum(commodity.getBuyTotalNumber());//总购买数
-        //lotteryInfo.setLotteryInfo(array.toString());//具体每条信息json
+        lotteryInfo.setLotteryInfo(array.toString());//具体每条信息json
         lotteryInfo.setSumDate(sumDate);//五十和
 
 
@@ -54,6 +55,7 @@ public class LotteryUtils {
         LuckCodeTemplate template = templateMapper.selectByCode(lotteryId + "");
         LuckCodes codes = luckCodesMapper.selectBytemplate(template.getId(), commodity.getId());
         lotteryInfo.setUserAccountId(codes.getUserAccountId());
+        lotteryInfoMapper.insertSelective(lotteryInfo);//将开奖信息写入数据库
         return lotteryInfo;
     }
 
