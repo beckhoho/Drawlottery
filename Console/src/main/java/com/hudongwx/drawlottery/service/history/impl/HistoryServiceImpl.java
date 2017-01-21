@@ -87,4 +87,14 @@ public class HistoryServiceImpl implements HistoryService {
         express.setState(1);
         expressMapper.updateByPrimaryKeySelective(express);
     }
+
+    /**
+     * 删除记录
+     *
+     * @param id 商品id
+     */
+    @Override
+    public void delete(Long id) {
+        historyMapper.deleteByPrimaryKey(id);
+    }
 }

@@ -50,4 +50,10 @@ public interface HistoryService {
      * @param express 发货信息
      */
     void delivery(Express express);
+
+    /**
+     * 删除记录
+     * @param id 商品id
+     */
+    void delete(Long id);
 }

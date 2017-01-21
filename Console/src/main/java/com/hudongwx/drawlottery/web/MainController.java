@@ -6,10 +6,7 @@ import com.hudongwx.drawlottery.common.dto.response.AjaxResult;
 import com.hudongwx.drawlottery.common.dto.response.MenuResult;
 import com.hudongwx.drawlottery.service.commodity.CardService;
 import com.hudongwx.drawlottery.service.conf.QiniuService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -49,7 +46,7 @@ public class MainController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/getUploadToken")
-    public AjaxResult getQiniuUploadToken(@RequestBody String suffix) {
+    public AjaxResult getQiniuUploadToken(@RequestParam String suffix) {
         return success(qiniuService.getUpToken(suffix));
     }
 

@@ -57,6 +57,11 @@ public class HistoryController extends BaseController {
         return roundTimes;
     }
 
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public AjaxResult delete(@ApiParam @RequestParam Long id){
+        historyService.delete(id);
+        return success(langConstants.getLang(langConstants.DELETE_SUCCESS));
+    }
     @RequestMapping(value = "/filters", method = RequestMethod.POST)
     public OrderFilters getFilters() {
         OrderFilters filters = new OrderFilters();
