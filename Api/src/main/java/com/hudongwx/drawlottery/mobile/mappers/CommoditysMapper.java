@@ -155,4 +155,11 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @return
      */
     Commoditys selectNextRoundComm(@Param("tempId") Long tempId, @Param("stateId") Integer stateId);
+
+    /**
+     * 查询详情
+     * @param commodityId
+     * @return
+     */
+    String selectContent(@Param("commodityId") Long commodityId);
 }

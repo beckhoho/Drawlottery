@@ -561,4 +561,15 @@ public class CommodityServiceImpl implements ICommodityService {
         return maps;
     }
 
+    /**
+     * 通过商品id 得到商品图文详情
+     *
+     * @param commodityId 商品id
+     * @return 模板中的图文详情
+     */
+    @Override
+    public String selectContent(Long commodityId) {
+        return commsMapper.selectContent(commodityId);
+    }
+
 }
