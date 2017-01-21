@@ -7,7 +7,6 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -37,10 +36,8 @@ public class ImagesController extends BaseController {
 
     /**
      * 客户端首页的活动宣传图片
-     *
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/pub/img/event", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject event() {
         List<Map<String, Object>> infoList = iService.selectEvent();

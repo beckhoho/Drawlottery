@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.Approve;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -31,7 +34,6 @@ public class ApproveController extends BaseController {
      * @param approve 认证信息
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/approve/add",method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject addApproveInfo(@RequestParam("app") Approve approve) {
         boolean status = true;// TODO: 2016/12/24 提交认证信息
@@ -44,7 +46,6 @@ public class ApproveController extends BaseController {
      * @param accountid 用户id
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/approve/info", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject queryApproveInfo(@RequestParam("acc") Long accountid) {
         Approve approve = new Approve();// TODO: 2016/12/24 提交认证信息
@@ -57,7 +58,6 @@ public class ApproveController extends BaseController {
      * @param approve 认证信息
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/approve/up", method = {RequestMethod.POST,RequestMethod.GET})
     public JSONObject updateApproveInfo(@RequestParam("app") Approve approve) {
         boolean status = true;// TODO: 2016/12/24 提交修改后的认证信息

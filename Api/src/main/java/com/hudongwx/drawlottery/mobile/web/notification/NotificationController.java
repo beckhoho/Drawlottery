@@ -9,7 +9,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -40,7 +42,6 @@ public class NotificationController extends BaseController {
      *
      * @return
      */
-    @ResponseBody
     @ApiOperation("用户中奖消息")
     @RequestMapping(value = "/api/v1/priv/user/notify/prize", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserPrizeMessage(@ApiParam("商品Id")@Param("commId") Long commId) {
@@ -52,7 +53,6 @@ public class NotificationController extends BaseController {
      *
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/notify/deliverymsg", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryDeliveryMessage() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
@@ -64,7 +64,6 @@ public class NotificationController extends BaseController {
      *
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/notify/feedback", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryFeedBack() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
@@ -76,7 +75,6 @@ public class NotificationController extends BaseController {
      *
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/pub/notify/sys", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject querySystemMessage() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
@@ -88,7 +86,6 @@ public class NotificationController extends BaseController {
      *
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/pub/notify/campaign", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCampaignMessage() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息

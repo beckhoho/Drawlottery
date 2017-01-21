@@ -1,9 +1,12 @@
 package com.hudongwx.drawlottery.mobile.service.alipay;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -24,7 +27,6 @@ public interface IAliPayService {
 
     /**
      * 支付宝APP支付–申请支付请求参数
-     *
      * @param formData
      * @return
      * @throws Exception
@@ -36,20 +38,32 @@ public interface IAliPayService {
      * @param data
      * @return
      */
-    public OrderFormData createTemporaryOrder(OrderFormData data);
+    public JSONObject createTemporaryOrder(OrderFormData data);
 
     /**
      * 获取缓存订单
-     * @param orderId 订单id
      * @return
      */
-    public OrderFormData getTemporaryOrder(Long orderId);
+    public OrderFormData getCacheTemporaryOrder(OrderFormData data);
 
     /**
      * 删除缓存订单
-     * @param orderId 订单id
-     *
      */
-    public void removeTemporaryOrder(Long orderId);
+    public void removeTemporaryOrder(OrderFormData data);
+
+    /**
+     * 检查支付宝订单返回来的订单,是否有效
+     * @param params
+     * @return
+     */
+    public boolean checkAliPayOrderValidator(Map params);
+
+
+    /**
+     * 放到缓存中
+     * @param data
+     * @return
+     */
+    public OrderFormData putCacheOrderFormData(OrderFormData data);
 
 }

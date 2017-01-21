@@ -1,18 +1,21 @@
 package com.hudongwx.drawlottery.mobile.service.alipay.impl;
 
+import com.alibaba.druid.support.logging.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.internal.util.AlipaySignature;
-import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
-import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
-import com.hudongwx.drawlottery.mobile.entitys.Orders;
-import com.hudongwx.drawlottery.mobile.entitys.OrdersCommoditys;
+import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.mappers.OrdersCommoditysMapper;
 import com.hudongwx.drawlottery.mobile.mappers.OrdersMapper;
 import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
+import com.hudongwx.drawlottery.mobile.service.user.IRedPacketsService;
+import com.hudongwx.drawlottery.mobile.utils.OrderUtils;
+import com.hudongwx.drawlottery.mobile.web.pay.PayController;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.config.AlipayConfig;
+import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.AlipayNotify;
 import com.hudongwx.drawlottery.mobile.web.pay.alipay.util.UtilDate;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,7 +31,6 @@ import java.util.*;
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
  * <p>
- *
  * @author wu
  * @version 1.0, 2017/1/15 <br/>
  * @desc <p>
@@ -43,40 +45,122 @@ import java.util.*;
 @CacheConfig(cacheNames = {"linshi_order_cache"})
 public class AliPayServiceImpl implements IAliPayService {
 
+    private static final Logger LOG = Logger.getLogger(AliPayServiceImpl.class);
+
     @Autowired
     OrdersMapper ordersMapper;
+
     @Autowired
     OrdersCommoditysMapper ordersCommoditysMapper;
+
     @Autowired
     CommoditysMapper commoditysMapper;
+
+    @Autowired
+    IRedPacketsService mRedPacketsService;
 
     /**
      * 创建临时订单,放到缓存框架中
      * @param data
      * @return
      */
-    @CachePut(key = "#data.order.id")
-    public OrderFormData createTemporaryOrder(OrderFormData data){
+    public JSONObject createTemporaryOrder(OrderFormData data){
+        int totalPrice = 0; //订单总价格
+        //获取购买的商品,计算总价格
+        List<CommodityAmount> caList = data.getCaList();
+        for (CommodityAmount info:caList){
+            totalPrice+=info.getAmount();
+        }
+
+        //红包校验
+/*        Long redPacketId = data.getOrder().getRedPacketId();
+        if(redPacketId  != null){
+            RedPackets packets = mRedPacketsService.selectOne(account, redPacketId);
+            //校验订单过期和最小订单的使用
+            if(packets!= null && !packets.isExpired() && packets.isCanUse(totalPrice)){
+                totalPrice = totalPrice-packets.getWorth();//除去红包的价格
+            }
+        }*/
+
+        //返回数据
+        JSONObject info = new JSONObject();
+        try {
+            //创建订单id
+            Long orderId = OrderUtils.getOrderId();
+            //设置订单id
+            data.getOrder().setId(orderId);
+            data.getOrder().setPrice(totalPrice);
+            //订单附加json信息
+            String orderAttach = JSON.toJSONString(data);
+            String order = OrderUtils.createAlipayInfo(orderAttach,String.valueOf(orderId),"惊喜商城-"+orderId,"惊喜商城",String.valueOf(totalPrice));
+            info.put("id",orderId);
+            info.put("order",order);
+
+            //记录到缓存中
+            putCacheOrderFormData(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("订单创建失败",e);
+            throw new RuntimeException("订单创建失败");
+        }
+        return info;
+    }
+
+    @CachePut(key = "#data.order.id+''+#data.order.userAccountId")
+    public OrderFormData putCacheOrderFormData(OrderFormData data){
         return data;
     }
 
     /**
      * 获取缓存订单
-     * @param orderId 订单id
      * @return
      */
-    @Cacheable(key = "#orderId")
-    public OrderFormData getTemporaryOrder(Long orderId){
-        return null;
+    @Cacheable(key = "#data.order.id+''+#data.order.userAccountId")
+    public OrderFormData getCacheTemporaryOrder(OrderFormData data){
+        return data;
     }
 
     /**
      * 删除缓存订单
-     * @param orderId 订单id
-     *
      */
-    @CacheEvict(key = "#orderId")
-    public void removeTemporaryOrder(Long orderId){
+    @CacheEvict(key = "#data.order.id+''+#data.order.userAccountId")
+    public void removeTemporaryOrder(OrderFormData data){
+    }
+
+    @Override
+    public boolean checkAliPayOrderValidator(Map params) {
+        //异步通知id
+        String notify_id = (String) params.get("notify_id");
+        //1.验证签名是否正确
+        String sign= (String) params.get("sign");//获取签名sign
+        if(true){//AlipayNotify.getSignVeryfy(params,sign)
+            //2.验证订单是否是系统的订单
+            OrderFormData formData = OrderUtils.getOrderFormDataFromAlipay(params); //来自支付宝的订单信息
+            OrderFormData cacheTemporaryOrder = getCacheTemporaryOrder(formData);//来自缓存的订单信息
+            if(cacheTemporaryOrder == null){
+                LOG.debug("缓存中没有找到对应的订单信息");
+                return false;
+            }
+            //3.验证金额是否正确
+            String trade_no = (String) params.get("total_fee");
+            if(!trade_no.equals(String.valueOf(cacheTemporaryOrder.getOrder().getPrice()))){
+                LOG.debug("缓存中订单价格不一致");
+                return false;
+            }
+            //4.校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方
+            String seller_id = (String) params.get("seller_id");
+            if(!OrderUtils.isMySellerid(seller_id)){
+                LOG.debug("订单收款方不一致当前是:"+seller_id+"应该是:"+AlipayConfig.partner);
+                return false;
+            }
+            //商户订单号
+            String out_trade_no = (String) params.get("out_trade_no");
+            LOG.debug("支付成功订单id:"+out_trade_no+"---支付宝交易号:"+trade_no);
+            return true;
+        }else{
+            LOG.debug("签名验证失败");
+            return  false;
+        }
     }
 
     @Override
@@ -181,13 +265,5 @@ public class AliPayServiceImpl implements IAliPayService {
             sb.append(name);
         }
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        //
-
-        for(int i=0;i<1000;i++){
-            System.out.println(UtilDate.getOrderId());
-        }
     }
 }

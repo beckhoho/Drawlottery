@@ -53,7 +53,20 @@ public class AlipayCore {
      */
     public static String createLinkString(Map<String, String> params) {
         List<String> keys = new ArrayList<String>(params.keySet());
-//        Collections.sort(keys);
+        //Collections.sort(keys);
+        StringBuilder builder = new StringBuilder(100);
+        int len = keys.size();
+        for (int i = 0; i < len; i++) {
+            String key = keys.get(i);
+            String value = params.get(key);
+            if (i == len - 1) {//拼接时，不包括最后一个&字符
+                builder.append(key + "=" + value);
+            } else {
+                builder.append(key + "=" + value + "&");
+            }
+        }
+       /* List<String> keys = new ArrayList<String>(params.keySet());
+        Collections.sort(keys);
         String prestr = "";
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.get(i);
@@ -63,8 +76,8 @@ public class AlipayCore {
             } else {
                 prestr = prestr + key + "=" + value + "&";
             }
-        }
-        return prestr;
+        }*/
+        return builder.toString();
     }
 
    /* *//**

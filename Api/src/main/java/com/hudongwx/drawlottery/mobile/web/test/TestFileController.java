@@ -26,7 +26,6 @@ import java.util.List;
  * <p>
  * @email 294786949@qq.com
  */
-@RestController
 public class TestFileController extends BaseController {
 
     @RequestMapping("/upload.do")

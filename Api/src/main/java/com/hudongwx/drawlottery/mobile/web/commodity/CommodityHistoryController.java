@@ -1,4 +1,4 @@
-package com.hudongwx.drawlottery.mobile.web.Commodity;
+package com.hudongwx.drawlottery.mobile.web.commodity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityHistory;

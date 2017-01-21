@@ -1,53 +1,29 @@
 package com.hudongwx.drawlottery.mobile.conf.shiro;
 
-import com.hudongwx.drawlottery.mobile.conf.cache.CacheConfig;
-import com.hudongwx.drawlottery.mobile.conf.mybatis.MyBatisConfig;
 import com.hudongwx.drawlottery.mobile.shiro.AuthorRetryLimitCredentialsMatcher;
 import com.hudongwx.drawlottery.mobile.shiro.AuthorUserRealm;
 import com.hudongwx.drawlottery.mobile.shiro.CustomerEnterpriseCacheSessionDAO;
 import com.hudongwx.drawlottery.mobile.shiro.MobileAuthenticationFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.cache.CacheManagerAware;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.AbstractSessionManager;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
-import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.Cookie;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.session.mgt.WebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.*;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
-import org.springframework.cache.ehcache.EhCacheManagerUtils;
 import org.springframework.context.annotation.*;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.*;
 
@@ -203,9 +179,7 @@ public class ShiroConfig {
     @Profile("dev")
     public SecurityManager securityManager(){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-//        securityManager.setRememberMeManager(new CookieRememberMeManager().);
         securityManager.setSessionManager(getWebSessionManager());
-
         //管理认证器
         securityManager.setRealm(getRealm());
         return securityManager;
@@ -228,7 +202,6 @@ public class ShiroConfig {
         sessionManager.setGlobalSessionTimeout(AbstractSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT*2*24*60);
         sessionManager.setSessionValidationSchedulerEnabled(true);//定期检查失效session
 
-
         //设置cookie
         SimpleCookie token = new SimpleCookie("token");
         token.setMaxAge(86400000*60);//缓存时间60天
@@ -238,29 +211,16 @@ public class ShiroConfig {
         return sessionManager;
     }
 
- /*   @Bean
-    public CookieRememberMeManager getRememberMeManager(){
-        CookieRememberMeManager manager = new CookieRememberMeManager();
-        SimpleCookie token = new SimpleCookie("token");
-        token.setMaxAge(86400000*60);//缓存时间60天
-        token.setVersion(1);
-        token.setHttpOnly(true);
-        manager.setCookie(token);
-        return  manager;
-    }*/
-
 
     @Bean(name = "securityManager")
     @Profile("test")
     public SecurityManager securityManagerTest(){
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
-        //securityManager.setRememberMeManager(getRememberMeManager());
-
+        securityManager.setSessionManager(getWebSessionManager());
         //管理认证器
         securityManager.setRealm(getRealm());
         return securityManager;
     }
-
 
     /*
     * shiro生命周期的管理
@@ -304,8 +264,6 @@ public class ShiroConfig {
     @Bean
     public net.sf.ehcache.CacheManager getCacheManager(){
         net.sf.ehcache.CacheManager object = getManagerFactoryBean().getObject();
-        //List activeSessionCache = object.getCache("ActiveSessionCache").getKeys();
-        //System.out.println(Arrays.toString(activeSessionCache.toArray()));
         return object;
     }
 

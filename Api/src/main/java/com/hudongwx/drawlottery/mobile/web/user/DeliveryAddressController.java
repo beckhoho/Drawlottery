@@ -40,7 +40,6 @@ public class DeliveryAddressController extends BaseController {
      * @param address 收货地址信息
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addAddress(@RequestBody DeliveryAddress address) {
         boolean status = addressService.addDa(getUserId(),address);
@@ -53,7 +52,6 @@ public class DeliveryAddressController extends BaseController {
      * @param addressId 收货地址id
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/del", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject deleteAddress(@RequestParam("addressId") Long addressId) {
         boolean status = addressService.deleteDa(addressId);
@@ -66,7 +64,6 @@ public class DeliveryAddressController extends BaseController {
      * @param address 客户端传来的地址信息实体类
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/up", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateAddress(@RequestBody DeliveryAddress address) {
         boolean status = addressService.updateDa(getUserId(),address);
@@ -78,7 +75,6 @@ public class DeliveryAddressController extends BaseController {
      *
      * @return JSONObject
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/address/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAddress() {
         List<Map<String, Object>> mapList = addressService.selectByAccountId(getUserId());

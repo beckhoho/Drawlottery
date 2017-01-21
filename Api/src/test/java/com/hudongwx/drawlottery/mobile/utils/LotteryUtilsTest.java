@@ -20,7 +20,7 @@ public class LotteryUtilsTest extends TestBaseMapper {
     LuckCodesMapper CodesMapper;
     @Test
     public void testRaffle() throws Exception {
-//        Commodity commodity = new Commodity();
+//        commodity commodity = new commodity();
 //        commodity.setId(58L);
 //        commodity.setBuyCurrentNumber(1000);
 //        //LotteryInfo lotteryInfo = LotteryUtils.raffle(luckCodesMapper,userMapper,commodity);
