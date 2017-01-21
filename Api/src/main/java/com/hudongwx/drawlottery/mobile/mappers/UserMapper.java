@@ -50,4 +50,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     Integer updateUserQQ(@Param("accountId")Long accountId,@Param("qqNumber")String qqNumber);
+
+    Long selectUserRegisterDate(@Param("accountId") Long accountId);
+
+    Long countUsers();
 }

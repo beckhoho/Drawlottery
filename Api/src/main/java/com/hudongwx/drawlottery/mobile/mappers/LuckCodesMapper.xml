@@ -20,7 +20,7 @@
         INSERT  INTO  t_luck_codes(luck_code_template_id,commodity_id) select id,#{commId} from t_luck_code_template limit 0,#{endIndex}
     </insert>
 
-  <select id="selectByUsable" resultMap="BaseResultMap">
+    <select id="selectByUsable" resultMap="BaseResultMap">
     select * from t_luck_codes where commodity_id = #{commodityId} and state = 0
   </select>
     <select id="selectLimit" resultMap="BaseResultMap">
@@ -89,7 +89,7 @@
         ON tlc.luck_code_template_id = tlct.id
         WHERE tlc.user_account_id = #{accountId}
         and tlc.commodity_id = #{commId}
-        <if test="lastCode!=0">
+        <if test="lastCode!=null and lastCode != 0">
             and tlct.id &lt; (select id from t_luck_code_template where luck_code= #{lastCode})
         </if>
         order by tlct.id desc

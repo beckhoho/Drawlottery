@@ -42,6 +42,13 @@
     </select>
 
     <select id="selectUserNicknameById" resultType="java.lang.String">
+        SELECT nickname FROM t_users WHERE account_id = #{accountId}
+    </select>
+    <select id="selectUserRegisterDate" resultType="java.lang.Long">
+        SELECT regist_date FROM t_users WHERE account_id=#{accountId}
+    </select>
+    <select id="countUsers" resultType="java.lang.Long">
+        SELECT COUNT (account_id) FROM t_users
     </select>
 
     <update id="updateUserPromteId">

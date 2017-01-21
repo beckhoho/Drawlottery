@@ -5,30 +5,147 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <id column="id" jdbcType="BIGINT" property="id"/>
+        <id column="commodity_id" jdbcType="BIGINT" property="id"/>
         <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber"/>
-        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
         <result column="state_id" jdbcType="INTEGER" property="stateId"/>
         <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
-        <result column="buy_last_number" jdbcType="INTEGER" property="buyLastNumber"/>
         <result column="sell_out_time" jdbcType="BIGINT" property="sellOutTime"/>
         <result column="undercarriage_time" jdbcType="BIGINT" property="undercarriageTime"/>
         <result column="temp_id" jdbcType="BIGINT" property="tempId"/>
         <result column="view_num" jdbcType="BIGINT" property="viewNum"/>
-        <result column="last_round_time" jdbcType="VARCHAR" property="lastRoundTime"/>
+        <result column="share_state" jdbcType="INTEGER" property="shareState"/>
+        <result column="exchange_state" jdbcType="INTEGER" property="exchangeState"/>
+        <result column="exchange_way" jdbcType="INTEGER" property="exchangeWay"/>
+        <result column="end_time" jdbcType="BIGINT" property="endTime"/>
+        <result column="card_not_enough" jdbcType="INTEGER" property="cardNotEnough"/>
+        <result column="buy_number" jdbcType="INTEGER" property="buyNumber"/>
+
     </resultMap>
 
+    <!-- 通过商品ID查询模板ID -->
     <select id="selectTempIdByCommId" resultType="java.lang.Long">
-        SELECT temp_id FROM t_commoditys WHERE id = #{commId}
+        SELECT temp_id FROM t_commoditys WHERE commodity_id = #{commId}
     </select>
 
+    <!--  写入下一期商品，返回主键ID -->
     <insert id="insertUseGenerated" useGeneratedKeys="true" keyProperty="id" parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">
         INSERT into
-        t_commoditys(buy_last_number,buy_current_number,luck_code_id,round_time,sell_out_time,
-        view_num,temp_id,state_id,last_round_time,undercarriage_time)
-        VALUES (#{buyLastNumber},#{buyCurrentNumber},#{luckCodeId},
-        #{roundTime},#{sellOutTime},#{viewNum},#{tempId},#{stateId},
-        #{lastRoundTime},#{undercarriageTime})
+              t_commoditys(
+                  buy_current_number,round_time,sell_out_time,
+                  view_num,temp_id,state_id,undercarriage_time,
+                  share_state,exchange_state,exchange_way,end_time,
+                  card_not_enough,buy_number
+              )
+        VALUES (
+            #{buyCurrentNumber},#{roundTime},#{sellOutTime},
+            #{viewNum},#{tempId},#{stateId},
+            #{undercarriageTime},#{shareState},#{exchangeState},
+            #{exchangeWay},#{endTime},#{cardNotEnough},#{buyNumber}
+        )
     </insert>
+
+    <!-- 将已开奖的商品拷贝到历史表 -->
+    <insert id="insertHistory">
+        INSERT INTO t_commodity_history SELECT * FROM t_commoditys WHERE state_id = 1
+    </insert>
+
+
+    <!--  更新商品数据（字段非空处理） -->
+    <update id="updateById" parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">
+        UPDATE t_commoditys
+        <trim prefix="set" suffixOverrides=",">
+            <if test="buyCurrentNumber != null">buy_current_number = #{buyCurrentNumber},</if>
+            <if test="roundTime != null">round_time = #{roundTime},</if>
+            <if test="sellOutTime !=null">sell_out_time = #{sellOutTime},</if>
+            <if test="viewNum !=null">view_num = #{viewNum},</if>
+            <if test="tempId !=null">temp_id = #{tempId},</if>
+            <if test="stateId !=null">state_id = #{stateId},</if>
+            <if test="undercarriageTime != null">undercarriage_time =#{undercarriageTime},</if>
+            <if test="shareState != null">share_state = #{shareState},</if>
+            <if test="exchangeState != null" >exchange_state = #{exchangeState},</if>
+            <if test="exchangeWay != null">exchange_way = #{exchangeWay},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="cardNotEnough != null">card_not_enough =#{cardNotEnough}</if>
+            <if test="buyNumber != null">buy_number = #{buyNumber}</if>
+        </trim>
+        WHERE commodity_id = #{id}
+    </update>
+
+    <!-- 查看往期揭晓数据 -->
+    <select id="selectBefore" resultMap="BaseResultMap">
+        SELECT commodity_id from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
+        UNION
+        SELECT commodity_id from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime}
+    </select>
+
+    <select id="selectByKey" resultMap="BaseResultMap">
+        SELECT commodity_id from t_commodity_history where commodity_id=#{commodityId}
+        UNION
+        SELECT commodity_id from t_commoditys where commodity_id=#{commodityId}
+    </select>
+
+
+    <!-- 查询商品上期开奖信息-->
+    <select id="selectByTempIdOrderRoundTime" resultMap="BaseResultMap">
+        SELECT * from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
+        UNION
+        SELECT * from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime} ORDER BY commodity_id DESC limit 1
+        <!-- &lt; 小于     &jt; 大于 -->
+    </select>
+
+    <!-- 查询中奖历史-->
+    <select id="selectHistoryLottery" resultMap="BaseResultMap">
+        SELECT * from t_commodity_history where luck_user_account_id = #{accountId}
+        UNION
+        SELECT * from t_commoditys where luck_user_account_id = #{accountId}
+    </select>
+
+
+    <select id="selectComIdAndUser" resultMap="BaseResultMap">
+        SELECT * from t_commodity_history where commodity_id = #{commodityId} AND luck_user_account_id = #{accountId}
+        UNION
+        SELECT * from t_commoditys where commodity_id = #{commodityId} AND luck_user_account_id = #{accountId}
+    </select>
+
+
+    <select id="selectByTempId" resultMap="BaseResultMap">
+        SELECT * from t_commodity_history WHERE temp_id = #{tempId}
+        UNION
+        SELECT * from t_commoditys WHERE temp_id = #{tempId}
+    </select>
+
+
+    <!--<update id="updateShareStateByCommodityId" parameterMap="tempId" statementType="CALLABLE">-->
+        <!--CALL update_commodity_share_state(?)-->
+    <!--</update>-->
+    <!---->
+    <!--<parameterMap id="tempId" type="long">-->
+        <!--<parameter property="id" mode="IN" jdbcType="BIGINT"/>-->
+    <!--</parameterMap>-->
+
+
+
+
+
+    <!--查询往期中奖信息-->
+    <resultMap id="PastLotteryMap" type="map"></resultMap>
+
+    <select id="selectPastLottery" resultMap="PastLotteryMap">
+        SELECT tu.header_url,tu.nickname,tu.account_id,vc.commodity_id,temp_id,buy_num,user_account_id,end_date,round_time
+        from
+            t_lottery_info tli,
+            v_commoditys vc,
+            t_users tu
+        where
+            tli.commodity_id = vc.commodity_id and
+            tu.account_id=tli.user_account_id
+            and
+            tli.commodity_id > #{commodityId}
+            and
+            temp_id= (select temp_id from t_commoditys where commodity_id=#{commodityId} limit 1)
+        limit 10
+    </select>
+
+
 
 </mapper>

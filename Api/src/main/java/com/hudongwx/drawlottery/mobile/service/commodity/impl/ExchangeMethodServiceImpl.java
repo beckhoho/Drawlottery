@@ -3,7 +3,6 @@ package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.IExchangeMethodService;
-import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     @Autowired
     ExchangeWayMapper ewMapper;
     @Autowired
-    CommodityHistoryMapper chMapper;
+    CommodityMapper commMapper;
     @Autowired
     VirtualCommodityMapper vcMapper;
     @Autowired
@@ -94,13 +93,14 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     @Override
     public List<Map<String, Object>> selectUserRechargeCardPrize(Long accountId, Long commodityId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        CommodityHistory history = chMapper.selectComIdAndUser(accountId, commodityId);
+        Commodity history = commMapper.selectComIdAndUser(accountId, commodityId);
+        CommodityTemplate template = templateMapper.selectById(history.getTempId());
         Map<String, Object> map = new HashMap<>();
-        map.put("commodityName", history.getCommodityName());//添加商品名
+        map.put("commodityName", template.getName());//添加商品名
         map.put("roundTime", history.getRoundTime());//添加期数
         map.put("commodityId", history.getId());//添加商品ID
         map.put("endTime", history.getEndTime());//添加揭晓时间；
-        map.put("coverImgUrl", history.getCoverImgUrl());//添加商品封面图
+        map.put("coverImgUrl", template.getCoverImgUrl());//添加商品封面图
         map.put("exchangeState", history.getExchangeState());
         //添加兑换状态（1：已选择兑换方式，2：卡密兑换方式派发成功，3：商品派发，4：晒单）
         mapList.add(map);
@@ -134,7 +134,8 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         Map<String, Object> map = new HashMap<>();
 
-        CommodityHistory history = chMapper.selectByCommId(commodityId);
+
+        Commodity history = commMapper.selectByPrimaryKey(commodityId);
         ExchangeWay way = ewMapper.selectById(history.getExchangeWay());
 
         CommodityTemplate template = templateMapper.selectById(history.getTempId());
@@ -145,15 +146,15 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         List<Share> select = shareMapper.select(s);
 
         map.put("commodityName", template.getName());//商品名
-        map.put("coverImgUrl", history.getCoverImgUrl());//商品封面图
+        map.put("coverImgUrl", template.getCoverImgUrl());//商品封面图
         map.put("exchangeState", history.getExchangeState());//兑奖流程进度状态
         map.put("userBuyNumber", history.getBuyNumber());//添加用户购买人次
-        map.put("genre", history.getGenre());//添加商品实体虚拟
+        map.put("genre", template.getGenre());//添加商品实体虚拟
         map.put("commodityId", commodityId);//添加商品ID
         map.put("prizeState", "正在兑奖中");//奖品状态
         map.put("size", 0);//几张充值卡
         map.put("worth", 0);//充值卡面额
-        map.put("cardNumberList", new HashMap<>());
+        map.put("cardNumberList", new ArrayList<>());
         map.put("expressNumber", null);//快递单号
         map.put("expressName", null);//获取快递名
         map.put("expressState", 0);//添加快递状态(0,未发奖；1,发货中；2,已收货)
@@ -188,6 +189,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
                 map.put("state", 3);//添加兑换流程状态
             }
         }
+        System.out.println(map);
         return map;
     }
 
@@ -201,7 +203,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     public Map<String, Object> demo2(Long commodityId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        CommodityHistory commoditys = chMapper.selectByCommId(commodityId);
+        Commodity commoditys = commMapper.selectByPrimaryKey(commodityId);
         CommodityTemplate template = templateMapper.selectByPrimaryKey(commoditys.getTempId());
         Integer num = template.getCardNum();//卡数量
         Integer money = template.getCardMoney();//卡面额
@@ -233,10 +235,8 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
                 map.put("cardNumberList", mapList);
                 map.put("worth", money);//添加面额
             } else {
-                Map<String, Object> map1 = new HashMap<>();
-                mapList.add(map1);
                 map.put("size", 0);
-                map.put("cardNumberList", mapList);
+                map.put("cardNumberList", new ArrayList<>());
                 map.put("worth", 0);
             }
         }
@@ -245,7 +245,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
             for (Card card : list){
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("cardNumber", card.getCardNum());
-                map1.put("password", null);
+                map1.put("password", card.getPassword());
                 map1.put("state", card.getState());
                 mapList.add(map1);
             }
@@ -292,10 +292,10 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
      */
     @Override
     public Map<String, Object> temp1(Long accountId, Long commodityId) {
-        CommodityHistory history = chMapper.selectByCommId(commodityId);
-        history.setExchangeState(1);
-        history.setExchangeWay(1);
-        chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
+        Commodity commodity = commMapper.selectByPrimaryKey(commodityId);
+        commodity.setExchangeState(1);
+        commodity.setExchangeWay(1);
+        commMapper.updateByPrimaryKeySelective(commodity);//更新历史商品兑换状态
 
         //调用查询方法，去查询响应数据
         Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
@@ -321,12 +321,11 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         ex.setState(0);
         expressMapper.insert(ex);//添加快递对象
 
-        CommodityHistory history = chMapper.selectByCommId(commodityId);
+        Commodity commodity = commMapper.selectByPrimaryKey(commodityId);
 
-        history.setCommodityId(commodityId);
-        history.setExchangeState(1);
-        history.setExchangeWay(2);
-        chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
+        commodity.setExchangeState(1);
+        commodity.setExchangeWay(2);
+        commMapper.updateByPrimaryKeySelective(commodity);//更新历史商品兑换状态
 
         //调用查询方法，去查询响应数据
         Map<String, Object> map = selectUserRechargeCardExchangeProcess(accountId, commodityId);
@@ -358,12 +357,12 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         User user = userMapper.selectByPrimaryKey(accountId);
         Integer number = user.getGoldNumber();//获得用户当前闪币数量
 
-        CommodityHistory history = chMapper.selectByCommId(commodityId);
-        history.setExchangeState(1);
-        history.setExchangeWay(2);
-        int i = chMapper.updateByPrimaryKeySelective(history);//更改商品状态
+        Commodity commodity = commMapper.selectByPrimaryKey(commodityId);
+        commodity.setExchangeState(1);
+        commodity.setExchangeWay(2);
+        int i = commMapper.updateByPrimaryKeySelective(commodity);//更改商品状态
 
-        CommodityTemplate template = templateMapper.selectByPrimaryKey(history.getTempId());
+        CommodityTemplate template = templateMapper.selectByPrimaryKey(commodity.getTempId());
         Integer money = template.getExchangeMoney();//获得折换闪币金额
 
         user.setAccountId(accountId);
@@ -382,10 +381,10 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     @Override
     public Map<String, Object> temp5(Long accountId, Long commodityId) {
 
-        CommodityHistory history = chMapper.selectByCommId(commodityId);
-        history.setExchangeState(1);
-        history.setExchangeWay(5);
-        int i = chMapper.updateByPrimaryKeySelective(history);//更新历史商品兑换状态
+        Commodity commodity = commMapper.selectByPrimaryKey(commodityId);
+        commodity.setExchangeState(1);
+        commodity.setExchangeWay(5);
+        int i = commMapper.updateByPrimaryKeySelective(commodity);//更新历史商品兑换状态
 
 
         //调用查询方法，去查询响应数据

@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class Commoditys {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "commodity_id")
     private Long id;
 
     /**
@@ -62,11 +63,6 @@ public class Commoditys {
     @Column(name = "ground_time")
     private Long groundTime;
 
-    /**
-     * 中奖幸运码id
-     */
-    @Column(name = "luck_code_id")
-    private Long luckCodeId;
 
     /**
      * 商品状态ID
@@ -105,13 +101,6 @@ public class Commoditys {
     private String commodityDesc;
 
     /**
-     * 上一次购买人次
-     */
-    @Column(name = "buy_last_number")
-    private Integer byLastNumber;
-
-
-    /**
      * 售罄时间
      */
     @Column(name = "sell_out_time")
@@ -146,24 +135,6 @@ public class Commoditys {
      */
     @Column(name = "exchange_money")
     private Integer exchangeMoney;
-
-    /**
-     * 上一期期数
-     */
-    @Column(name = "last_round_time")
-    private Long lastRoundTime;
-
-    public Long getLastRoundTime() {
-        return lastRoundTime;
-    }
-
-    public void setLastRoundTime(Long lastRoundTime) {
-        this.lastRoundTime = lastRoundTime;
-    }
-
-    public Integer getCardType() {
-        return cardType;
-    }
 
     public void setCardType(Integer cardType) {
         this.cardType = cardType;
@@ -226,28 +197,6 @@ public class Commoditys {
      * 最低购买量
      */
     private Integer minimum;
-
-    /**
-     * 获取上一次购买人次数量
-     *
-     * @return 上一次购买人次
-     */
-    public Integer getByLastNumber() {
-        return byLastNumber;
-    }
-
-    /**
-     * 修改上一次购买人次数量
-     *
-     * @param byLastNumber 上一次购买人次
-     */
-    public void setByLastNumber(Integer byLastNumber) {
-        this.byLastNumber = byLastNumber;
-    }
-
-
-
-
 
     public Long getUndercarriageTime() {
         return undercarriageTime;
@@ -387,23 +336,6 @@ public class Commoditys {
         this.groundTime = groundTime;
     }
 
-    /**
-     * 获取中奖幸运码id
-     *
-     * @return luck_code_id - 中奖幸运码id
-     */
-    public Long getLuckCodeId() {
-        return luckCodeId;
-    }
-
-    /**
-     * 设置中奖幸运码id
-     *
-     * @param luckCodeId 中奖幸运码id
-     */
-    public void setLuckCodeId(Long luckCodeId) {
-        this.luckCodeId = luckCodeId;
-    }
 
     /**
      * 获取当前中奖状态（1：已开奖，0：未开奖）

@@ -21,12 +21,13 @@ import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
  * @email 294786949@qq.com
  */
 @Configuration
-public class OkHttpClientConfig {
+public class OkHttpConfig {
 
     @Bean
     public OkHttpClient getOkHttpClient(){
         OkHttpClient client = new OkHttpClient();
         return client;
     }
+
 
 }

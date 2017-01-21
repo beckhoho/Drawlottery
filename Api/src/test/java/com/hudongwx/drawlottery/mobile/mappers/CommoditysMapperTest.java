@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.testng.annotations.Test;
 
 import javax.annotation.Resource;
@@ -23,6 +24,15 @@ import java.util.List;
  * @email 294786949@qq.com
  */
 public class CommoditysMapperTest extends TestBaseMapper {
+
+    @Resource
+    CommoditysMapper commoditysMapper;
+
+    @Test
+    public void testTestPage() throws Exception {
+        commoditysMapper.testPage(Settings.COMMODITY_STATE_ON_SALE,Settings.COMMODITY_ORDER_POPULARITY,0L,Settings.PAGE_LOAD_SIZE_10);
+    }
+
     @Test
     public void testSelectByKey() throws Exception {
 
@@ -118,13 +128,11 @@ public class CommoditysMapperTest extends TestBaseMapper {
 
     }
 
-    @Resource
-    CommoditysMapper commoditysMapper;
     @Test
     public void testSelectCommNameByCommId() throws Exception {
         List<Long>longList=new ArrayList<>();
         longList.add(43L);
-        List<String> list = commoditysMapper.selectCommNameByCommId(longList);
+        List<String> list = commoditysMapper.selectCommNameListByCommId(longList);
         for (String s : list) {
             System.out.println("name:"+s);
         }

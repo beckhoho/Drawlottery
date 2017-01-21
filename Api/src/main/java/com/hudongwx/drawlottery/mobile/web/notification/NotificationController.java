@@ -29,6 +29,7 @@ import java.util.List;
  * @email 294786949@qq.com
  */
 @RestController
+@RequestMapping("/api/v1/pub/notify/")
 @Api(value = "NotificationController", description = "消息通知管理")
 public class NotificationController extends BaseController {
 
@@ -42,7 +43,7 @@ public class NotificationController extends BaseController {
      */
     @ResponseBody
     @ApiOperation("用户中奖消息")
-    @RequestMapping(value = "/api/v1/priv/user/notify/prize", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "user/prize", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserPrizeMessage(@ApiParam("商品Id")@Param("commId") Long commId) {
         return success(luckNoticeService.addUserLuckNotice(commId));
     }
@@ -53,7 +54,7 @@ public class NotificationController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/notify/deliverymsg", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "user/deliverymsg", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryDeliveryMessage() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
         return success(nlist);
@@ -65,7 +66,7 @@ public class NotificationController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/user/notify/feedback", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "user/feedback", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryFeedBack() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
         return success(nlist);
@@ -77,7 +78,7 @@ public class NotificationController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/notify/sys", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "system", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject querySystemMessage() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
         return success(nlist);
@@ -89,7 +90,7 @@ public class NotificationController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/v1/pub/notify/campaign", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "campaign", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCampaignMessage() {
         List<NotificationPrize> nlist = null;// TODO: 2016/12/24 获取通知信息
         return success(nlist);

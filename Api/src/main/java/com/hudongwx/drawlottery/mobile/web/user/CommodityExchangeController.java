@@ -10,7 +10,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -46,7 +49,6 @@ public class CommodityExchangeController extends BaseController {
      * @param commId
      * @return
      */
-    @ResponseBody
     @ApiOperation("查询商品兑换方式")
     @RequestMapping(value = "/api/v1/user/commodity/commexchways", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommExchangeWays(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
@@ -59,7 +61,6 @@ public class CommodityExchangeController extends BaseController {
      * @param commId
      * @return
      */
-    @ResponseBody
     @ApiOperation("兑换现金")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp3", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToCash(@ApiParam("商品Id") @RequestParam("commId") Long commId, @ApiParam("平台名称（例：支付宝平台）") @RequestParam("TPName") String TPName, @ApiParam("平台账号") @RequestParam("TPAccount") String TPAccount) {
@@ -72,7 +73,6 @@ public class CommodityExchangeController extends BaseController {
      * @param commId
      * @return
      */
-    @ResponseBody
     @ApiOperation("兑换闪币")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp4", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToGold(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
@@ -85,7 +85,6 @@ public class CommodityExchangeController extends BaseController {
      * @param commId
      * @return
      */
-    @ResponseBody
     @ApiOperation("兑换充值卡")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/temp1", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToRechargeCardTemp1(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
@@ -98,7 +97,6 @@ public class CommodityExchangeController extends BaseController {
      * @param code
      * @return
      */
-    @ResponseBody
     @ApiOperation("查看充值卡卡密")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/show/code", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToRechargeCard(@ApiParam("卡号") @RequestParam("code") String code) {
@@ -111,7 +109,6 @@ public class CommodityExchangeController extends BaseController {
      * @param commId
      * @return
      */
-    @ResponseBody
     @ApiOperation("可兑换充值卡方式详情")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCard(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
@@ -124,7 +121,6 @@ public class CommodityExchangeController extends BaseController {
      * @param commId
      * @return
      */
-    @ResponseBody
     @ApiOperation("充值卡兑换流程详情")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/rcard/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryExchangeToRechargeCardInfo(@ApiParam("商品Id") @RequestParam("commId") Long commId) {
@@ -137,7 +133,6 @@ public class CommodityExchangeController extends BaseController {
      * @param commId
      * @return
      */
-    @ResponseBody
     @ApiOperation("快递收货")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp2", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToExpress(@ApiParam("商品Id") @RequestParam("commId") Long commId, @ApiParam("注册用户地址Id") @RequestParam("addressId") Long addressId) {
@@ -150,7 +145,6 @@ public class CommodityExchangeController extends BaseController {
      * @param commId
      * @return
      */
-    @ResponseBody
     @ApiOperation("到店领取")
     @RequestMapping(value = "/api/v1/user/commodity/exchange/temp5", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject exchangeToLocale(@ApiParam("商品Id") @RequestParam("commId") Long commId) {

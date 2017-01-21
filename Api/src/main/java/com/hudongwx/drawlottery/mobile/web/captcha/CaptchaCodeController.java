@@ -90,4 +90,44 @@ public class CaptchaCodeController extends BaseController {
         }
     }
 
+    /**
+     * 图形验证码
+     * @param req  请求
+     * @param resp 响应
+     * @throws IOException
+     *
+     */
+    @RequestMapping(value = "/api/v1/user/register/imgcode", method = {RequestMethod.POST, RequestMethod.GET})
+    public void queryVerifyCode(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Session session = getSession();
+        String sessionIdStr = session.getId().toString();
+        session.setTimeout(Settings.SESSION_TIME_OUT);
+        Object frequency = session.getAttribute("vcf");
+        int freq = 0;
+        if (null != frequency)
+            freq = (int) frequency;
+        if (20 < freq) {
+            return;
+        }
+        session.setAttribute("vcf", freq + 1);
+        String verifyCode = VerifyCodeUtils.generateVerifyCode(Settings.VERIFY_CODE_LENGTH);
+        session.setAttribute(sessionIdStr, verifyCode);
+        VerifyCodeUtils.outputImage(Settings.VERIFY_CODE_IMG_WIDTH, Settings.VERIFY_CODE_IMG_HEIGHT, resp.getOutputStream(), verifyCode);
+    }
+
+    /**
+     * 验证图形验证码
+     * @param imgCode
+     * @throws IOException
+     */
+    @RequestMapping(value = "/api/v1/user/register/imgcode/conf", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject judgeVerifyCode(@RequestParam("imgCode") String imgCode) {
+        if (null == imgCode || imgCode.equals(""))
+            return fail("验证码格式不正确！");
+        Session session = getSession();
+        String sessionIdStr = session.getId().toString();
+        String code = session.getAttribute(sessionIdStr).toString();
+        return response(imgCode.equals(imgCode));
+    }
+
 }

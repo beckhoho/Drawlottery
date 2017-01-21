@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
-import com.hudongwx.drawlottery.mobile.entitys.Commodity;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -25,7 +24,15 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @param commIdList 商品ID
      * @return
      */
-    List<String> selectCommNameByCommId(@Param("commIdList") List<Long> commIdList);
+    List<String> selectCommNameListByCommId(@Param("commIdList") List<Long> commIdList);
+
+    /**
+     * 根据主键ID查询商品信息
+     *
+     * @param commId 商品ID
+     * @return
+     */
+    String selectCommNameByCommId(@Param("commIdList") Long commId);
 
     /**
      * 根据商品类型ID查询指定区域的商品信息
@@ -56,6 +63,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     @Select("select id from t_commodity_type where name = #{commodType} ")
     Long selectType(@Param("commodType") String commodType);
 
+    List<Commoditys> testPage(@Param("state")Integer state,@Param("option")Integer option,@Param("lastCommId")Long lastCommId,@Param("pageLoadSize")Integer pageLoadSize);
 
     //人气
     List<Commoditys> selectByTemp1(@Param("lastCommId") Long lastCommId, @Param("maxInfoSize") Integer maxInfoSize);
@@ -72,12 +80,18 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     /**
      * 查询开奖中的商品
      *
-     * @param maxInfo
      * @return
      */
-    List<Commoditys> selectOnLottery(@Param("maxInfo") Integer maxInfo);
+    List<Commoditys> selectOnLottery();
 
-    List<Commoditys> selectAnnouncedComm(@Param("lastCommId") Long lastCommId,@Param("pageLoadSize") Integer pageLoadSize);
+    /**
+     * 查询已揭晓的商品
+     *
+     * @param lastCommId
+     * @param pageLoadSize
+     * @return
+     */
+    List<Commoditys> selectAnnouncedCommWithPage(@Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 
     /**
      * 通过商品类型ID查询商品
@@ -131,9 +145,14 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
 
     int updateCommState(@Param("commId") Long commId, @Param("stateId") Integer stateId);
 
-    int updateById(Commodity commodity);
-
     Long selectMaxRoundTime();
 
+    /**
+     * 查询下一期商品信息
+     *
+     * @param tempId
+     * @param stateId
+     * @return
+     */
     Commoditys selectNextRoundComm(@Param("tempId") Long tempId, @Param("stateId") Integer stateId);
 }

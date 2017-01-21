@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 //用于dao测试
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ApiApplication.class})
 @Transactional //回滚数据
+//@ActiveProfiles("dev")
 @ActiveProfiles("dev")
 public class TestBaseMapper extends AbstractTestNGSpringContextTests {
 

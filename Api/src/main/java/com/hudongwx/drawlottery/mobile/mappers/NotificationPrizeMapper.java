@@ -10,14 +10,14 @@ public interface NotificationPrizeMapper extends BaseMapper<NotificationPrize> {
 
 
     //查询中奖通知
-    List<NotificationPrize> selectByNew();
+    List<NotificationPrize> selectByNewPrizeNotify(@Param("maxInfoSize") Integer maxInfoSize);
 
     //查询用户未读信息条数
     Integer countUnreadMsg(@Param("UserId") Long UserId);
 
     //查询往期信息
-    List<NotificationPrize> selectLimitTen(@Param("UserId") Long UserId,@Param("msgId") String msgId);
+    List<NotificationPrize> selectLimitTen(@Param("UserId") Long UserId, @Param("msgId") String msgId);
 
     //更改消息阅读状态
-    Integer updateStateById(@Param("Id")Long Id);
+    Integer updateStateById(@Param("Id") Long Id);
 }

@@ -8,7 +8,6 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -37,10 +36,8 @@ public class UserLuckCodesController extends BaseController {
 
     /**
      * 用户查看个人幸运码
-     *
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/api/v1/user/luckcode/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserLuckCodes() {
         List<LuckCodes> ulclist = ulcService.selectByUserId(getUserId());

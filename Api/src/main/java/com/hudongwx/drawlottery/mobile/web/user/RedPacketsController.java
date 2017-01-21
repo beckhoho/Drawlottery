@@ -8,9 +8,6 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * 开发公司：hudongwx.com<br/>
  * 版权：294786949@qq.com<br/>
@@ -55,7 +52,7 @@ public class RedPacketsController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/redpacket/use", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateUserRedPacket(@RequestParam("price") Integer price) {
-        return success(oService.selectOrders(getUserId(),price));
+        return success(oService.selectUsableRedPackets(getUserId(),price));
     }
 
 }

@@ -6,26 +6,34 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@AutoConfigureAfter(DataSourceAutoConfiguration.class)
 public class MyBatisConfig implements TransactionManagementConfigurer {
 
     @Autowired
     DataSource dataSource;
 
     @Bean(name = "sqlSessionFactory")
+    @ConditionalOnMissingBean
     public SqlSessionFactory sqlSessionFactoryBean() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
@@ -48,7 +56,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
 //            bean.setMapperLocations(resolver.getResources("classpath:mappers/*.xml"));
-            bean.setMapperLocations(resolver.getResources("classpath*:com/hudongwx/drawlottery/mobile/mappers/*.xml"));
+            bean.setMapperLocations(resolver.getResources("classpath*:com/hudongwx/drawlottery/mobile/mappers/*Mapper.xml"));
             return bean.getObject();
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,6 +75,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return new DataSourceTransactionManager(dataSource);
     }
+
 
 
 }

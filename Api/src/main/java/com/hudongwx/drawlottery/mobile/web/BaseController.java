@@ -215,13 +215,6 @@ public abstract class BaseController {
      */
     public void logout() {
         getSubject().logout();
-//        ShutdownListener
-//        DiskStoreBootstrapCacheLoaderFactory
-        /*RealmSecurityManager securityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();
-        AuthorUserRealm realm = (AuthorUserRealm) securityManager.getRealms().iterator().next();
-        getSubject().logout();
-*/
-        //getSubject().runAs(new SimplePrincipalCollection());
     }
 
 

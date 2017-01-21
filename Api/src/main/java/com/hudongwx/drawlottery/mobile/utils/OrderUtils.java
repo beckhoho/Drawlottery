@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
 import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
@@ -38,19 +39,43 @@ public final class OrderUtils {
     public final static Long getOrderId(){
         StringBuffer buffer = new StringBuffer(18);
         ThreadLocalRandom current = ThreadLocalRandom.current();
-        buffer.append(System.nanoTime());
-        buffer.append(current.nextInt(1000,9999));
+        buffer.append(System.currentTimeMillis());
+        buffer.append(current.nextInt(10000,99999));
         return Long.valueOf(buffer.toString());
     }
 
+    /**
+     * 判断订单收款方是否为自己
+     * @param sellerId
+     * @return
+     */
+    public final static boolean isMySellerid(String sellerId){
+        //partner的id和sellerId是同一个值
+        return AlipayConfig.partner.equals(sellerId);
+    }
+
+    /**
+     *
+     * 阿里返回的数据中获取订单对象
+     * @param map
+     * @return
+     */
+    public static OrderFormData  getOrderFormDataFromAlipay(Map map){
+        String order_attach = (String) map.get("order_attach");
+        return JSON.parseObject(order_attach,OrderFormData.class);
+    }
+
+    public static String getUUId(){
+        return UUID.randomUUID().toString();
+    }
 
     /**
      * 创建阿里订单信息
-     * @param orderInfo 订单详细信息自定义格式
-     * @param orderId 订单id号码
-     * @param subject 订单支付提示信息
-     * @param body  订单附加信息
-     * @param price  订单价格
+     * @param orderInfo  订单详细信息,附加数据
+     * @param orderId    订单id号码,可能重复
+     * @param subject    订单支付提示信息
+     * @param body       订单附加信息
+     * @param price      订单价格
      * @return
      * @throws Exception
      */
@@ -81,10 +106,10 @@ public final class OrderUtils {
         builder.append("\"");
 
         builder.append("&total_fee=\"");
-        builder.append(0.01);//订单价格
+        builder.append(price);//订单价格
         builder.append("\"");
 
-        builder.append("&order_infos=\"");
+        builder.append("&order_attach=\"");
         builder.append(orderInfo);//拼接商户个人订单信息
         builder.append("\"");
 
@@ -93,7 +118,6 @@ public final class OrderUtils {
         String signStr = RSA.sign(builder.toString(),AlipayConfig.private_key, "utf-8");
         //4.签名URLEncoder编码
         signStr = URLEncoder.encode(signStr,"UTF-8");
-
         builder.append("&sign=\"");
         builder.append(signStr);
         builder.append("\"&sign_type=\"RSA\"");
@@ -126,57 +150,5 @@ public final class OrderUtils {
         //String retrnStr = paramStr + "&sign=\"" + signStr + "\"&sign_type=\"RSA\"";
         return builder.toString();
     }
-
-
-    public  String getTest(){
-        String partner = "2088102169231984";
-        String private_key = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJtgOuu5XWJdVd6Vqgpsf168xUu53ZqoJenn8bbaI7Q22wB5tTFxH81YvbrxqZOMZctB689rGaERSCP+9xNoalHCwjgP/+rrvjpYzUVdO3rRhZfAnkmmui1j2ibcGEEWemQEGv5EBxZvI6uUs1NbHcJQJumvS0ZvJApChJ44OX/fAgMBAAECgYBBlDsqNQGaO8S7frXXUnXr+YbYcGl9Fk1yTUhzId0B+kkzCSuV46ZFmJfz6H3nXdG1GWy7DfwyREYLk1ibY23DziluqHc44yXb3pG9r5AOog7KFVvy3rDL83C0XFmIIQsSt4PGUf7/VZ2auvvt/ENCzc5+NGJmfnARSWO7wSj6sQJBAMtm0z3nMZJNe11z9LIQ8O8fotuzslULKGIRB+wfkbeF1v6Y4/D6ntHbcuV9FvSLszI8gQIDDXnD0HbGqHQ5XOkCQQDDjhpnJeGYdZ0rcOTt7vaEdQD4caVVl6K+1F4OK9K/Qo2us67ST1vQ8+yte/2O3Tewk0+UJkITehYmpx4ZeNmHAkBpNZ+wlmSaw387QJ5ieMbXOWr474Mf4CycRSju5wltf0pM2PKWlFwQOs28jK6SAazIIGmui7utry6mMW2y6HT5AkEAm/S2ZdC2K8qQv9ZXHNJY06YkUf8AZlR6PEpNgGu+tT20lMFECQG1Ld16wZiCzO7rvOyeqH4icDoLdGQPAy13/QJBALmg5D8Lzn1OZWi6YBjol9u6hiJ3JJfLIn1E3tfqtCz/H8k+3v0IkMaxMs0v1h+ZxoconNT6Zl0ziKnsz1ZSbfo=";
-        String orderNum = UtilDate.getOrderNum();
-        // 1.构建阿里支付订单参数map
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("app_id","\"" + "2016073100129773" + "\"");
-        paramMap.put("partner", "\"" + partner + "\"");
-        paramMap.put("seller_id", "\"" + partner + "\"");
-        paramMap.put("out_trade_no", "\"" + orderNum + "\"");
-        paramMap.put("subject", "\"" + "闪币充值---" + "\"");
-        paramMap.put("body", "\"" + "互动无限测试数据" + "\"");
-        paramMap.put("total_fee", "\"" + 0.05 + "\"");
-        paramMap.put("service", "\"" +"mobile.securitypay.pay"+ "\"");
-        paramMap.put("payment_type", "\"" + "1" + "\"");
-        paramMap.put("_input_charset", "\"" + "utf-8" + "\"");
-        paramMap.put("it_b_pay", "\"" + "5m" + "\"");
-        //paramMap.put("return_url", "\"" + "m.alipay.com" + "\"");
-        paramMap.put("notify_url", "\"" + AlipayConfig.NOTIFY_URL + "\"");
-
-        // 2.参数map转string
-        String paramStr = AlipayCore.createLinkString(paramMap);
-        System.out.println(paramStr);
-        // 3.签名
-        String signStr = RSA.sign(paramStr,private_key, "utf-8");
-        // 4.签名URLEncoder编码
-        try {
-            signStr = URLEncoder.encode(signStr, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        // 5.汇总参数string
-        String retrnStr = paramStr + "&sign=\"" + signStr + "\"&sign_type=\"RSA\"";
-        return retrnStr;
-    }
-
-
-
-
-    public static void main(String[] args) {
-       /* OrderFormData order = new OrderFormData();
-        order.setOrder(new Orders());
-        order.getOrder().setId(OrderUtils.getOrderId());
-        List<CommodityAmount> amounts = new ArrayList<CommodityAmount>();
-        order.setCaList(amounts);
-        String s = JSON.toJSONString(order, true);
-        System.out.println(s);*/
-        //createAlipayInfo("drawlottery_info","1000000000","购买标题","商品信息信息描述");
-    }
-
 
 }

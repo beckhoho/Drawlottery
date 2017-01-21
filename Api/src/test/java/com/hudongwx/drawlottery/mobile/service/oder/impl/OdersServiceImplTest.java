@@ -69,7 +69,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
 
 //        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        Date date = new Date(timeStart);
-        /*List<Orders> oderses = odersSer.selectByAccountId(1l);
+        /*List<Orders> oderses = odersSer.selectPageProfitByAccountId(1l);
         System.out.println(oderses.size());
         Assert.assertNotNull(oderses);*/
 
@@ -87,7 +87,7 @@ public class OdersServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testUpdate() throws Exception {
-//        Map<String, Object> map = odersSer.selectOrders(10000l, 1000);
+//        Map<String, Object> map = odersSer.selectUsableRedPackets(10000l, 1000);
 //        System.out.println(map.get("remainder"));
 //        System.out.println(map.get("useRedPackets"));
         // 测试成功  可用
