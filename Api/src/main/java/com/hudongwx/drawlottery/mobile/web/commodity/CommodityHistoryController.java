@@ -81,6 +81,6 @@ public class CommodityHistoryController extends BaseController {
     @ApiOperation("通过商品Id(commId)浏览中奖信息")
     @RequestMapping(value = "/api/v1/user/commhistory/announced/lottertyinfo", method = {RequestMethod.POST, RequestMethod.GET})
     public LotteryInfo queryLotteryInfo(@ApiParam("商品Id")@RequestParam("commId") Long commId){
-        return chService.queryLotteryInfo(commId);
+        return chService.selectLotteryInfo(commId);
     }
 }

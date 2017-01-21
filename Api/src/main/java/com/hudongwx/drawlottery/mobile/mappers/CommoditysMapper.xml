@@ -13,13 +13,11 @@
         <result column="buy_current_number" jdbcType="INTEGER" property="buyCurrentNumber"/>
         <result column="buy_total_number" jdbcType="INTEGER" property="buyTotalNumber"/>
         <result column="ground_time" jdbcType="BIGINT" property="groundTime"/>
-        <result column="luck_code_id" jdbcType="BIGINT" property="luckCodeId"/>
         <result column="state_id" jdbcType="INTEGER" property="stateId"/>
         <result column="round_time" jdbcType="VARCHAR" property="roundTime"/>
         <result column="cover_img_url" jdbcType="BIGINT" property="coverImgUrl"/>
         <result column="auto_round" jdbcType="INTEGER" property="autoRound"/>
         <result column="commodity_desc_url" jdbcType="VARCHAR" property="commodityDescUrl"/>
-        <result column="buy_last_number" jdbcType="INTEGER" property="byLastNumber"/>
         <result column="sell_out_time" jdbcType="BIGINT" property="sellOutTime"/>
         <result column="undercarriage_time" jdbcType="BIGINT" property="undercarriageTime"/>
         <result column="valid" jdbcType="INTEGER" property="valid"/>
@@ -31,7 +29,6 @@
         <result column="card_type" jdbcType="INTEGER" property="cardType"/>
         <result column="card_num" jdbcType="INTEGER" property="cardNum"/>
         <result column="card_money" jdbcType="INTEGER" property="cardMoney"/>
-        <result column="last_round_time" jdbcType="BIGINT" property="lastRoundTime"/>
 
     </resultMap>
 
@@ -58,21 +55,7 @@
         WHERE commodity.id = #{commIdList}
     </select>
 
-    <update id="updateById" parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">
-        UPDATE t_commoditys
-        <trim prefix="set" suffixOverrides=",">
-            <if test="buyLastNumber != null">buy_last_number = #{buyLastNumber},</if>
-            <if test="buyCurrentNumber != null">buy_current_number = #{buyCurrentNumber},</if>
-            <if test="luckCodeId != null">luck_code_id = #{buyCurrentNumber},</if>
-            <if test="roundTime != null">round_time = #{roundTime},</if>
-            <if test="sellOutTime !=null">sell_out_time = #{sellOutTime},</if>
-            <if test="viewNum !=null">view_num = #{viewNum},</if>
-            <if test="tempId !=null">temp_id = #{tempId},</if>
-            <if test="stateId !=null">state_id = #{stateId},</if>
-            <if test="undercarriageTime != null">undercarriage_time =#{undercarriageTime},</if>
-        </trim>
-        WHERE id = #{id}
-    </update>
+
 
 
     <!-- 根据商品类型ID分页查询商品 -->
@@ -228,7 +211,6 @@
     <sql id="selectSql">
         SELECT
             commodity.id,
-            commodity.last_round_time,
             template.name,
             template.withdrawals_money,
             template.exchange_money,
@@ -253,7 +235,6 @@
             template.cover_img_url,
             template.auto_round,
             template.commodity_desc_url,
-            commodity.buy_last_number,
             commodity.sell_out_time,
             commodity.state_id
         FROM t_commoditys
