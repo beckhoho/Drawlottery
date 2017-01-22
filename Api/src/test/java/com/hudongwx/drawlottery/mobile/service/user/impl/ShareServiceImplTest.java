@@ -9,8 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -31,7 +31,8 @@ public class ShareServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testSelectByUserAccountId() throws Exception {
-        shareService.selectByUserAccountId(10000L);
+        List<Map<String, Object>> mapList = shareService.selectByUserAccountId(10000L, 0L);
+        System.out.println(mapList.size());
     }
 
     @Test

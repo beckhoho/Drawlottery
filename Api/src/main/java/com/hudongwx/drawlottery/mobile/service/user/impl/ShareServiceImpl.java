@@ -56,6 +56,15 @@ public class ShareServiceImpl implements IShareService {
      */
     final String qiniuhost = "http://ojm4pmwbe.bkt.clouddn.com/";
 
+    /**
+     * 已分享
+     */
+    final int SHARE_STATE_YET = 1;
+
+    /**
+     * 未分享
+     */
+    final int SHARE_STATE_NOT = 0;
 
     @Autowired
     ShareMapper shareMapper;
@@ -64,11 +73,12 @@ public class ShareServiceImpl implements IShareService {
     @Autowired
     ShareImgMapper shareImgMapper;
     @Autowired
-    CommoditysMapper commMapper;
+    CommoditysMapper commsMapper;
     @Autowired
-    CommodityMapper commodity;
+    CommodityMapper commMapper;
     @Autowired
     CommodityHistoryMapper commodityHistoryMapper;
+
     /**
      * 得到七牛的upToken
      *
@@ -163,10 +173,12 @@ public class ShareServiceImpl implements IShareService {
     @Override
     public boolean addShare(Long accountId, Long commId, String desc, List<MultipartFile> imgs) {
         //判断是否晒过单
-        Commodity com = commodity.selectByKey(commId);
-        if(com.getShareState()==1){
-            return  false;
-        }
+        Commodity com = commMapper.selectByKey(commId);
+        List<Share> shareList = shareMapper.selectByCommId(commId);
+        if (!shareList.isEmpty())
+            return false;
+        if ((com.getShareState() == null ? 0 : com.getShareState()) == 1)
+            return false;
         Share share = new Share();
         share.setCommodityId(commId);
         share.setIssueDate(new Date().getTime());
@@ -177,12 +189,13 @@ public class ShareServiceImpl implements IShareService {
             ShareImg shareImg = new ShareImg();
             String filename = uploadToQiniu(img);
             //拼接文件地址
-            String url = qiniuhost+filename;
+            String url = qiniuhost + filename;
             shareImg.setShareId(share.getId());
             shareImg.setShareImgUrl(url);
             shareImgMapper.insert(shareImg);
         }
-        commodityHistoryMapper.updateShareStateByCommodityId(com.getId());
+        commMapper.updateShareStateByCommodityId(com.getId(), SHARE_STATE_YET);
+        commodityHistoryMapper.updateShareStateByCommodityId(com.getId(), SHARE_STATE_YET);
         return true;
     }
 
@@ -216,7 +229,6 @@ public class ShareServiceImpl implements IShareService {
         } else if (tag == Settings.DROP_DOWN_REFRESH) {//下拉刷新
             return null;
         }
-
         return null;
     }
 
@@ -229,19 +241,19 @@ public class ShareServiceImpl implements IShareService {
     /**
      * 用户晒单列表
      *
-     * @param account
+     * @param accountId
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectByUserAccountId(Long account) {
-        List<Share> shareList = shareMapper.selectByUserAccountId(account);
-        List<Map<String, Object>> mapList = createShareMapList(account, shareList);
+    public List<Map<String, Object>> selectByUserAccountId(Long accountId, Long lastCommId) {
+        List<Share> shareList = shareMapper.selectByUserAccountId(accountId, lastCommId, Settings.PAGE_LOAD_SIZE_10);
+        List<Map<String, Object>> mapList = createShareMapList(accountId, shareList);
         return mapList;
     }
 
     @Override
-    public List<Map<String, Object>> selectAll(Integer page) {
-        List<Share> shareList = shareMapper.selectAll();
+    public List<Map<String, Object>> selectAll(Long lastCommId) {
+        List<Share> shareList = shareMapper.selectAllWithPage(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         List<Map<String, Object>> mapList = createShareMapList(null, shareList);
         return mapList;
     }
@@ -296,12 +308,12 @@ public class ShareServiceImpl implements IShareService {
             ShareImg shareImg = new ShareImg();
             shareImg.setShareId(share.getId());
             List<ShareImg> imgList = shareImgMapper.select(shareImg);
-            Commoditys comm = commMapper.selectByKey(share.getCommodityId());
+            Commoditys comm = commsMapper.selectByKey(share.getCommodityId());
             Map<String, Object> map = new HashMap<>();
             List<String> list = new ArrayList<>();
             if (null == account)
                 user1 = userMapper.selectByPrimaryKey(share.getUserAccountId());
-            map.put("id", share.getId());//添加用户头像
+            map.put("id", share.getId());//添加
             map.put("headImgUrl", user1.getHeaderUrl());//添加用户头像
             map.put("userName", user1.getNickname());//添加用户昵称
             map.put("shareDate", share.getIssueDate());//添加分享时间

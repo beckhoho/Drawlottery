@@ -12,3 +12,15 @@
 0    INFO  [2017-01-21 20:29:48]  {dataSource-1} inited
 550  INFO  [2017-01-21 20:29:48]  {dataSource-1} closed
 0    INFO  [2017-01-21 20:32:10]  {dataSource-1} inited
+0    INFO  [2017-01-21 21:25:11]  {dataSource-1} inited
+0    INFO  [2017-01-21 21:25:54]  {dataSource-1} inited
+0    INFO  [2017-01-21 21:28:29]  {dataSource-1} inited
+623874 INFO  [2017-01-21 21:35:35]  {dataSource-1} closed
+0    INFO  [2017-01-21 23:52:32]  {dataSource-1} inited
+9816 INFO  [2017-01-21 23:52:41]  {dataSource-1} closed
+0    INFO  [2017-01-21 23:55:17]  {dataSource-1} inited
+0    INFO  [2017-01-21 23:59:47]  {dataSource-1} inited
+0    INFO  [2017-01-22 15:28:28]  {dataSource-1} inited
+0    INFO  [2017-01-22 15:31:39]  {dataSource-1} inited
+0    INFO  [2017-01-22 15:35:19]  {dataSource-1} inited
+0    INFO  [2017-01-22 15:38:47]  {dataSource-1} inited

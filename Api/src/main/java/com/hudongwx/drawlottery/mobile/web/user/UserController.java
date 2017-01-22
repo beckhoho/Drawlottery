@@ -71,8 +71,8 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户中奖记录（带分页）")
     @RequestMapping(value = "/api/v1/user/win", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserWinningHistory(@ApiParam("当前页最后一item的实际id") @RequestParam("lastItemId") Long lastItemId) {
-        List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(getUserId());
+    public JSONObject queryUserWinningHistory(@ApiParam("当前页最后一item的实际id") @RequestParam("lastCommId") Long lastCommId) {
+        List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(getUserId(),lastCommId);
         return success(historyLottery);
     }
 
@@ -99,7 +99,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户夺宝记录中的luckCode带分页")
     @RequestMapping(value = "/api/v1/priv/user/usercomm/code/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserLuckCode(@ApiParam("回传最后一个Code码") @RequestParam("commId") Long commId, @ApiParam("回传最后一个Code码") @RequestParam("lastCode") String lastCode) {
+    public JSONObject queryUserLuckCode(@ApiParam("回传最后一个Code码") @RequestParam("commId") Long commId, @ApiParam("回传最后一个Code码") @RequestParam(name = "lastCode",required = false) String lastCode) {
         return success(userService.selectUserLuckCode(getUserId(), commId, lastCode));
     }
 

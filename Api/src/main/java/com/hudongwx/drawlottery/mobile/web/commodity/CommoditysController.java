@@ -9,7 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
@@ -75,6 +74,7 @@ public class CommoditysController extends BaseController {
 
     /**
      * 按商品类型category搜索
+     *
      * @param categoryId 商品类别
      * @return JSONObject
      */
@@ -147,7 +147,7 @@ public class CommoditysController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/announce", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryNewestAnnounced(@RequestParam("lastCommId") Long lastCommId) {
-        List<Map<String, Object>> mapList = cService.selectAnnounceComm(lastCommId);
+        List<Map<String, Object>> mapList = cService.selectNewestAnnounceComm(lastCommId);
         return success(mapList);
     }
 }

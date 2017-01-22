@@ -44,6 +44,11 @@ public class SpringUtils  implements ApplicationContextAware{
         return context.isSingleton(name);
     }
 
+    public static <T> T getBean(Class<T> requiredType)
+            throws BeansException {
+        return context.getBean(requiredType);
+    }
+
     public static Class<? extends Object> getType(String name)
             throws NoSuchBeanDefinitionException {
         return context.getType(name);

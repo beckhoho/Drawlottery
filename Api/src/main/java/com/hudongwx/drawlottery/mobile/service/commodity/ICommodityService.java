@@ -85,7 +85,7 @@ public interface ICommodityService {
      * @param lastCommId
      * @return
      */
-    List<Map<String, Object>> selectAnnounceComm(Long lastCommId);
+    List<Map<String, Object>> selectNewestAnnounceComm(Long lastCommId);
 
     List<Map> selectThePastAnnouncedCommList(Long commId);
 

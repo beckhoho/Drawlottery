@@ -14,7 +14,7 @@ public interface CommodityHistoryMapper extends BaseMapper<CommodityHistory> {
      * @param commodityId
      * @return
      */
-    int updateShareStateByCommodityId(@Param("commodityId") Long commodityId);
+    int updateShareStateByCommodityId(@Param("commodityId") Long commodityId,@Param("shareState") Integer shareState);
 
     /**
      * 查询所有(查询已揭晓的商品)

@@ -3,8 +3,6 @@ package com.hudongwx.drawlottery.mobile.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
-import org.apache.commons.collections.OrderedMap;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.scheduling.annotation.Async;
 
 import java.text.SimpleDateFormat;
@@ -55,7 +53,15 @@ public class LotteryUtils {
         LuckCodeTemplate template = templateMapper.selectByCode(lotteryId + "");
         LuckCodes codes = luckCodesMapper.selectBytemplate(template.getId(), commodity.getId());
         lotteryInfo.setUserAccountId(codes.getUserAccountId());
-        lotteryInfoMapper.insertSelective(lotteryInfo);//将开奖信息写入数据库
+        //将开奖信息写入数据库
+
+        lotteryInfoMapper.insertSelective(lotteryInfo);
+
+//        //定时器
+//        updateTiming update = new updateTiming(lotteryInfo);
+//        DelayTask.execute(update,10);
+
+
         return lotteryInfo;
     }
 

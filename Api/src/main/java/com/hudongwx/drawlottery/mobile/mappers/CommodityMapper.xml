@@ -28,7 +28,8 @@
     </select>
 
     <!--  写入下一期商品，返回主键ID -->
-    <insert id="insertUseGenerated" useGeneratedKeys="true" keyProperty="id" parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">
+    <insert id="insertUseGenerated" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.hudongwx.drawlottery.mobile.entitys.Commodity">
         INSERT into
               t_commoditys(
                   buy_current_number,round_time,sell_out_time,
@@ -62,7 +63,7 @@
             <if test="stateId !=null">state_id = #{stateId},</if>
             <if test="undercarriageTime != null">undercarriage_time =#{undercarriageTime},</if>
             <if test="shareState != null">share_state = #{shareState},</if>
-            <if test="exchangeState != null" >exchange_state = #{exchangeState},</if>
+            <if test="exchangeState != null">exchange_state = #{exchangeState},</if>
             <if test="exchangeWay != null">exchange_way = #{exchangeWay},</if>
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="cardNotEnough != null">card_not_enough =#{cardNotEnough}</if>
@@ -70,18 +71,21 @@
         </trim>
         WHERE commodity_id = #{id}
     </update>
+    <update id="updateShareStateByCommodityId">
+        UPDATE t_commoditys set share_state =#{shareState} where commodity_id =#{commodityId}
+    </update>
 
     <!-- 查看往期揭晓数据 -->
-    <select id="selectBefore" resultMap="BaseResultMap">
-        SELECT commodity_id from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
+    <select id="selectBefore" resultType="java.lang.Long">
+        SELECT commodity_id from t_commodity_history where temp_id=#{tempId} and commodity_id &lt; #{commodityId}
         UNION
-        SELECT commodity_id from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime}
+        SELECT commodity_id from t_commoditys where temp_id=#{tempId} and commodity_id &lt; #{commodityId} order by commodity_id desc
     </select>
 
     <select id="selectByKey" resultMap="BaseResultMap">
-        SELECT commodity_id from t_commodity_history where commodity_id=#{commodityId}
+        SELECT * FROM t_commoditys WHERE commodity_id = #{commodityId}
         UNION
-        SELECT commodity_id from t_commoditys where commodity_id=#{commodityId}
+        SELECT * FROM t_commodity_history WHERE commodity_id = #{commodityId}
     </select>
 
 
@@ -89,7 +93,8 @@
     <select id="selectByTempIdOrderRoundTime" resultMap="BaseResultMap">
         SELECT * from t_commodity_history where temp_id=#{tempId} and round_time &lt; #{roundTime}
         UNION
-        SELECT * from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime} ORDER BY commodity_id DESC limit 1
+        SELECT * from t_commoditys where temp_id=#{tempId} and round_time &lt; #{roundTime} ORDER BY commodity_id limit
+        1
         <!-- &lt; 小于     &jt; 大于 -->
     </select>
 
@@ -116,22 +121,19 @@
 
 
     <!--<update id="updateShareStateByCommodityId" parameterMap="tempId" statementType="CALLABLE">-->
-        <!--CALL update_commodity_share_state(?)-->
+    <!--CALL update_commodity_share_state(?)-->
     <!--</update>-->
     <!---->
     <!--<parameterMap id="tempId" type="long">-->
-        <!--<parameter property="id" mode="IN" jdbcType="BIGINT"/>-->
+    <!--<parameter property="id" mode="IN" jdbcType="BIGINT"/>-->
     <!--</parameterMap>-->
-
-
-
 
 
     <!--查询往期中奖信息-->
     <resultMap id="PastLotteryMap" type="map"></resultMap>
 
     <select id="selectPastLottery" resultMap="PastLotteryMap">
-        SELECT tu.header_url,tu.nickname,tu.account_id,vc.commodity_id,temp_id,buy_num,user_account_id,end_date,round_time
+        SELECT tli.lottery_id,tu.header_url,tu.nickname,tu.account_id,vc.commodity_id,temp_id,buy_num,user_account_id,end_date,round_time
         from
             t_lottery_info tli,
             v_commoditys vc,
@@ -140,12 +142,14 @@
             tli.commodity_id = vc.commodity_id and
             tu.account_id=tli.user_account_id
             and
-            tli.commodity_id > #{commodityId}
+            tli.commodity_id &lt; #{commodityId}
             and
             temp_id= (select temp_id from t_commoditys where commodity_id=#{commodityId} limit 1)
-        limit 10
+        order by vc.commodity_id desc limit 10
     </select>
-
+    <select id="selectUnLotteryComm" resultMap="BaseResultMap">
+        SELECT * FROM t_commoditys WHERE state_id = 2 OR state_id = 3
+    </select>
 
 
 </mapper>

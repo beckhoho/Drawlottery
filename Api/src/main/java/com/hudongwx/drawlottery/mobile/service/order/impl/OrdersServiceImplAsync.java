@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -134,6 +133,7 @@ public class OrdersServiceImplAsync {
                     //添加下一期商品到商品表
                     commMapper.insertUseGenerated(comm);
 
+
                     //写下一期商品幸运码
                     codesMapper.insertLuckCode(byKey.getBuyTotalNumber(),comm.getId());
 
@@ -152,6 +152,8 @@ public class OrdersServiceImplAsync {
                     计算开奖幸运码
                  */
                     LotteryInfo raffle = LotteryUtils.raffle(mapper,templateMapper, codesMapper, lotteryInfoMapper, userMapper, byKey);
+
+
 
 
                     addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库

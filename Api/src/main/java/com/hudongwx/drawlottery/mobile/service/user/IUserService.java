@@ -36,7 +36,7 @@ public interface IUserService {
      * @param accountId
      * @return
      */
-    List<Map<String, Object>> selectHistoryLottery(Long accountId);
+    List<Map<String, Object>> selectHistoryLottery(Long accountId, Long lastCommId);
 
     /**
      * 用户购买历史(夺宝记录)

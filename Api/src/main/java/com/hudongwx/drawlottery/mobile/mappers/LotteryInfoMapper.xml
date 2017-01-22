@@ -17,4 +17,12 @@
     <select id="selectByComId" resultMap="BaseResultMap">
         SELECT * FROM t_lottery_info WHERE commodity_id = #{commodityId}
     </select>
+    <select id="selectByUserAccountId" resultMap="BaseResultMap">
+        SELECT * FROM t_lottery_info
+        WHERE user_account_id = #{accountId}
+        <if test="lastCommId !=null and lastCommId !=0">
+            and commodity_id &lt; #{lastCommId}
+        </if>
+        order by commodity_id desc limit #{pageLoadSize}
+    </select>
 </mapper>

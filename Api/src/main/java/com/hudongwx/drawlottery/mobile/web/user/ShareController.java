@@ -4,16 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.service.user.IShareImgService;
 import com.hudongwx.drawlottery.mobile.service.user.IShareService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
-import com.qiniu.common.Zone;
-import com.qiniu.util.Auth;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 
 /**
@@ -87,9 +85,9 @@ public class ShareController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/upload.do", method = RequestMethod.POST)
     public JSONObject uploadShareInfo(@RequestParam("commId") Long commId, @RequestParam("desc") String desc, @RequestParam("imgs") List<MultipartFile> imgs) {
-        if(shareService.addShare(getUserId(), commId, desc, imgs)){
+        if (shareService.addShare(getUserId(), commId, desc, imgs)) {
             return success(true);
-        }else{
+        } else {
             return fail("用户已晒过单");
         }
     }
@@ -101,8 +99,8 @@ public class ShareController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryShareInfoByAccount(@RequestParam("page") int page) {
-        List<Map<String, Object>> shareAll = shareService.selectByUserAccountId(getUserId());
+    public JSONObject queryShareInfoByAccount(@ApiParam("回传最后一个商品Id") @RequestParam("lastCommId") Long lastCommId) {
+        List<Map<String, Object>> shareAll = shareService.selectByUserAccountId(getUserId(),lastCommId);
         return success(shareAll);
     }
 
@@ -125,8 +123,8 @@ public class ShareController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/share/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryAllShareInfo(@RequestParam("page") int page) {
-        List<Map<String, Object>> shareAll = shareService.selectAll(page);
+    public JSONObject queryAllShareInfo(@RequestParam("lastCommId") Long lastCommId) {
+        List<Map<String, Object>> shareAll = shareService.selectAll(lastCommId);
         return success(shareAll);
     }
 

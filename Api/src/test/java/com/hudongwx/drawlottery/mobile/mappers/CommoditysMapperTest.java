@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
+import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.testng.annotations.Test;
 
@@ -30,7 +31,9 @@ public class CommoditysMapperTest extends TestBaseMapper {
 
     @Test
     public void testTestPage() throws Exception {
-        commoditysMapper.testPage(Settings.COMMODITY_STATE_ON_SALE,Settings.COMMODITY_ORDER_POPULARITY,0L,Settings.PAGE_LOAD_SIZE_10);
+        List<Commoditys> list = commoditysMapper.testPage(Settings.COMMODITY_STATE_ON_SALE, Settings.COMMODITY_ORDER_POPULARITY, 0L, Settings.PAGE_LOAD_SIZE_10);
+        System.out.println(list.size());
+
     }
 
     @Test
