@@ -159,8 +159,8 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     /**
      * 查询详情
      *
-     * @param tempId
+     * @param commodityId
      * @return
      */
-    String selectContent(@Param("tempId") Long tempId);
+    String selectContent(@Param("commodityId") Long commodityId);
 }
