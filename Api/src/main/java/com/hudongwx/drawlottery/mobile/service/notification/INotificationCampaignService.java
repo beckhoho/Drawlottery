@@ -16,7 +16,7 @@ import java.util.Map;
  * <p>
  * 创建　kiter　2017/1/3 15:13　<br/>
  * <p>
- *          活动通知service
+ * 活动通知service
  * <p>
  * @email 346905702@qq.com
  */
@@ -29,5 +29,8 @@ public interface INotificationCampaignService {
     boolean deleteNotice(NotificationCampaign activity);
 
     //查看活动通知
-    List<Map<String,Object>> selectAllActivity(Long accountId);
+    List<Map<String, Object>> selectAllActivity(Long accountId);
+
+    //查询活动
+    public List<NotificationCampaign> selectNews();
 }

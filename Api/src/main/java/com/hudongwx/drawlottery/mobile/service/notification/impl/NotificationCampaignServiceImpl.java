@@ -65,6 +65,11 @@ public class NotificationCampaignServiceImpl implements INotificationCampaignSer
         return selectTool(list);
     }
 
+    @Override
+    public List<NotificationCampaign> selectNews() {
+        return mapper.selectNews();
+    }
+
     /**
      * 查询首页活动
      * @return

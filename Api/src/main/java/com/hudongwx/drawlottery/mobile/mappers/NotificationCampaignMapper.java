@@ -3,9 +3,6 @@ package com.hudongwx.drawlottery.mobile.mappers;
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.NotificationCampaign;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -37,4 +34,6 @@ public interface NotificationCampaignMapper extends BaseMapper<NotificationCampa
 
     //更改消息阅读状态
     Integer updateStateById(@Param("Id")Long Id);
+
+    List<NotificationCampaign> selectNews();
 }

@@ -1,0 +1,6 @@
+.content-block-title{font-weight: 700; font-size: 18px !important;padding:2px 0;}
+.content-block-title i{ height: 18px; width: 7px; background:#f44336; margin-right: 10px;}
+.row,.content-block h1,.text-center{text-align: center; }
+.content-block li{list-style: none; padding: 10px 0;}
+span{color: #666; padding-left:10px;}
+.content-block h3{font-style: normal; font-weight: 400; color: #F13038;}

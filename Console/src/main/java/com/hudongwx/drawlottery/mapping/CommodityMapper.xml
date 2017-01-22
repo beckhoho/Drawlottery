@@ -3,7 +3,7 @@
 <mapper namespace="com.hudongwx.drawlottery.dao.CommodityMapper">
     <sql id="LessColumn">
         SELECT
-          commodity.commodity_id,
+          commodity.commodity_id commodityId,
           temp.name,
           commodity.round_time                                      AS roundTime,
           temp.genre,
@@ -20,10 +20,10 @@
           LEFT JOIN draw_lottery.t_commodity_type AS type ON temp.commodity_type_id = type.id
           LEFT JOIN draw_lottery.t_commodity_states AS state ON commodity.state_id = state.id
     </sql>
-    <insert id="insertCommodity" useGeneratedKeys="true" keyProperty="id"
+    <insert id="insertCommodity" useGeneratedKeys="true" keyProperty="commodityId"
             parameterType="com.hudongwx.drawlottery.pojo.Commodity">
-        insert into t_commoditys (buy_last_number,buy_current_number,round_time,view_num,temp_id,state_id) VALUES
-        (#{buyLastNumber},#{buyCurrentNumber},#{roundTime},#{viewNum},#{tempId},#{stateId})
+        insert into t_commoditys (buy_current_number,round_time,view_num,temp_id,state_id) VALUES
+        (#{buyCurrentNumber},#{roundTime},#{viewNum},#{tempId},#{stateId})
     </insert>
     <update id="updateState">
         update draw_lottery.t_commoditys SET state_id = #{state},

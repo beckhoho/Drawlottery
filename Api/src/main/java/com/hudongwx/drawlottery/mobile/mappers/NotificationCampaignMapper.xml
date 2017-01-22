@@ -26,7 +26,10 @@
         <if test="msgId !=null">and id &lt; #{msgId}</if>
         ORDER BY id DESC limit 10
     </select>
-    
+    <select id="selectNews" resultMap="BaseResultMap">
+      select * from draw_lottery.t_notification_campaign ORDER BY send_date DESC
+    </select>
+
     <update id="updateStateById" >
       update t_notification_campaign set state = 1 where id= #{Id}
     </update>

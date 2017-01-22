@@ -248,7 +248,7 @@
     </select>
     <select id="selectContent" resultType="java.lang.String">
         select content from draw_lottery.t_commodity_template
-        INNER JOIN draw_lottery.t_commoditys on temp_id = id
+        INNER JOIN draw_lottery.t_commoditys on temp_id = id and commodity_id = #{commodityId}
     </select>
 
     <update id="updateCommState">

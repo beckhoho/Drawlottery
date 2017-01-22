@@ -103,7 +103,6 @@ public class CommodityServiceImpl implements CommodityService {
             //检索生成幸运码
             luckCodeService.generate(luckCodeCount);
             final Commodity commodity = new Commodity();
-            commodity.setBuyLastNumber(0);
             commodity.setBuyCurrentNumber(0);
             commodity.setRoundTime("" + roundTimeService.generateNewRoundTime());
             commodity.setViewNum(0L);

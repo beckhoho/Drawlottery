@@ -8,7 +8,11 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <properties>
+        <!-- set thymeleaf version -->
+        <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
+        <thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>
+    </properties>
     <artifactId>Api</artifactId>
     <dependencies>
         <dependency>
@@ -46,8 +50,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-            <version>1.4.2.RELEASE</version>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <!--配置热加载-->
         <!--<dependency>
