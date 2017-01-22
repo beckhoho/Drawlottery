@@ -19,15 +19,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * <p>
  * @email 346905702@qq.com
  */
-public class updateTiming extends DelayTask{
+public class UpdateTiming extends DelayTask{
 
     @Autowired
     LotteryInfoMapper lotteryInfoMapper;
 
     LotteryInfo lotteryInfo;
 
-    public updateTiming(LotteryInfo lotteryInf){
+    public UpdateTiming(LotteryInfoMapper lotteryInfoMapper,LotteryInfo lotteryInf){
         this.lotteryInfo = lotteryInf;
+        this.lotteryInfoMapper=lotteryInfoMapper;
     }
 
     @Override

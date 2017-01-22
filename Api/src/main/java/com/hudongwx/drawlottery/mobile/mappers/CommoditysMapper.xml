@@ -35,6 +35,11 @@
     <select id="selectByKey" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.commodity_id = #{commodityId}
+        UNION
+        <include refid="select_Sql_comm_history"></include>
+        where commhistory.commodity_id = #{commodityId}
+
+
     </select>
 
     <select id="selectCommNameListByCommId" resultType="java.lang.String">

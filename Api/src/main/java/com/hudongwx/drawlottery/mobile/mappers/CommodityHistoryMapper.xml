@@ -77,7 +77,7 @@
     </update>
 
     <update id="updateShareStateByCommodityId">
-        UPDATE t_commodity_history SET share_state = 1
+        UPDATE t_commodity_history SET share_state = #{shareState}
         where commodity_id = #{commodityId}
     </update>
 

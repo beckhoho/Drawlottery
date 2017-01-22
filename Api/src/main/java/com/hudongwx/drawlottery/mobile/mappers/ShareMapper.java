@@ -9,14 +9,24 @@ import java.util.List;
 public interface ShareMapper extends BaseMapper<Share> {
 
     List<Share> selectByCommId(@Param("commId") Long commId);
-
+    int checkCommShared(@Param("commId") Long commId);
     List<Share> selectByIssueDate(@Param("issueDate") Long issueDate);
 
-    List<Share> selectByUserAccountId(@Param("accountId") Long accountId);
+    /**
+     * 查询用户中奖商品的发现记录
+     *
+     * @param accountId
+     * @param lastCommId
+     * @return
+     */
+    List<Share> selectByUserAccountId(@Param("accountId") Long accountId, @Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 
     /**
      * 返回主键字段
+     *
      * @return
      */
     int insertByGeneratedKeys(Share share);
+
+    List<Share> selectAllWithPage(@Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 }

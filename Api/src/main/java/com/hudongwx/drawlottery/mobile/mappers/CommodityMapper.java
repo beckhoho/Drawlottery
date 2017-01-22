@@ -22,10 +22,10 @@ import java.util.Map;
  * <p>
  * @email 346905702@qq.com
  */
-public interface CommodityMapper  extends BaseMapper<Commodity>{
+public interface CommodityMapper extends BaseMapper<Commodity> {
 
     //通过商品ID 查询商品模板ID
-    Long selectTempIdByCommId(@Param("commId")Long commId);
+    Long selectTempIdByCommId(@Param("commId") Long commId);
 
     //生成下一期（返回主键ID）
     int insertUseGenerated(Commodity commodity);
@@ -37,10 +37,11 @@ public interface CommodityMapper  extends BaseMapper<Commodity>{
     int updateById(Commodity commodity);
 
     //查询往期揭晓数据
-    List<Long> selectBefore(@Param("tempId")Long tempId,@Param("commodityId")Long commodityId);
+    List<Long> selectBefore(@Param("tempId") Long tempId, @Param("commodityId") Long commodityId);
 
     /**
      * 查询上期商品开奖信息
+     *
      * @param tempId
      * @param roundTime
      * @return
@@ -51,6 +52,7 @@ public interface CommodityMapper  extends BaseMapper<Commodity>{
 
     /**
      * 查询中奖历史
+     *
      * @param accountId 用户ID
      * @return
      */
@@ -58,24 +60,32 @@ public interface CommodityMapper  extends BaseMapper<Commodity>{
 
 
     //查看用户单个中奖信息
-    Commodity selectComIdAndUser(@Param("accountId")Long accountId,@Param("commodityId")Long commodityId);
+    Commodity selectComIdAndUser(@Param("accountId") Long accountId, @Param("commodityId") Long commodityId);
 
-    List<Commodity> selectByTempId(@Param("tempId")Long tempId);
+    List<Commodity> selectByTempId(@Param("tempId") Long tempId);
 
     /**
      * 更改商品分享状态
+     *
      * @param commodityId
      * @return
      */
-    //int updateShareStateByCommodityId(@Param("commodityId")Long commodityId);
+    int updateShareStateByCommodityId(@Param("commodityId") Long commodityId, @Param("shareState") Integer shareState);
 
     /**
      * 查询往期商品中奖信息
+     *
      * @param commodityId
      * @return
      */
     List<Map> selectPastLottery(Long commodityId);
 
-    Commodity selectByKey(@Param("commodityId")Long commodityId);
+    Commodity selectByKey(@Param("commodityId") Long commodityId);
 
+    /**
+     * 根据商品状态id 查询商品信息
+     *
+     * @return
+     */
+    List<Commodity> selectUnLotteryComm();
 }

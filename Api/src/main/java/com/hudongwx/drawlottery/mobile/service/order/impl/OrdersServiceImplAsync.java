@@ -2,8 +2,6 @@ package com.hudongwx.drawlottery.mobile.service.order.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
-import com.hudongwx.drawlottery.mobile.schedule.DelayTask;
-import com.hudongwx.drawlottery.mobile.schedule.updateTiming;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import com.hudongwx.drawlottery.mobile.utils.LotteryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

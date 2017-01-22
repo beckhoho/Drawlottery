@@ -122,16 +122,13 @@ public class UserServiceImpl implements IUserService {
     public List<Map<String, Object>> selectHistoryLottery(Long accountId, Long lastCommId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
         List<LotteryInfo> infos = lotteryInfoMapper.selectByUserAccountId(accountId,lastCommId,Settings.PAGE_LOAD_SIZE_10);
-
-        for (LotteryInfo com : infos) {
-            Commodity key = cMapper.selectByKey(com.getCommodityId());
+        for (LotteryInfo lotteryInfo : infos) {
+            Commodity key = cMapper.selectByKey(lotteryInfo.getCommodityId());
             //查询商品
-
             CommodityTemplate template = tempMapper.selectById(key.getTempId());
             //查询商品模板
-
             Share s = new Share();
-            s.setCommodityId(com.getId());
+            s.setCommodityId(lotteryInfo.getCommodityId());
             s.setUserAccountId(accountId);
             List<Share> shares = shareMapper.select(s);
             //查询是否已晒单
@@ -142,14 +139,14 @@ public class UserServiceImpl implements IUserService {
             } else {
                 map.put("shareState", 0);
             }
-            map.put("id", com.getId());//添加商品id
+            map.put("id", lotteryInfo.getCommodityId());//添加商品id
             map.put("commodityName", template.getName());//添加商品名
             map.put("roundTime", key.getRoundTime());//添加期数
             map.put("endTime", key.getEndTime());//揭晓时间
             map.put("buyNumber", key.getBuyNumber());//购买人次
-            map.put("luckCode", com.getLotteryId());//添加幸运码
+            map.put("luckCode", lotteryInfo.getLotteryId());//添加幸运码
             map.put("imgUrl", template.getCoverImgUrl());//中奖商品图片地址
-            map.put("exchangeId", selectExchange(com.getId()));//添加兑换方式
+            map.put("exchangeId", selectExchange(lotteryInfo.getId()));//添加兑换方式
             map.put("withdrawalsMoney", template.getWithdrawalsMoney());//折换现金金额
             map.put("exchangeMoney", template.getExchangeMoney());//折换闪币
             map.put("state", key.getExchangeState());//添加兑换状态
@@ -162,6 +159,8 @@ public class UserServiceImpl implements IUserService {
     public Map<String, Object> selectExchange(Long commodityId) {
         Map<String, Object> map = new HashMap<>();
         Commoditys commoditys = comMapper.selectByKey(commodityId);
+        if(null==commoditys)
+            return null;
         List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commoditys.getTempId());
         for (CommodityExchange ex : exchanges) {
             ExchangeWay way = wayMapper.selectById(ex.getExchangeWayId());
