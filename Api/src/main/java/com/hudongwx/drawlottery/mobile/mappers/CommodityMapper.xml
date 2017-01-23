@@ -75,10 +75,16 @@
         UPDATE t_commoditys set share_state =#{shareState} where commodity_id =#{commodityId}
     </update>
     <update id="updateState">
-        UPDATE draw_lottery.t_commoditys SET state_id = #{state}
-        where temp_id = (select temp_id from t_commoditys where commodity_id = #{id})
-        and state_id = 4
-        order by commodity_id asc limit 1
+        UPDATE draw_lottery.t_commoditys
+            SET state_id = #{state}
+            WHERE temp_id = (SELECT t.temp_id
+                             FROM (SELECT temp_id
+                                   FROM t_commoditys
+                                   WHERE commodity_id = #{id}
+                                   ORDER BY commodity_id ASC
+                                   LIMIT 1) as t)
+                  AND state_id = 4
+
     </update>
 
     <!-- 查看往期揭晓数据 -->
