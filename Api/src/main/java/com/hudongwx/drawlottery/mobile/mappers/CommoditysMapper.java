@@ -166,4 +166,14 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     List<Commoditys> selectUnLotteryComm();
 
     int insertCommodity(Commoditys commod);
+
+    /**
+     * 查询用户购买过的商品集合
+     *
+     * @param userId
+     * @param lastCommId
+     * @param pageLoadSize
+     * @return
+     */
+    List<Commoditys> selectPurchaseRecord(@Param("userId") Long userId, @Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 }

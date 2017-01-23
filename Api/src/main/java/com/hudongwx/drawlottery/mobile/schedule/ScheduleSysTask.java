@@ -71,7 +71,6 @@ public class ScheduleSysTask {
             long endTime = cmd.getSellOutTime() + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
             endTime = System.currentTimeMillis()-endTime;
             endTime = endTime/1000;//换算成秒
-            System.out.println("检查.... 查询数据库查看是否到修改状态的时候");
             if(endTime>0){
                 commsMapper.updateCommState(cmd.getId(),1);
             }

@@ -227,10 +227,8 @@ public class CommodityServiceImpl implements ICommodityService {
                 nextRoundId = commoditys.getId();
             }
         }
-        String msg = null;
-        if (null == user) {
-            msg = "您还没有参与本期夺宝！";
-        } else {
+        String msg = "您还没有参与本期夺宝！";
+        if (null != user) {
             Integer num = ordersMapper.sumUserCommAmountByCommId(user.getAccountId(), commodId);
             if (null != num && num != 0) {
                 msg = "您本期夺宝参与了" + num + "人次!";

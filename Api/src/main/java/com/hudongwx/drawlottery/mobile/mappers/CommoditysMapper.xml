@@ -292,6 +292,9 @@
         AS template ON commodity.temp_id = template.id
         WHERE state_id = 2
     </select>
+    <select id="selectPurchaseRecord" resultMap="BaseResultMap">
+        
+    </select>
 
     <!-- 商品通用查询语句 -->
     <sql id="selectSql">

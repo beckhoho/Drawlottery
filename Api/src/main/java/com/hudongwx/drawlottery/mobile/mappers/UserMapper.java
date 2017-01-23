@@ -54,4 +54,5 @@ public interface UserMapper extends BaseMapper<User> {
     Long selectUserRegisterDate(@Param("accountId") Long accountId);
 
     Long countUsers();
+
 }
