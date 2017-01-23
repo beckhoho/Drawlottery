@@ -131,10 +131,9 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     /**
      * 高中奖率商品
      *
-     * @param number
      * @return
      */
-    List<Commoditys> selectHeight(@Param("number") Integer number, @Param("lastCommId") Long lastCommId, @Param("maxInfoSize") Integer maxInfoSize);
+    List<Commoditys> selectHeight(@Param("lastCommId") Long lastCommId, @Param("maxInfoSize") Integer maxInfoSize);
 
     /**
      * 已开奖的商品
@@ -154,7 +153,7 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @param stateId
      * @return
      */
-    Commoditys selectNextRoundComm(@Param("tempId") Long tempId, @Param("stateId") Integer stateId);
+    List<Commoditys> selectNextRoundComm(@Param("tempId") Long tempId, @Param("stateId") Integer stateId);
 
     /**
      * 查询详情
@@ -163,4 +162,6 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
      * @return
      */
     String selectContent(@Param("commodityId") Long commodityId);
+
+    List<Commoditys> selectUnLotteryComm();
 }

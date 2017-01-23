@@ -47,14 +47,13 @@ public class ServiceUtils {
         return newList;
     }
 
-    public static Integer getResidualLotteryMinute(Commoditys comm) {
-        if (comm.getStateId() != Settings.COMMODITY_STATE_ON_LOTTERY)
-            return 0;
-        long nowTime = new Date().getTime();
-        long sellOutTime = null == comm.getSellOutTime() ? 0 : comm.getSellOutTime();
-        long endTime = sellOutTime + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
-        if (nowTime < endTime) {
-            return (int) ((endTime - nowTime) / 1000);
+    public static Integer getResidualLotterySeconds(Commoditys comm) {
+        if (comm.getStateId() == Settings.COMMODITY_STATE_ON_LOTTERY || (null != comm.getSellOutTime() && comm.getSellOutTime() != 0)) {
+            long nowTime = new Date().getTime();
+            long sellOutTime = null == comm.getSellOutTime() ? 0 : comm.getSellOutTime();
+            long endTime = sellOutTime + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
+            if (nowTime < endTime)
+                return (int) ((endTime - nowTime) / 1000);
         }
         return 0;
     }

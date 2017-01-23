@@ -173,10 +173,10 @@ public class ShareServiceImpl implements IShareService {
     @Override
     public boolean addShare(Long accountId, Long commId, String desc, List<MultipartFile> imgs) {
         //判断是否晒过单
-        Commodity com = commMapper.selectByKey(commId);
         List<Share> shareList = shareMapper.selectByCommId(commId);
         if (!shareList.isEmpty())
             return false;
+        Commodity com = commMapper.selectByKey(commId);
         if ((com.getShareState() == null ? 0 : com.getShareState()) == 1)
             return false;
         Share share = new Share();
@@ -317,8 +317,8 @@ public class ShareServiceImpl implements IShareService {
             map.put("headImgUrl", user1.getHeaderUrl());//添加用户头像
             map.put("userName", user1.getNickname());//添加用户昵称
             map.put("shareDate", share.getIssueDate());//添加分享时间
-            map.put("commName", comm.getName());//添加商品id
-            map.put("commRoundTime", comm.getRoundTime());//添加商品id
+            map.put("commName", comm == null ? null : comm.getName());//添加商品id
+            map.put("commRoundTime", comm == null ? null : comm.getRoundTime());//添加商品id
             map.put("context", share.getParticulars());//添加用户分享内容
             map.put("commId", share.getCommodityId());//添加商品id
             for (ShareImg sh : imgList)

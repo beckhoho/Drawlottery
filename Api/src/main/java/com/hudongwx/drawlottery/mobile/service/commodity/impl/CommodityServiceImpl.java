@@ -139,7 +139,7 @@ public class CommodityServiceImpl implements ICommodityService {
         } else if (type == Settings.COMMODITY_ORDER_NEWEST) {
             cList = commsMapper.selectByTemp3(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         } else if (type == Settings.COMMODITY_ORDER_HIGHT_RATE) {
-            cList = commsMapper.selectHeight(100, lastCommId, Settings.PAGE_LOAD_SIZE_10);
+            cList = commsMapper.selectHeight(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         } else {
             cList = commsMapper.selectByTemp4(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         }
@@ -191,7 +191,7 @@ public class CommodityServiceImpl implements ICommodityService {
         if (com.getStateId() == 3 || com.getStateId() == 2) {//如果未开奖
             Commoditys comh = null;
             List<Long> longs = commMapper.selectBefore(com.getTempId(), com.getId());
-            if(longs.size()!=0){
+            if (longs.size() != 0) {
                 comh = commsMapper.selectByKey(longs.get(0));
             }
             if (comh == null) {
@@ -201,8 +201,9 @@ public class CommodityServiceImpl implements ICommodityService {
             }
         }
         if (com.getStateId() == 2) {
-            Commoditys commoditys = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
-            if (null != commoditys) {
+            List<Commoditys> commsList = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
+            if (!commsList.isEmpty()) {
+                Commoditys commoditys = commsList.get(0);
                 nextRound = commoditys.getRoundTime() + "期正在火热进行中";
                 nextRoundId = commoditys.getId();
             }
@@ -210,8 +211,9 @@ public class CommodityServiceImpl implements ICommodityService {
         if (com.getStateId() == 1) {//如果已开奖或是在等待开奖
             Commoditys byKey = commsMapper.selectByKey(commodId);
             map.put("beforeLottery", mapBefore(byKey));
-            Commoditys commoditys = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
-            if (null != commoditys) {
+            List<Commoditys> commsList = commsMapper.selectNextRoundComm(com.getTempId(), Settings.COMMODITY_STATE_ON_SALE);
+            if (!commsList.isEmpty()) {
+                Commoditys commoditys = commsList.get(0);
                 nextRound = commoditys.getRoundTime() + "期正在火热进行中";
                 nextRoundId = commoditys.getId();
             }
@@ -228,7 +230,7 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("buyCurrent", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买次数
         map.put("roundTime", com.getRoundTime());//获取当前期数
         map.put("user", 0);//是否参与本商品
-        map.put("countDown", ServiceUtils.getResidualLotteryMinute(com));//倒计时
+        map.put("countDown", ServiceUtils.getResidualLotterySeconds(com));//倒计时
         map.put("descUrl", com.getCommodityDescUrl());//添加商品详情URL
         map.put("partake", listPartake(commodId));//添加参与记录
         map.put("guessLike", listMap3());//添加猜你喜欢商品
@@ -265,20 +267,20 @@ public class CommodityServiceImpl implements ICommodityService {
     }
 
     public Map<String, Object> mapBefore(Commoditys comh) {
-        Map<String, Object> historyMap = new HashMap<>();
-        if (comh == null) {
-            return historyMap;
-        }
+        if (comh == null)
+            return null;
         LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comh.getId());//查询中奖信息
-
-        User user1 = userMapper.selectById(lotteryInfo.getUserAccountId());
-        historyMap.put("userName", user1.getNickname());//添加用户昵称
-        historyMap.put("userHeaderImg", user1.getHeaderUrl());//添加用户头像
+        User user1 = null;
+        if (null != lotteryInfo)
+            user1 = userMapper.selectById(lotteryInfo.getUserAccountId());
+        Map<String, Object> historyMap = new HashMap<>();
+        historyMap.put("userName", user1 == null ? null : user1.getNickname());//添加用户昵称
+        historyMap.put("userHeaderImg", user1 == null ? null : user1.getHeaderUrl());//添加用户头像
         historyMap.put("roundTime", comh.getRoundTime());//添加期数
-        historyMap.put("endTime", lotteryInfo.getEndDate());//添加揭晓时间
-        historyMap.put("luckCodes", lotteryInfo.getLotteryId());//添加幸运号
-        historyMap.put("userName", user1.getNickname());//添加用户昵称
-        historyMap.put("userAccount", lotteryInfo.getUserAccountId());//添加用户accountID
+        historyMap.put("endTime", lotteryInfo == null ? null : lotteryInfo.getEndDate());//添加揭晓时间
+        historyMap.put("luckCodes", lotteryInfo == null ? null : lotteryInfo.getLotteryId());//添加幸运号
+        historyMap.put("userName", user1 == null ? null : user1.getNickname());//添加用户昵称
+        historyMap.put("userAccount", lotteryInfo == null ? null : lotteryInfo.getUserAccountId());//添加用户accountID
         return historyMap;
     }
 
@@ -398,12 +400,11 @@ public class CommodityServiceImpl implements ICommodityService {
     /**
      * 查找高中奖率商品
      *
-     * @param number
      * @return
      */
     @Override
-    public List<Map<String, Object>> selectHeight(Integer number, Long lastCommId) {
-        List<Commoditys> list = commsMapper.selectHeight(number, lastCommId, Settings.PAGE_LOAD_SIZE_10);
+    public List<Map<String, Object>> selectHeight(Long lastCommId) {
+        List<Commoditys> list = commsMapper.selectHeight(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         return forPut(list);
     }
 
@@ -505,8 +506,8 @@ public class CommodityServiceImpl implements ICommodityService {
                     Long acc = lotteryInfo.getUserAccountId();
                     userPayNum = lotteryInfo.getBuyNum();
                     User user = userMapper.selectById(acc);
-                    userNickName = user.getNickname();
-                    userHeadImgUrl = user.getHeaderUrl();
+                    userNickName = user == null ? null : user.getNickname();
+                    userHeadImgUrl = user == null ? null : user.getHeaderUrl();
                 }
             }
             map.put("residualSeconds", residualMinutes);//剩余开奖秒数
@@ -552,7 +553,6 @@ public class CommodityServiceImpl implements ICommodityService {
     public String selectContent(Long commodityId) {
         return commsMapper.selectContent(commodityId);
     }
-
 
 
 }

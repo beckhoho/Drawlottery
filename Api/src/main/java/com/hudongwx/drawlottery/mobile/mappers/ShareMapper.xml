@@ -40,7 +40,4 @@
     values(#{userAccountId},#{issueDate},#{commodityId},#{particulars})
   </insert>
 
-    <select id="checkCommShared" resultType="java.lang.Integer">
-
-    </select>
 </mapper>

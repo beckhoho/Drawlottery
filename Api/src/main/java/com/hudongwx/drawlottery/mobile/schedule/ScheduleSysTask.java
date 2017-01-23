@@ -1,12 +1,14 @@
 package com.hudongwx.drawlottery.mobile.schedule;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commodity;
-import com.hudongwx.drawlottery.mobile.mappers.CommodityMapper;
-import com.hudongwx.drawlottery.mobile.mappers.LotteryInfoMapper;
+import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
+import com.hudongwx.drawlottery.mobile.mappers.*;
+import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
+import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -28,22 +30,51 @@ import java.util.List;
 public class ScheduleSysTask {
 
     @Autowired
+    OrdersMapper mapper;
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    RedPacketsMapper redMapper;
+    @Autowired
+    OrdersCommoditysMapper orderMapper;
+    @Autowired
+    CommoditysMapper comMapper;
+    @Autowired
+    LuckCodesMapper codesMapper;
+    @Resource
+    ICommodityService commodityService;
+    @Autowired
+    LuckCodeTemplateMapper templateMapper;
+    @Autowired
+    UserCodesHistoryMapper userHistoryMapper;
+    @Autowired
+    CommodityTemplateMapper templeMapper;
+    @Autowired
+    CommodityHistoryMapper historyMapper;
+    @Autowired
     LotteryInfoMapper lotteryInfoMapper;
     @Autowired
     CommodityMapper commMapper;
+    @Autowired
+    CommoditysMapper commsMapper;
 
     @Scheduled(fixedDelay = 10)
     public void updateState() {
-        //...
-        //....
-
         //.... 查询数据库查看是否到修改状态的时候
-        List<Commodity> comm = commMapper.selectUnLotteryComm();
-//        ServiceUtils.getResidualLotteryMinute(comm);
-
-
-//        DelayTask.execute(new UpdateTiming(lotteryInfoMapper,),5);
-
+        List<Commoditys> commsList = commsMapper.selectUnLotteryComm();
+        for(Commoditys cmd:commsList){
+            //计算结束时间
+            long endTime = cmd.getSellOutTime() + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
+            endTime = System.currentTimeMillis()-endTime;
+            endTime = endTime/1000;//换算成秒
+            if(endTime<=0){//没到开奖时间
+                //延迟开奖
+//                DelayTask.execute(new UpdateTiming(lotteryInfoMapper, lotteryInfo), ResidualSeconds);
+            }else{//揭晓状态
+                commsMapper.updateCommState(cmd.getId(),1);
+            }
+        }
     }
+
 
 }

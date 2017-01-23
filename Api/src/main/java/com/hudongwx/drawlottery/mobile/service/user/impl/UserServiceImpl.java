@@ -536,7 +536,7 @@ public class UserServiceImpl implements IUserService {
                     if (null != lotteryInfo) {
                         map.put("endTime", lotteryInfo.getEndDate().getTime());//添加揭晓时间
                         User user = userMapper.selectById(lotteryInfo.getUserAccountId());
-                        map.put("userNickname", user.getNickname());//中奖者昵称
+                        map.put("userNickname", user==null?null:user.getNickname());//中奖者昵称
                     }
                     map.put("isWinner", lotteryInfo == null ? 0 : 1);
                     mapList.add(map);

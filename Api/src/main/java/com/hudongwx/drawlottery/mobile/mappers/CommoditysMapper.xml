@@ -93,8 +93,8 @@
 
             <when test="option = 3">
                 <if test="lastCommId!=null and lastCommId!=0">
-                    and commodity.ground_time &gt;=
-                    (SELECT t_commoditys.ground_time FROM t_commoditys
+                    and commodity.round_time &gt;=
+                    (SELECT t_commoditys.round_time FROM t_commoditys
                     WHERE t_commoditys.id = (SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId}) )
                 </if>
                 ORDER BY
@@ -119,8 +119,8 @@
     <select id="selectByTemp1" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
-        <if test="lastCommId != 0">
-            and commodity.view_num &lt;=
+        <if test="lastCommId!=null and lastCommId!=0">
+            and commodity.view_num &lt;
             (SELECT view_num FROM t_commoditys WHERE commodity_id = #{lastCommId} )
         </if>
         ORDER BY
@@ -131,37 +131,35 @@
     <select id="selectByTemp2" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
-        <if test="lastCommId != 0">
-            and commodity.buy_current_number-commodity.buy_last_number &gt;=
-            (SELECT t_commoditys.buy_current_number-t_commoditys.buy_last_number FROM t_commoditys WHERE
-            t_commoditys.commodity_id
-            = #{lastCommId} )
+        <if test="lastCommId != null and lastCommId != 0">
+            and commodity.buy_current_number &lt;
+            (SELECT buy_current_number FROM t_commoditys WHERE commodity_id = #{lastCommId} )
         </if>
         ORDER BY
-        commodity.buy_current_number-commodity.buy_last_number limit #{maxInfoSize}
+        commodity.buy_current_number desc limit #{maxInfoSize}
     </select>
 
     <!-- 最新 -->
     <select id="selectByTemp3" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
-        <if test="lastCommId != 0">
-            and commodity.ground_time &gt;=
-            (SELECT t_commoditys.ground_time FROM t_commoditys
-            WHERE t_commoditys.commodity_id = (SELECT temp_id FROM t_commoditys WHERE commodity_id=#{lastCommId}) )
+        <if test="lastCommId!=null and lastCommId!=0">
+            and template.ground_time &lt;
+            (SELECT ground_time FROM t_commodity_template
+            WHERE id = (SELECT temp_id FROM t_commoditys WHERE commodity_id=#{lastCommId}) )
         </if>
         ORDER BY
-        ground_time DESC limit #{maxInfoSize}
+        template.ground_time DESC limit #{maxInfoSize}
     </select>
 
     <!-- 高价 -->
     <select id="selectByTemp4" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
         WHERE commodity.state_id = 3
-        <if test="lastCommId!=0">
-            and template.buy_total_number &lt;=
+        <if test="lastCommId!=null and lastCommId!=0">
+            and template.buy_total_number &lt;
             (SELECT buy_total_number FROM t_commodity_template
-            WHERE id=(SELECT temp_id FROM t_commoditys WHERE commodity_id=#{lastCommId})
+            WHERE id=(SELECT temp_id FROM t_commoditys WHERE commodity_id=#{lastCommId}))
         </if>
         ORDER BY
         template.buy_total_number DESC limit #{maxInfoSize}
@@ -203,11 +201,12 @@
     <!-- 查询高中奖率商品 -->
     <select id="selectHeight" resultMap="BaseResultMap">
         <include refid="selectSql"></include>
-        WHERE commodity.state_id = 3
-        and template.buy_total_number &gt;
-        (SELECT t_commodity_template.buy_total_number FROM t_commodity_template
-        WHERE t_commodity_template.id =(SELECT temp_id FROM t_commoditys WHERE commodity_id=#{lastCommId}) )
-        AND template.buy_total_number &lt; #{number}
+        WHERE template.easyWinning = 1
+        AND commodity.state_id = 3
+        <if test="lastCommId !=null and lastCommId != 0">
+            and commodity.commodity_id &lt; #{lastCommId}
+        </if>
+        order by commodity.commodity_id desc
         limit #{maxInfoSize}
     </select>
 
@@ -265,6 +264,7 @@
         FROM t_commoditys
         WHERE temp_id = #{tempId}
               AND state_id = #{stateId}
+              order by commodity_id
     </select>
 
     <update id="updateCommState">
@@ -277,6 +277,17 @@
     <select id="selectContent" resultType="java.lang.String">
         select content from draw_lottery.t_commodity_template
         INNER JOIN draw_lottery.t_commoditys on temp_id = id and commodity_id = #{commodityId}
+    </select>
+
+    <select id="selectUnLotteryComm" resultMap="BaseResultMap">
+        SELECT
+        commodity.commodity_id,
+        commodity.sell_out_time,
+        commodity.state_id
+        FROM t_commoditys
+        AS commodity LEFT JOIN t_commodity_template
+        AS template ON commodity.temp_id = template.id
+        WHERE state_id = 2
     </select>
 
     <!-- 商品通用查询语句 -->
