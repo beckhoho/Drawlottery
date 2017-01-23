@@ -50,13 +50,13 @@ public interface IShareService {
     boolean friendsShare(Long account);
 
     //查看用户晒单
-    List<Map<String, Object>> selectByUserAccountId(Long accountId,Long lastCommId);
+    List<Map<String, Object>> selectByUserAccountId(Long accountId, Long lastCommId);
 
     //首页全部晒单
     List<Map<String, Object>> selectAll(Long lastCommId);
 
     //首页全部晒单
-    List<Map<String, Object>> selectByCommId(Long commId);
+    List<Map<String, Object>> selectByCommId(Long commId, Long lastCommId);
 
     /**
      * 得到七牛的upToken

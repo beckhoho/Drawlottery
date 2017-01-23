@@ -28,4 +28,5 @@ public interface OrdersMapper extends BaseMapper<Orders> {
     //查看最后购买商品的五十条信息
     List<Orders> selectByBuyDateDesc();
 
+    Integer sumUserCommAmountByCommId(@Param("accountId")Long accountId, @Param("commId")Long commId);
 }

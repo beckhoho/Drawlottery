@@ -44,4 +44,8 @@ public interface ImagesService {
      * @return
      */
     List<Map<String, Object>> selectEvent();
+
+    List<String> selectWelcomeImg();
+
+    List<String> selectnavigeteImg();
 }

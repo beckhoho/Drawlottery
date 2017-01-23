@@ -216,7 +216,7 @@ public class UserServiceImpl implements IUserService {
 //        List<UserCodesHistory> s1 = userCodeHistMapper.selectByUserAccountId(accountId);
 //        for (UserCodesHistory u : s1) {
 //            Map<String, Object> map = new HashMap<>();
-//            CommodityHistory history = comHistoryMapper.selectByCommId(u.getCommodityId());
+//            CommodityHistory history = comHistoryMapper.selectIdByCommId(u.getCommodityId());
 //            User user1 = userMapper.selectById(history.getLuckUserAccountId());
 //            List<String> integers = luckUserList(accountId, history.getCommodityId());
 //            map.put("id", history.getCommodityId());//商品ID
@@ -251,7 +251,7 @@ public class UserServiceImpl implements IUserService {
             Commoditys com = comMapper.selectByKey(commId);
 
             List<String> integers = luckUserList(accountId, com.getId());
-            //CommodityHistory history = comHistoryMapper.selectByCommId(commId);
+            //CommodityHistory history = comHistoryMapper.selectIdByCommId(commId);
             // User user = userMapper.selectById(history.getLuckUserAccountId());
             map.put("id", com.getId());//添加商品ID
             map.put("buyCurrentNumber", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买人次

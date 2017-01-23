@@ -27,6 +27,9 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
     //通过商品ID 查询商品模板ID
     Long selectTempIdByCommId(@Param("commId") Long commId);
 
+    //通过商品ID 查询商品模板ID
+    List<Long> selectCommIdByTempId(@Param("tempId") Long tempId,@Param("lastCommId") Long lastCommId,@Param("pageLoadSize")Integer pageLoadSize);
+
     //生成下一期（返回主键ID）
     int insertUseGenerated(Commodity commodity);
 

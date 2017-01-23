@@ -38,8 +38,6 @@
         UNION
         <include refid="select_Sql_comm_history"></include>
         where commhistory.commodity_id = #{commodityId}
-
-
     </select>
 
     <select id="selectCommNameListByCommId" resultType="java.lang.String">
@@ -103,7 +101,7 @@
 
             <when test="option = 4">
                 <if test="lastCommId!=null and lastCommId!=0">
-                    and template.buy_total_number &lt;=
+                    and template.buy_total_number &lt;
                     (SELECT buy_total_number FROM t_commodity_template
                     WHERE id=(SELECT temp_id FROM t_commoditys WHERE id=#{lastCommId})
                 </if>

@@ -4,7 +4,6 @@ import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
 import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.service.luckcodes.ILuckCodesService;
-import com.hudongwx.drawlottery.mobile.utils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,17 +31,6 @@ public class LuckCodesServiceImpl implements ILuckCodesService {
     CommoditysMapper commoditysMapper;
     @Autowired
     LuckCodesMapper mapper;
-
-    /**
-     * 添加幸运码(内部使用)
-     *
-     * @return 返回添加结果
-     */
-    @Override
-    public boolean createLuckCode(Long commId, boolean rebuild) {
-        ServiceUtils.createLuckCode(mapper, commoditysMapper, commId, rebuild);
-        return true;
-    }
 
     /**
      * 通过商品id查询幸运码集

@@ -28,7 +28,42 @@
         <if test="msgId !=null">and id &lt; #{msgId}</if>
         ORDER BY id DESC limit 10
     </select>
+    <select id="selectIdByCommId" resultType="java.lang.Long">
+        SELECT id FROM t_notification_prize WHERE  commodity_id = #{commId}
+    </select>
     <update id="updateStateById">
     update t_notification_prize set state = 1 where id= #{Id}
   </update>
+
+    <update id="updateNotificationPrize" parameterType="com.hudongwx.drawlottery.mobile.entitys.NotificationPrize">
+        update t_notification_prize
+        <trim prefix="set" suffixOverrides=",">
+            <if test="user_account_id != null">user_account_id = #{np.accountId},</if>
+            <if test="notice_title != null">notice_title = #{np.noticeTitle},</if>
+            <if test="notice_content !=null">notice_content = #{np.noticeContent},</if>
+            <if test="commodity_id !=null">commodity_id = #{np.commodityId},</if>
+            <if test="luck_codes_id !=null">luck_codes_id = #{np.luckCodesId},</if>
+            <if test="on_prize_date !=null">on_prize_date = #{np.onPrizeDate},</if>
+            <if test="send_date != null">send_date =#{np.sendDate},</if>
+            <if test="luck_account_id != null">luck_account_id = #{np.luckAccountId},</if>
+            <if test="state != null">state = #{np.state},</if>
+        </trim>
+        where id= #{Id}
+    </update>
+
+    <insert id="insertNotificationPrize" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.hudongwx.drawlottery.mobile.entitys.NotificationPrize">
+        INSERT into
+        t_notification_prize(
+        user_account_id,notice_title,notice_content,
+        commodity_id,luck_codes_id,on_prize_date,send_date,
+        luck_account_id,state
+        )
+        VALUES (
+        #{accountId},#{noticeTitle},#{noticeContent},
+        #{commodityId},#{luckCodesId},#{onPrizeDate},
+        #{sendDate},#{luckAccountId},#{state}
+        )
+    </insert>
+
 </mapper>
