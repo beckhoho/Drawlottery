@@ -50,8 +50,8 @@ public class OrdersServiceImplAsync {
         订单异步处理方法
         异步处理方法必须和调用方法不在同一个类
      */
-    /*@Async
-    @Transactional(isolation = Isolation.READ_COMMITTED)*/
+    @Async
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void payAsync(Long accountId, Orders orders,
                          List<CommodityAmount> commodityAmounts
     ) {
