@@ -24,4 +24,12 @@ public interface UserCodesHistoryMapper extends BaseMapper<UserCodesHistory> {
     Integer countUserOrderCommAmount(@Param("accountId") Long accountId, @Param("commId") Long commId);
 
     List<String> selectUserCommLuckCode(@Param("accountId") Long accountId, @Param("commId") Long commId, @Param("lastCode") String lastCode, @Param("pageLoadSize") Integer pageLoadSize);
+
+    /**
+     * 查询商品的用户购买量
+     * @param accountId
+     * @param commId
+     * @return
+     */
+    Integer countHistoryUserCommAmount(@Param("accountId")Long accountId, @Param("commId")Long commId);
 }

@@ -2,7 +2,6 @@ package com.hudongwx.drawlottery.mobile.schedule;
 
 import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
 import com.hudongwx.drawlottery.mobile.mappers.LotteryInfoMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class UpdateTiming extends DelayTask{
 
-    @Autowired
     LotteryInfoMapper lotteryInfoMapper;
 
     LotteryInfo lotteryInfo;
@@ -33,6 +31,7 @@ public class UpdateTiming extends DelayTask{
 
     @Override
     public void todo() {
-        lotteryInfoMapper.insertSelective(lotteryInfo);
+//        int i = lotteryInfoMapper.insertSelective(lotteryInfo);
+        System.out.println("开奖信息插入数据库情况：---------->");
     }
 }

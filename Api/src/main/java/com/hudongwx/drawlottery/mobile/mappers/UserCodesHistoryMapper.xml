@@ -57,6 +57,9 @@
         order by tlct.id desc
         limit #{pageLoadSize}
     </select>
+    <select id="countHistoryUserCommAmount" resultType="java.lang.Integer">
+      SELECT COUNT(id) FROM t_user_luck_codes_history WHERE user_account_id =#{accountId} and commodity_id=#{commId}
+    </select>
 
     <insert id="insertHistory">
 

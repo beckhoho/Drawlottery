@@ -102,4 +102,7 @@
         limit #{pageLoadSize}
     </select>
 
+    <select id="countUserCommAmount" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM t_luck_codes WHERE user_account_id =#{accountId} and commodity_id=#{commId}
+    </select>
 </mapper>

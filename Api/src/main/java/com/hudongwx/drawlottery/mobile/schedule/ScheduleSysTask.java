@@ -62,25 +62,19 @@ public class ScheduleSysTask {
     @Resource
     private IGenerateService generateService;
 
-    @Scheduled(fixedDelay = 10)
+    @Scheduled(fixedDelay = 10000)
     public void updateState() {
         //.... 查询数据库查看是否到修改状态的时候
         List<Commoditys> commsList = commsMapper.selectUnLotteryComm();
-        for(Commoditys cmd:commsList){
+        System.out.println(".... 查询数据库查看是否到修改状态的时候");
+        for (Commoditys cmd : commsList) {
             //计算结束时间
             long endTime = cmd.getSellOutTime() + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
-            endTime = System.currentTimeMillis()-endTime;
-            endTime = endTime/1000;//换算成秒
-            if(endTime>0){
-                commsMapper.updateCommState(cmd.getId(),1);
+            endTime = System.currentTimeMillis() - endTime;
+            endTime = endTime / 1000;//换算成秒
+            if (endTime >= 0) {//开奖时间到
+                commsMapper.updateCommState(cmd.getId(), 1);
             }
-//            if(endTime<=0){//没到开奖时间
-//                //延迟开奖
-//
-////                DelayTask.execute(new UpdateTiming(lotteryInfoMapper, lotteryInfo), ResidualSeconds);
-//            }else{//揭晓状态
-//                commsMapper.updateCommState(cmd.getId(),1);
-//            }
         }
     }
 
@@ -88,12 +82,11 @@ public class ScheduleSysTask {
      * 保证同一个模板有三期商品
      */
     @Scheduled(cron = "0/10 * *  * * ?")
-    public void generateRound(){
+    public void generateRound() {
         System.out.println("生成开始");
         generateService.keepRound(3);
         System.out.println("生成结束");
     }
-
 
 
 }

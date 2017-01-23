@@ -21,6 +21,9 @@
         <result column="buy_number" jdbcType="INTEGER" property="buyNumber"/>
 
     </resultMap>
+    <delete id="deleteCommInfoByCommId">
+        DELETE t_commoditys WHERE WHERE commodity_id = #{commId};
+    </delete>
 
     <!-- 通过商品ID查询模板ID -->
     <select id="selectTempIdByCommId" resultType="java.lang.Long">

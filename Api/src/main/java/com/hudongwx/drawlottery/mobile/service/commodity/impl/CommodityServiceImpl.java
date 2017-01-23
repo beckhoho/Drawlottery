@@ -227,12 +227,11 @@ public class CommodityServiceImpl implements ICommodityService {
                 nextRoundId = commoditys.getId();
             }
         }
-        String msg = "您还没有参与本期夺宝！";
+        String msg = "0";
         if (null != user) {
-            Integer num = ordersMapper.sumUserCommAmountByCommId(user.getAccountId(), commodId);
-            if (null != num && num != 0) {
-                msg = "您本期夺宝参与了" + num + "人次!";
-            }
+            Integer amount1 = luckCodeMapper.countUserCommAmount(user.getAccountId(), commodId);
+            Integer amount2 = userHistoryMapper.countHistoryUserCommAmount(user.getAccountId(), commodId);
+            msg = amount1 + amount2 + "";
         }
         map.put("user", msg);//是否参与本商品
         map.put("nextRound", nextRound);

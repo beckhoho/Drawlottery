@@ -85,9 +85,10 @@ public class OrdersServiceImplAsync {
             }
             /*如果用户购买量减去可购买量不为负，用户购买当前可购买量，商品售罄，自动购买下一期*/
             if (sub >= 0) {
+                long millis = System.currentTimeMillis();
                 com.setBuyCurrentNumber(currentCommodiy.getBuyTotalNumber());
                 com.setStateId(2);//进入待揭晓状态
-                com.setSellOutTime(System.currentTimeMillis());//添加售罄时间
+                com.setSellOutTime(millis);//添加售罄时间
                 /*如果商品下一期属性为1，生成下一期*/
                 if (currentCommodiy.getAutoRound() == 1) {
                     //生成下一期
@@ -99,6 +100,7 @@ public class OrdersServiceImplAsync {
                     ordersCommoditys.setAmount(Amount);//设置商品订单表购买数量
                     orderMapper.insert(ordersCommoditys);//添加商品订单信息
                     /*计算开奖幸运码*/
+                    currentCommodiy.setSellOutTime(millis);
                     LotteryUtils.raffle(mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
                     addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
                     continue;
@@ -166,7 +168,6 @@ public class OrdersServiceImplAsync {
     @Async
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean addHistory(Long commodityId) {
-
         Commoditys key = comMapper.selectByKey(commodityId);
         LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(commodityId);
         Long lotteryId = lotteryInfo.getLotteryId();

@@ -121,9 +121,14 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<Map<String, Object>> selectHistoryLottery(Long accountId, Long lastCommId) {
         List<Map<String, Object>> mapList = new ArrayList<>();
-        List<LotteryInfo> infos = lotteryInfoMapper.selectByUserAccountId(accountId,lastCommId,Settings.PAGE_LOAD_SIZE_10);
+        List<LotteryInfo> infos = lotteryInfoMapper.selectByUserAccountId(accountId, lastCommId, Settings.PAGE_LOAD_SIZE_10);
         for (LotteryInfo lotteryInfo : infos) {
             Commodity key = cMapper.selectByKey(lotteryInfo.getCommodityId());
+            long endTime = (key.getSellOutTime() == null ? 0 : key.getSellOutTime()) + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
+            endTime = System.currentTimeMillis() - endTime;
+            endTime = endTime / 1000;//换算成秒
+            if (endTime < 0)//开奖时间未到
+                continue;
             //查询商品
             CommodityTemplate template = tempMapper.selectById(key.getTempId());
             //查询商品模板
@@ -159,7 +164,7 @@ public class UserServiceImpl implements IUserService {
     public Map<String, Object> selectExchange(Long commodityId) {
         Map<String, Object> map = new HashMap<>();
         Commoditys commoditys = comMapper.selectByKey(commodityId);
-        if(null==commoditys)
+        if (null == commoditys)
             return null;
         List<CommodityExchange> exchanges = exchangeMapper.selectByCommodityId(commoditys.getTempId());
         for (CommodityExchange ex : exchanges) {
@@ -420,6 +425,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 第三方注册登录
+     *
      * @param token
      * @return
      */
@@ -511,8 +517,10 @@ public class UserServiceImpl implements IUserService {
         //查询已支付的订单
         List<Long> orderIdList = ordersMapper.selectUserOrderIdByPayState(accountId, Settings.ORDERS_ALREADY_PAID);
         List<Map<String, Object>> mapList = new ArrayList<>();
+        System.out.println("orderIdList:" + JSONObject.toJSONString(orderIdList));
         for (Long orderId : orderIdList) {
             List<Long> commIdList = ordersCommoditysMapper.selectCommIdByOrderId(orderId);
+            System.out.println("orderId" + orderId + "commIdList" + JSONObject.toJSONString(commIdList));
             for (Long commId : commIdList) {
                 Commoditys comm = comMapper.selectByKey(commId);
                 if (null == comm)
@@ -523,6 +531,9 @@ public class UserServiceImpl implements IUserService {
                     continue;
                 } else {
                     Map<String, Object> map = new HashMap<>();
+                    Integer amount1 = codesMapper.countUserCommAmount(accountId, commId);
+                    Integer amount2 = userCodeHistMapper.countHistoryUserCommAmount(accountId, commId);
+                    map.put("userBuyNumber", amount1 + amount2);//添加用户本商品购买人次；
                     map.put("id", comm.getId());//添加商品ID
                     map.put("buyCurrentNumber", comm.getBuyTotalNumber() - comm.getBuyCurrentNumber());//添加当前购买人次
                     map.put("buyTotalNumber", comm.getBuyTotalNumber());//添加总购买人次
@@ -531,12 +542,11 @@ public class UserServiceImpl implements IUserService {
                     map.put("coverImgUrl", comm.getCoverImgUrl());//添加封面图URL
                     map.put("commName", comm.getName());//添加商品名
                     map.put("userAccountId", accountId);//添加用户ID
-                    map.put("userBuyNumber", ordersCommoditysMapper.countUserCommAmount(orderIdList, comm.getId()));//添加用户本商品购买人次；
                     LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comm.getId());
                     if (null != lotteryInfo) {
                         map.put("endTime", lotteryInfo.getEndDate().getTime());//添加揭晓时间
                         User user = userMapper.selectById(lotteryInfo.getUserAccountId());
-                        map.put("userNickname", user==null?null:user.getNickname());//中奖者昵称
+                        map.put("userNickname", user == null ? null : user.getNickname());//中奖者昵称
                     }
                     map.put("isWinner", lotteryInfo == null ? 0 : 1);
                     mapList.add(map);

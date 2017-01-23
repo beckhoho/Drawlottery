@@ -3,6 +3,8 @@ package com.hudongwx.drawlottery.mobile.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
+import com.hudongwx.drawlottery.mobile.schedule.DelayTask;
+import com.hudongwx.drawlottery.mobile.schedule.UpdateTiming;
 import org.springframework.scheduling.annotation.Async;
 
 import java.text.SimpleDateFormat;
@@ -56,10 +58,9 @@ public class LotteryUtils {
         //将开奖信息写入数据库
 
         int i = lotteryInfoMapper.insertSelective(lotteryInfo);
-        System.out.println("开奖信息插入数据库情况："+i);
-//        //定时器
-//        UpdateTiming update = new UpdateTiming(lotteryInfoMapper,lotteryInfo);
-//        DelayTask.execute(update,10);
+        //定时器
+        UpdateTiming update = new UpdateTiming(lotteryInfoMapper,lotteryInfo);
+        DelayTask.execute(update,10);
 
 
         return lotteryInfo;

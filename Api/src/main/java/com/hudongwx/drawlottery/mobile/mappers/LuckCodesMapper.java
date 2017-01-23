@@ -59,4 +59,12 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
     List<String> selectUserCommLuckCode(@Param("accountId") Long accountId, @Param("commId") Long commId, @Param("lastCode") String lastCode, @Param("pageLoadSize") Integer pageLoadSize);
 
     void insertCodeList(List<LuckCodes> list);
+
+    /**
+     * 查询商品的用户购买量
+     * @param accountId
+     * @param commId
+     * @return
+     */
+    Integer countUserCommAmount(@Param("accountId")Long accountId, @Param("commId")Long commId);
 }
