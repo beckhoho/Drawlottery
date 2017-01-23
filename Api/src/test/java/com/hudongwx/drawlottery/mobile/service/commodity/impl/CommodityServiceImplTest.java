@@ -1,8 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.TestBaseMapper;
-import com.hudongwx.drawlottery.mobile.entitys.Commodity;
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +28,8 @@ import java.util.Map;
 public class CommodityServiceImplTest extends TestBaseMapper {
     @Test
     public void testSelectCommodity() throws Exception {
-        Map<String, Object> map = service.selectCommodity(11L);
-        System.out.println(map);
+//        Map<String, Object> map = service.selectCommodity(11L);
+//        System.out.println(map);
     }
 
     @Autowired
@@ -46,8 +44,8 @@ public class CommodityServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testType1() throws Exception {
-        Map<String, Object> map = service.selectCommodity(23l);
-        System.out.println(map.get("commodityName"));
+//        Map<String, Object> map = service.selectCommodity(23l);
+//        System.out.println(map.get("commodityName"));
     }
 
     @Test
@@ -57,11 +55,11 @@ public class CommodityServiceImplTest extends TestBaseMapper {
 
     @Test
     public void testType4() throws Exception {
-        Map<String, Object> map = service.selectCommodity(54l);
-        List<String> list = (List<String>) map.get("imgUrls");
-        for (String s : list) {
-            System.out.println(s);
-        }
+//        Map<String, Object> map = service.selectCommodity(54l);
+//        List<String> list = (List<String>) map.get("imgUrls");
+//        for (String s : list) {
+//            System.out.println(s);
+//        }
     }
 
     @Test

@@ -20,4 +20,16 @@ public interface NotificationPrizeMapper extends BaseMapper<NotificationPrize> {
 
     //更改消息阅读状态
     Integer updateStateById(@Param("Id") Long Id);
+
+    int updateNotificationPrize(@Param("np") NotificationPrize np);
+
+    Long insertNotificationPrize(NotificationPrize np);
+
+    /**
+     * 通过商品id查询是否已有该商品的中奖通知
+     *
+     * @param commId
+     * @return
+     */
+    Long selectIdByCommId(@Param("commId") Long commId);
 }

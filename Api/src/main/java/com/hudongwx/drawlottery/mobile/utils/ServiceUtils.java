@@ -1,11 +1,11 @@
 package com.hudongwx.drawlottery.mobile.utils;
 
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
-import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
-import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
+import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
+import com.hudongwx.drawlottery.mobile.entitys.NotificationPrize;
+import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.mappers.NotificationPrizeMapper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,32 +58,22 @@ public class ServiceUtils {
         return 0;
     }
 
-    public static void createLuckCode(LuckCodesMapper mapper, CommoditysMapper commMapper, Long commId, boolean rebuild) {
-        //期数+总购买人次 例：201707101532000001
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
-        int total = commMapper.selectByPrimaryKey(commId).getBuyTotalNumber();
-        LuckCodes lc = new LuckCodes();
-        lc.setCommodityId(commId);
-        int size = mapper.select(lc).size();
-        if ((size >= total && rebuild) || size < total) {
-            mapper.delete(lc);
-        } else if (size >= total && !rebuild) {
-            return;
-        }
-        for (int i = 1; i <= total; i++) {
-            LuckCodes luckCodes = new LuckCodes();
-            luckCodes.setCommodityId(commId);
-            int tl = String.valueOf(total).length();
-            int il = String.valueOf(i).length();
-            StringBuffer s = new StringBuffer();
-            for (int j = 0; j < tl - il; j++) {
-                s.append("0");
-            }
-            s.append(i);
-            //luckCodes.setLockCode(sdf.format(date) + s);
-            luckCodes.setState(0);
-            mapper.insert(luckCodes);
-        }
+    public static boolean insertNotificationPrizeInfo(NotificationPrizeMapper npMapper, Commoditys comms, LotteryInfo lotteryInfo, User user) {
+        if (null != npMapper.selectIdByCommId(comms.getId()))
+            return false;
+        Long acc = lotteryInfo.getUserAccountId();
+        NotificationPrize nPrize = new NotificationPrize();
+        nPrize.setAccountId(acc);
+        nPrize.setCommodityId(comms.getId());
+        nPrize.setLuckAccountId(acc);
+        nPrize.setLuckCodesId(lotteryInfo.getLotteryId());
+        nPrize.setNoticeTitle("商品中奖消息");
+        nPrize.setNoticeContent("恭喜【" + user.getNickname() + "】获得【" + comms.getName()+"】!");
+        nPrize.setOnPrizeDate(lotteryInfo.getEndDate().getTime());
+        nPrize.setState(0);
+        nPrize.setSendDate(System.currentTimeMillis());
+        return npMapper.insertNotificationPrize(nPrize) > 0;
     }
+
+
 }

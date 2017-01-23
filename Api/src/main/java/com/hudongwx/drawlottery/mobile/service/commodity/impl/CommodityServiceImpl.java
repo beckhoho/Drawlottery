@@ -49,6 +49,10 @@ public class CommodityServiceImpl implements ICommodityService {
     LotteryInfoMapper lotteryInfoMapper;
     @Resource
     private CommodityTemplateMapper commodityTemplateMapper;
+    @Autowired
+    NotificationPrizeMapper npMapper;
+    @Autowired
+    OrdersMapper ordersMapper;
 
     /**
      * 添加商品
@@ -186,8 +190,10 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return 返回一个map集合
      */
     @Override
-    public Map<String, Object> selectCommodity(Long commodId) {
+    public Map<String, Object> selectCommodity(User user, Long commodId) {
         Commoditys com = commsMapper.selectByKey(commodId);
+        if (null == com)
+            return null;
         Map<String, Object> map = new HashMap<>();
         String nextRound = null;
         Long nextRoundId = null;
@@ -221,6 +227,16 @@ public class CommodityServiceImpl implements ICommodityService {
                 nextRoundId = commoditys.getId();
             }
         }
+        String msg = null;
+        if (null == user) {
+            msg = "您还没有参与本期夺宝！";
+        } else {
+            Integer num = ordersMapper.sumUserCommAmountByCommId(user.getAccountId(), commodId);
+            if (null != num && num != 0) {
+                msg = "您本期夺宝参与了" + num + "人次!";
+            }
+        }
+        map.put("user", msg);//是否参与本商品
         map.put("nextRound", nextRound);
         map.put("nextRoundId", nextRoundId);
         map.put("commId", commodId);//商品ID
@@ -232,7 +248,6 @@ public class CommodityServiceImpl implements ICommodityService {
         map.put("buyTotal", com.getBuyTotalNumber());//添加总购买次数
         map.put("buyCurrent", com.getBuyTotalNumber() - com.getBuyCurrentNumber());//添加当前购买次数
         map.put("roundTime", com.getRoundTime());//获取当前期数
-        map.put("user", 0);//是否参与本商品
         map.put("countDown", ServiceUtils.getResidualLotterySeconds(com));//倒计时
         map.put("descUrl", com.getCommodityDescUrl());//添加商品详情URL
         map.put("partake", listPartake(commodId));//添加参与记录
@@ -439,9 +454,9 @@ public class CommodityServiceImpl implements ICommodityService {
                 LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comm.getId());
                 if (null != lotteryInfo) {
                     Long acc = lotteryInfo.getUserAccountId();
-                    //insertHistory(comm,acc,userLuckCodes.getLuckCodeId());
                     userPayNum = lotteryInfo.getBuyNum();
                     User user = userMapper.selectById(acc);
+                    ServiceUtils.insertNotificationPrizeInfo(npMapper, comm, lotteryInfo, user);
                     userNickName = user.getNickname();
                     userHeadImgUrl = user.getHeaderUrl();
                 }
@@ -493,9 +508,9 @@ public class CommodityServiceImpl implements ICommodityService {
         List<Map<String, Object>> infoList = new ArrayList<>();
         long nowTime = new Date().getTime();
         for (int i = 0; i < list.size(); i++) {
-            Commoditys comm = list.get(i);
+            Commoditys comms = list.get(i);
             Map<String, Object> map = new HashMap<>();
-            long sellOutTime = null == comm.getSellOutTime() ? 0 : comm.getSellOutTime();
+            long sellOutTime = null == comms.getSellOutTime() ? 0 : comms.getSellOutTime();
             long endTime = sellOutTime + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
             int residualMinutes = 0;//开奖剩余秒数
             String userHeadImgUrl = null;
@@ -504,11 +519,13 @@ public class CommodityServiceImpl implements ICommodityService {
             if (nowTime < endTime) {
                 residualMinutes = (int) ((endTime - nowTime) / 1000);
             } else {
-                LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comm.getId());
+                commsMapper.updateCommState(comms.getId(), Settings.COMMODITY_STATE_HAS_LOTTERY);
+                LotteryInfo lotteryInfo = lotteryInfoMapper.selectByComId(comms.getId());
                 if (null != lotteryInfo) {
                     Long acc = lotteryInfo.getUserAccountId();
-                    userPayNum = lotteryInfo.getBuyNum();
                     User user = userMapper.selectById(acc);
+                    ServiceUtils.insertNotificationPrizeInfo(npMapper, comms, lotteryInfo, user);
+                    userPayNum = lotteryInfo.getBuyNum();
                     userNickName = user == null ? null : user.getNickname();
                     userHeadImgUrl = user == null ? null : user.getHeaderUrl();
                 }
@@ -517,17 +534,17 @@ public class CommodityServiceImpl implements ICommodityService {
             map.put("userHeadImgUrl", userHeadImgUrl);//中奖者头像
             map.put("userNickname", userNickName);// 中奖者昵称
             map.put("userPayNum", userPayNum);//中奖者购买数量
-            map.put("id", comm.getId());//商品id
-            map.put("minNum", comm.getMinimum());//商品id
-            map.put("imgUrl", comm.getCoverImgUrl());//封面图片url
+            map.put("id", comms.getId());//商品id
+            map.put("minNum", comms.getMinimum());//商品id
+            map.put("imgUrl", comms.getCoverImgUrl());//封面图片url
             map.put("currentTime", nowTime);//当前时间
             map.put("endTime", endTime);//当前时间
-            map.put("detailUrl", comm.getCommodityDescUrl());//详情url
-            map.put("desc", comm.getCommodityDesc());//商品描述
-            map.put("state", comm.getStateId());//上商状态
-            map.put("totalNumber", comm.getBuyTotalNumber());//所需总人次
-            map.put("roundTime", comm.getRoundTime());//期数
-            map.put("desc", comm.getName());//描述
+            map.put("detailUrl", comms.getCommodityDescUrl());//详情url
+            map.put("desc", comms.getCommodityDesc());//商品描述
+            map.put("state", comms.getStateId());//上商状态
+            map.put("totalNumber", comms.getBuyTotalNumber());//所需总人次
+            map.put("roundTime", comms.getRoundTime());//期数
+            map.put("desc", comms.getName());//描述
             infoList.add(map);
         }
         return infoList;

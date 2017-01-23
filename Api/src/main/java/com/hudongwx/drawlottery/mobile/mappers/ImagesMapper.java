@@ -21,7 +21,7 @@ import java.util.List;
  * <p>
  * @email 346905702@qq.com
  */
-public interface ImagesMapper extends BaseMapper<Images>{
+public interface ImagesMapper extends BaseMapper<Images> {
 
-    List<Images> selectUsingImgs(@Param("sta")Integer sta,@Param("genre")Integer genre);
+    List<Images> selectUsingImgs(@Param("sta") Integer sta, @Param("genre") Integer genre);
 }

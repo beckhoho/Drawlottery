@@ -156,6 +156,20 @@
     <select id="selectUnLotteryComm" resultMap="BaseResultMap">
         SELECT * FROM t_commoditys WHERE state_id = 2 OR state_id = 3
     </select>
+    <select id="selectCommIdByTempId" resultType="java.lang.Long">
+        SELECT commodity_id FROM t_commoditys
+        WHERE temp_id = #{tempId}
+        <if test="lastCommId !=null and lastCommId != 0">
+            commodity_id &lt; #{lastCommId}
+        </if>
+        UNION
+        SELECT commodity_id FROM t_commodity_history
+        WHERE temp_id = #{tempId}
+        <if test="lastCommId !=null and lastCommId != 0">
+            commodity_id &lt; #{lastCommId}
+        </if>
+        order by commodity_id desc limit #{pageLoadSize}
+    </select>
     <select id="selectMaxRoundTime" resultType="java.lang.Long">
         select IFNULL(max(round_time * 1),100000000) from t_commoditys
     </select>

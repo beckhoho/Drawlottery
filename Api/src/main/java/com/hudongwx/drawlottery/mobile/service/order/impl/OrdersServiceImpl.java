@@ -202,7 +202,6 @@ public class OrdersServiceImpl implements IOrdersService {
             map.put("commodityName", commoditys.getName());//商品名
             map.put("roundTime", commoditys.getRoundTime());//期数
             map.put("luckCodes", luckCodes(accountId, ca.getCommodityId(), orderId));//用户参与商品的幸运码
-
             number += ca.getAmount();
             mapList.add(map);
         }
@@ -227,6 +226,7 @@ public class OrdersServiceImpl implements IOrdersService {
 //        return list;
 //    }
 
+    //查询用户当前订单参与商品的所有幸运号
     public List<String> luckCodes(Long accountId, Long commodityId, Long ordersId) {
         List<String> list = new ArrayList<>();
         List<LuckCodes> list1 = codesMapper.selectByOrders(accountId, commodityId, ordersId);

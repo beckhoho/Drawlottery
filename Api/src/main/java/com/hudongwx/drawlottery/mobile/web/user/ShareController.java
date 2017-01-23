@@ -100,7 +100,7 @@ public class ShareController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryShareInfoByAccount(@ApiParam("回传最后一个商品Id") @RequestParam("lastCommId") Long lastCommId) {
-        List<Map<String, Object>> shareAll = shareService.selectByUserAccountId(getUserId(),lastCommId);
+        List<Map<String, Object>> shareAll = shareService.selectByUserAccountId(getUserId(), lastCommId);
         return success(shareAll);
     }
 
@@ -111,8 +111,8 @@ public class ShareController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/share/comm", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryShareInfoByCommId(@RequestParam("commId") Long commId) {
-        List<Map<String, Object>> shareAll = shareService.selectByCommId(commId);
+    public JSONObject queryShareInfoByCommId(@RequestParam("commId") Long commId, @RequestParam("lastCommId") Long lastCommId) {
+        List<Map<String, Object>> shareAll = shareService.selectByCommId(commId, lastCommId);
         return success(shareAll);
     }
 
@@ -128,14 +128,4 @@ public class ShareController extends BaseController {
         return success(shareAll);
     }
 
-//    /**
-//     * 用户添加晒单分享信息
-//     *
-//     * @return
-//     */
-//    @ResponseBody
-//    @RequestMapping(value = "/api/v1/user/share/upload/test", method = RequestMethod.POST)
-//    public JSONObject shareInfo(@RequestParam("commId") Long commId, @RequestParam("desc") String desc, @RequestParam("imgs") List<MultipartFile> imgs) {
-//        return success(shareService.addShare(getUserId(), commId, desc, imgs));
-//    }
 }

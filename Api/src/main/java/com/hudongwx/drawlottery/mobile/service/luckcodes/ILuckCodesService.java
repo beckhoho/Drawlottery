@@ -23,9 +23,6 @@ import java.util.Set;
  */
 public interface ILuckCodesService {
 
-    //添加幸运码
-    boolean createLuckCode(Long commId, boolean rebuild);
-
     //查询商品幸运码
     List<LuckCodes> select(Long commodId);
 

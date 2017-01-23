@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.service.commodity;
 import com.hudongwx.drawlottery.mobile.entitys.Commodity;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityTemplate;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
+import com.hudongwx.drawlottery.mobile.entitys.User;
 
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,7 @@ public interface ICommodityService {
     List<Map<String, Object>> selectOneOnLottery(Long commId);
 
     //商品详情
-    Map<String, Object> selectCommodity(Long commId);
+    Map<String, Object> selectCommodity(User user, Long commodId);
 
     //查询高中奖率商品
     List<Map<String, Object>> selectHeight(Long lastCommId);

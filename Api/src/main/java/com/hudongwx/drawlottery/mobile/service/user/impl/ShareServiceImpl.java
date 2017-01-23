@@ -173,8 +173,8 @@ public class ShareServiceImpl implements IShareService {
     @Override
     public boolean addShare(Long accountId, Long commId, String desc, List<MultipartFile> imgs) {
         //判断是否晒过单
-        List<Share> shareList = shareMapper.selectByCommId(commId);
-        if (!shareList.isEmpty())
+        Share hasShare = shareMapper.selectByCommId(commId);
+        if (null != hasShare)
             return false;
         Commodity com = commMapper.selectByKey(commId);
         if ((com.getShareState() == null ? 0 : com.getShareState()) == 1)
@@ -259,9 +259,20 @@ public class ShareServiceImpl implements IShareService {
     }
 
     @Override
-    public List<Map<String, Object>> selectByCommId(Long commId) {
-        List<Share> shareList = shareMapper.selectByCommId(commId);
-        List<Map<String, Object>> mapList = createShareMapList(null, shareList);
+    public List<Map<String, Object>> selectByCommId(Long commId, Long lastCommId) {
+        Long tempId = commMapper.selectTempIdByCommId(commId);
+        List<Long> commIdList = commMapper.selectCommIdByTempId(tempId, lastCommId, Settings.PAGE_LOAD_SIZE_10);
+        List<Map<String, Object>> mapList = null;
+        List<Share> shareList;
+        if (!commIdList.isEmpty()) {
+            shareList = new ArrayList<>();
+            for (Long aCommId : commIdList) {
+                Share share = shareMapper.selectByCommId(aCommId);
+                if (null != share)
+                    shareList.add(share);
+            }
+            mapList = createShareMapList(null, shareList);
+        }
         return mapList;
     }
 

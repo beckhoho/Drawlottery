@@ -28,6 +28,7 @@ import java.util.Map;
  * @email 294786949@qq.com
  */
 @RestController
+@RequestMapping("/api/v1/pub/img/")
 @Api(value = "ImagesController", description = "图文管理")
 public class ImagesController extends BaseController {
 
@@ -36,11 +37,32 @@ public class ImagesController extends BaseController {
 
     /**
      * 客户端首页的活动宣传图片
+     *
      * @return JSONObject
      */
-    @RequestMapping(value = "/api/v1/pub/img/event", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "event", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject event() {
         List<Map<String, Object>> infoList = iService.selectEvent();
         return success(infoList);
+    }
+
+    /**
+     * 客户端欢迎页
+     *
+     * @return JSONObject
+     */
+    @RequestMapping(value = "welcome", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject wellcome() {
+        return success(iService.selectWelcomeImg());
+    }
+
+    /**
+     * 客户端导航页
+     *
+     * @return JSONObject
+     */
+    @RequestMapping(value = "nav", method = {RequestMethod.POST, RequestMethod.GET})
+    public JSONObject navigate() {
+        return success(iService.selectnavigeteImg());
     }
 }

@@ -108,7 +108,7 @@ public class CommoditysController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommoditysInfo(@RequestParam("commid") Long commodityid) {
-        Map<String, Object> map = cService.selectCommodity(commodityid);
+        Map<String, Object> map = cService.selectCommodity(getUser(),commodityid);
         return success(map);
     }
 

@@ -46,4 +46,11 @@
     <select id="selectByBuyDateDesc" resultMap="BaseResultMap">
         SELECT * FROM t_orders ORDER BY submit_date DESC limit 50;
     </select>
+    <select id="sumUserCommAmountByCommId" resultType="java.lang.Integer">
+      SELECT SUM(amount)
+      FROM t_orders AS tor
+      LEFT JOIN t_orders_commoditys AS toc
+      ON tor.id = toc.orders_id
+      WHERE toc.commodity_id =#{commId} and tor.user_account_id =#{accountId}
+    </select>
 </mapper>
