@@ -1,14 +1,18 @@
 package com.hudongwx.drawlottery.mobile.service.luckcodes.impl;
 
+import com.hudongwx.drawlottery.mobile.entitys.LuckCodeTemplate;
 import com.hudongwx.drawlottery.mobile.entitys.LuckCodes;
 import com.hudongwx.drawlottery.mobile.mappers.CommoditysMapper;
+import com.hudongwx.drawlottery.mobile.mappers.LuckCodeTemplateMapper;
 import com.hudongwx.drawlottery.mobile.mappers.LuckCodesMapper;
 import com.hudongwx.drawlottery.mobile.service.luckcodes.ILuckCodesService;
 import com.hudongwx.drawlottery.mobile.utils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -32,6 +36,8 @@ public class LuckCodesServiceImpl implements ILuckCodesService {
     CommoditysMapper commoditysMapper;
     @Autowired
     LuckCodesMapper mapper;
+    @Resource
+    private LuckCodeTemplateMapper luckCodeTemplateMapper;
 
     /**
      * 添加幸运码(内部使用)
@@ -75,8 +81,49 @@ public class LuckCodesServiceImpl implements ILuckCodesService {
     @Override
     public List<LuckCodes> selectByUserId(Long accountId) {
 
-       // return mapper.selectByUserAccountId(accountId);
-        return  null;
+        // return mapper.selectByUserAccountId(accountId);
+        return null;
+    }
+
+    /**
+     * 得到模板总数
+     *
+     * @return 总数
+     */
+    @Override
+    public Long getTempCount() {
+        return luckCodeTemplateMapper.getCount();
+    }
+
+    /**
+     * 添加模板集合到模板表中
+     *
+     * @param set 模板集合（注意是set，为了打乱顺序）
+     */
+    @Override
+    public void addToTemp(Set<LuckCodeTemplate> set) {
+        luckCodeTemplateMapper.insertSet(set);
+    }
+
+    /**
+     * 查询范围内的幸运码
+     *
+     * @param count 总数
+     * @return 幸运码集合(只对应了模板id)
+     */
+    @Override
+    public List<LuckCodes> selectRange(long count) {
+        return luckCodeTemplateMapper.selectRange(count);
+    }
+
+    /**
+     * 插入幸运码集合
+     *
+     * @param list 集合
+     */
+    @Override
+    public void insertCodeList(List<LuckCodes> list) {
+        mapper.insertCodeList(list);
     }
 
 }

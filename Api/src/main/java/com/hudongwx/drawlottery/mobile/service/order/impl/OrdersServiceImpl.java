@@ -63,10 +63,12 @@ public class OrdersServiceImpl implements IOrdersService {
 
     /**
      * 计算扣款
+     * 如果购买数大于剩余数量，会购买下一期
      *
      * @param accountId
      * @param orders
      * @return
+     * @apiNote 更改逻辑
      */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -84,15 +86,12 @@ public class OrdersServiceImpl implements IOrdersService {
             //循环遍历获取商品信息
             Commoditys byKey = comMapper.selectByKey(ca.getCommodityId());
             int remainingNum = byKey.getBuyTotalNumber() - byKey.getBuyCurrentNumber();
-            if (remainingNum == 0) {
-                continue;
-            }
-            int buyNum = 0;
 
-            if (ca.getAmount() - remainingNum >= 0) {
+            int buyNum = ca.getAmount();
+            if (buyNum > remainingNum) {
+                Commodity commodity = commodityService.getNextCommodity(byKey.getId());
+                updateLuckCodes(accountId,commodity.getId(),buyNum-remainingNum,orders);
                 buyNum = remainingNum;
-            } else {
-                buyNum = ca.getAmount();
             }
 
             /*
@@ -170,7 +169,7 @@ public class OrdersServiceImpl implements IOrdersService {
         List<Long> idList = new ArrayList<>();
         User user = userMapper.selectById(accountId);
         m.put("remainder", user.getGoldNumber());//获得用户账户余额
-        List<RedPackets> list = redMapper.selectByState(accountId,0);
+        List<RedPackets> list = redMapper.selectByState(accountId, 0);
         for (RedPackets r : list) {
             if (r.getUsePrice() <= sum) {
                 idList.add(r.getId());//红包ID

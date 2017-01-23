@@ -19,6 +19,12 @@
     <insert id="insertLuckCode">
         INSERT  INTO  t_luck_codes(luck_code_template_id,commodity_id) select id,#{commId} from t_luck_code_template limit 0,#{endIndex}
     </insert>
+    <insert id="insertCodeList">
+        insert into draw_lottery.t_luck_codes (luck_code_template_id,commodity_id) VALUES
+        <foreach collection="list" item="code" separator=",">
+            (#{code.luckCodeTemplateId},#{code.commodityId})
+        </foreach>
+    </insert>
 
     <select id="selectByUsable" resultMap="BaseResultMap">
     select * from t_luck_codes where commodity_id = #{commodityId} and state = 0

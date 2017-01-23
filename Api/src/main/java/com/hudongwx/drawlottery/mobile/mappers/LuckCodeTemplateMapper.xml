@@ -10,6 +10,12 @@
         <result column="luck_code" jdbcType="VARCHAR" property="luckCode"/>
 
     </resultMap>
+    <insert id="insertSet">
+        insert into t_luck_code_template VALUES
+        <foreach collection="set" separator="," item="temp">
+            (#{temp.id},#{temp.luckCode})
+        </foreach>
+    </insert>
 
     <select id="selectById" resultMap="BaseResultMap">
       SELECT * FROM t_luck_code_template WHERE id = #{lctId}
@@ -17,5 +23,11 @@
 
     <select id="selectByCode" resultMap="BaseResultMap">
         SELECT * FROM t_luck_code_template WHERE luck_code = #{code}
+    </select>
+    <select id="getCount" resultType="java.lang.Long">
+        select count(*) from draw_lottery.t_luck_code_template
+    </select>
+    <select id="selectRange" resultType="com.hudongwx.drawlottery.mobile.entitys.LuckCodes">
+        select id as luckCodeTemplateId from draw_lottery.t_luck_code_template where luck_code &lt;= #{count}
     </select>
 </mapper>

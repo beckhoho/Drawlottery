@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Table(name = "t_commodity_template")
 public class CommodityTemplate {
@@ -48,7 +47,6 @@ public class CommodityTemplate {
      */
     @Column(name = "ground_time")
     private Long groundTime;
-
 
 
     /**
@@ -118,6 +116,14 @@ public class CommodityTemplate {
 
     @Column(name = "open_time")
     private Integer openTime;
+
+    /**
+     * 此字段用于查询待售商品+在售商品不足的模板中->待售商品+在售商品的总和
+     * {@link com.hudongwx.drawlottery.mobile.mappers.CommodityTemplateMapper}
+     * 此字段已忽略，不影响通用mapper使用
+     */
+    @Transient
+    private Integer count;
 
     /**
      * @return id
@@ -240,7 +246,6 @@ public class CommodityTemplate {
     public void setGroundTime(Long groundTime) {
         this.groundTime = groundTime;
     }
-
 
 
     /**
@@ -485,5 +490,13 @@ public class CommodityTemplate {
 
     public void setOpenTime(Integer openTime) {
         this.openTime = openTime;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

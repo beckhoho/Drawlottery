@@ -195,8 +195,8 @@ public class LoginController extends BaseController {
 //
 //
 //            out.println("<p> start -----------------------------------利用获取到的accessToken,openid 去获取用户在微博的昵称等信息 ---------------------------- start </p>");
-//            com.qq.connect.api.weibo.UserInfo weiboUserInfo = new com.qq.connect.api.weibo.UserInfo(accessToken, openID);
-//            com.qq.connect.javabeans.weibo.UserInfoBean weiboUserInfoBean = weiboUserInfo.getUserInfo();
+//            com.qq.connectLuckCodes.api.weibo.UserInfo weiboUserInfo = new com.qq.connectLuckCodes.api.weibo.UserInfo(accessToken, openID);
+//            com.qq.connectLuckCodes.javabeans.weibo.UserInfoBean weiboUserInfoBean = weiboUserInfo.getUserInfo();
 //            if (weiboUserInfoBean.getRet() == 0) {
 //                //获取用户的微博头像----------------------start
 //                out.println("<image src=" + weiboUserInfoBean.getAvatar().getAvatarURL30() + "/><br/>");

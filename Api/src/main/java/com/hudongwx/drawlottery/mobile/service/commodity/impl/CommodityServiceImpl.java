@@ -8,6 +8,7 @@ import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -46,6 +47,8 @@ public class CommodityServiceImpl implements ICommodityService {
     UserCodesHistoryMapper userHistoryMapper;
     @Autowired
     LotteryInfoMapper lotteryInfoMapper;
+    @Resource
+    private CommodityTemplateMapper commodityTemplateMapper;
 
     /**
      * 添加商品
@@ -55,7 +58,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public boolean addCommodity(Commoditys commod) {
-        return commsMapper.insert(commod) > 0;
+        return commsMapper.insertCommodity(commod) > 0;
     }
 
     /**
@@ -550,8 +553,54 @@ public class CommodityServiceImpl implements ICommodityService {
      * @return 模板中的图文详情
      */
     @Override
-    public String selectContent(Long commodityId) {
+    public String getContent(Long commodityId) {
         return commsMapper.selectContent(commodityId);
+    }
+
+    /**
+     * 查询当前最大期数
+     *
+     * @return 期数
+     */
+    @Override
+    public long getMaxRoundTime() {
+        return commMapper.selectMaxRoundTime();
+    }
+
+    /**
+     * 查询未满足期数数量需求的商品
+     *
+     * @param roundNum 期数数量
+     * @return 模板
+     */
+    @Override
+    public List<CommodityTemplate> getNotKeepRoundTemplate(long roundNum) {
+        return commodityTemplateMapper.selectByRoundNum(roundNum);
+    }
+
+    /**
+     * 得到下一期商品
+     *
+     * @param id 商品id
+     * @return 商品
+     */
+    @Override
+    public Commodity getNextCommodity(Long id) {
+        return commMapper.selectNext(id);
+    }
+
+    /**
+     * 生成下一期商品
+     *
+     * @param id
+     */
+    @Override
+    public Commodity groundNext(Long id) {
+        final Commodity next = getNextCommodity(id);
+        commMapper.updateState(next.getId(), 3);
+        //此处只是为了统一设置了状态
+        next.setStateId(3);
+        return next;
     }
 
 

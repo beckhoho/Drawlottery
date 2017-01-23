@@ -55,125 +55,58 @@ public class OrdersServiceImplAsync {
     public void payAsync(Long accountId, Orders orders,
                          List<CommodityAmount> commodityAmounts
     ) {
-        /*
-            先使用红包支付，红包>=购买数额则红包作废，其余购买金额作为闪币存入
-         */
-
+        /*先使用红包支付，红包>=购买数额则红包作废，其余购买金额作为闪币存入*/
         int price = orders.getPrice();
-
-        /*
-            2、更改商品信息方法，返回实际购买量
-         */
-//        int TotalNum = updateCommodity(accountId,orders,commodityAmounts,commodityses);//3,5
-
-        /*
-            生成商品订单和幸运码，返回实际购买量
-         */
-
+        /*生成商品订单和幸运码，返回实际购买量*/
         //商品剩余量
         int remainingNum;
         //客户购买单个商品数量
         int Amount;
-
         //商品实际可购买总量
         int TotalNum = 0;
-
-        //客户实际可购买单个商品数量
-        int buyNum = 0;
-
         int index = 0;
         for (CommodityAmount ca : commodityAmounts) {
 //            获取商品信息
-            Commoditys byKey = comMapper.selectByKey(ca.getCommodityId());
-            remainingNum = byKey.getBuyTotalNumber() - byKey.getBuyCurrentNumber();
+            Commoditys currentCommodiy = comMapper.selectByKey(ca.getCommodityId());
+            remainingNum = currentCommodiy.getBuyTotalNumber() - currentCommodiy.getBuyCurrentNumber();
             Amount = ca.getAmount();
             //计算购买量和剩余量差值
             int sub = Amount - remainingNum;
-
             Commodity com = new Commodity();//**
-
             //生成商品订单
             OrdersCommoditys ordersCommoditys = new OrdersCommoditys();
-            ordersCommoditys.setCommodityId(byKey.getId());
+            ordersCommoditys.setCommodityId(currentCommodiy.getId());
             ordersCommoditys.setOrdersId(orders.getId());
-
             //判断商品是否符合商品最小购买基数
-            int minNum = byKey.getMinimum();
+            int minNum = currentCommodiy.getMinimum();
             int extraNum = Amount % minNum;
             if (extraNum != 0) {
                 Amount -= extraNum;
             }
-
-            /*
-                如果用户购买量减去可购买量不为负，用户购买当前可购买量，商品售罄，
-                并将多余数量以闪币形式返回给用户
-             */
+            /*如果用户购买量减去可购买量不为负，用户购买当前可购买量，商品售罄，自动购买下一期*/
             if (sub >= 0) {
-                buyNum = remainingNum;
-                com.setBuyCurrentNumber(byKey.getBuyTotalNumber());
-
+                com.setBuyCurrentNumber(currentCommodiy.getBuyTotalNumber());
                 com.setStateId(2);//进入待揭晓状态
                 com.setSellOutTime(System.currentTimeMillis());//添加售罄时间
-
-                /*
-                    如果商品下一期属性为1，并且可购买量=0 或者 可购买量减去用户购买量=0
-                    生成下一期
-                 */
-                if (byKey.getAutoRound() == 1 && (remainingNum == 0 || remainingNum - buyNum == 0)) {
-                    //如果商品卖光，自动生成下一期
-                    Commodity comm = new Commodity();
-                    comm.setBuyCurrentNumber(0);
-                    comm.setStateId(3);
-                    comm.setTempId(byKey.getTempId());
-                    comm.setRoundTime(commodityService.generateNewRoundTime() + "");
-                    comm.setCardNotEnough(0);
-                    comm.setExchangeState(0);
-                    comm.setExchangeWay(0);
-                    comm.setViewNum(0l);
-                    //添加下一期商品到商品表
-                    commMapper.insertUseGenerated(comm);
-
-
-                    //写下一期商品幸运码
-                    codesMapper.insertLuckCode(byKey.getBuyTotalNumber(),comm.getId());
-
-                    if (remainingNum == 0) {
-                        ca.setCommodityId(comm.getId());
-                        commodityAmounts.add(ca);
-                    }
-
-                    com.setId(byKey.getId());
+                /*如果商品下一期属性为1，生成下一期*/
+                if (currentCommodiy.getAutoRound() == 1) {
+                    //生成下一期
+                    final Commodity nextCommodity = commodityService.groundNext(currentCommodiy.getId());
+                    com.setId(currentCommodiy.getId());
                     commMapper.updateById(com);//提交商品信息
-                    TotalNum += buyNum;//累加实际购买量
-                    ordersCommoditys.setAmount(buyNum);//设置商品订单表购买数量
+                    ordersCommoditys.setAmount(Amount);//设置商品订单表购买数量
                     orderMapper.insert(ordersCommoditys);//添加商品订单信息
-
-                                    /*
-                    计算开奖幸运码
-                 */
-                    LotteryInfo raffle = LotteryUtils.raffle(mapper,templateMapper, codesMapper, lotteryInfoMapper, userMapper, byKey);
-
-
-
-
+                    /*计算开奖幸运码*/
+                    LotteryUtils.raffle(mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
                     addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
-
-                    //下一期请求
                     continue;
                 }
-                /*
-                    下期请求
-                 */
-            } else {
-                buyNum = Amount;
-                int s = byKey.getBuyCurrentNumber() + buyNum;
-                com.setBuyCurrentNumber(s);
             }
-            com.setId(byKey.getId());
-
+            int s = currentCommodiy.getBuyCurrentNumber() + Amount;
+            com.setBuyCurrentNumber(s);
+            com.setId(currentCommodiy.getId());
             commMapper.updateById(com);//提交商品信息
-            TotalNum = TotalNum + buyNum + extraNum;//累加实际购买量
-            ordersCommoditys.setAmount(buyNum);//设置商品订单表购买数量
+            ordersCommoditys.setAmount(Amount);//设置商品订单表购买数量
             orderMapper.insert(ordersCommoditys);//添加商品订单信息
 
         }
@@ -217,7 +150,7 @@ public class OrdersServiceImplAsync {
 
         //支付成功之后，更改订单支付状态
         orders.setPayState(1);
-        mapper.updatePayState(orders.getId(),1);
+        mapper.updatePayState(orders.getId(), 1);
 
     }
 
@@ -248,7 +181,7 @@ public class OrdersServiceImplAsync {
 
         //int i = userHistoryMapper.insertCopy(commodityId);
 
-        return i > 0 ;
+        return i > 0;
     }
 
 }

@@ -35,7 +35,7 @@ public class WebController {
 
     @RequestMapping("/commodityInfo/{id}")
     public String commodityInfo(@PathVariable("id") Long id, Map<String, Object> model) {
-        String s = cService.selectContent(id);
+        String s = cService.getContent(id);
         model.put("content", s);
         return "commodity";
     }

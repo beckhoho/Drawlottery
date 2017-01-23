@@ -31,6 +31,11 @@
         <result column="card_money" jdbcType="INTEGER" property="cardMoney"/>
 
     </resultMap>
+    <insert id="insertCommodity" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.hudongwx.drawlottery.mobile.entitys.Commoditys">
+        insert into t_commoditys (buy_current_number,round_time,view_num,temp_id,state_id) VALUES
+        (#{buyCurrentNumber},#{roundTime},#{viewNum},#{tempId},#{stateId})
+    </insert>
 
     <select id="selectByKey" resultMap="BaseResultMap">
         <include refid="selectSql"></include>

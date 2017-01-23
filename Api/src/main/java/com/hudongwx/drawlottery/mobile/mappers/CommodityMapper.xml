@@ -74,6 +74,12 @@
     <update id="updateShareStateByCommodityId">
         UPDATE t_commoditys set share_state =#{shareState} where commodity_id =#{commodityId}
     </update>
+    <update id="updateState">
+        UPDATE draw_lottery.t_commoditys SET state_id = #{state}
+        where temp_id = (select temp_id from t_commoditys where commodity_id = #{id})
+        and state_id = 4
+        order by commodity_id asc limit 1
+    </update>
 
     <!-- 查看往期揭晓数据 -->
     <select id="selectBefore" resultType="java.lang.Long">
@@ -149,6 +155,14 @@
     </select>
     <select id="selectUnLotteryComm" resultMap="BaseResultMap">
         SELECT * FROM t_commoditys WHERE state_id = 2 OR state_id = 3
+    </select>
+    <select id="selectMaxRoundTime" resultType="java.lang.Long">
+        select IFNULL(max(round_time * 1),100000000) from t_commoditys
+    </select>
+    <select id="selectNext" resultMap="BaseResultMap">
+        SELECT * from draw_lottery.t_commoditys where state_id = 4 AND
+                                              temp_id = (SELECT temp_id from t_commoditys where commodity_id = #{id})
+                                               ORDER BY commodity_id ASC limit 1
     </select>
 
 

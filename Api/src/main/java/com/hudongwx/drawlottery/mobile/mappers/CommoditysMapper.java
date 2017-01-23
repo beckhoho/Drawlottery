@@ -164,4 +164,6 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     String selectContent(@Param("commodityId") Long commodityId);
 
     List<Commoditys> selectUnLotteryComm();
+
+    int insertCommodity(Commoditys commod);
 }

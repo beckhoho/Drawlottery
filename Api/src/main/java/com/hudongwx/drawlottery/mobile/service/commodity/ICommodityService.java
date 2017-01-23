@@ -1,5 +1,7 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
+import com.hudongwx.drawlottery.mobile.entitys.Commodity;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityTemplate;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 
 import java.util.List;
@@ -76,12 +78,13 @@ public interface ICommodityService {
     /**
      * 生成新的期数
      *
-     * @return  期数
+     * @return 期数
      */
     public Long generateNewRoundTime();
 
     /**
      * 最新揭晓
+     *
      * @param lastCommId
      * @return
      */
@@ -91,8 +94,37 @@ public interface ICommodityService {
 
     /**
      * 通过商品id 得到商品图文详情
+     *
      * @param commodityId 商品id
      * @return 模板中的图文详情
      */
-    String selectContent(Long commodityId);
+    String getContent(Long commodityId);
+
+    /**
+     * 查询当前最大期数
+     *
+     * @return 期数
+     */
+    long getMaxRoundTime();
+
+    /**
+     * 查询未满足期数数量需求的商品
+     *
+     * @param roundNum 期数数量
+     * @return 模板
+     */
+    List<CommodityTemplate> getNotKeepRoundTemplate(long roundNum);
+
+    /**
+     * 得到下一期商品
+     * @param id 商品id
+     * @return 商品
+     */
+    Commodity getNextCommodity(Long id);
+
+    /**
+     * 生成下一期商品
+     * @param id
+     */
+    Commodity groundNext(Long id);
 }

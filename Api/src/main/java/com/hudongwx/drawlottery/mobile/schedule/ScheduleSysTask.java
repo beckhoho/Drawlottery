@@ -3,6 +3,7 @@ package com.hudongwx.drawlottery.mobile.schedule;
 import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
+import com.hudongwx.drawlottery.mobile.service.commodity.IGenerateService;
 import com.hudongwx.drawlottery.mobile.utils.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -58,6 +59,9 @@ public class ScheduleSysTask {
     @Autowired
     CommoditysMapper commsMapper;
 
+    @Resource
+    private IGenerateService generateService;
+
     @Scheduled(fixedDelay = 10)
     public void updateState() {
         //.... 查询数据库查看是否到修改状态的时候
@@ -75,6 +79,17 @@ public class ScheduleSysTask {
             }
         }
     }
+
+    /**
+     * 保证同一个模板有三期商品
+     */
+    @Scheduled(cron = "0/10 * *  * * ?")
+    public void generateRound(){
+        System.out.println("生成开始");
+        generateService.keepRound(3);
+        System.out.println("生成结束");
+    }
+
 
 
 }

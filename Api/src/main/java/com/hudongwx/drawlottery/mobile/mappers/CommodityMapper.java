@@ -88,4 +88,10 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
      * @return
      */
     List<Commodity> selectUnLotteryComm();
+
+    long selectMaxRoundTime();
+
+    Commodity selectNext(@Param("id") Long id);
+
+    void updateState(@Param("id") Long id, @Param("state") int state);
 }

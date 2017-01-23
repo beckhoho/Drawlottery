@@ -57,4 +57,6 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
 
     //分页显示用户已购买正在进行的商品幸运码
     List<String> selectUserCommLuckCode(@Param("accountId") Long accountId, @Param("commId") Long commId, @Param("lastCode") String lastCode, @Param("pageLoadSize") Integer pageLoadSize);
+
+    void insertCodeList(List<LuckCodes> list);
 }
