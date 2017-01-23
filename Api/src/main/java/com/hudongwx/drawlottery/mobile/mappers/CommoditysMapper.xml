@@ -293,7 +293,7 @@
         WHERE state_id = 2
     </select>
     <select id="selectPurchaseRecord" resultMap="BaseResultMap">
-        
+
     </select>
 
     <!-- 商品通用查询语句 -->

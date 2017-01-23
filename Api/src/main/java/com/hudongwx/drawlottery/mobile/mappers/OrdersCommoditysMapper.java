@@ -23,7 +23,7 @@ import java.util.List;
  */
 public interface OrdersCommoditysMapper extends BaseMapper<OrdersCommoditys>{
 
-    List<OrdersCommoditys> selectByOrderId(@Param("orderId")Long orderId);
+    List<Long> selectCommIdByOrderId(@Param("orderId")Long orderId);
 
     int countUserCommAmount(@Param("orderIdList")List<Long> orderIdList,@Param("commId")Long commId);
 }

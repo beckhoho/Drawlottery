@@ -87,6 +87,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/api/v1/user/usercomm/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserCommRecord(@ApiParam("显示形式：1、进行中；2、已揭晓；其他数字、显示全部") @RequestParam("item") Integer item, @ApiParam("最后一个商品Id") @RequestParam("lastCommId") Long lastCommId) {
         List<Map<String, Object>> historyLottery = userService.selectPurchaseRecords(item, getUserId(), lastCommId);
+        System.out.println(JSONObject.toJSONString(historyLottery));
         return success(historyLottery);
     }
 

@@ -512,9 +512,9 @@ public class UserServiceImpl implements IUserService {
         List<Long> orderIdList = ordersMapper.selectUserOrderIdByPayState(accountId, Settings.ORDERS_ALREADY_PAID);
         List<Map<String, Object>> mapList = new ArrayList<>();
         for (Long orderId : orderIdList) {
-            List<OrdersCommoditys> ordersCommodityses = ordersCommoditysMapper.selectByOrderId(orderId);
-            for (OrdersCommoditys ordersCommoditys : ordersCommodityses) {
-                Commoditys comm = comMapper.selectByKey(ordersCommoditys.getCommodityId());
+            List<Long> commIdList = ordersCommoditysMapper.selectCommIdByOrderId(orderId);
+            for (Long commId : commIdList) {
+                Commoditys comm = comMapper.selectByKey(commId);
                 if (null == comm)
                     continue;
                 if (item == 1 && comm.getStateId() == Settings.COMMODITY_STATE_HAS_LOTTERY) {

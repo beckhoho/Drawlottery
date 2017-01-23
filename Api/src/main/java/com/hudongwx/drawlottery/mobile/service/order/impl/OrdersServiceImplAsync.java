@@ -92,6 +92,8 @@ public class OrdersServiceImplAsync {
                 if (currentCommodiy.getAutoRound() == 1) {
                     //生成下一期
                     final Commodity nextCommodity = commodityService.groundNext(currentCommodiy.getId());
+                    nextCommodity.setBuyCurrentNumber(sub);
+                    commMapper.updateById(nextCommodity);
                     com.setId(currentCommodiy.getId());
                     commMapper.updateById(com);//提交商品信息
                     ordersCommoditys.setAmount(Amount);//设置商品订单表购买数量

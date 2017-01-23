@@ -11,8 +11,8 @@
         <result column="amount" jdbcType="INTEGER" property="amount"/>
 
     </resultMap>
-    <select id="selectByOrderId" resultMap="BaseResultMap">
-        SELECT * FROM t_orders_commoditys WHERE orders_id = #{orderId}
+    <select id="selectCommIdByOrderId" resultType="java.lang.Long">
+        SELECT DISTINCT commodity_id FROM t_orders_commoditys WHERE orders_id = #{orderId}
     </select>
     <select id="countUserCommAmount" resultType="java.lang.Integer">
         SELECT SUM(amount) FROM t_orders_commoditys
