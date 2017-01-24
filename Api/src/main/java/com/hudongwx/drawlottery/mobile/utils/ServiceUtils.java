@@ -59,7 +59,7 @@ public class ServiceUtils {
     }
 
     public static boolean insertNotificationPrizeInfo(NotificationPrizeMapper npMapper, Commoditys comms, LotteryInfo lotteryInfo, User user) {
-        if (null != npMapper.selectIdByCommId(comms.getId()))
+        if (!npMapper.selectIdByCommId(comms.getId()).isEmpty() )
             return false;
         Long acc = lotteryInfo.getUserAccountId();
         NotificationPrize nPrize = new NotificationPrize();
@@ -69,6 +69,7 @@ public class ServiceUtils {
         nPrize.setLuckCodesId(lotteryInfo.getLotteryId());
         nPrize.setNoticeTitle("商品中奖消息");
         nPrize.setNoticeContent("恭喜【" + user.getNickname() + "】获得【" + comms.getName()+"】!");
+        System.out.println("lotteryInfo.getEndDate()"+lotteryInfo.getEndDate());
         nPrize.setOnPrizeDate(lotteryInfo.getEndDate().getTime());
         nPrize.setState(0);
         nPrize.setSendDate(System.currentTimeMillis());

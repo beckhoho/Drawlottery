@@ -21,7 +21,7 @@ public class LotteryUtils {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
 
     @Async
-    public static LotteryInfo raffle(CommodityMapper commMapper, CommoditysMapper commsMapper, OrdersMapper ordersMapper, LuckCodeTemplateMapper codesTemplateMapper, LuckCodesMapper luckCodesMapper, LotteryInfoMapper lotteryInfoMapper, UserMapper userMapper, Commoditys commodity) {
+    public static LotteryInfo raffle(NotificationPrizeMapper npMapper,CommodityMapper commMapper, CommoditysMapper commsMapper, OrdersMapper ordersMapper, LuckCodeTemplateMapper codesTemplateMapper, LuckCodesMapper luckCodesMapper, LotteryInfoMapper lotteryInfoMapper, UserMapper userMapper, Commoditys commodity) {
         Calendar calendar = Calendar.getInstance();
         //查询最后购买的五十条商品信息
         List<Orders> orderses = ordersMapper.selectByBuyDateDesc();
@@ -61,7 +61,7 @@ public class LotteryUtils {
 //        int i = lotteryInfoMapper.insertSelective(lotteryInfo);
 
         //延时开奖
-        UpdateTiming update = new UpdateTiming(commMapper, commsMapper, codesTemplateMapper, luckCodesMapper, lotteryInfoMapper, lotteryInfo);
+        UpdateTiming update = new UpdateTiming(npMapper,userMapper,commMapper, commsMapper, codesTemplateMapper, luckCodesMapper, lotteryInfoMapper, lotteryInfo);
         long endTime = commodity.getSellOutTime() + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
         endTime = endTime - System.currentTimeMillis();
         endTime = endTime / 1000;

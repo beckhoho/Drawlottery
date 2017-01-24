@@ -156,14 +156,12 @@ public class UserServiceImpl implements IUserService {
     }
 
     public Map<String, Object> selectExchange(Long commodityId) {
-        Map<String, Object> map = new HashMap<>();
-        Commoditys commoditys = comMapper.selectByKey(commodityId);
-        if (null == commoditys)
+        if (null == commodityId)
             return null;
-        List<CommodityExchange> exchanges = exchangeMapper.selectExcInfoByCommodityId(commoditys.getTempId());
-        for (CommodityExchange ex : exchanges) {
+        List<CommodityExchange> exchanges = exchangeMapper.selectExcInfoByCommodityId(commodityId);
+        Map<String, Object> map = new HashMap<>();
+        for (CommodityExchange ex : exchanges)
             map.put(ex.getExchangeWayId() + "", ex.getEwName());
-        }
         return map;
     }
 
