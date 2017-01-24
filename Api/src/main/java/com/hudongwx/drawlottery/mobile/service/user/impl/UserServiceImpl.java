@@ -124,11 +124,11 @@ public class UserServiceImpl implements IUserService {
         List<LotteryInfo> infos = lotteryInfoMapper.selectByUserAccountId(accountId, lastCommId, Settings.PAGE_LOAD_SIZE_10);
         for (LotteryInfo lotteryInfo : infos) {
             Commodity key = cMapper.selectByKey(lotteryInfo.getCommodityId());
-            long endTime = (key.getSellOutTime() == null ? 0 : key.getSellOutTime()) + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
-            endTime = System.currentTimeMillis() - endTime;
-            endTime = endTime / 1000;//换算成秒
-            if (endTime < 0)//开奖时间未到
-                continue;
+//            long endTime = (key.getSellOutTime() == null ? 0 : key.getSellOutTime()) + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
+//            endTime = System.currentTimeMillis() - endTime;
+//            endTime = endTime / 1000;//换算成秒
+//            if (endTime < 0)//开奖时间未到
+//                continue;
             //查询商品
             CommodityTemplate template = tempMapper.selectById(key.getTempId());
             //查询商品模板

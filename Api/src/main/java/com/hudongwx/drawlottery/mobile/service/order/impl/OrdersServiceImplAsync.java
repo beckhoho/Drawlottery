@@ -101,8 +101,8 @@ public class OrdersServiceImplAsync {
                     orderMapper.insert(ordersCommoditys);//添加商品订单信息
                     /*计算开奖幸运码*/
                     currentCommodiy.setSellOutTime(millis);
-                    LotteryUtils.raffle(mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
-                    addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
+                    LotteryUtils.raffle(commMapper,comMapper,mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
+//                    addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
                     continue;
                 }
             }
