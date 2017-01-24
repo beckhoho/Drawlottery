@@ -508,11 +508,16 @@ public class UserServiceImpl implements IUserService {
         //查询已支付的订单
         List<Long> orderIdList = ordersMapper.selectUserOrderIdByPayState(accountId, Settings.ORDERS_ALREADY_PAID);
         List<Map<String, Object>> mapList = new ArrayList<>();
-        System.out.println("orderIdList:" + JSONObject.toJSONString(orderIdList));
         for (Long orderId : orderIdList) {
             List<Long> commIdList = ordersCommoditysMapper.selectCommIdByOrderId(orderId);
-            System.out.println("orderId" + orderId + "commIdList" + JSONObject.toJSONString(commIdList));
             for (Long commId : commIdList) {
+                boolean has = false;
+                for (Map<String, Object> map : mapList) {
+                    if (map.get("id") == commId)
+                        has = true;
+                }
+                if (has)
+                    continue;
                 Commoditys comm = comMapper.selectByKey(commId);
                 if (null == comm)
                     continue;

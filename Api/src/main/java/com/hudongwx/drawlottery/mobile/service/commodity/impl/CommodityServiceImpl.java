@@ -194,9 +194,9 @@ public class CommodityServiceImpl implements ICommodityService {
     @Override
     public Map<String, Object> selectCommodity(User user, Long commodId) {
         Commoditys com = commsMapper.selectByKey(commodId);
-        commMapper.updateViewNum(commodId, com.getViewNum() + 1);//浏览量
         if (null == com)
             return null;
+        commMapper.updateViewNum(commodId, com.getViewNum() + 1);//浏览量
         Map<String, Object> map = new HashMap<>();
         String nextRound = null;
         Long nextRoundId = null;
