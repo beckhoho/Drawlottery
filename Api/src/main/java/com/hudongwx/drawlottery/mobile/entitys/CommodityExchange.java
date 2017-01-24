@@ -29,6 +29,12 @@ public class CommodityExchange {
     @Column(name = "exchange_way_id")
     private Integer exchangeWayId;
 
+    @Transient
+    private String ewName;//【表外添加项：】兑换方式名
+
+    @Transient
+    private String ewUrl;//【表外添加项：】兑换方式接口url
+
     private Integer state;
 
     public Long getId() {
@@ -61,5 +67,21 @@ public class CommodityExchange {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getEwName() {
+        return ewName;
+    }
+
+    public void setEwName(String ewName) {
+        this.ewName = ewName;
+    }
+
+    public String getEwUrl() {
+        return ewUrl;
+    }
+
+    public void setEwUrl(String ewUrl) {
+        this.ewUrl = ewUrl;
     }
 }
