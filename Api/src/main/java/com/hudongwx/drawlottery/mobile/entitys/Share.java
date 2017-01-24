@@ -1,7 +1,7 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.List;
 
 @Table(name = "t_share")
 public class Share {
@@ -38,6 +38,9 @@ public class Share {
      */
     @Column(name = "state")
     private int state;
+
+    @Transient
+    private List<ShareImg> imgList;
 
     public int getState() {
         return state;
@@ -131,5 +134,13 @@ public class Share {
      */
     public void setParticulars(String particulars) {
         this.particulars = particulars == null ? null : particulars.trim();
+    }
+
+    public List<ShareImg> getImgList() {
+        return imgList;
+    }
+
+    public void setImgList(List<ShareImg> imgList) {
+        this.imgList = imgList;
     }
 }

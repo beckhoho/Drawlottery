@@ -114,4 +114,16 @@ public class LuckCodesServiceImpl implements ILuckCodesService {
         mapper.insertCodeList(list);
     }
 
+    /**
+     * 查询用于参与总数
+     *
+     * @param accountId   用户id
+     * @param commodityId 商品id
+     * @return 参与总数
+     */
+    @Override
+    public int getCount(Long accountId, Long commodityId) {
+        return mapper.countUserCommAmount(accountId,commodityId);
+    }
+
 }

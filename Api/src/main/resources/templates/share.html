@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>分享详情页</title>
+    <link rel="stylesheet" href="../static/css/framework7.material.min.css"
+          th:href="@{/css/framework7.material.min.css}">
+    <link rel="stylesheet" href="../static/css/framework7.material.colors.min.css"
+          th:href="@{/css/framework7.material.colors.min.css}">
+    <link rel="stylesheet" href="../static/css/my-app.css"
+          th:href="@{/css/my-app.css}"/>
+</head>
+<body>
+<div class="view">
+    <div class="view-main">
+        <div class="pagas" >
+            <div class="page " data-page="home">
+                <div class="page-content">
+                    <div class="list-block media-list" >
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-media"><img src="http://lorempixel.com/88/88/fashion/4" th:src="${headUrl}" width="44"></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><a th:text="${nickname}">中奖用户</a></div>
+                                    </div>
+                                    <div class="item-subtitle" th:text="${shareTime}">发布时间：2017-01-15 15:30:20</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--商品标签 start-->
+                    <div class="content-block inset">
+                        <div class="content-block-inner ">
+                            <p><span>获奖商品：</span><span th:text="${name}">晒出你的个性</span></p>
+                            <p><span>商品期数：</span><span th:text="${roundTime}">晒出你的个性</span></p>
+                            <p><span>本期参与：</span><span th:text="${count}">n多</span>次</p>
+                            <p><span>幸运号：</span><span th:text="${luckCodes}">110</span></p>
+                            <p><span>揭晓时间：</span><span th:text="${endDate}">2017-01-07 12:50:06</span></p>
+                        </div>
+                    </div>
+                    <!--商品标签 end-->
+                    <div class="content-block"><p th:text="${content}">此处点击鼠标左键，任意划取部分文字信息，即可显示划词分享图标，实现用户轻松将鼠标选定信息一键分享到QQ空间、新浪微博、人人网等各大媒体平台。</p>
+                        <div th:each="imgSrc,state : ${imgList}">
+                            <img src="img/20170107143340.png" th:src="${imgSrc.shareImgUrl}" width="100%"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

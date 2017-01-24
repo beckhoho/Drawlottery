@@ -37,6 +37,9 @@
         </if>
         order by id desc limit #{pageLoadSize}
     </select>
+    <select id="selectDetailsById" resultMap="BaseResultMap">
+        SELECT * from draw_lottery.t_share where t_share.id = #{shareId}
+    </select>
     <insert id="insertByGeneratedKeys" parameterType="Share" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO t_share(user_account_id,issue_date,commodity_id,particulars)
     values(#{userAccountId},#{issueDate},#{commodityId},#{particulars})

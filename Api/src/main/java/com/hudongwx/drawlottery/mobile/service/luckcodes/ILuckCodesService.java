@@ -60,4 +60,12 @@ public interface ILuckCodesService {
      * @param list 集合
      */
     void insertCodeList(List<LuckCodes> list);
+
+    /**
+     * 查询用于参与总数
+     * @param accountId 用户id
+     * @param commodityId 商品id
+     * @return 参与总数
+     */
+    int getCount(Long accountId,Long commodityId);
 }

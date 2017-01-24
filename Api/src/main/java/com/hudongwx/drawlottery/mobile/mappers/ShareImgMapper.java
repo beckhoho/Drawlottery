@@ -2,6 +2,9 @@ package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
 import com.hudongwx.drawlottery.mobile.entitys.ShareImg;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -19,4 +22,5 @@ import com.hudongwx.drawlottery.mobile.entitys.ShareImg;
  * @email 346905702@qq.com
  */
 public interface ShareImgMapper extends BaseMapper<ShareImg>{
+    List<ShareImg> selectByShare(@Param("shareId") Long shareId);
 }

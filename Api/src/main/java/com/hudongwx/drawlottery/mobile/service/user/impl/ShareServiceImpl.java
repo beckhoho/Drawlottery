@@ -166,6 +166,20 @@ public class ShareServiceImpl implements IShareService {
     }
 
     /**
+     * 得到晒单详情
+     *
+     * @param shareId 分享id
+     * @return 晒单详情
+     */
+    @Override
+    public Share getShare(Long shareId) {
+        final Share share = shareMapper.selectDetailsById(shareId);
+        List<ShareImg> list = shareImgMapper.selectByShare(share.getId());
+        share.setImgList(list);
+        return share;
+    }
+
+    /**
      * 添加用户晒单
      *
      * @return 返回添加用户晒单
