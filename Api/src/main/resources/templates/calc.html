@@ -27,7 +27,7 @@
                             <div class="card-content-inner color-white">计算公式：<p>（数值A÷数值B）取余数+100000001</p></div>
                         </div>
                     </div>
-                    <div class="list-block media-list">
+                    <div class="list-block media-list" th:object="${info}">
                         <ul>
                             <li class="item-link item-content">
                                 <div class="item-inner">
@@ -48,9 +48,6 @@
                                             <div class="row">
                                                 <div class="col-65">中奖时间</div>
                                                 <div class="col-35">中奖用户</div>
-                                            </div>
-                                            <div th:text="*{sumDate}?*{sumDate}:'暂无'" style="color:red">
-                                                66
                                             </div>
                                         </div>
                                     </div>
@@ -87,7 +84,7 @@
     </div>
 </div>
 </body>
-<script th:inline="javascript" th:class="${info}?${info}">
+<script th:inline="javascript" th:object="${info}">
     var lottery_info = /*[[*{lotteryInfo}?*{lotteryInfo}]]*/'[]';
     window.onload = function () {
         var dom = document.getElementById('list_body');

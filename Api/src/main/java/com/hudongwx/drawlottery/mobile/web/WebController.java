@@ -44,10 +44,8 @@ public class WebController {
     @RequestMapping("/commodityCalc/{id}")
     public String calc(@PathVariable("id") Long id, Model model) {
         final LotteryInfo lotteryInfo = lotteryInfoService.selectLottery(id);
-
-        if (null != lotteryInfo) {
-            model.addAttribute("info", lotteryInfo);
-        } else {
+        model.addAttribute("info", lotteryInfo == null ? new LotteryInfo() : lotteryInfo);
+        if (null == lotteryInfo) {
             final Commoditys commoditys = cService.getDetails(id);
             if (commoditys == null) {
                 model.addAttribute("buyTotalNumber", "未能获取到相关信息");
