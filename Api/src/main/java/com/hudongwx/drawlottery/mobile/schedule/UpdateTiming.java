@@ -1,7 +1,10 @@
 package com.hudongwx.drawlottery.mobile.schedule;
 
-import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
-import com.hudongwx.drawlottery.mobile.mappers.LotteryInfoMapper;
+import com.hudongwx.drawlottery.mobile.entitys.*;
+import com.hudongwx.drawlottery.mobile.mappers.*;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 开发公司：hudongwx.com<br/>
@@ -24,14 +27,39 @@ public class UpdateTiming extends DelayTask{
 
     LotteryInfo lotteryInfo;
 
-    public UpdateTiming(LotteryInfoMapper lotteryInfoMapper,LotteryInfo lotteryInf){
+    CommodityMapper commMapper;
+
+    CommoditysMapper commsMapper;
+
+    LuckCodeTemplateMapper luckCodeTemplateMapper;
+
+    LuckCodesMapper luckCodesMapper;
+    public UpdateTiming(CommodityMapper commMapper,CommoditysMapper commsMapper,LuckCodeTemplateMapper luckCodeTemplateMapper,LuckCodesMapper luckCodesMapper, LotteryInfoMapper lotteryInfoMapper, LotteryInfo lotteryInf){
         this.lotteryInfo = lotteryInf;
         this.lotteryInfoMapper=lotteryInfoMapper;
+        this.commMapper=commMapper;
+        this.commsMapper=commsMapper;
+        this.luckCodeTemplateMapper=luckCodeTemplateMapper;
+        this.luckCodesMapper=luckCodesMapper;
     }
 
     @Override
     public void todo() {
-//        int i = lotteryInfoMapper.insertSelective(lotteryInfo);
-        System.out.println("开奖信息插入数据库情况：---------->");
+        int i = lotteryInfoMapper.insertSelective(lotteryInfo);
+        System.out.println("开奖信息插入数据库情况：---------->"+i);
+        Long commodityId = lotteryInfo.getCommodityId();
+        Commoditys key = commsMapper.selectByKey(commodityId);
+        LotteryInfo lotteryInfo1 = lotteryInfoMapper.selectByComId(commodityId);
+        Long lotteryId1 = lotteryInfo1.getLotteryId();
+        LuckCodeTemplate byCode = luckCodeTemplateMapper.selectByCode(lotteryId1 + "");
+        LuckCodes luckCodes = luckCodesMapper.selectBytemplate(byCode.getId(), commodityId);
+        List<LuckCodes> id = luckCodesMapper.selectByUserAccountId(luckCodes.getUserAccountId(), commodityId);
+
+        Commodity com = new Commodity();
+        com.setId(key.getId());
+        com.setBuyNumber(id.size());
+        com.setEndTime(new Date().getTime());
+        int j = commMapper.updateByPrimaryKeySelective(com);
+        System.out.println("更新商品信息！"+j);
     }
 }

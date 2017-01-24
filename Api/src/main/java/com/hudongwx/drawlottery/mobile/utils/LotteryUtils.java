@@ -19,8 +19,9 @@ public class LotteryUtils {
     //    时间格式化样式
     private static String pattern = "yyyy年MM月dd日 HH:mm:ss:SSS";
     private static SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+
     @Async
-    public static LotteryInfo raffle(OrdersMapper ordersMapper, LuckCodeTemplateMapper templateMapper, LuckCodesMapper luckCodesMapper, LotteryInfoMapper lotteryInfoMapper, UserMapper userMapper, Commoditys commodity) {
+    public static LotteryInfo raffle(CommodityMapper commMapper, CommoditysMapper commsMapper, OrdersMapper ordersMapper, LuckCodeTemplateMapper codesTemplateMapper, LuckCodesMapper luckCodesMapper, LotteryInfoMapper lotteryInfoMapper, UserMapper userMapper, Commoditys commodity) {
         Calendar calendar = Calendar.getInstance();
         //查询最后购买的五十条商品信息
         List<Orders> orderses = ordersMapper.selectByBuyDateDesc();
@@ -38,7 +39,7 @@ public class LotteryUtils {
             String date = formatDate(buyDate);
             //计算毫秒值
             subTime = substringTime(date);
-            sumDate+=Integer.valueOf(subTime);
+            sumDate += Integer.valueOf(subTime);
             array.add(date + " " + subTime + " : " + user.getNickname());
         }
         lotteryInfo.setCommodityId(commodity.getId());//商品id
@@ -52,16 +53,20 @@ public class LotteryUtils {
          */
         long lotteryId = (sumDate % commodity.getBuyTotalNumber()) + 10000001;
         lotteryInfo.setLotteryId(lotteryId);
-        LuckCodeTemplate template = templateMapper.selectByCode(lotteryId + "");
+        LuckCodeTemplate template = codesTemplateMapper.selectByCode(lotteryId + "");
         LuckCodes codes = luckCodesMapper.selectBytemplate(template.getId(), commodity.getId());
         lotteryInfo.setUserAccountId(codes.getUserAccountId());
-        //将开奖信息写入数据库
 
-        int i = lotteryInfoMapper.insertSelective(lotteryInfo);
-        //定时器
-        UpdateTiming update = new UpdateTiming(lotteryInfoMapper,lotteryInfo);
-        DelayTask.execute(update,10);
+        //如果不延时可将UpdateTiming类中todo()方法内的代码贴于此处即可马上将开奖信息写入数据库（即及时开奖）
+//        int i = lotteryInfoMapper.insertSelective(lotteryInfo);
 
+        //延时开奖
+        UpdateTiming update = new UpdateTiming(commMapper, commsMapper, codesTemplateMapper, luckCodesMapper, lotteryInfoMapper, lotteryInfo);
+        long endTime = commodity.getSellOutTime() + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
+        endTime = endTime - System.currentTimeMillis();
+        endTime = endTime / 1000;
+        System.out.println("延时--------------------->" + endTime+"秒！开奖！");
+        DelayTask.execute(update, (int) endTime);
 
         return lotteryInfo;
     }
@@ -85,10 +90,10 @@ public class LotteryUtils {
     private static String substringTime(String date) {
         String temp = date.split(" ")[1].trim();
         String res = "";
-        if(temp!=null&&!temp.equals("")){
+        if (temp != null && !temp.equals("")) {
             for (int i = 0; i < temp.length(); i++) {
-                if(temp.charAt(i)>=48&&temp.charAt(i)<=57){
-                    res+=temp.charAt(i);
+                if (temp.charAt(i) >= 48 && temp.charAt(i) <= 57) {
+                    res += temp.charAt(i);
                 }
             }
         }

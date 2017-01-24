@@ -2,8 +2,6 @@ package com.hudongwx.drawlottery.mobile.entitys;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "t_red_packets")
@@ -191,9 +189,9 @@ public class RedPackets {
         if(validDate != null && overdueDate != null){
             long time = System.currentTimeMillis();
             if(time>overdueDate || validDate<time){//是否在日期使用范围内
-                return true;
-            }else{
                 return false;
+            }else{
+                return true;
             }
         }
         return true;

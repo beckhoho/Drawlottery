@@ -90,7 +90,7 @@ public class OrdersServiceImpl implements IOrdersService {
             int buyNum = ca.getAmount();
             if (buyNum > remainingNum) {
                 Commodity commodity = commodityService.getNextCommodity(byKey.getId());
-                updateLuckCodes(accountId,commodity.getId(),buyNum-remainingNum,orders);
+                updateLuckCodes(accountId, commodity.getId(), buyNum - remainingNum, orders);
                 buyNum = remainingNum;
             }
 
@@ -169,7 +169,7 @@ public class OrdersServiceImpl implements IOrdersService {
         List<Long> idList = new ArrayList<>();
         User user = userMapper.selectById(accountId);
         m.put("remainder", user.getGoldNumber());//获得用户账户余额
-        List<RedPackets> list = redMapper.selectByState(accountId, 0);
+        List<RedPackets> list = redMapper.selectUserUsableRedPackets(accountId, System.currentTimeMillis());
         for (RedPackets r : list) {
             if (r.getUsePrice() <= sum) {
                 idList.add(r.getId());//红包ID
