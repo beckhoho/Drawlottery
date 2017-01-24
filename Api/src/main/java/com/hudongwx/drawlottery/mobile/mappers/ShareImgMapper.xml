@@ -10,4 +10,7 @@
         <result column="share_img_url" jdbcType="VARCHAR" property="shareImgUrl" />
 
     </resultMap>
+    <select id="selectByShare" resultMap="BaseResultMap">
+      SELECT * from draw_lottery.t_share_img WHERE share_id = #{shareId}
+    </select>
 </mapper>

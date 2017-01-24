@@ -87,4 +87,11 @@ public interface IShareService {
      * @return
      */
     public boolean isReady();
+
+    /**
+     * 得到晒单详情
+     * @param shareId 分享id
+     * @return 晒单详情
+     */
+    public Share getShare(Long shareId);
 }

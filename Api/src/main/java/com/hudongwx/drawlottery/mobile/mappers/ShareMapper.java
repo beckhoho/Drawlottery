@@ -29,4 +29,11 @@ public interface ShareMapper extends BaseMapper<Share> {
     int insertByGeneratedKeys(Share share);
 
     List<Share> selectAllWithPage(@Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
+
+    /**
+     * 得到晒单详情
+     * @param shareId 分享id
+     * @return 详情
+     */
+    Share selectDetailsById(@Param("shareId") Long shareId);
 }
