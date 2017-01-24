@@ -21,7 +21,7 @@
             <div class="page">
                 <!--content start-->
                 <!--/*@thymesVar id="info" type="com.hudongwx.drawlottery.mobile.entitys.LotteryInfo"*/-->
-                <div class="page-content" th:object="${info}">
+                <div class="page-content">
                     <div class="card">
                         <div class="card-content bg-red">
                             <div class="card-content-inner color-white">计算公式：<p>（数值A÷数值B）取余数+100000001</p></div>
@@ -35,7 +35,8 @@
                                         <div class="item-title">数值A</div>
                                     </div>
                                     <div>=截止该奖品开奖时间点前本站全部奖品的最后50次参与时间所代表数值之和</div>
-                                    <div class="item-text">=<span th:text="*{sumDate}" style="color:red">123</span></div>
+                                    <div class="item-text">=<span th:text="*{sumDate}?*{sumDate}:'暂无'"
+                                                                  style="color:red">123</span></div>
 
                                     <div class="item-after" style="color: #007AFF;"><a id="toggle-btn"
                                                                                        onclick="toggle()"
@@ -47,6 +48,9 @@
                                             <div class="row">
                                                 <div class="col-65">中奖时间</div>
                                                 <div class="col-35">中奖用户</div>
+                                            </div>
+                                            <div th:text="*{sumDate}?*{sumDate}:'暂无'" style="color:red">
+                                                66
                                             </div>
                                         </div>
                                     </div>
@@ -60,7 +64,9 @@
                                         <div class="item-title">数值B</div>
                                     </div>
                                     <div class="item-subtitle">=奖品所需人次</div>
-                                    <div class="item-text">=<span th:text="*{buyNum}" style="color: red;">20</span></div>
+                                    <div class="item-text">=<span th:text="*{buyNum}?*{buyNum}:${buyTotalNumber}"
+                                                                  style="color: red;">20</span>
+                                    </div>
                                 </div>
                                 </a></li>
                             <li class="item-link item-content">
@@ -68,7 +74,9 @@
                                     <div class="item-title-row">
                                         <div class="item-title">计算结果</div>
                                     </div>
-                                    <div class="item-text">幸运号码：<span style="color: red;" th:text="*{lotteryId}">50</span></div>
+                                    <div class="item-text">幸运号码：<span style="color: red;"
+                                                                      th:text="*{lotteryId}?*{lotteryId}:'暂无相关信息'">50</span>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -79,16 +87,24 @@
     </div>
 </div>
 </body>
-<script th:inline="javascript">
-    var lottory_info = /*[[${info.lotteryInfo}]]*/'[]';
+<script th:inline="javascript" th:class="${info}?${info}">
+    var lottery_info = /*[[*{lotteryInfo}?*{lotteryInfo}]]*/'[]';
     window.onload = function () {
         var dom = document.getElementById('list_body');
-        JSON.parse(lottory_info).map(function (item) {
+        var array = JSON.parse(lottery_info);
+        if (array.length > 0) {
+            array.map(function (item) {
+                var para = document.createElement("div");
+                var node = document.createTextNode(item);
+                para.appendChild(node);
+                dom.appendChild(para);
+            });
+        } else {
             var para = document.createElement("div");
-            var node = document.createTextNode(item);
+            var node = document.createTextNode('暂无数据');
             para.appendChild(node);
             dom.appendChild(para);
-        });
+        }
     }
     function toggle() {
         var dom = document.getElementById("lottery_list");

@@ -1,5 +1,6 @@
 package com.hudongwx.drawlottery.mobile.web;
 
+import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
 import com.hudongwx.drawlottery.mobile.entitys.LotteryInfo;
 import com.hudongwx.drawlottery.mobile.entitys.NotificationCampaign;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
@@ -43,13 +44,23 @@ public class WebController {
     @RequestMapping("/commodityCalc/{id}")
     public String calc(@PathVariable("id") Long id, Model model) {
         final LotteryInfo lotteryInfo = lotteryInfoService.selectLottery(id);
-        model.addAttribute("info", lotteryInfo);
+
+        if (null != lotteryInfo) {
+            model.addAttribute("info", lotteryInfo);
+        } else {
+            final Commoditys commoditys = cService.getDetails(id);
+            if (commoditys == null) {
+                model.addAttribute("buyTotalNumber", "未能获取到相关信息");
+            } else
+                model.addAttribute("buyTotalNumber", commoditys.getBuyTotalNumber());
+        }
         return "calc";
     }
+
     @RequestMapping("/activities")
-    public String getActivities(Model model){
+    public String getActivities(Model model) {
         final List<NotificationCampaign> activities = notificationCampaignService.selectNews();
-        model.addAttribute("activities",activities);
+        model.addAttribute("activities", activities);
         return "news_activity";
     }
 }

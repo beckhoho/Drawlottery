@@ -295,6 +295,26 @@
     <select id="selectPurchaseRecord" resultMap="BaseResultMap">
 
     </select>
+    <select id="selectDetails" resultType="com.hudongwx.drawlottery.mobile.entitys.Commoditys">
+        SELECT
+          commodity.commodity_id id,
+          temp.name,
+          commodity.round_time                                      AS roundTime,
+          temp.genre,
+          IFNULL(type.name,'未知类型')                                                AS typeName,
+          IFNULL(state.name, '未知状态')                        AS stateName,
+          temp.ground_time                                     AS groundTime,
+          commodity.undercarriage_time                              AS undercarriageTime,
+          commodity.view_num                                        AS viewNum,
+          temp.buy_total_number                                AS buyTotalNumber,
+          commodity.buy_current_number                              AS buyCurrentNumber,
+          temp.buy_total_number - commodity.buy_current_number AS buyNowNumber
+        FROM draw_lottery.t_commoditys AS commodity
+        LEFT JOIN draw_lottery.t_commodity_template as temp on commodity.temp_id = temp.id
+          LEFT JOIN draw_lottery.t_commodity_type AS type ON temp.commodity_type_id = type.id
+          LEFT JOIN draw_lottery.t_commodity_states AS state ON commodity.state_id = state.id
+        where commodity_id = #{id}
+    </select>
 
     <!-- 商品通用查询语句 -->
     <sql id="selectSql">
