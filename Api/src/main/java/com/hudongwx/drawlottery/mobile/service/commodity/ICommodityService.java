@@ -118,6 +118,7 @@ public interface ICommodityService {
 
     /**
      * 得到下一期商品
+     *
      * @param id 商品id
      * @return 商品
      */
@@ -125,7 +126,16 @@ public interface ICommodityService {
 
     /**
      * 生成下一期商品
+     *
      * @param id
      */
     Commodity groundNext(Long id);
+
+    /**
+     * 得到商品细节信息，整合模板信息
+     *
+     * @param id
+     * @return
+     */
+    Commoditys getDetails(Long id);
 }

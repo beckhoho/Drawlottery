@@ -617,5 +617,16 @@ public class CommodityServiceImpl implements ICommodityService {
         return next;
     }
 
+    /**
+     * 得到商品细节信息，整合模板信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Commoditys getDetails(Long id) {
+        return commsMapper.selectDetails(id);
+    }
+
 
 }
