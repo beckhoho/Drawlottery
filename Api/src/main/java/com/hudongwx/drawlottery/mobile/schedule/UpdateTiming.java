@@ -60,7 +60,6 @@ public class UpdateTiming extends DelayTask {
         Commoditys key = commsMapper.selectByKey(commodityId);
         User user = userMapper.selectById(this.lotteryInfo.getUserAccountId());
         boolean b = ServiceUtils.insertNotificationPrizeInfo(npMapper, key, this.lotteryInfo, user);
-        System.out.println("插入中奖通知：----------->" + b);
         LotteryInfo lotteryInfo1 = lotteryInfoMapper.selectByComId(commodityId);
         Long lotteryId1 = lotteryInfo1.getLotteryId();
         LuckCodeTemplate byCode = luckCodeTemplateMapper.selectByCode(lotteryId1 + "");
@@ -72,6 +71,5 @@ public class UpdateTiming extends DelayTask {
         com.setBuyNumber(id.size());
         com.setEndTime(new Date().getTime());
         int j = commMapper.updateByPrimaryKeySelective(com);
-        System.out.println("更新商品信息！" + j);
     }
 }

@@ -457,7 +457,7 @@ public class CommodityServiceImpl implements ICommodityService {
                     Long acc = lotteryInfo.getUserAccountId();
                     userPayNum = lotteryInfo.getBuyNum();
                     User user = userMapper.selectById(acc);
-                    ServiceUtils.insertNotificationPrizeInfo(npMapper, comm, lotteryInfo, user);
+//                    ServiceUtils.insertNotificationPrizeInfo(npMapper, comm, lotteryInfo, user);
                     userNickName = user.getNickname();
                     userHeadImgUrl = user.getHeaderUrl();
                 }

@@ -69,8 +69,8 @@ public class ServiceUtils {
         nPrize.setLuckCodesId(lotteryInfo.getLotteryId());
         nPrize.setNoticeTitle("商品中奖消息");
         nPrize.setNoticeContent("恭喜【" + user.getNickname() + "】获得【" + comms.getName()+"】!");
-        System.out.println("lotteryInfo.getEndDate()"+lotteryInfo.getEndDate());
-        nPrize.setOnPrizeDate(lotteryInfo.getEndDate().getTime());
+        Date endDate = lotteryInfo.getEndDate();
+        nPrize.setOnPrizeDate(endDate==null?System.currentTimeMillis():endDate.getTime());
         nPrize.setState(0);
         nPrize.setSendDate(System.currentTimeMillis());
         return npMapper.insertNotificationPrize(nPrize) > 0;
