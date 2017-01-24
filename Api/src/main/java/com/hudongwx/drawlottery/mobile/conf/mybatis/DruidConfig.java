@@ -37,7 +37,7 @@ public class DruidConfig {
         LOG.info("初始化Druid Servlet 配置");
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
         servletRegistrationBean.setServlet(new StatViewServlet());
-        servletRegistrationBean.addUrlMappings("/console/druid/*");
+        servletRegistrationBean.addUrlMappings("/druid/*");
         Map<String, String> initParameters = new HashMap<String, String>();
         initParameters.put("loginUsername", "admin-1");// 用户名
         initParameters.put("loginPassword", "admin-1");// 密码
@@ -53,7 +53,7 @@ public class DruidConfig {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new WebStatFilter());
         filterRegistrationBean.addUrlPatterns("/api/*");
-        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/console/druid/*");
+        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
         return filterRegistrationBean;
     }
 
