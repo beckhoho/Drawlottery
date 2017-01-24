@@ -178,4 +178,13 @@ public interface CommoditysMapper extends BaseMapper<Commoditys> {
     List<Commoditys> selectPurchaseRecord(@Param("userId") Long userId, @Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 
     Commoditys selectDetails(@Param("id") Long id);
+
+    /**
+     * 三人夺宝
+     *
+     * @param lastCommId
+     * @param pageLoadSize
+     * @return
+     */
+    List<Commoditys> selectThreeCampaign( @Param("lastCommId") Long lastCommId, @Param("pageLoadSize") Integer pageLoadSize);
 }

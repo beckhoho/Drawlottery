@@ -13,12 +13,12 @@
 
     <select id="selectByIdList" resultMap="BaseResultMap">
         select * from t_exchange_way
-        <where>
-            id IN
+        <if test="idList !=null and idList.size() !=0">
+            WHERE id IN
             <foreach collection="idList" item="id" open="(" separator="," close=")">
                 #{id}
             </foreach>
-        </where>
+        </if>
     </select>
 
     <select id="selectById" resultMap="BaseResultMap">

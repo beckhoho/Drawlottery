@@ -11,8 +11,13 @@
         <result column="state" jdbcType="INTEGER" property="state"/>
 
     </resultMap>
-    <select id="selectByCommodityId" resultMap="BaseResultMap">
-        select * from t_commodity_exchange where commodity_id = #{commodityId}
+    <select id="selectExcInfoByCommodityId" resultMap="BaseResultMap">
+        select way.name as ewName, way.id AS exchangeWayId,way.url AS ewUrl from t_commodity_exchange tce
+	    inner join t_commodity_template temp
+        inner join t_commoditys tc
+        inner join t_exchange_way way
+        on temp.id = tce.commodity_id and temp.id=tc.temp_id and way.id = tce.exchange_way_id
+        and tc.commodity_id = #{commodityId}
     </select>
 
     <select id="selectByIdList" resultMap="BaseResultMap">

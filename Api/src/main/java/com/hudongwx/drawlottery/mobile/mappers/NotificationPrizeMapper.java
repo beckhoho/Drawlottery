@@ -31,5 +31,5 @@ public interface NotificationPrizeMapper extends BaseMapper<NotificationPrize> {
      * @param commId
      * @return
      */
-    Long selectIdByCommId(@Param("commId") Long commId);
+    List<Long> selectIdByCommId(@Param("commId") Long commId);
 }

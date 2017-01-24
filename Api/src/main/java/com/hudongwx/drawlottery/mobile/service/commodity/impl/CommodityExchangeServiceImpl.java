@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.commodity.impl;
 
 import com.hudongwx.drawlottery.mobile.entitys.CommodityExchange;
-import com.hudongwx.drawlottery.mobile.entitys.ExchangeWay;
 import com.hudongwx.drawlottery.mobile.mappers.CommodityExchangeMapper;
 import com.hudongwx.drawlottery.mobile.mappers.ExchangeWayMapper;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityExchangeService;
@@ -54,19 +53,14 @@ public class CommodityExchangeServiceImpl implements ICommodityExchangeService {
 
     @Override
     public List<Map<String, Object>> selectByCommodityId(Long commId) {
-        List<Map<String, Object>> mapList = null;
-        List<CommodityExchange> exchangeList = ceMapper.selectByCommodityId(commId);
-        List<Integer> ewIdList = new ArrayList<>();
-        for (CommodityExchange ce : exchangeList) {
-            ewIdList.add(ce.getExchangeWayId());
-        }
-        List<ExchangeWay> ewList = ewMapper.selectByIdList(ewIdList);
-        mapList = new ArrayList<>();
-        for (ExchangeWay exchangeWay : ewList) {
+        //查询商品的兑换方式
+        List<CommodityExchange> exchangeList = ceMapper.selectExcInfoByCommodityId(commId);
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        for (CommodityExchange commExc : exchangeList) {
             Map<String, Object> map = new HashMap<>();
-            map.put("id", exchangeWay.getId());
-            map.put("exchangeWay", exchangeWay.getName());
-            map.put("url", Settings.SERVER_URL_PATH + exchangeWay.getUrl());
+            map.put("id", commExc.getExchangeWayId());//兑换方式id
+            map.put("exchangeWay", commExc.getEwName());//兑换方式名称
+            map.put("url", Settings.SERVER_URL_PATH + commExc.getEwUrl());//接口url
             map.put("quota", 0);
             mapList.add(map);
         }

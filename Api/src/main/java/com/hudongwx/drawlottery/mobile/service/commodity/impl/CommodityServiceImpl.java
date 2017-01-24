@@ -147,6 +147,8 @@ public class CommodityServiceImpl implements ICommodityService {
             cList = commsMapper.selectByTemp3(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         } else if (type == Settings.COMMODITY_ORDER_HIGHT_RATE) {
             cList = commsMapper.selectHeight(lastCommId, Settings.PAGE_LOAD_SIZE_10);
+        } else if (type == 14) {
+            cList = commsMapper.selectThreeCampaign(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         } else {
             cList = commsMapper.selectByTemp4(lastCommId, Settings.PAGE_LOAD_SIZE_10);
         }
@@ -194,6 +196,7 @@ public class CommodityServiceImpl implements ICommodityService {
         Commoditys com = commsMapper.selectByKey(commodId);
         if (null == com)
             return null;
+        commMapper.updateViewNum(commodId, com.getViewNum() + 1);//浏览量
         Map<String, Object> map = new HashMap<>();
         String nextRound = null;
         Long nextRoundId = null;
@@ -289,6 +292,7 @@ public class CommodityServiceImpl implements ICommodityService {
         if (null != lotteryInfo)
             user1 = userMapper.selectById(lotteryInfo.getUserAccountId());
         Map<String, Object> historyMap = new HashMap<>();
+        historyMap.put("preCommId", comh.getId());//上一期商品id
         historyMap.put("userName", user1 == null ? null : user1.getNickname());//添加用户昵称
         historyMap.put("userHeaderImg", user1 == null ? null : user1.getHeaderUrl());//添加用户头像
         historyMap.put("roundTime", comh.getRoundTime());//添加期数
@@ -453,7 +457,7 @@ public class CommodityServiceImpl implements ICommodityService {
                     Long acc = lotteryInfo.getUserAccountId();
                     userPayNum = lotteryInfo.getBuyNum();
                     User user = userMapper.selectById(acc);
-                    ServiceUtils.insertNotificationPrizeInfo(npMapper, comm, lotteryInfo, user);
+//                    ServiceUtils.insertNotificationPrizeInfo(npMapper, comm, lotteryInfo, user);
                     userNickName = user.getNickname();
                     userHeadImgUrl = user.getHeaderUrl();
                 }
@@ -521,7 +525,7 @@ public class CommodityServiceImpl implements ICommodityService {
                 if (null != lotteryInfo) {
                     Long acc = lotteryInfo.getUserAccountId();
                     User user = userMapper.selectById(acc);
-                    ServiceUtils.insertNotificationPrizeInfo(npMapper, comms, lotteryInfo, user);
+//                    ServiceUtils.insertNotificationPrizeInfo(npMapper, comms, lotteryInfo, user);
                     userPayNum = lotteryInfo.getBuyNum();
                     userNickName = user == null ? null : user.getNickname();
                     userHeadImgUrl = user == null ? null : user.getHeaderUrl();
@@ -627,6 +631,5 @@ public class CommodityServiceImpl implements ICommodityService {
     public Commoditys getDetails(Long id) {
         return commsMapper.selectDetails(id);
     }
-
 
 }

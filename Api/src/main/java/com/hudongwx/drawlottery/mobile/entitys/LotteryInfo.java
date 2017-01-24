@@ -1,7 +1,6 @@
 package com.hudongwx.drawlottery.mobile.entitys;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 /**

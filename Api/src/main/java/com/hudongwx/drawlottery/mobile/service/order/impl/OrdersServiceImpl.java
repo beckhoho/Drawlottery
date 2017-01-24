@@ -198,6 +198,7 @@ public class OrdersServiceImpl implements IOrdersService {
         for (CommodityAmount ca : commodityAmounts) {
             Commoditys commoditys = comMapper.selectByKey(ca.getCommodityId());
             Map<String, Object> map = new HashMap<>();
+            map.put("commId", ca.getCommodityId());//参与人次
             map.put("amount", ca.getAmount());//参与人次
             map.put("commodityName", commoditys.getName());//商品名
             map.put("roundTime", commoditys.getRoundTime());//期数

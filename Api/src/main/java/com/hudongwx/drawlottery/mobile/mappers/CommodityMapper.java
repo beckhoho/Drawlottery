@@ -99,4 +99,6 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
     void updateState(@Param("id") Long id, @Param("state") int state);
 
     int deleteCommInfoByCommId(@Param("commId")Long commId);
+
+    Integer updateViewNum(@Param("commId")Long commId,@Param("viewNum")Long viewNum);
 }

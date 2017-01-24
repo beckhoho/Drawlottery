@@ -315,6 +315,15 @@
           LEFT JOIN draw_lottery.t_commodity_states AS state ON commodity.state_id = state.id
         where commodity_id = #{id}
     </select>
+    <select id="selectThreeCampaign" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        WHERE template.commodity_type_id = 14
+        AND commodity.state_id = 3
+        <if test="lastCommId !=null and lastCommId != 0 ">
+            AND commodity.commodity_id &lt; (select commodity_id from t_commoditys where commodity_id = #{lastCommId})
+        </if>
+        ORDER BY commodity.commodity_id DESC limit #{pageLoadSize}
+    </select>
 
     <!-- 商品通用查询语句 -->
     <sql id="selectSql">

@@ -45,6 +45,8 @@ public class OrdersServiceImplAsync {
     CommodityTemplateMapper templeMapper;
     @Autowired
     CommodityHistoryMapper historyMapper;
+    @Autowired
+    NotificationPrizeMapper npMapper;
 
     /*
         订单异步处理方法
@@ -106,7 +108,7 @@ public class OrdersServiceImplAsync {
                     }
                     /*计算开奖幸运码*/
                     currentCommodiy.setSellOutTime(millis);
-                    LotteryUtils.raffle(commMapper, comMapper, mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
+                    LotteryUtils.raffle(npMapper, commMapper, comMapper, mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
 //                    addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
                     continue;
                 }

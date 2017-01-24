@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.web.user;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.OrderFormData;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
@@ -72,9 +71,7 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/suc", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOrderSuccess(@RequestParam("ordersId")Long ordersId ,@RequestBody JSONObject jsonObject) {
-        System.out.println("suc------>" + jsonObject.toString());
         Map<String, Object> mapInfo = ordersService.selectPaySuccess(getUserId(),ordersId, jsonObject);
-        System.out.println("mapList---------------->" + JSON.toJSONString(mapInfo));
         return success(mapInfo);
     }
 
