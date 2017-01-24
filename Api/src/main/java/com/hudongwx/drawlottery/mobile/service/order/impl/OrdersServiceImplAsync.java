@@ -70,6 +70,7 @@ public class OrdersServiceImplAsync {
             Commoditys currentCommodiy = comMapper.selectByKey(ca.getCommodityId());
             remainingNum = currentCommodiy.getBuyTotalNumber() - currentCommodiy.getBuyCurrentNumber();
             Amount = ca.getAmount();
+            TotalNum += Amount;
             //计算购买量和剩余量差值
             int sub = Amount - remainingNum;
             Commodity com = new Commodity();//**
@@ -101,7 +102,7 @@ public class OrdersServiceImplAsync {
                     orderMapper.insert(ordersCommoditys);//添加商品订单信息
                     /*计算开奖幸运码*/
                     currentCommodiy.setSellOutTime(millis);
-                    LotteryUtils.raffle(commMapper,comMapper,mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
+                    LotteryUtils.raffle(commMapper, comMapper, mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
 //                    addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
                     continue;
                 }

@@ -51,7 +51,7 @@ public class RedPacketsServiceImpl implements IRedPacketsService {
             map.put("worth", r.getWorth());//获取红包大小
             Integer useState = r.getUseState();
             map.put("useState", useState);//获取红包状态（1.已使用，0.未使用）
-            if (r.isExpired()) {
+            if (overdue(r)) {
                 map.put("overdue", Settings.RED_PACKET_overdue);//是否过期？0：未过期
             } else {
                 map.put("overdue", Settings.RED_PACKET_overdue_not);//是否过期？1：已过期

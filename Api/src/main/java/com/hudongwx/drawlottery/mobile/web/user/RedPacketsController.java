@@ -34,7 +34,7 @@ public class RedPacketsController extends BaseController {
     IOrdersService oService;
 
     /**
-     * 获取用户不可用的红包
+     * 获取用户红包
      *
      * @return JSONObject
      */
