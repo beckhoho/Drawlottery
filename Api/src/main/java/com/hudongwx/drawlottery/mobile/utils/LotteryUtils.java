@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class LotteryUtils {
     //    时间格式化样式
-    private static String pattern = "yyyy年MM月dd日 HH:mm:ss:SSS";
+    private static String pattern = "yyyy/MM/dd HH:mm:ss:SSS";
     private static SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
 
     @Async

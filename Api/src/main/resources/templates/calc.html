@@ -92,6 +92,7 @@
         if (array.length > 0) {
             array.map(function (item) {
                 var para = document.createElement("div");
+                para.style.fontSize = '13px';
                 var node = document.createTextNode(item);
                 para.appendChild(node);
                 dom.appendChild(para);
