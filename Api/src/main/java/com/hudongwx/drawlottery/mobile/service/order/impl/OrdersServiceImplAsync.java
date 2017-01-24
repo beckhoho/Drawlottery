@@ -100,6 +100,10 @@ public class OrdersServiceImplAsync {
                     commMapper.updateById(com);//提交商品信息
                     ordersCommoditys.setAmount(Amount);//设置商品订单表购买数量
                     orderMapper.insert(ordersCommoditys);//添加商品订单信息
+                    if (remainingNum == 0) {
+                        ca.setCommodityId(currentCommodiy.getId());
+                        commodityAmounts.add(ca);
+                    }
                     /*计算开奖幸运码*/
                     currentCommodiy.setSellOutTime(millis);
                     LotteryUtils.raffle(commMapper, comMapper, mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
