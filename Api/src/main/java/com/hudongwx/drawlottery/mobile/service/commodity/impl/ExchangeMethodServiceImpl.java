@@ -140,10 +140,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         CommodityTemplate template = templateMapper.selectById(history.getTempId());
 
-        Share s = new Share();
-        s.setUserAccountId(accountId);
-        s.setCommodityId(commodityId);
-        List<Share> select = shareMapper.select(s);
+        Share share = shareMapper.selectByCommId(commodityId);
 
         map.put("commodityName", template.getName());//商品名
         map.put("coverImgUrl", template.getCoverImgUrl());//商品封面图
@@ -164,7 +161,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
         map.put("state", 2);//添加兑换流程状态
         map.put("exchangeWay", history.getExchangeWay());//添加兌換方式ID
         //
-        if (select.size() > 0) {//晒单状态
+        if (share != null) {//晒单状态
             map.put("shareState", 1);
         } else {
             map.put("shareState", 0);
@@ -211,7 +208,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         List<Card> list = cardMapper.selectByCommodityId(commodityId);
 
-        if(list == null || list.size() == 0){   //查询没有匹配的充值卡
+        if (list == null || list.size() == 0) {   //查询没有匹配的充值卡
 
             Card card = new Card();
             card.setState(0);
@@ -229,7 +226,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
                     map1.put("password", null);
                     map1.put("state", cards.get(i).getState());
                     mapList.add(map1);
-                    cardMapper.updateCardState(cards.get(i).getCardNum(),commodityId);
+                    cardMapper.updateCardState(cards.get(i).getCardNum(), commodityId);
                     //更改充值卡状态并对应商品ID
                 }
                 map.put("cardNumberList", mapList);
@@ -239,10 +236,9 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
                 map.put("cardNumberList", new ArrayList<>());
                 map.put("worth", 0);
             }
-        }
-        else {
+        } else {
             map.put("size", num);
-            for (Card card : list){
+            for (Card card : list) {
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("cardNumber", card.getCardNum());
                 map1.put("password", card.getPassword());
@@ -255,7 +251,6 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         return map;
     }
-
 
 
     /**
@@ -395,7 +390,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
     }
 
     @Override
-    public String cardPassword(String card){
+    public String cardPassword(String card) {
         String s = cardMapper.selectCardPassword(card);
         return s;
     }

@@ -10,6 +10,8 @@ public interface ShareMapper extends BaseMapper<Share> {
 
     Share selectByCommId(@Param("commId") Long commId);
 
+    Share selectPassedCommShare(@Param("commId") Long commId);
+
     List<Share> selectByIssueDate(@Param("issueDate") Long issueDate);
 
     /**

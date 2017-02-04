@@ -123,17 +123,13 @@ public class UserServiceImpl implements IUserService {
         List<Map<String, Object>> mapList = new ArrayList<>();
         List<LotteryInfo> infos = lotteryInfoMapper.selectByUserAccountId(accountId, lastCommId, Settings.PAGE_LOAD_SIZE_10);
         for (LotteryInfo lotteryInfo : infos) {
+            //查询商品模板
             Commodity key = cMapper.selectByKey(lotteryInfo.getCommodityId());
             CommodityTemplate template = tempMapper.selectById(key.getTempId());
-            //查询商品模板
-            Share s = new Share();
-            s.setCommodityId(lotteryInfo.getCommodityId());
-            s.setUserAccountId(accountId);
-            List<Share> shares = shareMapper.select(s);
             //查询是否已晒单
-
+            Share share = shareMapper.selectByCommId(lotteryInfo.getCommodityId());
             Map<String, Object> map = new HashMap<>();
-            if (shares.size() > 0) {
+            if (share != null) {
                 map.put("shareState", 1);//是否晒单（0、未晒单；1、已晒单）
             } else {
                 map.put("shareState", 0);

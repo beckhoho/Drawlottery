@@ -281,7 +281,7 @@ public class ShareServiceImpl implements IShareService {
         if (!commIdList.isEmpty()) {
             shareList = new ArrayList<>();
             for (Long aCommId : commIdList) {
-                Share share = shareMapper.selectByCommId(aCommId);
+                Share share = shareMapper.selectPassedCommShare(aCommId);
                 if (null != share)
                     shareList.add(share);
             }
@@ -289,29 +289,6 @@ public class ShareServiceImpl implements IShareService {
         }
         return mapList;
     }
-
-//    /**
-//     * 首页晒单
-//     *
-//     * @return
-//     */
-//    @Override
-//    public List<Map<String, Object>> selectAll() {
-//        List<Map<String, Object>> mapList = new ArrayList<>();
-//        List<Share> list = shareMapper.selectAll();
-//        for (Share s : list) {
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("id", s.getId());//获取晒单ID
-//            map.put("accountId", s.getUserAccountId());//获取用户ID
-//            map.put("particulars", s.getParticulars());//获取晒单分享内容
-//            map.put("commodityId", s.getCommodityId());//添加商品ID
-//            map.put("date", s.getIssueDate());//添加晒单时间
-//            map.put("imgUrl", imgUrl(s));//添加晒单图片List
-//            mapList.add(map);
-//        }
-//
-//        return mapList;
-//    }
 
     public List<String> imgUrl(Share s) {
         List<String> list = new ArrayList<>();

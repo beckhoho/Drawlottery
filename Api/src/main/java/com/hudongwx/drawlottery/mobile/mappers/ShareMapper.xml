@@ -22,8 +22,8 @@
         order by id desc limit #{pageLoadSize}
     </select>
 
-    <select id="selectByCommId" resultMap="BaseResultMap">
-    select * from t_share where commodity_id = #{commId}
+    <select id="selectPassedCommShare" resultMap="BaseResultMap">
+    select * from t_share where commodity_id = #{commId} and state = 1
   </select>
 
     <select id="selectByIssueDate" resultMap="BaseResultMap">
@@ -39,6 +39,9 @@
     </select>
     <select id="selectDetailsById" resultMap="BaseResultMap">
         SELECT * from draw_lottery.t_share where t_share.id = #{shareId}
+    </select>
+    <select id="selectByCommId" resultMap="BaseResultMap">
+        SELECT * from t_share where commodity_id= #{commId}
     </select>
     <insert id="insertByGeneratedKeys" parameterType="Share" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO t_share(user_account_id,issue_date,commodity_id,particulars)
