@@ -170,7 +170,6 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public List<Map<String, Object>> selectHistoryPay(Long accountId, Integer item) {
-
         List<Map<String, Object>> mapList = new ArrayList<>();
         if (item == 1) {
             mapList = selectToNew(accountId);

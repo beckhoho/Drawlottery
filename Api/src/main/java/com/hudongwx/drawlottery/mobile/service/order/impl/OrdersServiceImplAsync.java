@@ -98,16 +98,14 @@ public class OrdersServiceImplAsync {
                     final Commodity nextCommodity = commodityService.groundNext(currentCommodiy.getId());
                     nextCommodity.setBuyCurrentNumber(sub);
                     commMapper.updateById(nextCommodity);
+                    currentCommodiy.setSellOutTime(millis);
                     com.setId(currentCommodiy.getId());
                     commMapper.updateById(com);//提交商品信息
+                    ordersCommoditys.setCommodityId(nextCommodity.getId());
                     ordersCommoditys.setAmount(Amount);//设置商品订单表购买数量
                     orderMapper.insert(ordersCommoditys);//添加商品订单信息
-                    if (remainingNum == 0) {
-                        ca.setCommodityId(currentCommodiy.getId());
-                        commodityAmounts.add(ca);
-                    }
                     /*计算开奖幸运码*/
-                    currentCommodiy.setSellOutTime(millis);
+
                     LotteryUtils.raffle(npMapper, commMapper, comMapper, mapper, templateMapper, codesMapper, lotteryInfoMapper, userMapper, currentCommodiy);
 //                    addHistory(ca.getCommodityId());//进入待揭晓状态直接将商品信息写入数据库
                     continue;
