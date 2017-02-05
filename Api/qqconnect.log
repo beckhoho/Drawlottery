@@ -66,3 +66,7 @@
 1978 INFO  [2017-01-24 03:06:36]  {dataSource-1} closed
 0    INFO  [2017-01-24 03:07:19]  {dataSource-1} inited
 1680 INFO  [2017-01-24 03:07:21]  {dataSource-1} closed
+0    INFO  [2017-02-05 15:06:29]  {dataSource-1} inited
+2537 INFO  [2017-02-05 15:06:32]  {dataSource-1} closed
+1    INFO  [2017-02-05 15:08:29]  {dataSource-1} inited
+1647 INFO  [2017-02-05 15:08:30]  {dataSource-1} closed

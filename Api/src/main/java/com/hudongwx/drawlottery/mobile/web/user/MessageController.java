@@ -62,5 +62,4 @@ public class MessageController extends BaseController {
         return success(data);
     }
 
-
 }

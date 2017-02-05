@@ -5,6 +5,7 @@ import com.hudongwx.drawlottery.mobile.entitys.CommodityType;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityTypeService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +36,13 @@ public class CommodityTypeController extends BaseController {
     @Autowired
     ICommodityTypeService ctService;
 
+    /**
+     * 获取商品类型信息
+     *
+     * @return
+     */
     @ResponseBody
+    @ApiOperation("获取商品类型信息")
     @RequestMapping(value = "/api/v1/pub/commtype/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAvailableCommType() {
         List<CommodityType> ctList = ctService.selectAvailable();

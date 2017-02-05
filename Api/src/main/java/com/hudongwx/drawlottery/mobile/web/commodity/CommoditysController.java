@@ -56,7 +56,7 @@ public class CommoditysController extends BaseController {
     @ApiOperation("搜索商品信息（默认搜所有）参数：category 类型；commName 商品名; lastCommName 最后一个商品Id")
     @RequestMapping(value = "/api/v1/pub/commodity/search", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommoditys(@RequestParam(name = "categoryId", required = false) Integer categoryId, @RequestParam(name = "commName", required = false) String commName, @RequestParam(name = "lastCommId", required = false) Long lastCommId) {
-        hsService.addHotSearch(commName);
+        hsService.addHotSearch(commName);//统计商品搜索次数
         List<Map<String, Object>> infoList = cService.selectPaging(categoryId, commName, lastCommId);
         return success(infoList);
     }
@@ -94,7 +94,7 @@ public class CommoditysController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/pub/commodity/search/name", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommoditys(@RequestParam("name") String name, @RequestParam("lastCommId") Long lastCommId) {
-        hsService.addHotSearch(name);
+        hsService.addHotSearch(name);//统计商品搜索次数
         List<Map<String, Object>> infoList = cService.selectPaging(null, name, lastCommId);
         return success(infoList);
     }
@@ -106,6 +106,7 @@ public class CommoditysController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("查看单件商品详情")
     @RequestMapping(value = "/api/v1/pub/commodity/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryCommoditysInfo(@RequestParam("commid") Long commodityid) {
         Map<String, Object> map = cService.selectCommodity(getUser(),commodityid);
@@ -132,6 +133,7 @@ public class CommoditysController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("查看单件正在开奖的商品")
     @RequestMapping(value = "/api/v1/pub/commodity/onlottery/one", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOnLotteryInfo(@RequestParam("commId") Long commId) {
         List<Map<String, Object>> mapList = cService.selectOneOnLottery(commId);
@@ -145,6 +147,7 @@ public class CommoditysController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("最新揭晓")
     @RequestMapping(value = "/api/v1/pub/commodity/announce", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryNewestAnnounced(@RequestParam("lastCommId") Long lastCommId) {
         List<Map<String, Object>> mapList = cService.selectNewestAnnounceComm(lastCommId);

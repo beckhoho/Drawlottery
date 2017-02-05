@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.service.images.ImagesService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +41,7 @@ public class ImagesController extends BaseController {
      *
      * @return JSONObject
      */
+    @ApiOperation("客户端首页的活动宣传图片")
     @RequestMapping(value = "event", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject event() {
         List<Map<String, Object>> infoList = iService.selectEvent();
@@ -51,6 +53,7 @@ public class ImagesController extends BaseController {
      *
      * @return JSONObject
      */
+    @ApiOperation("客户端欢迎页")
     @RequestMapping(value = "welcome", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject wellcome() {
         return success(iService.selectWelcomeImg());
@@ -61,6 +64,7 @@ public class ImagesController extends BaseController {
      *
      * @return JSONObject
      */
+    @ApiOperation("客户端导航页")
     @RequestMapping(value = "nav", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject navigate() {
         return success(iService.selectnavigeteImg());

@@ -105,4 +105,10 @@
     <select id="countUserCommAmount" resultType="java.lang.Integer">
         SELECT COUNT(id) FROM t_luck_codes WHERE user_account_id =#{accountId} and commodity_id=#{commId}
     </select>
+    <select id="selectAllUserPurchasedCommId" resultMap="BaseResultMap">
+        select a.buy_date,a.commodity_id from t_luck_codes a WHERE a.user_account_id=#{userAccountId} AND buy_date &lt; #{lastDate}
+        union
+        select b.buy_date,b.commodity_id from t_user_luck_codes_history b WHERE b.user_account_id=#{userAccountId} AND buy_date &lt; #{lastDate}
+        ORDER BY buy_date DESC LIMIT #{pageLoadSize}
+    </select>
 </mapper>

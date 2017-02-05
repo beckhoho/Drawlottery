@@ -5,6 +5,7 @@ import com.hudongwx.drawlottery.mobile.service.user.IShareImgService;
 import com.hudongwx.drawlottery.mobile.service.user.IShareService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -79,12 +80,13 @@ public class ShareController extends BaseController {
 
     /**
      * 用户添加晒单分享信息
-     *
+    *
      * @return
      */
     @ResponseBody
+    @ApiOperation("用户添加晒单分享信息（tip:审核通过（state==1）方能显示）")
     @RequestMapping(value = "/api/v1/user/share/upload.do", method = RequestMethod.POST)
-    public JSONObject uploadShareInfo(@RequestParam("commId") Long commId, @RequestParam("desc") String desc, @RequestParam("imgs") List<MultipartFile> imgs) {
+    public JSONObject uploadShareInfo(@RequestParam("commId") Long commId, @RequestParam("desc") String desc, @ApiParam("上传的图片集")@RequestParam("imgs") List<MultipartFile> imgs) {
         if (shareService.addShare(getUserId(), commId, desc, imgs)) {
             return success(true);
         } else {
@@ -98,6 +100,7 @@ public class ShareController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
+    @ApiOperation("获取用户晒单信息")
     @RequestMapping(value = "/api/v1/user/share/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryShareInfoByAccount(@ApiParam("回传最后一个商品Id") @RequestParam("lastCommId") Long lastCommId) {
         List<Map<String, Object>> shareAll = shareService.selectByUserAccountId(getUserId(), lastCommId);
@@ -122,8 +125,9 @@ public class ShareController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
+    @ApiOperation("获取所有用户晒单信息(带分页)")
     @RequestMapping(value = "/api/v1/pub/share/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryAllShareInfo(@RequestParam("lastCommId") Long lastCommId) {
+    public JSONObject queryAllShareInfo(@ApiParam("回传当前显示的最后一个商品id")@RequestParam("lastCommId") Long lastCommId) {
         List<Map<String, Object>> shareAll = shareService.selectAll(lastCommId);
         return success(shareAll);
     }

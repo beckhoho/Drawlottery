@@ -5,6 +5,7 @@ import com.hudongwx.drawlottery.mobile.entitys.DeliveryAddress;
 import com.hudongwx.drawlottery.mobile.service.user.IDeliveryAddressService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,11 +60,12 @@ public class DeliveryAddressController extends BaseController {
     }
 
     /**
-     * 修改收货地址
+     * 修改收货地址(tip:未使用)
      *
      * @param address 客户端传来的地址信息实体类
      * @return JSONObject
      */
+    @ApiOperation("修改收货地址（tip；未使用！）")
     @RequestMapping(value = "/api/v1/user/address/up", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateAddress(@RequestBody DeliveryAddress address) {
         boolean status = addressService.updateDa(getUserId(),address);
@@ -75,6 +77,7 @@ public class DeliveryAddressController extends BaseController {
      *
      * @return JSONObject
      */
+    @ApiOperation("查看收货地址信息")
     @RequestMapping(value = "/api/v1/user/address/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryAddress() {
         List<Map<String, Object>> mapList = addressService.selectByAccountId(getUserId());

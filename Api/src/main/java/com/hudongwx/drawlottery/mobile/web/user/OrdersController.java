@@ -7,6 +7,7 @@ import com.hudongwx.drawlottery.mobile.service.alipay.IAliPayService;
 import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,9 +46,10 @@ public class OrdersController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("用户提交订单")
     @RequestMapping(value = "/api/v1/user/orders/sub", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addOrders(@RequestBody OrderFormData orderFormData) {
-        return success("操作成功",ordersService.pay(getUserId(), orderFormData.getOrder(), orderFormData.getCaList()));
+        return success("操作成功", ordersService.pay(getUserId(), orderFormData.getOrder(), orderFormData.getCaList()));
     }
 
     /**
@@ -57,6 +59,7 @@ public class OrdersController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
+    @ApiOperation("用户查看订单信息（tip:未使用、未实现功能）")
     @RequestMapping(value = "/api/v1/user/orders/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryOrder(@RequestParam("orderid") Long orderid) {
         Orders order = new Orders();// TODO: 2016/12/24 查看单条订单？？？
@@ -69,14 +72,15 @@ public class OrdersController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
+    @ApiOperation("订单支付成功返回客户端信息接口")
     @RequestMapping(value = "/api/v1/user/orders/suc", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryOrderSuccess(@RequestParam("ordersId")Long ordersId ,@RequestBody JSONObject jsonObject) {
-        Map<String, Object> mapInfo = ordersService.selectPaySuccess(getUserId(),ordersId, jsonObject);
+    public JSONObject queryOrderSuccess(@RequestParam("ordersId") Long ordersId, @RequestBody JSONObject jsonObject) {
+        Map<String, Object> mapInfo = ordersService.selectPaySuccess(getUserId(), ordersId, jsonObject);
         return success(mapInfo);
     }
 
     /**
-     * 用户查看所有个人订单信息
+     * 用户查看所有个人订单信息（tip:未使用）
      *
      * @return JSONObject
      */
@@ -88,14 +92,14 @@ public class OrdersController extends BaseController {
     }
 
     /**
-     * 用户查看所有个人订单信息
+     * 用户查看所有个人订单信息(tip:未使用)
      *
      * @param orderId 用户id
      * @return JSONObject
      */
     @ResponseBody
     @RequestMapping(value = "/api/v1/user/orders/show/code", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryOrderCodes(@ApiParam("订单ID")@RequestParam("orderId") Long orderId) {
+    public JSONObject queryOrderCodes(@ApiParam("订单ID") @RequestParam("orderId") Long orderId) {
         List<Orders> olist = ordersService.selectByUserAccount(orderId);
         // TODO: 2017/1/9 查询code
         return success(olist);

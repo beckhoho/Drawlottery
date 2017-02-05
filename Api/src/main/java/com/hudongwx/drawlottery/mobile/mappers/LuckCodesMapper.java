@@ -13,9 +13,9 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
 
     LuckCodes selectById(@Param("lcId") Long lcId);
 
-    List<LuckCodes> selectByCommodity(@Param("commodityId")Long commodityId);
+    List<LuckCodes> selectByCommodity(@Param("commodityId") Long commodityId);
 
-    LuckCodes selectBytemplate(@Param("tempId")Long tempId,@Param("commodityId")Long commodityId);
+    LuckCodes selectBytemplate(@Param("tempId") Long tempId, @Param("commodityId") Long commodityId);
 
     int updateCodesState(@Param("accountId") Long accountId,
                          @Param("commodityId") Long commodityId,
@@ -33,7 +33,7 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
 
 
     //插入下一期商品幸运码
-    int insertLuckCode(@Param("endIndex") Integer endIndex,@Param("commId") Long commId);
+    int insertLuckCode(@Param("endIndex") Integer endIndex, @Param("commId") Long commId);
 
     //查看商品幸运码
     List<Long> selectCountByCommodity(@Param("commId") Long commId);
@@ -43,17 +43,17 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
 
     // List<User>
 
-    LuckCodes selectByOne(@Param("commodityId")Long commodityId,@Param("luckCoudId")Long luckCoudId);
+    LuckCodes selectByOne(@Param("commodityId") Long commodityId, @Param("luckCoudId") Long luckCoudId);
 
-    List<LuckCodes> selectByUserAccountId(@Param("userAccountId")Long userAccountId,@Param("commodityId")Long commodityId);
+    List<LuckCodes> selectByUserAccountId(@Param("userAccountId") Long userAccountId, @Param("commodityId") Long commodityId);
 
-    List<LuckCodes> selectByAccAndCommId(@Param("userAccountId")Long userAccountId,@Param("commId")Long commId);
+    List<LuckCodes> selectByAccAndCommId(@Param("userAccountId") Long userAccountId, @Param("commId") Long commId);
 
     //查看最后购买商品的五十条信息
     List<LuckCodes> selectByBuyDateDesc();
 
 
-    List<LuckCodes> selectByOrders(@Param("accountId")Long accountId,@Param("commodityId")Long commodityId,@Param("ordersId")Long ordersId);
+    List<LuckCodes> selectByOrders(@Param("accountId") Long accountId, @Param("commodityId") Long commodityId, @Param("ordersId") Long ordersId);
 
     //分页显示用户已购买正在进行的商品幸运码
     List<String> selectUserCommLuckCode(@Param("accountId") Long accountId, @Param("commId") Long commId, @Param("lastCode") String lastCode, @Param("pageLoadSize") Integer pageLoadSize);
@@ -62,9 +62,20 @@ public interface LuckCodesMapper extends BaseMapper<LuckCodes> {
 
     /**
      * 查询商品的用户购买量
+     *
      * @param accountId
      * @param commId
      * @return
      */
-    Integer countUserCommAmount(@Param("accountId")Long accountId, @Param("commId")Long commId);
+    Integer countUserCommAmount(@Param("accountId") Long accountId, @Param("commId") Long commId);
+
+    /**
+     * 获取用户购买的商品Id(包含购买日期)，用于查询用户购买了哪些商品
+     *
+     * @param userAccountId
+     * @param lastDate
+     * @param pageLoadSize
+     * @return
+     */
+    List<LuckCodes> selectAllUserPurchasedCommId(@Param("userAccountId") Long userAccountId, @Param("lastDate") Long lastDate, @Param("pageLoadSize") Integer pageLoadSize);
 }

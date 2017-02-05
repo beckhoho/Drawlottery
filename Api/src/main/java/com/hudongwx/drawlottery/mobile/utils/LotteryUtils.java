@@ -65,7 +65,7 @@ public class LotteryUtils {
         long endTime = commodity.getSellOutTime() + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
         endTime = endTime - System.currentTimeMillis();
         endTime = endTime / 1000;
-        System.out.println("延时--------------------->" + endTime+"秒！开奖！");
+        System.out.println("延时--------------------->" + endTime+"秒开奖！");
         DelayTask.execute(update, (int) endTime);
 
         return lotteryInfo;

@@ -32,6 +32,9 @@ import java.util.Map;
  * <p>
  * @email 294786949@qq.com
  */
+// TODO: 2017/2/5  controller中所有公用接口应改为："/api/v1/pub/... ..." 未改的需要通知Android端
+// TODO: 2017/2/5  controller中所有需要拦截的接口应改为："/api/v1/priv/... ..." 未改的需要通知Android端
+
 @RestController
 @Api(value = "UserController", description = "用户管理")
 public class UserController extends BaseController {
@@ -43,10 +46,8 @@ public class UserController extends BaseController {
     @Autowired
     IPromoterProfitService promoterProfitService;
 
-    /**
-     * @return
-     */
     @ResponseBody
+    @ApiOperation("Android端用户个人中心信息接口")
     @RequestMapping(value = "/api/v1/user/center", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserCenter() {
         Map<String, Object> userInfo = userService.queryPersonalInfo(getUserId());
@@ -57,6 +58,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("Android端“我”的用户信息（头像、昵称、推广id、积分、闪币）")
     @RequestMapping(value = "/api/v1/user/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserInfo() {
         Map<String, Object> userInfo = userService.getUserInfo(getUserId());
@@ -72,7 +74,7 @@ public class UserController extends BaseController {
     @ApiOperation("获取用户中奖记录（带分页）")
     @RequestMapping(value = "/api/v1/user/win", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserWinningHistory(@ApiParam("当前页最后一item的实际id") @RequestParam("lastCommId") Long lastCommId) {
-        List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(getUserId(),lastCommId);
+        List<Map<String, Object>> historyLottery = userService.selectHistoryLottery(getUserId(), lastCommId);
         return success(historyLottery);
     }
 
@@ -85,7 +87,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户夺宝记录（带分页）")
     @RequestMapping(value = "/api/v1/user/usercomm/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserCommRecord(@ApiParam("显示形式：1、进行中；2、已揭晓；其他数字、显示全部") @RequestParam("item") Integer item, @ApiParam("最后一个商品Id") @RequestParam("lastCommId") Long lastCommId) {
+    public JSONObject queryUserCommRecord(@ApiParam("item（显示形式）：1、进行中；2、已揭晓；其他数字显示全部") @RequestParam("item") Integer item, @ApiParam("最后一个商品Id") @RequestParam("lastCommId") Long lastCommId) {
         List<Map<String, Object>> historyLottery = userService.selectPurchaseRecords(item, getUserId(), lastCommId);
         return success(historyLottery);
     }
@@ -99,7 +101,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation("获取用户夺宝记录中的luckCode带分页")
     @RequestMapping(value = "/api/v1/priv/user/usercomm/code/show", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryUserLuckCode(@ApiParam("回传最后一个Code码") @RequestParam("commId") Long commId, @ApiParam("回传最后一个Code码") @RequestParam(name = "lastCode",required = false) String lastCode) {
+    public JSONObject queryUserLuckCode(@ApiParam("回传最后一个Code码") @RequestParam("commId") Long commId, @ApiParam("回传最后一个Code码") @RequestParam(name = "lastCode", required = false) String lastCode) {
         return success(userService.selectUserLuckCode(getUserId(), commId, lastCode));
     }
 
@@ -109,9 +111,10 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("用户签到接口")
     @RequestMapping(value = "/api/v1/user/sign/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject addUserSign() {
-        return success(signInService.selectUserSign(getUserId()));
+        return success(signInService.addUserSignIn(getUserId()));
     }
 
     /**
@@ -120,6 +123,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("用户签到信息")
     @RequestMapping(value = "/api/v1/user/sign/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserSign() {
         return success(signInService.selectUserSign(getUserId()));
@@ -131,6 +135,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("用户上传头像（tip:接口暂时未使用也未实现功能）")
     @RequestMapping(value = "/api/v1/user/upload/headimg.do", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject uploadUserImg(@RequestParam("accountId") Long accountId, @RequestParam("photo") MultipartFile imgFile) {
         return response(true);
@@ -142,6 +147,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("修改用户昵称")
     @RequestMapping(value = "/api/v1/user/update/nickname", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateUserNickName(@RequestParam("nickname") String nickname) {
         return response(userService.updateUserNickname(getUserId(), nickname));
@@ -154,6 +160,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("修改电话号码（tip:未实现功能）")
     @RequestMapping(value = "/api/v1/user/update/phone", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updatePhone(@RequestParam("phone") String phone, @RequestParam("imgCode") String imgCode, @RequestParam("SMSCode") String SMSCode) {
         return response(true);
@@ -167,6 +174,7 @@ public class UserController extends BaseController {
      * @throws IOException
      */
     @ResponseBody
+    @ApiOperation("修改QQ号")
     @RequestMapping(value = "/api/v1/user/update/qq", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateQQNumber(@RequestParam("qq") String QQ) {
         return response(userService.addQQNumber(getUserId(), QQ));
@@ -178,6 +186,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ResponseBody
+    @ApiOperation("推广员收益信息（带分页）")
     @RequestMapping(value = "/api/v1/user/promoter/profit/info", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryPromoterProfit() {
         return success(promoterProfitService.selectPromoterProfitInfo(getUserId(), 0L));

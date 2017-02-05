@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @email 294786949@qq.com
  */
 @RestController
-@Api(value = "ApproveController", description = "用户认证管理")
+@Api(value = "ApproveController", description = "用户认证管理（tip:未使用）")
 public class ApproveController extends BaseController {
 
     /**

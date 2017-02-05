@@ -100,7 +100,6 @@ public abstract class BaseController {
         return success("操作成功", data);
     }
 
-
     /**
      * 成功,没有返回的数据
      *
@@ -119,7 +118,6 @@ public abstract class BaseController {
     public JSONObject success(String msg) {
         return success(msg, "");
     }
-
 
     /**
      * 成功返回数据
@@ -216,6 +214,5 @@ public abstract class BaseController {
     public void logout() {
         getSubject().logout();
     }
-
 
 }

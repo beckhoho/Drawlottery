@@ -5,6 +5,7 @@ import com.hudongwx.drawlottery.mobile.service.order.IOrdersService;
 import com.hudongwx.drawlottery.mobile.service.user.IRedPacketsService;
 import com.hudongwx.drawlottery.mobile.web.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,17 +40,19 @@ public class RedPacketsController extends BaseController {
      * @return JSONObject
      */
     @ResponseBody
+    @ApiOperation("获取用户所有红包")
     @RequestMapping(value = "/api/v1/user/redpacket/show", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject queryUserRedPacket() {
         return success(rpService.selectAllByUserAccountId(getUserId()));
     }
 
     /**
-     * 用户红包
+     * 使用红包
      *
      * @return JSONObject
      */
     @ResponseBody
+    @ApiOperation("使用红包")
     @RequestMapping(value = "/api/v1/user/redpacket/use", method = {RequestMethod.POST, RequestMethod.GET})
     public JSONObject updateUserRedPacket(@RequestParam("price") Integer price) {
         return success(oService.selectUsableRedPackets(getUserId(),price));
