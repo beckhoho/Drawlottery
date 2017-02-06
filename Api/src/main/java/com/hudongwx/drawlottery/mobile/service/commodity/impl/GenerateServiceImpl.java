@@ -40,17 +40,19 @@ public class GenerateServiceImpl implements IGenerateService {
      */
     @Override
     public void generateCommodity(long tempId, long luckCodeCount) {
-        //检索生成幸运码
-        generateLuckCodes(luckCodeCount);
-        final Commoditys commodity = new Commoditys();
-        commodity.setBuyCurrentNumber(0);
-        commodity.setRoundTime("" + generateNewRoundTime());
-        commodity.setViewNum(0L);
-        commodity.setTempId(tempId);
-        commodity.setStateId(4);
-        commodityService.addCommodity(commodity);
-        //关联幸运码
-        connectLuckCodes(commodity.getId(), luckCodeCount);
+        synchronized (((Long) tempId)){
+            //检索生成幸运码
+            generateLuckCodes(luckCodeCount);
+            final Commoditys commodity = new Commoditys();
+            commodity.setBuyCurrentNumber(0);
+            commodity.setRoundTime("" + generateNewRoundTime());
+            commodity.setViewNum(0L);
+            commodity.setTempId(tempId);
+            commodity.setStateId(4);
+            commodityService.addCommodity(commodity);
+            //关联幸运码
+            connectLuckCodes(commodity.getId(), luckCodeCount);
+        }
     }
 
     /**

@@ -354,7 +354,7 @@ public class ExchangeMethodServiceImpl implements IExchangeMethodService {
 
         Commodity commodity = commMapper.selectByPrimaryKey(commodityId);
         commodity.setExchangeState(1);
-        commodity.setExchangeWay(2);
+        commodity.setExchangeWay(4);
         int i = commMapper.updateByPrimaryKeySelective(commodity);//更改商品状态
 
         CommodityTemplate template = templateMapper.selectByPrimaryKey(commodity.getTempId());

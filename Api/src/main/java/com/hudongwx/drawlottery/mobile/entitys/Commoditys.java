@@ -12,6 +12,7 @@ public class Commoditys {
     /**
      * 商品名
      */
+    @Transient
     private String name;
 
     /**

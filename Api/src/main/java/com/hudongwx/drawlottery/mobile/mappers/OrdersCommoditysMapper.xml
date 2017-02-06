@@ -22,4 +22,8 @@
         </foreach>
         AND commodity_id=#{commId};
     </select>
+    <select id="selectAmountOrders" resultType="com.hudongwx.drawlottery.mobile.entitys.CommodityAmount">
+        select commodity_id commodityId,amount from draw_lottery.t_orders_commoditys
+        where orders_id = #{orderId}
+    </select>
 </mapper>

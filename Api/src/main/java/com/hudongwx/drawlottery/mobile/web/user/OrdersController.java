@@ -74,8 +74,8 @@ public class OrdersController extends BaseController {
     @ResponseBody
     @ApiOperation("订单支付成功返回客户端信息接口")
     @RequestMapping(value = "/api/v1/user/orders/suc", method = {RequestMethod.POST, RequestMethod.GET})
-    public JSONObject queryOrderSuccess(@RequestParam("ordersId") Long ordersId, @RequestBody JSONObject jsonObject) {
-        Map<String, Object> mapInfo = ordersService.selectPaySuccess(getUserId(), ordersId, jsonObject);
+    public JSONObject queryOrderSuccess(@RequestParam("ordersId") Long ordersId) {
+        Map<String, Object> mapInfo = ordersService.selectPaySuccess(getUserId(), ordersId);
         return success(mapInfo);
     }
 

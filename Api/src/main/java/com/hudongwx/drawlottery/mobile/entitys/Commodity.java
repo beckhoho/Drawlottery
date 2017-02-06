@@ -19,6 +19,23 @@ import javax.persistence.*;
  */
 @Table(name = "t_commoditys")
 public class Commodity {
+
+    public static final Integer SELL_OUT = 2;
+    public static final int ON_SELL = 3;
+    public static final int WILL_SELL = 4;
+    public Commoditys castConvert(){
+        final Commoditys commoditys = new Commoditys();
+        commoditys.setSellOutTime(this.sellOutTime);
+        commoditys.setStateId(this.stateId);
+        commoditys.setBuyCurrentNumber(this.buyCurrentNumber);
+        commoditys.setId(this.id);
+        commoditys.setRoundTime(this.roundTime);
+        commoditys.setViewNum(this.viewNum);
+        commoditys.setTempId(this.tempId);
+        commoditys.setUndercarriageTime(this.undercarriageTime);
+        return commoditys;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "commodity_id")

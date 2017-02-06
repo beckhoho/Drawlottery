@@ -1,9 +1,6 @@
 package com.hudongwx.drawlottery.mobile.service.commodity;
 
-import com.hudongwx.drawlottery.mobile.entitys.Commodity;
-import com.hudongwx.drawlottery.mobile.entitys.CommodityTemplate;
-import com.hudongwx.drawlottery.mobile.entitys.Commoditys;
-import com.hudongwx.drawlottery.mobile.entitys.User;
+import com.hudongwx.drawlottery.mobile.entitys.*;
 
 import java.util.List;
 import java.util.Map;
@@ -138,4 +135,18 @@ public interface ICommodityService {
      * @return
      */
     Commoditys getDetails(Long id);
+
+    /**
+     * 通过商品id获取同模板的正在销售的商品
+     * @param id 商品id
+     * @return 商品
+     */
+    Commoditys selectOnSellCommodities(Long id);
+
+    /**
+     * 通过订单id获取商品购买信息
+     * @param orderId 订单id
+     * @return  购买信息
+     */
+    List<CommodityAmount> selectAmounts(Long orderId);
 }

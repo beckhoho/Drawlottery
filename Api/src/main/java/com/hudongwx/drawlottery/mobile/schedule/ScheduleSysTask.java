@@ -66,7 +66,6 @@ public class ScheduleSysTask {
     public void updateState() {
         //.... 查询数据库查看是否到修改状态的时候
         List<Commoditys> commsList = commsMapper.selectUnLotteryComm();
-        System.out.println(".... 查询数据库查看是否到修改状态的时候");
         for (Commoditys cmd : commsList) {
             //计算结束时间
             long endTime = cmd.getSellOutTime() + Settings.LOTTERY_ANNOUNCE_TIME_INTERVAL;
@@ -81,11 +80,9 @@ public class ScheduleSysTask {
     /**
      * 保证同一个模板有三期商品
      */
-    @Scheduled(cron = "0/10 * *  * * ?")
+    @Scheduled(cron = "0/5 * *  * * ?")
     public void generateRound() {
-        System.out.println("生成开始");
         generateService.keepRound(3);
-        System.out.println("生成结束");
     }
 
 

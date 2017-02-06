@@ -54,6 +54,9 @@ public class CommodityServiceImpl implements ICommodityService {
     @Autowired
     OrdersMapper ordersMapper;
 
+    @Resource
+    OrdersCommoditysMapper ordersCommoditysMapper;
+
     /**
      * 添加商品
      *
@@ -84,7 +87,7 @@ public class CommodityServiceImpl implements ICommodityService {
      */
     @Override
     public Commoditys selectByid(Long id) {
-        return commsMapper.selectByPrimaryKey(id);
+        return commsMapper.selectByKey(id);
 
     }
 
@@ -615,7 +618,7 @@ public class CommodityServiceImpl implements ICommodityService {
     @Override
     public Commodity groundNext(Long id) {
         final Commodity next = getNextCommodity(id);
-        commMapper.updateState(next.getId(), 3);
+        commMapper.updateState(next.getId(), Commodity.ON_SELL);
         //此处只是为了统一设置了状态
         next.setStateId(3);
         return next;
@@ -630,6 +633,28 @@ public class CommodityServiceImpl implements ICommodityService {
     @Override
     public Commoditys getDetails(Long id) {
         return commsMapper.selectDetails(id);
+    }
+
+    /**
+     * 通过商品id获取同模板的正在销售的商品
+     *
+     * @param id 商品id
+     * @return 商品
+     */
+    @Override
+    public Commoditys selectOnSellCommodities(Long id) {
+        return commsMapper.selectOnSell(id);
+    }
+
+    /**
+     * 通过订单id获取商品购买信息
+     *
+     * @param orderId 订单id
+     * @return 购买信息
+     */
+    @Override
+    public List<CommodityAmount> selectAmounts(Long orderId) {
+        return ordersCommoditysMapper.selectAmountOrders(orderId);
     }
 
 }

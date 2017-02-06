@@ -19,6 +19,15 @@ import javax.persistence.*;
  */
 @Table(name = "t_orders_commoditys")
 public class OrdersCommoditys {
+
+    public OrdersCommoditys(){}
+
+    public OrdersCommoditys(long commodityId,long ordersId){
+        this.commodityId = commodityId;
+        this.ordersId = ordersId;
+        this.amount = 0;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

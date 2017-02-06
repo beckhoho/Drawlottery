@@ -1,7 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.order.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.*;
 import com.hudongwx.drawlottery.mobile.mappers.*;
 import com.hudongwx.drawlottery.mobile.service.commodity.ICommodityService;
@@ -84,20 +82,22 @@ public class OrdersServiceImpl implements IOrdersService {
 
         for (CommodityAmount ca : commodityAmounts) {
             //循环遍历获取商品信息
-            Commoditys byKey = comMapper.selectByKey(ca.getCommodityId());
-            int remainingNum = byKey.getBuyTotalNumber() - byKey.getBuyCurrentNumber();
+            Commoditys currentCommodity = comMapper.selectByKey(ca.getCommodityId());
+            if(currentCommodity.getStateId() != Commodity.ON_SELL){
+                currentCommodity = commodityService.selectOnSellCommodities(ca.getCommodityId());
+                if(null == currentCommodity)
+                    throw new NullPointerException("未获取到商品");
+            }
+            int remainingNum = currentCommodity.getBuyTotalNumber() - currentCommodity.getBuyCurrentNumber();
 
             int buyNum = ca.getAmount();
             if (buyNum > remainingNum) {
-                Commodity commodity = commodityService.getNextCommodity(byKey.getId());
-                updateLuckCodes(accountId, commodity.getId(), buyNum - remainingNum, orders);
+                Commodity nextCommodity = commodityService.getNextCommodity(currentCommodity.getId());
+                updateLuckCodes(accountId, nextCommodity.getId(), buyNum - remainingNum, orders);
                 buyNum = remainingNum;
             }
 
-            /*
-                为用户生成幸运码
-             */
-            updateLuckCodes(accountId, ca.getCommodityId(), buyNum, orders);
+            updateLuckCodes(accountId, currentCommodity.getId(), buyNum, orders);
         }
         ordersServiceImplAsync.payAsync(accountId, orders, commodityAmounts);
         return orders.getId();
@@ -112,7 +112,6 @@ public class OrdersServiceImpl implements IOrdersService {
      */
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean updateLuckCodes(Long accountid, long commodityId, int buyNum, Orders orders) {
-        //获取商品未使用幸运码
         Date date = new Date();
         int i = codesMapper.updateCodesState(accountid, commodityId, orders.getId(),
                 date.getTime(), buyNum);//自定义动态更新sql
@@ -187,18 +186,14 @@ public class OrdersServiceImpl implements IOrdersService {
      * @return
      */
     @Override
-    public Map<String, Object> selectPaySuccess(Long accountId, Long orderId, JSONObject jsonObject) {
-        List<CommodityAmount> commodityAmounts = new ArrayList<>();
-        JSONArray caJArray = jsonObject.getJSONArray("ca");
-        for (int i = 0; i < caJArray.size(); i++) {
-            commodityAmounts.add(JSONObject.toJavaObject(caJArray.getJSONObject(i), CommodityAmount.class));
-        }
+    public Map<String, Object> selectPaySuccess(Long accountId, Long orderId) {
+        List<CommodityAmount> commodityAmounts = commodityService.selectAmounts(orderId);
         List<Map<String, Object>> mapList = new ArrayList<>();
         Integer number = 0;
         for (CommodityAmount ca : commodityAmounts) {
             Commoditys commoditys = comMapper.selectByKey(ca.getCommodityId());
             Map<String, Object> map = new HashMap<>();
-            map.put("commId", ca.getCommodityId());//参与人次
+            map.put("commId", ca.getCommodityId());//订单ID
             map.put("amount", ca.getAmount());//参与人次
             map.put("commodityName", commoditys.getName());//商品名
             map.put("roundTime", commoditys.getRoundTime());//期数

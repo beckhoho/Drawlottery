@@ -1,6 +1,5 @@
 package com.hudongwx.drawlottery.mobile.service.order;
 
-import com.alibaba.fastjson.JSONObject;
 import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
 import com.hudongwx.drawlottery.mobile.entitys.Orders;
 
@@ -40,5 +39,5 @@ public interface IOrdersService {
     Map<String,Object> selectUsableRedPackets(Long accountId, Integer sum);
 
     //支付成功界面数据
-    Map<String,Object> selectPaySuccess(Long accountId,Long orderId, JSONObject jsonObject);
+    Map<String,Object> selectPaySuccess(Long accountId,Long orderId);
 }

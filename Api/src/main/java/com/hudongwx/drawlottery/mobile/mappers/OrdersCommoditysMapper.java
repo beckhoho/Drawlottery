@@ -1,6 +1,7 @@
 package com.hudongwx.drawlottery.mobile.mappers;
 
 import com.hudongwx.drawlottery.mobile.commn.BaseMapper;
+import com.hudongwx.drawlottery.mobile.entitys.CommodityAmount;
 import com.hudongwx.drawlottery.mobile.entitys.OrdersCommoditys;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,6 @@ public interface OrdersCommoditysMapper extends BaseMapper<OrdersCommoditys>{
     List<Long> selectCommIdByOrderId(@Param("orderId")Long orderId);
 
     int countUserCommAmount(@Param("orderIdList")List<Long> orderIdList,@Param("commId")Long commId);
+
+    List<CommodityAmount> selectAmountOrders(Long orderId);
 }

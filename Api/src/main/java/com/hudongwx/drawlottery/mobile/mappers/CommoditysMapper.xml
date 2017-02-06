@@ -324,6 +324,17 @@
         </if>
         ORDER BY commodity.commodity_id DESC limit #{pageLoadSize}
     </select>
+    <select id="selectOnSell" resultMap="BaseResultMap">
+        <include refid="selectSql"></include>
+        where commodity_id = (
+        select commodity_id from t_commoditys WHERE temp_id = (
+          select temp_id from t_commoditys where commodity_id = #{id}) and state_id = 3 LIMIT 1)
+        UNION
+        <include refid="select_Sql_comm_history"></include>
+        where commodity_id = (
+        select commodity_id from t_commoditys WHERE temp_id = (
+        select temp_id from t_commoditys where commodity_id = #{id}) and state_id = 3 LIMIT 1)
+    </select>
 
     <!-- 商品通用查询语句 -->
     <sql id="selectSql">
